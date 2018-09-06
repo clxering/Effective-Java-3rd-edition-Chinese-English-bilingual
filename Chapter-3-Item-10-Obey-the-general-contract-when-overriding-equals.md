@@ -4,11 +4,11 @@
 
 Overriding the equals method seems simple, but there are many ways to get it wrong, and consequences can be dire. The easiest way to avoid problems is not to override the equals method, in which case each instance of the class is equal only to itself. This is the right thing to do if any of the following conditions apply:
 
-重写equals方法似乎很简单，但是有很多方法会出错，而且后果可能非常严重。避免问题的最简单方法是不重写equals方法，在这种情况下，类的每个实例都只等于它自己。如果符合下列任何条件，这是正确的做法：
+重写equals方法似乎很简单，但是有很多（重写的）方式会出错，而且后果可能非常严重。避免问题的最简单方法是不重写equals方法，在这种情况下，类的每个实例都只等于它自己。如果符合下列任何条件，这是正确的做法：
 
 - **Each instance of the class is inherently unique.** This is true for classes such as Thread that represent active entities rather than values. The equals implementation provided by Object has exactly the right behavior for these classes.
 
-**类的每个实例本质上都是唯一的。** 对于像Thread这样表示活动实体而不是值的类来说也是如此。Object提供的equals实现对于这些类具有完全正确的行为。
+**类的每个实例本质上都是唯一的。** 对于像Thread这样表示活动实体类而不是值类来说也是如此。Object提供的equals实现对于这些类具有完全正确的行为。
 
 - **There is no need for the class to provide a “logical equality” test.** For example, java.util.regex.Pattern could have overridden equals to check whether two Pattern instances represented exactly the same regular expression, but the designers didn’t think that clients would need or want this functionality. Under these circumstances, the equals implementation inherited from Object is ideal.
 
@@ -16,7 +16,7 @@ Overriding the equals method seems simple, but there are many ways to get it wro
 
 - **A superclass has already overridden equals, and the superclass behavior is appropriate for this class.** For example, most Set implementations inherit their equals implementation from AbstractSet, List implementations from AbstractList, and Map implementations from AbstractMap.
 
-**超类已经重写了equals，超类行为适合于这个类。** 例如，大多数Set实现从AbstractSet继承其对等实现，List从 AbstractList继承实现，Map从 AbstractMap继承实现。
+**超类已经重写了equals，超类行为适合于这个类。** 例如，大多数Set的实现从AbstractSet继承其对等实现，List从AbstractList继承实现，Map从 AbstractMap继承实现。
 
 - **The class is private or package-private, and you are certain that its equals method will never be invoked.** If you are extremely risk-averse,you can override the equals method to ensure that it isn’t invoked accidentally:
 
@@ -24,7 +24,7 @@ Overriding the equals method seems simple, but there are many ways to get it wro
 
 ```
 @Override public boolean equals(Object o) {
-throw new AssertionError(); // Method is never called
+    throw new AssertionError(); // Method is never called
 }
 ```
 
