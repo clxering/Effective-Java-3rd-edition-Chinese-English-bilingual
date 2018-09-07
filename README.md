@@ -21,6 +21,7 @@ Effective Java（第3版）各章节的中英文对照
     - [Item 13: Override clone judiciously](Chapter-3-Item-13-Override-clone-judiciously.md)
     - [Item 14: Consider implementing Comparable](Chapter-3-Item-14-Consider-implementing-Comparable.md)
 - **Chapter 4. Classes and Interfaces（类和接口）** 
+    - [Chapter 4 Introduction（章节介绍）](Chapter-4-Introduction.md)
     - [Item 15: Minimize the accessibility of classes and members](Chapter-4-Item-15-Minimize-the-accessibility-of-classes-and-members.md)
     - [Item 16: In public classes use accessor methods not public fields](Chapter-4-Item-16-In-public-classes-use-accessor-methods-not-public-fields.md)
     - [Item 17: Minimize mutability](Chapter-4-Item-17-Minimize-mutability.md)
@@ -33,6 +34,7 @@ Effective Java（第3版）各章节的中英文对照
     - [Item 24: Favor static member classes over nonstatic](Chapter-4-Item-24-Favor-static-member-classes-over-nonstatic.md)
     - [Item 25: Limit source files to a single top level class](Chapter-4-Item-25-Limit-source-files-to-a-single-top-level-class.md)
 - **Chapter 5. Generics（泛型）**
+    - [Chapter 5 Introduction（章节介绍）](Chapter-5-Introduction.md)
     - [Item 26: Do not use raw types](Chapter-5-Item-26-Do-not-use-raw-types.md)
     - [Item 27: Eliminate unchecked warnings](Chapter-5-Item-27-Eliminate-unchecked-warnings.md)
     - [Item 28: Prefer lists to arrays](Chapter-5-Item-28-Prefer-lists-to-arrays.md)
@@ -42,6 +44,7 @@ Effective Java（第3版）各章节的中英文对照
     - [Item 32: Combine generics and varargs judiciously](Chapter-5-Item-32-Combine-generics-and-varargs-judiciously.md)
     - [Item 33: Consider typesafe heterogeneous containers](Chapter-5-Item-33-Consider-typesafe-heterogeneous-containers.md)
 - **Chapter 6. Enums and Annotations（枚举和注释）**
+    - [Chapter 6 Introduction（章节介绍）](Chapter-6-Introduction.md)
     - [Item 34: Use enums instead of int constants](Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)
     - [Item 35: Use instance fields instead of ordinals](Chapter-6-Item-35-Use-instance-fields-instead-of-ordinals.md)
     - [Item 36: Use EnumSet instead of bit fields](Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)
@@ -51,6 +54,7 @@ Effective Java（第3版）各章节的中英文对照
     - [Item 40: Consistently use the Override annotation](Chapter-6-Item-40-Consistently-use-the-Override-annotation.md)
     - [Item 41: Use marker interfaces to define types](Chapter-6-Item-41-Use-marker-interfaces-to-define-types.md)
 - **Chapter 7. Lambdas and Streams（λ表达式和流）**
+    - [Chapter 7 Introduction（章节介绍）](Chapter-7-Introduction.md)
     - [Item 42: Prefer lambdas to anonymous classes](Chapter-7-Item-42-Prefer-lambdas-to-anonymous-classes.md)
     - [Item 43: Prefer method references to lambdas](Chapter-7-Item-43-Prefer-method-references-to-lambdas.md)
     - [Item 44: Favor the use of standard functional interfaces](Chapter-7-Item-44-Favor-the-use-of-standard-functional-interfaces.md)
@@ -59,6 +63,7 @@ Effective Java（第3版）各章节的中英文对照
     - [Item 47: Prefer Collection to Stream as a return type](Chapter-7-Item-47-Prefer-Collection-to-Stream-as-a-return-type.md)
     - [Item 48: Use caution when making streams parallel](Chapter-7-Item-48-Use-caution-when-making-streams-parallel.md)
 - **Chapter 8. Methods（方法）**
+    - [Chapter 8 Introduction（章节介绍）](Chapter-8-Introduction.md)
     - [Item 49: Check parameters for validity](Chapter-8-Item-49-Check-parameters-for-validity.md)
     - [Item 50: Make defensive copies when needed](Chapter-8-Item-50-Make-defensive-copies-when-needed.md)
     - [Item 51: Design method signatures carefully](Chapter-8-Item-51-Design-method-signatures-carefully.md)
@@ -68,6 +73,7 @@ Effective Java（第3版）各章节的中英文对照
     - [Item 55: Return optionals judiciously](Chapter-8-Item-55-Return-optionals-judiciously.md)
     - [Item 56: Write doc comments for all exposed API elements](Chapter-8-Item-56-Write-doc-comments-for-all-exposed-API-elements.md)
 - **Chapter 9. General Programming（泛型编程）**
+    - [Chapter 9 Introduction（章节介绍）](Chapter-9-Introduction.md)
     - [Item 57: Minimize the scope of local variables](Chapter-9-Item-57-Minimize-the-scope-of-local-variables.md)
     - [Item 58: Prefer for each loops to traditional for loops](Chapter-9-Item-58-Prefer-for-each-loops-to-traditional-for-loops.md)
     - [Item 59: Know and use the libraries](Chapter-9-Item-59-Know-and-use-the-libraries.md)
@@ -81,6 +87,7 @@ Effective Java（第3版）各章节的中英文对照
     - [Item 67: Optimize judiciously](Chapter-9-Item-67-Optimize-judiciously.md)
     - [Item 68: Adhere to generally accepted naming conventions](Chapter-9-Item-68-Adhere-to-generally-accepted-naming-conventions.md)
 - **Chapter 10. Exceptions（异常）**
+    - [Chapter 10 Introduction（章节介绍）](Chapter-10-Introduction.md)
     - [Item 69: Use exceptions only for exceptional conditions](Chapter-10-Item-69-Use-exceptions-only-for-exceptional-conditions.md)
     - [Item 70: Use checked exceptions for recoverable conditions and runtime exceptions for programming errors](Chapter-10-Item-70-Use-checked-exceptions-for-recoverable-conditions-and-runtime-exceptions-for-programming-errors.md)
     - [Item 71: Avoid unnecessary use of checked exceptions](Chapter-10-Item-71-Avoid-unnecessary-use-of-checked-exceptions.md)
@@ -91,6 +98,7 @@ Effective Java（第3版）各章节的中英文对照
     - [Item 76: Strive for failure atomicity](Chapter-10-Item-76-Strive-for-failure-atomicity.md)
     - [Item 77: Don’t ignore exceptions](Chapter-10-Item-77-Don’t-ignore-exceptions.md)
 - **Chapter 11. Concurrency（并发）**
+    - [Chapter 11 Introduction（章节介绍）](Chapter-11-Introduction.md)
     - [Item 78: Synchronize access to shared mutable data](Chapter-11-Item-78-Synchronize-access-to-shared-mutable-data.md)
     - [Item 79: Avoid excessive synchronization](Chapter-11-Item-79-Avoid-excessive-synchronization.md)
     - [Item 80: Prefer executors, tasks, and streams to threads](Chapter-11-Item-80-Prefer-executors,-tasks,-and-streams-to-threads.md)
@@ -99,6 +107,7 @@ Effective Java（第3版）各章节的中英文对照
     - [Item 83: Use lazy initialization judiciously](Chapter-11-Item-83-Use-lazy-initialization-judiciously.md)
     - [Item 84: Don’t depend on the thread scheduler](Chapter-11-Item-84-Don’t-depend-on-the-thread-scheduler.md)
 - **Chapter 12. Serialization（序列化）**
+    - [Chapter 12 Introduction（章节介绍）](Chapter-12-Introduction.md)
     - [Item 85: Prefer alternatives to Java serialization](Chapter-12-Item-85-Prefer-alternatives-to-Java-serialization.md)
     - [Item 86: Implement Serializable with great caution](Chapter-12-Item-86-Implement-Serializable-with-great-caution.md)
     - [Item 87: Consider using a custom serialized form](Chapter-12-Item-87-Consider-using-a-custom-serialized-form.md)
