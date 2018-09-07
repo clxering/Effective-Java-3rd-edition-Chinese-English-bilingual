@@ -1,12 +1,20 @@
 ## Chapter 3. Methods Common to All Objects（对象的通用方法）
 
-### Item 13: Override clone judiciously
+### Item 13: Override clone judiciously（明智地重写clone方法）
 
-The Cloneable interface was intended as a mixin interface (Item 20) for classes to advertise that they permit cloning. Unfortunately, it fails to serve this purpose. Its primary flaw is that it lacks a clone method, and Object’s clone method is protected. You cannot, without resorting to reflection (Item 65), invoke clone on an object merely because it implements Cloneable.Even a reflective invocation may fail, because there is no guarantee that the object has an accessible clone method. Despite this flaw and many others, the facility is in reasonably wide use, so it pays to understand it. This item tells you how to implement a well-behaved clone method, discusses when it is appropriate to do so, and presents alternatives.
+The Cloneable interface was intended（目的） as a mixin interface (Item 20) for classes to advertise that they permit cloning. Unfortunately, it fails to serve this purpose. Its primary flaw（n. 瑕疵，缺点） is that it lacks a clone method, and Object’s clone method is protected. You cannot, without resorting（求助） to reflection (Item 65), invoke clone on an object merely（adv. 仅仅，只是） because it implements Cloneable.Even a reflective invocation may fail, because there is no guarantee（n. 保证；担保） that the object has an accessible clone method. Despite this flaw and many others, the facility（n. 设施；设备） is in reasonably wide use, so it pays to understand it. This item tells you how to implement a well-behaved clone method, discusses when it is appropriate to do so, and presents alternatives.
+
+Cloneable接口的目的是作为mixin接口（[Item-20](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md)），用于让类来宣称它们允许克隆。不幸的是，它没有达到这个目的。它的主要缺点是缺少克隆方法，并且Object类的克隆方法是受保护的。如果不求助于反射（[Item-65](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9-Item-65-Prefer-interfaces-to-reflection.md)），就不能仅仅因为对象实现了Cloneable就能调用clone方法。即使反射调用也可能失败，因为不能保证对象具有可访问的clone方法。尽管存在这个缺陷和许多其他缺陷，但该设施的使用范围相当广泛，因此理解它是值得的。本项目将告诉您如何实现行为良好的clone方法，讨论什么时候应该这样做，并提供替代方法。
+
+**译注：mixin是掺合，混合，糅合的意思，即可以将任意一个对象的全部或部分属性拷贝到另一个对象上。**
 
 So what does Cloneable do, given that it contains no methods? It determines the behavior of Object’s protected clone implementation: if a class implements Cloneable, Object’s clone method returns a field-byfield copy of the object; otherwise it throws CloneNotSupportedException. This is a highly atypical use of interfaces and not one to be emulated. Normally, implementing an interface says something about what a class can do for its clients. In this case, it modifies the behavior of a protected method on a superclass.
 
+那么，如果Cloneable不包含任何方法，它会做什么呢？它决定对象的受保护克隆实现的行为：如果一个类实现了Cloneable，对象的克隆方法返回对象的字段-字段副本；否则它会抛出CloneNotSupportedException。这是一种高度非典型的接口使用，而不是可模仿的。通常，实现接口说明了类可以为其客户机做些什么。在本例中，它修改了超类上受保护的方法行为。
+
 Though the specification doesn’t say it, in practice, a class implementing Cloneable is expected to provide a properly functioning public clone method. In order to achieve this, the class and all of its superclasses must obey a complex, unenforceable, thinly documented protocol. The resulting mechanism is fragile, dangerous, and extralinguistic: it creates objects without calling a constructor.
+
+虽然规范没有说明，但是在实践中，一个实现Cloneable的类应该提供一个功能正常的公共clone方法。为了实现这一点，类及其所有超类必须遵守复杂的、不可强制执行的、文档很少的协议。产生的机制是脆弱的、危险的和非语言的：它创建对象而不调用构造函数。
 
 The general contract for the clone method is weak. Here it is, copied from the Object specification :
 
