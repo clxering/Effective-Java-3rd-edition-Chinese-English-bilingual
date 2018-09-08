@@ -12,13 +12,17 @@ So what does Cloneable do, given that it contains no methods? It determines the 
 
 那么，如果Cloneable不包含任何方法，它会做什么呢？它决定对象的受保护克隆实现的行为：如果一个类实现了Cloneable，对象的克隆方法返回对象的字段-字段副本；否则它会抛出CloneNotSupportedException。这是一种高度非典型的接口使用，而不是可模仿的。通常，实现接口说明了类可以为其客户机做些什么。在本例中，它修改了超类上受保护的方法行为。
 
-Though the specification doesn’t say it, in practice, a class implementing Cloneable is expected to provide a properly functioning public clone method. In order to achieve this, the class and all of its superclasses must obey a complex, unenforceable, thinly documented protocol. The resulting mechanism is fragile, dangerous, and extralinguistic: it creates objects without calling a constructor.
+Though the specification（n. 规格；说明书；详述） doesn’t say it, in practice, a class implementing Cloneable is expected to provide a properly（adv. 适当地；正确地；恰当地） functioning public clone method. In order to achieve（vt. 取得；获得；实现；） this, the class and all of its superclasses must obey a complex（adj. 复杂的；合成的）, unenforceable, thinly documented protocol. The resulting mechanism is fragile, dangerous, and extralinguistic: it creates objects without calling a constructor.
 
-虽然规范没有说明，但是在实践中，一个实现Cloneable的类应该提供一个功能正常的公共clone方法。为了实现这一点，类及其所有超类必须遵守复杂的、不可强制执行的、文档很少的协议。产生的机制是脆弱的、危险的和非语言的：它创建对象而不调用构造函数。
+虽然规范没有说明，但是在实践中，一个实现Cloneable的类应该提供一个功能正常的公共clone方法。为了实现这一点，类及其所有超类必须遵守复杂的、不可强制执行的、文档很少的协议。产生的机制是脆弱的、危险的和非语言的：即它创建对象而不调用构造函数。
 
-The general contract for the clone method is weak. Here it is, copied from the Object specification :
+The general contract for the clone method is weak. Here it is, copied from the Object specification（n. 规格；说明书；详述） :
 
-Creates and returns a copy of this object. The precise meaning of “copy” may depend on the class of the object. The general intent is that, for any object x,the expression
+clone方法的一般约定很薄弱。这里是从Object规范复制过来的：
+
+Creates and returns a copy of this object. The precise meaning of “copy” may depend on the class of the object. The general intent（n. 意图；目的；含义，adj. 专心的；急切的；坚决的） is that, for any object x,the expression
+
+创建并返回此对象的副本。“复制”的确切含义可能取决于对象的类别。一般的目的是，对于任何对象x，表达式
 
 ```
 x.clone() != x
@@ -26,12 +30,15 @@ x.clone() != x
 
 will be true, and the expression
 
+值将为true，并且这个表达式
+
 ```
 x.clone().getClass() == x.getClass()
 ```
 
-will be true, but these are not absolute requirements. While it is typically the
-case that
+will be true, but these are not absolute requirements（n. 要求；必要条件；）. While it is typically the case that
+
+值将为true，但这些不是绝对的必要条件。通常情况下
 
 ```
 x.clone().equals(x)
@@ -39,7 +46,11 @@ x.clone().equals(x)
 
 will be true, this is not an absolute requirement.
 
-By convention, the object returned by this method should be obtained by calling super.clone. If a class and all of its superclasses (except Object) obey this convention, it will be the case that
+值将为true，但这些不是绝对的必要条件。
+
+By convention（n. 大会；惯例；约定；协定；习俗）, the object returned by this method should be obtained（v. 获得） by calling super.clone. If a class and all of its superclasses (except Object) obey this convention, it will be the case that
+
+按照惯例，这个方法返回的对象应该通过调用super.clone来获得。如果一个类和它的所有超类（对象除外）都遵守这个约定，那么情况就是这样
 
 ```
 x.clone().getClass() == x.getClass().
@@ -47,21 +58,30 @@ x.clone().getClass() == x.getClass().
 
 By convention, the returned object should be independent of the object being cloned. To achieve this independence, it may be necessary to modify one or more fields of the object returned by super.clone before returning it.
 
+按照惯例，返回的对象应该独立于被克隆的对象。为了实现这种独立性，可能需要修改super返回的对象的一个或多个字段。在返回之前克隆。
+
 This mechanism is vaguely similar to constructor chaining, except that it isn’t enforced: if a class’s clone method returns an instance that is not obtained by calling super.clone but by calling a constructor, the compiler won’t complain, but if a subclass of that class calls super.clone, the resulting object will have the wrong class, preventing the subclass from clone method from working properly. If a class that overrides clone is final, this convention may be safely ignored, as there are no subclasses to worry about. But if a final class has a clone method that does not invoke super.clone, there is no reason for the class to implement Cloneable, as it doesn’t rely on the behavior of Object’s clone implementation.
 
+这种机制有点类似于构造函数链接，只是没有强制执行：如果一个类的克隆方法返回的实例不是通过调用super.clone而是通过调用构造函数获得的，编译器不会抱怨，但是如果这个类的一个子类调用super.clone,由此产生的对象将有错误的类,防止子类克隆方法从正常工作。如果覆盖克隆的类是final的，那么可以安全地忽略这个约定，因为不需要担心子类。但是如果最终类有一个不调用super的克隆方法。类没有理由实现Cloneable，因为它不依赖于对象克隆实现的行为。
+
 Suppose you want to implement Cloneable in a class whose superclass provides a well-behaved clone method. First call super.clone. The object you get back will be a fully functional replica of the original. Any fields declared in your class will have values identical to those of the original. If every field contains a primitive value or a reference to an immutable object, the returned object may be exactly what you need, in which case no further processing is necessary. This is the case, for example, for the PhoneNumber class in Item 11, but note that **immutable classes should never provide a clone method** because it would merely encourage wasteful copying. With that caveat, here’s how a clone method for PhoneNumber would look:
+
+假设您希望在一个类中实现Cloneable，该类的超类提供了一个表现良好的克隆方法。第一个叫super.clone。返回的对象将是原始对象的完整功能副本。类中声明的任何字段都具有与原始字段相同的值。如果每个字段都包含一个基元值或对不可变对象的引用，那么返回的对象可能正是您所需要的，在这种情况下不需要进一步的处理。例如，对于[Item-11](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)中的PhoneNumber类就是这样，但是要注意，**不可变类永远不应该提供克隆方法**，因为它只会鼓励浪费复制。有了这个警告，以下是PhoneNumber的克隆方法的外观:
 
 ```
 // Clone method for class with no references to mutable state
 @Override public PhoneNumber clone() {
-try {
-return (PhoneNumber) super.clone();
-} catch (CloneNotSupportedException e) {
-throw new AssertionError(); // Can't happen
-}}
+    try {
+        return (PhoneNumber) super.clone();
+    } catch (CloneNotSupportedException e) {
+        throw new AssertionError(); // Can't happen
+    }
+}
 ```
 
 In order for this method to work, the class declaration for PhoneNumber would have to be modified to indicate that it implements Cloneable. Though Object’s clone method returns Object, this clone method returns PhoneNumber. It is legal and desirable to do this because Java supports covariant return types. In other words, an overriding method’s return type can be a subclass of the overridden method’s return type. This eliminates the need for casting in the client. We must cast the result of super.clone from Object to PhoneNumber before returning it, but the cast is guaranteed to succeed.
+
+为了让这个方法工作，必须修改PhoneNumber的类声明，以表明它实现了Cloneable。虽然Object的clone方法返回Object，但是这个clone方法返回PhoneNumber。这样做是合法的，也是可取的，因为Java支持协变返回类型。换句话说，覆盖方法的返回类型可以是被覆盖方法的返回类型的子类。这样就不需要在客户机中进行强制转换。我们必须打出超级的成绩。在返回对象之前从对象克隆到PhoneNumber，但强制转换肯定会成功。
 
 The call to super.clone is contained in a try-catch block. This is because Object declares its clone method to throw CloneNotSupportedException, which is a checked exception. Because PhoneNumber implements Cloneable, we know the call to super.clone will succeed. The need for this boilerplate indicates that CloneNotSupportedException should have been unchecked (Item 71).
 
