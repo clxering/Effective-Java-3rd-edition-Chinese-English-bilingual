@@ -85,37 +85,50 @@ In order for this method to work, the class declaration for PhoneNumber would ha
 
 The call to super.clone is contained in a try-catch block. This is because Object declares its clone method to throw CloneNotSupportedException, which is a checked exception. Because PhoneNumber implements Cloneable, we know the call to super.clone will succeed. The need for this boilerplate indicates that CloneNotSupportedException should have been unchecked (Item 71).
 
+对super.clone的调用包含在try-catch块中。这是因为Object声明其克隆方法来抛出CloneNotSupportedException异常。因为PhoneNumber实现了Cloneable，所以我们知道对super.clone的调用将会成功。这个样板文件的需要表明CloneNotSupportedException应该是被选中的（[Item-71](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10-Item-71-Avoid-unnecessary-use-of-checked-exceptions.md)）。
+
 If an object contains fields that refer to mutable objects, the simple clone implementation shown earlier can be disastrous. For example, consider the Stack class in Item 7:
+
+如果对象包含引用可变对象的字段，前面所示的简单克隆实现可能是灾难性的。例如，考虑[Item-7](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2-Item-7-Eliminate-obsolete-object-references.md)中的堆栈类：
 
 ```
 public class Stack {
-private Object[] elements;
-private int size = 0;
-private static final int DEFAULT_INITIAL_CAPACITY = 16;
-public Stack() {
-this.elements = new Object[DEFAULT_INITIAL_CAPACITY];
+  private Object[] elements;
+  private int size = 0;
+  private static final int DEFAULT_INITIAL_CAPACITY = 16;
+
+  public Stack() {
+      this.elements = new Object[DEFAULT_INITIAL_CAPACITY];
+  }
+
+  public void push(Object e) {
+    ensureCapacity();
+    elements[size++] = e;
+  }
+
+  public Object pop() {
+    if (size == 0)
+      throw new EmptyStackException();
+    Object result = elements[--size];
+    elements[size] = null; // Eliminate obsolete reference
+    return result;
+  }
+
+  // Ensure space for at least one more element.
+  private void ensureCapacity() {
+    if (elements.length == size)
+      elements = Arrays.copyOf(elements, 2 * size + 1);
+  }
 }
-public void push(Object e) {
-ensureCapacity();
-elements[size++] = e;
-}
-public Object pop() {
-if (size == 0)
-throw new EmptyStackException();
-Object result = elements[--size];
-elements[size] = null; // Eliminate obsolete reference
-return result;
-}
-// Ensure space for at least one more element.
-private void ensureCapacity() {
-if (elements.length == size)
-elements = Arrays.copyOf(elements, 2 * size + 1);
-}}
 ```
 
-Suppose you want to make this class cloneable. If the clone method merely returns super.clone(), the resulting Stack instance will have the correct value in its size field, but its elements field will refer to the same array as the original Stack instance. Modifying the original will destroy the invariants in the clone and vice versa. You will quickly find that your program produces nonsensical results or throws a NullPointerException.
+Suppose you want to make this class cloneable. If the clone method merely（adv. 仅仅，只不过；只是） returns super.clone(), the resulting Stack instance will have the correct value in its size field, but its elements field will refer to the same array as the original Stack instance. Modifying the original will destroy the invariants in the clone and vice versa. You will quickly find that your program produces nonsensical results or throws a NullPointerException.
+
+假设您想让这个类是可克隆的。如果克隆方法只返回super.clone()，则结果堆栈实例在其大小字段中将有正确的值，但其元素字段将引用与原始堆栈实例相同的数组。修改初始值将破坏克隆中的不变量，反之亦然。您将很快发现您的程序产生了无意义的结果或抛出NullPointerException。
 
 This situation could never occur as a result of calling the sole constructor in the Stack class. In effect, the clone method functions as a constructor;you must ensure that it does no harm to the original object and that it properly establishes invariants on the clone. In order for the clone method on Stack to work properly, it must copy the internals of the stack. The easiest way to do this is to call clone recursively on the elements array:
+
+由于调用堆栈类中的唯一构造函数，这种情况永远不会发生。实际上，clone方法充当构造函数;您必须确保它不会对原始对象造成伤害，并且在克隆上正确地建立不变量。为了使堆栈上的克隆方法正常工作，它必须复制堆栈的内部。最简单的方法是在元素数组上递归地调用clone：
 
 ```
 // Clone method for class with references to mutable state
