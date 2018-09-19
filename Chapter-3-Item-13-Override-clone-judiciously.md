@@ -133,52 +133,66 @@ This situation could never occur as a result of calling the sole constructor in 
 ```
 // Clone method for class with references to mutable state
 @Override public Stack clone() {
-try {
-Stack result = (Stack) super.clone();
-result.elements = elements.clone();
-return result;
-} catch (CloneNotSupportedException e) {
-throw new AssertionError();
-}
+  try {
+    Stack result = (Stack) super.clone();
+    result.elements = elements.clone();
+    return result;
+  } catch (CloneNotSupportedException e) {
+    throw new AssertionError();
+  }
 }
 ```
 
 Note that we do not have to cast the result of elements.clone to Object[]. Calling clone on an array returns an array whose runtime and compile-time types are identical to those of the array being cloned. This is the preferred idiom to duplicate an array. In fact, arrays are the sole compelling use of the clone facility.
 
+注意，我们不需要将elements.clone的结果强制转换到Object[]。在数组上调用clone将返回一个数组，该数组的运行时和编译时类型与被克隆的数组相同。这是复制数组的首选习惯用法。实际上，数组是克隆工具唯一引人注目的用途。
+
 Note also that the earlier solution would not work if the elements field were final because clone would be prohibited from assigning a new value to the field. This is a fundamental problem: like serialization, the Cloneable architecture is incompatible with normal use of final fields referring to mutable objects, except in cases where the mutable objects may be safely shared between an object and its clone. In order to make a class cloneable, it may be necessary to remove final modifiers from some fields.
+
+还要注意，如果元素字段是final的，早期的解决方案就无法工作，因为克隆将被禁止为字段分配新值。这是一个基本问题:与序列化一样，可克隆体系结构与正常使用引用可变对象的final字段不兼容，除非在对象与其克隆对象之间可以安全地共享可变对象。为了使类可克隆，可能需要从某些字段中删除最终修饰符。
 
 It is not always sufficient merely to call clone recursively. For example,suppose you are writing a clone method for a hash table whose internals consist of an array of buckets, each of which references the first entry in a linked list of key-value pairs. For performance, the class implements its own lightweight singly linked list instead of using java.util.LinkedList internally:
 
+仅仅递归地调用克隆并不总是足够的。例如，假设您正在为哈希表编写一个克隆方法，哈希表的内部由一组bucket组成，每个bucket引用键-值对链表中的第一个条目。为了提高性能，类实现了自己的轻量级单链表，而不是在内部使用java.util.LinkedList：
+
 ```
 public class HashTable implements Cloneable {
-private Entry[] buckets = ...;
-private static class Entry {
-final Object key;
-Object value;
-Entry next;
-Entry(Object key, Object value, Entry next) {
-this.key = key;
-this.value = value;
-this.next = next;
-}} ... // Remainder omitted
+  private Entry[] buckets = ...;
+
+  private static class Entry {
+    final Object key;
+    Object value;
+    Entry next;
+
+    Entry(Object key, Object value, Entry next) {
+      this.key = key;
+      this.value = value;
+      this.next = next;
+    }
+  } ... // Remainder omitted
 }
 ```
 
 Suppose you merely clone the bucket array recursively, as we did for Stack:
 
+假设您只是递归地克隆桶数组，就像我们对Stack所做的那样：
+
 ```
 // Broken clone method - results in shared mutable state!
 @Override public HashTable clone() {
-try {
-HashTable result = (HashTable) super.clone();
-result.buckets = buckets.clone();
-return result;
-} catch (CloneNotSupportedException e) {
-throw new AssertionError();
-}}
+  try {
+    HashTable result = (HashTable) super.clone();
+    result.buckets = buckets.clone();
+    return result;
+  } catch (CloneNotSupportedException e) {
+      throw new AssertionError();
+  }
+}
 ```
 
 Though the clone has its own bucket array, this array references the same linked lists as the original, which can easily cause nondeterministic behavior in both the clone and the original. To fix this problem, you’ll have to copy the linked list that comprises each bucket. Here is one common approach:
+
+尽管克隆具有自己的bucket数组，但该数组引用的链接列表与原始链表相同，这很容易导致克隆和原始的不确定性行为。要解决这个问题，您必须复制包含每个bucket的链表。这里有一个常见的方法：
 
 ```
 // Recursive clone method for class with complex mutable state
