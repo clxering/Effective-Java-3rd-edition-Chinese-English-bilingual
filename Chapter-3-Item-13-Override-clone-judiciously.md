@@ -10,9 +10,9 @@ Cloneable接口的目的是作为mixin接口（[Item-20](https://github.com/clxe
 
 So what does Cloneable do, given that it contains no methods? It determines the behavior of Object’s protected clone implementation: if a class implements Cloneable, Object’s clone method returns a field-byfield copy of the object; otherwise it throws CloneNotSupportedException. This is a highly atypical use of interfaces and not one to be emulated. Normally, implementing an interface says something about what a class can do for its clients. In this case, it modifies the behavior of a protected method on a superclass.
 
-如果Cloneable不包含任何方法，它会做什么呢？它决定Object的受保护克隆实现的行为：如果一个类实现了Cloneable，对象的克隆方法返回对象的字段-字段副本；否则它会抛出CloneNotSupportedException。这是一种高度非典型的接口使用，而不是可模仿的。通常，实现接口说明了类可以为其客户机做些什么。在本例中，它修改了超类上受保护的方法行为。
+如果Cloneable不包含任何方法，它会做什么呢？它决定Object的受保护克隆实现的行为：如果一个类实现了Cloneable，对象的克隆方法返回对象的逐域拷贝；否则它会抛出CloneNotSupportedException。这是接口的一种高度非典型使用，而不是可模仿的。通常，实现接口说明了类可以为其客户做些什么。在本例中，它修改了超类上受保护的方法行为。
 
-Though the specification（n. 规格；说明书；详述） doesn’t say it, in practice, a class implementing Cloneable is expected to provide a properly（adv. 适当地；正确地；恰当地） functioning public clone method. In order to achieve（vt. 取得；获得；实现；） this, the class and all of its superclasses must obey a complex（adj. 复杂的；合成的）, unenforceable, thinly documented protocol. The resulting mechanism is fragile, dangerous, and extralinguistic: it creates objects without calling a constructor.
+Though the specification（n. 规格；说明书；详述） doesn’t say it, in practice, a class implementing Cloneable is expected to provide a properly（adv. 适当地；正确地；恰当地） functioning public clone method. In order to achieve（vt. 取得；获得；实现；） this, the class and all of its superclasses must obey a complex（adj. 复杂的；合成的）, unenforceable, thinly documented protocol. The resulting mechanism is fragile, dangerous, and extralinguistic（adj. 语言以外的；语言学以外的）: it creates objects without calling a constructor.
 
 虽然规范没有说明，但是在实践中，一个实现Cloneable的类应该提供一个功能正常的公共clone方法。为了实现这一点，类及其所有超类必须遵守复杂的、不可强制执行的、文档很少的协议。产生的机制是脆弱的、危险的和非语言的：即它创建对象而不调用构造函数。
 
@@ -85,154 +85,200 @@ In order for this method to work, the class declaration for PhoneNumber would ha
 
 The call to super.clone is contained in a try-catch block. This is because Object declares its clone method to throw CloneNotSupportedException, which is a checked exception. Because PhoneNumber implements Cloneable, we know the call to super.clone will succeed. The need for this boilerplate indicates that CloneNotSupportedException should have been unchecked (Item 71).
 
+对super.clone的调用包含在try-catch块中。这是因为Object声明其克隆方法来抛出CloneNotSupportedException异常。因为PhoneNumber实现了Cloneable，所以我们知道对super.clone的调用将会成功。这个样板文件的需要表明CloneNotSupportedException应该是被选中的（[Item-71](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10-Item-71-Avoid-unnecessary-use-of-checked-exceptions.md)）。
+
 If an object contains fields that refer to mutable objects, the simple clone implementation shown earlier can be disastrous. For example, consider the Stack class in Item 7:
+
+如果对象包含引用可变对象的字段，前面所示的简单克隆实现可能是灾难性的。例如，考虑[Item-7](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2-Item-7-Eliminate-obsolete-object-references.md)中的堆栈类：
 
 ```
 public class Stack {
-private Object[] elements;
-private int size = 0;
-private static final int DEFAULT_INITIAL_CAPACITY = 16;
-public Stack() {
-this.elements = new Object[DEFAULT_INITIAL_CAPACITY];
+  private Object[] elements;
+  private int size = 0;
+  private static final int DEFAULT_INITIAL_CAPACITY = 16;
+
+  public Stack() {
+      this.elements = new Object[DEFAULT_INITIAL_CAPACITY];
+  }
+
+  public void push(Object e) {
+    ensureCapacity();
+    elements[size++] = e;
+  }
+
+  public Object pop() {
+    if (size == 0)
+      throw new EmptyStackException();
+    Object result = elements[--size];
+    elements[size] = null; // Eliminate obsolete reference
+    return result;
+  }
+
+  // Ensure space for at least one more element.
+  private void ensureCapacity() {
+    if (elements.length == size)
+      elements = Arrays.copyOf(elements, 2 * size + 1);
+  }
 }
-public void push(Object e) {
-ensureCapacity();
-elements[size++] = e;
-}
-public Object pop() {
-if (size == 0)
-throw new EmptyStackException();
-Object result = elements[--size];
-elements[size] = null; // Eliminate obsolete reference
-return result;
-}
-// Ensure space for at least one more element.
-private void ensureCapacity() {
-if (elements.length == size)
-elements = Arrays.copyOf(elements, 2 * size + 1);
-}}
 ```
 
-Suppose you want to make this class cloneable. If the clone method merely returns super.clone(), the resulting Stack instance will have the correct value in its size field, but its elements field will refer to the same array as the original Stack instance. Modifying the original will destroy the invariants in the clone and vice versa. You will quickly find that your program produces nonsensical results or throws a NullPointerException.
+Suppose you want to make this class cloneable. If the clone method merely（adv. 仅仅，只不过；只是） returns super.clone(), the resulting Stack instance will have the correct value in its size field, but its elements field will refer to the same array as the original Stack instance. Modifying the original will destroy the invariants in the clone and vice versa. You will quickly find that your program produces nonsensical results or throws a NullPointerException.
+
+假设您想让这个类是可克隆的。如果克隆方法只返回super.clone()，则结果堆栈实例在其大小字段中将有正确的值，但其元素字段将引用与原始堆栈实例相同的数组。修改初始值将破坏克隆中的不变量，反之亦然。您将很快发现您的程序产生了无意义的结果或抛出NullPointerException。
 
 This situation could never occur as a result of calling the sole constructor in the Stack class. In effect, the clone method functions as a constructor;you must ensure that it does no harm to the original object and that it properly establishes invariants on the clone. In order for the clone method on Stack to work properly, it must copy the internals of the stack. The easiest way to do this is to call clone recursively on the elements array:
+
+由于调用堆栈类中的唯一构造函数，这种情况永远不会发生。实际上，clone方法充当构造函数;您必须确保它不会对原始对象造成伤害，并且在克隆上正确地建立不变量。为了使堆栈上的克隆方法正常工作，它必须复制堆栈的内部。最简单的方法是在元素数组上递归地调用clone：
 
 ```
 // Clone method for class with references to mutable state
 @Override public Stack clone() {
-try {
-Stack result = (Stack) super.clone();
-result.elements = elements.clone();
-return result;
-} catch (CloneNotSupportedException e) {
-throw new AssertionError();
-}
+  try {
+    Stack result = (Stack) super.clone();
+    result.elements = elements.clone();
+    return result;
+  } catch (CloneNotSupportedException e) {
+    throw new AssertionError();
+  }
 }
 ```
 
-Note that we do not have to cast the result of elements.clone to Object[]. Calling clone on an array returns an array whose runtime and compile-time types are identical to those of the array being cloned. This is the preferred idiom to duplicate an array. In fact, arrays are the sole compelling use of the clone facility.
+Note that we do not have to cast the result of elements.clone to Object[]. Calling clone on an array returns an array whose runtime and compile-time types are identical to those of the array being cloned. This is the preferred idiom to duplicate an array. In fact, arrays are the sole compelling use of the clone facility（n. 设施；设备；容易；灵巧）.
+
+注意，我们不需要将elements.clone的结果强制转换到Object[]。在数组上调用clone将返回一个数组，该数组的运行时和编译时类型与被克隆的数组相同。这是复制数组的首选习惯用法。实际上，数组是clone工具唯一引人注目的用途。
 
 Note also that the earlier solution would not work if the elements field were final because clone would be prohibited from assigning a new value to the field. This is a fundamental problem: like serialization, the Cloneable architecture is incompatible with normal use of final fields referring to mutable objects, except in cases where the mutable objects may be safely shared between an object and its clone. In order to make a class cloneable, it may be necessary to remove final modifiers from some fields.
 
-It is not always sufficient merely to call clone recursively. For example,suppose you are writing a clone method for a hash table whose internals consist of an array of buckets, each of which references the first entry in a linked list of key-value pairs. For performance, the class implements its own lightweight singly linked list instead of using java.util.LinkedList internally:
+还要注意，如果元素字段是final的，早期的解决方案就无法工作，因为克隆将被禁止为字段分配新值。这是一个基本问题:与序列化一样，可克隆体系结构与正常使用引用可变对象的final字段不兼容，除非在对象与其克隆对象之间可以安全地共享可变对象。为了使类可克隆，可能需要从某些字段中删除最终修饰符。
+
+It is not always sufficient（adj. 足够的；充分的） merely to call clone recursively. For example,suppose you are writing a clone method for a hash table whose internals consist of an array of buckets, each of which references the first entry in a linked list of key-value pairs. For performance, the class implements its own lightweight singly linked list instead of using java.util.LinkedList internally:
+
+仅仅递归地调用克隆并不总是足够的。例如，假设您正在为哈希表编写一个克隆方法，哈希表的内部由一组bucket组成，每个bucket引用键-值对链表中的第一个条目。为了提高性能，类实现了自己的轻量级单链表，而不是在内部使用java.util.LinkedList：
 
 ```
 public class HashTable implements Cloneable {
-private Entry[] buckets = ...;
-private static class Entry {
-final Object key;
-Object value;
-Entry next;
-Entry(Object key, Object value, Entry next) {
-this.key = key;
-this.value = value;
-this.next = next;
-}} ... // Remainder omitted
+  private Entry[] buckets = ...;
+
+  private static class Entry {
+    final Object key;
+    Object value;
+    Entry next;
+    Entry(Object key, Object value, Entry next) {
+      this.key = key;
+      this.value = value;
+      this.next = next;
+    }
+  } ... // Remainder omitted
 }
 ```
 
 Suppose you merely clone the bucket array recursively, as we did for Stack:
 
+假设您只是递归地克隆bucket数组，就像我们对Stack所做的那样：
+
 ```
 // Broken clone method - results in shared mutable state!
 @Override public HashTable clone() {
-try {
-HashTable result = (HashTable) super.clone();
-result.buckets = buckets.clone();
-return result;
-} catch (CloneNotSupportedException e) {
-throw new AssertionError();
-}}
+  try {
+    HashTable result = (HashTable) super.clone();
+    result.buckets = buckets.clone();
+    return result;
+  } catch (CloneNotSupportedException e) {
+      throw new AssertionError();
+  }
+}
 ```
 
 Though the clone has its own bucket array, this array references the same linked lists as the original, which can easily cause nondeterministic behavior in both the clone and the original. To fix this problem, you’ll have to copy the linked list that comprises each bucket. Here is one common approach:
 
+尽管克隆具有自己的bucket数组，但该数组引用的链接列表与原始链表相同，这很容易导致克隆和原始的不确定性行为。要解决这个问题，您必须复制包含每个bucket的链表。这里有一个常见的方法：
+
 ```
 // Recursive clone method for class with complex mutable state
 public class HashTable implements Cloneable {
-private Entry[] buckets = ...;
-private static class Entry {
-final Object key;
-Object value;
-Entry next;
-Entry(Object key, Object value, Entry next) {
-this.key = key;
-this.value = value;
-this.next = next;
-}
-// Recursively copy the linked list headed by this Entry
-Entry deepCopy() {
-return new Entry(key, value,
-next == null ? null : next.deepCopy());
-}}
-@Override public HashTable clone() {
-try {
-HashTable result = (HashTable) super.clone();
-result.buckets = new Entry[buckets.length];
-for (int i = 0; i < buckets.length; i++)
-if (buckets[i] != null)
-result.buckets[i] = buckets[i].deepCopy();
-return result;
-} catch (CloneNotSupportedException e) {
-throw new AssertionError();
-}} ... // Remainder omitted
+
+  private Entry[] buckets = ...;
+
+  private static class Entry {
+    final Object key;
+    Object value;
+    Entry next;
+
+    Entry(Object key, Object value, Entry next) {
+      this.key = key;
+      this.value = value;
+      this.next = next;
+    }
+    // Recursively copy the linked list headed by this Entry
+    Entry deepCopy() {
+      return new Entry(key, value,next == null ? null : next.deepCopy());
+    }
+  }
+
+  @Override public HashTable clone() {
+    try {
+      HashTable result = (HashTable) super.clone();
+      result.buckets = new Entry[buckets.length];
+      for (int i = 0; i < buckets.length; i++)
+        if (buckets[i] != null)
+      result.buckets[i] = buckets[i].deepCopy();
+      return result;
+    } catch (CloneNotSupportedException e) {
+      throw new AssertionError();
+    }
+  } ... // Remainder omitted
 }
 ```
 
 The private class HashTable.Entry has been augmented to support a “deep copy” method. The clone method on HashTable allocates a new buckets array of the proper size and iterates over the original buckets array,deep-copying each nonempty bucket. The deepCopy method on Entry invokes itself recursively to copy the entire linked list headed by the entry. While this technique is cute and works fine if the buckets aren’t too long, it is not a good way to clone a linked list because it consumes one stack frame for each element in the list. If the list is long, this could easily cause a stack overflow. To prevent this from happening, you can replace the recursion in deepCopy with iteration:
 
+私有类HashTable.Entry已经被增强为支持“深度复制”方法。HashTable上的clone方法分配一个大小合适的新bucket数组，并遍历原始bucket数组，深度复制每个非空bucket。条目上的deepCopy方法会递归地调用自己来复制以条目开头的整个链表。虽然这种技术很可爱，而且如果bucket不太长也可以很好地工作，但是克隆链表并不是一个好方法，因为它为链表中的每个元素消耗一个堆栈帧。如果列表很长，很容易导致堆栈溢出。为了防止这种情况的发生，您可以用迭代替换deepCopy中的递归：
+
 ```
 // Iteratively copy the linked list headed by this Entry
 Entry deepCopy() {
-Entry result = new Entry(key, value, next);
-for (Entry p = result; p.next != null; p = p.next)
-p.next = new Entry(p.next.key, p.next.value, p.next.next);
-return result;
+  Entry result = new Entry(key, value, next);
+  for (Entry p = result; p.next != null; p = p.next)
+    p.next = new Entry(p.next.key, p.next.value, p.next.next);
+  return result;
 }
 ```
 
-A final approach to cloning complex mutable objects is to call super.clone, set all of the fields in the resulting object to their initial state,and then call higher-level methods to regenerate the state of the original object.In the case of our HashTable example, the buckets field would be
-initialized to a new bucket array, and the put(key, value) method (not shown) would be invoked for each key-value mapping in the hash table being cloned. This approach typically yields a simple, reasonably elegant clone method that does not run as quickly as one that directly manipulates the innards of the clone. While this approach is clean, it is antithetical to the whole Cloneable architecture because it blindly overwrites the field-by-field object copy that forms the basis of the architecture.
+A final approach to cloning complex mutable objects is to call super.clone, set all of the fields in the resulting object to their initial state,and then call higher-level methods to regenerate the state of the original object.In the case of our HashTable example, the buckets field would be initialized to a new bucket array, and the put(key, value) method (not shown) would be invoked for each key-value mapping in the hash table being cloned. This approach typically yields a simple, reasonably elegant clone method that does not run as quickly as one that directly manipulates the innards of the clone. While this approach is clean, it is antithetical to the whole Cloneable architecture because it blindly overwrites the field-by-field object copy that forms the basis of the architecture.
+
+克隆复杂可变对象的最后一种方法是调用super.clone，将结果对象中的所有字段设置为初始状态，然后调用更高级别的方法重新生成原始对象的状态。在我们的HashTable示例中，bucket字段将初始化为一个新的bucket数组，并且对于克隆的散列表中的每个键值映射将调用put(key, value)方法(未显示)。这种方法通常产生一个简单、相当优雅的克隆方法，它的运行速度不如直接操作克隆的内部的方法快。虽然这种方法很简洁，但它与整个可克隆体系结构是对立的，因为它盲目地覆盖了构成体系结构基础的逐字段对象副本。
 
 Like a constructor, a clone method must never invoke an overridable method on the clone under construction (Item 19). If clone invokes a method that is overridden in a subclass, this method will execute before the subclass has had a chance to fix its state in the clone, quite possibly leading to corruption in the clone and the original. Therefore, the put(key, value) method discussed in the previous paragraph should be either final or private. (If it is private, it is presumably the “helper method” for a nonfinal public method.)
 
+与构造函数一样，克隆方法决不能在正在构建的克隆上调用可覆盖方法(项目19)。如果clone调用一个在子类中被重写的方法，这个方法将在子类有机会修复其在克隆中的状态之前执行，很可能导致克隆和原始的破坏。因此，前一段中讨论的put(key, value)方法应该是final或private方法。(如果它是私有的，那么它可能是非最终公共方法的“助手方法”。)
+
 Object’s clone method is declared to throw CloneNotSupportedException, but overriding methods need not. **Public clone methods should omit the throws clause,** as methods that don’t throw checked exceptions are easier to use (Item 71).
 
+对象的clone方法被声明为抛出CloneNotSupportedException异常，但是重写方法不需要。**公共克隆方法应该省略throw子句，** 作为不抛出受控异常的方法更容易使用（[Item-71](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10-Item-71-Avoid-unnecessary-use-of-checked-exceptions.md)）。
+
 You have two choices when designing a class for inheritance (Item 19), but whichever one you choose, the class should not implement Cloneable. You may choose to mimic the behavior of Object by implementing a properly functioning protected clone method that is declared to throw CloneNotSupportedException. This gives subclasses the freedom to implement Cloneable or not, just as if they extended Object directly.Alternatively, you may choose not to implement a working clone method, and to prevent subclasses from implementing one, by providing the following degenerate clone implementation:
+
+在为继承设计类时，您有两种选择（[Item-19](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4-Item-19-Design-and-document-for-inheritance-or-else-prohibit-it.md)），但是无论您选择哪一种，类都不应该实现Cloneable。您可以选择通过实现一个功能正常的受保护克隆方法来模拟对象的行为，该方法声明为抛出CloneNotSupportedException异常。这给子类实现Cloneable或不实现Cloneable的自由，就像它们直接扩展对象一样。或者，您可以选择不实现工作克隆方法，并通过提供以下简并克隆实现来防止子类实现一个工作克隆方法：
 
 ```
 // clone method for extendable class not supporting Cloneable
 @Override
 protected final Object clone() throws CloneNotSupportedException {
-throw new CloneNotSupportedException();
+  throw new CloneNotSupportedException();
 }
 ```
 
 There is one more detail that bears noting. If you write a thread-safe class that implements Cloneable, remember that its clone method must be properly synchronized, just like any other method (Item 78). Object’s clone method is not synchronized, so even if its implementation is otherwise satisfactory, you may have to write a synchronized clone method that returns super.clone().
 
+还有一个细节需要注意。如果您编写了一个实现了Cloneable的线程安全类，请记住它的克隆方法必须正确同步，就像其他任何方法一样（[Item-78](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11-Item-78-Synchronize-access-to-shared-mutable-data.md)）。对象的克隆方法不是同步的，因此即使它的实现在其他方面是令人满意的，您也可能需要编写一个返回super.clone()的同步克隆方法。
+
 To recap, all classes that implement Cloneable should override clone with a public method whose return type is the class itself. This method should first call super.clone, then fix any fields that need fixing. Typically, this means copying any mutable objects that comprise the internal “deep structure” of the object and replacing the clone’s references to these objects with references to their copies. While these internal copies can usually be made by calling clone recursively, this is not always the best approach. If the class contains only primitive fields or references to immutable objects, then it is likely the case that no fields need to be fixed. There are exceptions to this rule. For example, a field representing a serial number or other unique ID will need to be fixed even if it is primitive or immutable.
 
+回顾一下，所有实现Cloneable的类都应该使用一个返回类型为类本身的公共方法覆盖clone。这个方法应该首先调用super.clone，然后修复任何需要修复的字段。通常，这意味着复制任何包含对象内部“深层结构”的可变对象，并将克隆对象对这些对象的引用替换为对其副本的引用。虽然这些内部副本通常可以通过递归调用clone来实现，但这并不总是最好的方法。如果类只包含基元字段或对不可变对象的引用，那么很可能不需要修复任何字段。这条规则也有例外。例如，表示序列号或其他唯一ID的字段需要固定，即使它是原始的或不可变的。
+
 Is all this complexity really necessary? Rarely. If you extend a class that already implements Cloneable, you have little choice but to implement a well-behaved clone method. Otherwise, you are usually better off providing an alternative means of object copying. A better approach to object copying is to provide a copy constructor or copy factory. A copy constructor is simply a constructor that takes a single argument whose type is the class containing the constructor, for example,
+
+所有这些复杂性真的有必要吗？很少。如果您扩展了一个已经实现了Cloneable的类，那么除了实现行为良好的克隆方法之外，您别无选择。否则，最好提供对象复制的替代方法。一个更好的对象复制方法是提供一个复制构造函数或复制工厂。复制构造函数是一个简单的构造函数，它接受单个参数，其类型是包含构造函数的类，例如，
 
 ```
 // Copy constructor
@@ -241,6 +287,8 @@ public Yum(Yum yum) { ... };
 
 A copy factory is the static factory (Item 1) analogue of a copy constructor:
 
+复制工厂是复制构造函数的静态工厂（[Item-1](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)）类似物：
+
 ```
 // Copy factory
 public static Yum newInstance(Yum yum) { ... };
@@ -248,6 +296,12 @@ public static Yum newInstance(Yum yum) { ... };
 
 The copy constructor approach and its static factory variant have many advantages over Cloneable/clone: they don’t rely on a risk-prone extralinguistic object creation mechanism; they don’t demand unenforceable adherence to thinly documented conventions; they don’t conflict with the proper use of final fields; they don’t throw unnecessary checked exceptions; and they don’t require casts.
 
+复制构造函数方法及其静态工厂变体与克隆/克隆相比有许多优点：它们不依赖于易发生风险的语言外对象创建机制；他们不要求无法强制执行的约定；它们与最终字段的正确使用不冲突；它们不会抛出不必要的检查异常；而且不需要强制类型转换。
+
 Furthermore, a copy constructor or factory can take an argument whose type is an interface implemented by the class. For example, by convention all generalpurpose collection implementations provide a constructor whose argument is of type Collection or Map. Interface-based copy constructors and factories,more properly known as conversion constructors and conversion factories, allow the client to choose the implementation type of the copy rather than forcing the client to accept the implementation type of the original. For example, suppose you have a HashSet, s, and you want to copy it as a TreeSet. The clone method can’t offer this functionality, but it’s easy with a conversion constructor:new TreeSet<>(s).
 
-Given all the problems associated with Cloneable, new interfaces should not extend it, and new extendable classes should not implement it. While it’s less harmful for final classes to implement Cloneable, this should be viewed as a performance optimization, reserved for the rare cases where it is justified (Item 67). As a rule, copy functionality is best provided by constructors or factories. A notable exception to this rule is arrays, which are best copied with the clone method.
+此外，复制构造函数或工厂可以接受类型为类实现的接口的参数。例如，按照约定，所有通用集合实现都提供一个构造函数，其参数为collection或Map类型。基于接口的复制构造函数和工厂(更确切地称为转换构造函数和转换工厂)允许客户端选择副本的实现类型，而不是强迫客户端接受原始的实现类型。例如，假设您有一个HashSet s，并且希望将它复制为TreeSet。克隆方法不能提供这种功能，但是使用转换构造函数很容易:new TreeSet<>(s)。
+
+Given all the problems associated（adj. 关联的；联合的） with Cloneable, new interfaces should not extend it, and new extendable classes should not implement it. While it’s less harmful for final classes to implement Cloneable, this should be viewed as a performance optimization, reserved for the rare cases where it is justified (Item 67). As a rule, copy functionality is best provided by constructors or factories. A notable exception to this rule is arrays, which are best copied with the clone method.
+
+考虑到与Cloneable相关的所有问题，新的接口不应该扩展它，新的可扩展类不应该实现它。虽然最终类实现Cloneable的危害要小一些，但这应该被视为一种性能优化，仅在极少数情况下（[Item-67](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9-Item-67-Optimize-judiciously.md)）是合理的。通常，复制功能最好由构造函数或工厂提供。这个规则的一个明显的例外是数组，最好使用clone方法来复制数组。
