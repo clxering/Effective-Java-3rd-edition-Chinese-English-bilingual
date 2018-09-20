@@ -2,7 +2,7 @@
 Effective Java（第3版）各章节的中英文对照
 
 ## 目录（Contents）
-- **Chapter 2. Creating and Destroying Objects（创建和销毁对象）** 
+- **Chapter 2. Creating and Destroying Objects（创建和销毁对象）**
     - [Chapter 2 Introduction（章节介绍）](Chapter-2-Introduction.md)
     - [Item 1: Consider static factory methods instead of constructors（考虑静态工厂方法而不是构造函数）](Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)
     - [Item 2: Consider a builder when faced with many constructor parameters（在面对多个构造函数参数时，请考虑构建器）](Chapter-2-Item-2-Consider-a-builder-when-faced-with-many-constructor-parameters.md)
@@ -13,16 +13,16 @@ Effective Java（第3版）各章节的中英文对照
     - [Item 7: Eliminate obsolete object references（排除过时的对象引用）](Chapter-2-Item-7-Eliminate-obsolete-object-references.md)
     - [Item 8: Avoid finalizers and cleaners（避免使用终结器和清除器）](Chapter-2-Item-8-Avoid-finalizers-and-cleaners.md)
     - [Item 9: Prefer try with resources to try finally（使用try-with-resources优于try-finally）](Chapter-2-Item-9-Prefer-try-with-resources-to-try-finally.md)
-- **Chapter 3. Methods Common to All Objects（对象的通用方法）** 
+- **Chapter 3. Methods Common to All Objects（对象的通用方法）**
     - [Chapter 3 Introduction（章节介绍）](Chapter-3-Introduction.md)
     - [Item 10: Obey the general contract when overriding equals（重写equals方法时应遵守的约定）](Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)
     - [Item 11: Always override hashCode when you override equals（当重写equals时，也重写hashCode）](Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)
     - [Item 12: Always override toString（总是重写toString方法）](Chapter-3-Item-12-Always-override-toString.md)
     - [Item 13: Override clone judiciously（明智地重写clone方法）](Chapter-3-Item-13-Override-clone-judiciously.md)
     - [Item 14: Consider implementing Comparable](Chapter-3-Item-14-Consider-implementing-Comparable.md)
-- **Chapter 4. Classes and Interfaces（类和接口）** 
+- **Chapter 4. Classes and Interfaces（类和接口）**
     - [Chapter 4 Introduction（章节介绍）](Chapter-4-Introduction.md)
-    - [Item 15: Minimize the accessibility of classes and members](Chapter-4-Item-15-Minimize-the-accessibility-of-classes-and-members.md)
+    - [Item 15: Minimize the accessibility of classes and members（尽量减少类和成员的可访问性）](Chapter-4-Item-15-Minimize-the-accessibility-of-classes-and-members.md)
     - [Item 16: In public classes use accessor methods not public fields](Chapter-4-Item-16-In-public-classes-use-accessor-methods-not-public-fields.md)
     - [Item 17: Minimize mutability](Chapter-4-Item-17-Minimize-mutability.md)
     - [Item 18: Favor composition over inheritance](Chapter-4-Item-18-Favor-composition-over-inheritance.md)

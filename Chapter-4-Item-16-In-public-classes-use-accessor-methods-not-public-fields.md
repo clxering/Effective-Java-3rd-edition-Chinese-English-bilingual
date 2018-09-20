@@ -1,9 +1,8 @@
 ## Chapter 4. Classes and Interfaces（类和接口）
 
-### Item 16: In public classes, use accessor methods, not public fields
+### Item 16: In public classes, use accessor methods, not public fields（在公共类中，使用访问器方法，而不是公共字段）
 
-Occasionally, you may be tempted to write degenerate classes that serve no
-purpose other than to group instance fields:
+Occasionally, you may be tempted to write degenerate classes that serve no purpose other than to group instance fields:
 
 ```
 // Degenerate classes like this should not be public!
