@@ -23,8 +23,8 @@ Effective Java（第3版）各章节的中英文对照
 - **Chapter 4. Classes and Interfaces（类和接口）**
     - [Chapter 4 Introduction（章节介绍）](Chapter-4-Introduction.md)
     - [Item 15: Minimize the accessibility of classes and members（尽量减少类和成员的可访问性）](Chapter-4-Item-15-Minimize-the-accessibility-of-classes-and-members.md)
-    - [Item 16: In public classes use accessor methods not public fields](Chapter-4-Item-16-In-public-classes-use-accessor-methods-not-public-fields.md)
-    - [Item 17: Minimize mutability](Chapter-4-Item-17-Minimize-mutability.md)
+    - [Item 16: In public classes use accessor methods not public fields（在公共类中，使用访问器方法，而不是公共字段）](Chapter-4-Item-16-In-public-classes-use-accessor-methods-not-public-fields.md)
+    - [Item 17: Minimize mutability（减少可变性）](Chapter-4-Item-17-Minimize-mutability.md)
     - [Item 18: Favor composition over inheritance](Chapter-4-Item-18-Favor-composition-over-inheritance.md)
     - [Item 19: Design and document for inheritance or else prohibit it](Chapter-4-Item-19-Design-and-document-for-inheritance-or-else-prohibit-it.md)
     - [Item 20: Prefer interfaces to abstract classes](Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md)
