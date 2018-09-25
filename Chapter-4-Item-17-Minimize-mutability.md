@@ -66,6 +66,7 @@ public final class Complex {
         if (!(o instanceof Complex))
             return false;
         Complex c = (Complex) o;
+
         // See page 47 to find out why we use compare instead of ==
         return Double.compare(c.re, re) == 0
                 && Double.compare(c.im, im) == 0;
@@ -85,13 +86,13 @@ This class represents a complex number (a number with both real and imaginary pa
 
 这个类表示一个复数(一个包含实部和虚部的数)。除了标准的对象方法之外，它还为实部和虚部提供访问器，并提供四种基本的算术运算:加法、减法、乘法和除法。注意算术操作如何创建和返回一个新的复杂实例，而不是修改这个实例。这种模式称为泛函方法，因为方法返回对其操作数应用函数的结果，而不修改它。将其与方法将过程应用于其操作数的过程或命令式方法进行对比，使其状态发生变化。注意，方法名是介词(如plus)，而不是动词(如add)。这强调了一个事实，方法不会改变对象的值。BigInteger和BigDecimal类不遵守这个命名约定，导致了许多使用错误。
 
-The functional approach may appear unnatural if you’re not familiar with it,but it enables immutability, which has many advantages. **Immutable objects are simple.** An immutable object can be in exactly one state, the state in which it was created. If you make sure that all constructors establish class invariants, then it is guaranteed that these invariants will remain true for all time, with no further effort on your part or on the part of the programmer who uses the class. Mutable objects, on the other hand, can have arbitrarily complex state spaces. If the documentation does not provide a precise description of the state transitions performed by mutator methods, it can be difficult or impossible to use a mutable class reliably.
+The functional approach（n. 方法；途径；接近） may appear unnatural if you’re not familiar（adj. 熟悉的；常见的；亲近的） with it,but it enables immutability, which has many advantages. **Immutable objects are simple.** An immutable object can be in exactly one state, the state in which it was created. If you make sure that all constructors establish class invariants, then it is guaranteed that these invariants will remain true for all time, with no further effort on your part or on the part of the programmer who uses the class. Mutable objects, on the other hand, can have arbitrarily complex state spaces. If the documentation does not provide a precise description of the state transitions performed by mutator methods, it can be difficult or impossible to use a mutable class reliably.
 
-如果您不熟悉函数方法，那么它可能看起来不自然，但是它支持不变性，这有很多优点。**不可变对象很简单。一个不可变的对象可以恰好处于一种状态，即创建它的状态。如果您确保所有构造函数都建立了类不变量，那么就可以保证这些不变量将一直保持为真，而您和使用该类的程序员无需再做任何努力。另一方面，可变对象可以具有任意复杂的状态空间。如果文档没有提供mutator方法执行的状态转换的精确描述，那么可能很难或不可能可靠地使用可变类。
+如果您不熟悉函数方法，那么它可能看起来不自然，但是它支持不变性，这有很多优点。**不可变对象很简单。**一个不可变的对象可以恰好处于一种状态，即创建它的状态。如果您确保所有构造函数都建立了类不变量，那么就可以保证这些不变量将一直保持为真，而您和使用该类的程序员无需再做任何努力。另一方面，可变对象可以具有任意复杂的状态空间。如果文档没有提供mutator方法执行的状态转换的精确描述，那么可能很难或不可能可靠地使用可变类。
 
 **Immutable objects are inherently thread-safe; they require no synchronization.** They cannot be corrupted by multiple threads accessing them concurrently. This is far and away the easiest approach to achieve thread safety.Since no thread can ever observe any effect of another thread on an immutable object, **immutable objects can be shared freely.** Immutable classes should therefore encourage clients to reuse existing instances wherever possible. One easy way to do this is to provide public static final constants for commonly used values. For example, the Complex class might provide these constants:
 
-不可变对象本质上是线程安全的;它们不需要同步。它们不能被多线程并发地访问而损坏。这无疑是实现线程安全的最简单方法。由于任何线程都无法观察到另一个线程对不可变对象的任何影响，因此可以自由共享**不可变对象。因此，不可变类应该鼓励客户尽可能重用现有的实例。一种简单的方法是为常用值提供公共静态最终常量。例如，复杂类可能提供以下常量:
+不可变对象本质上是线程安全的；它们不需要同步。它们不能被多线程并发地访问而损坏。这无疑是实现线程安全的最简单方法。由于任何线程都无法观察到另一个线程对不可变对象的任何影响，因此可以自由共享**不可变对象。因此，不可变类应该鼓励客户尽可能重用现有的实例。一种简单的方法是为常用值提供公共静态最终常量。例如，复杂类可能提供以下常量:
 
 ```
 public static final Complex ZERO = new Complex(0, 0);
