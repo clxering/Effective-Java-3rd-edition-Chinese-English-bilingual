@@ -16,23 +16,23 @@ To make a class immutable, follow these five rules:
 
 2. **Ensure that the class can’t be extended.** This prevents careless or malicious（adj. 恶意的；恶毒的；蓄意的；怀恨的） subclasses from compromising（adj. 妥协的；让步的） the immutable behavior of the class by behaving as if the object’s state has changed. Preventing subclassing is generally accomplished by making the class final, but there is an alternative that we’ll discuss later.
 
-**确保类不能被扩展。**这可以防止粗心或恶意的子类以对象状态发生改变的方式行为，从而损害类的不可变行为。防止子类化通常通过使类成为final来完成，但是还有一种替代方法，我们将在后面讨论。
+**确保类不能被扩展。** 这可以防止粗心或恶意的子类以对象状态发生改变的方式行为，从而损害类的不可变行为。防止子类化通常通过使类成为final来完成，但是还有一种替代方法，我们将在后面讨论。
 
 3. **Make all fields final.** This clearly expresses your intent in a manner that is enforced（v. 执行） by the system. Also, it is necessary to ensure correct behavior if a reference to a newly created instance is passed from one thread to another without synchronization, as spelled out in the memory model [JLS, 17.5;Goetz06, 16].
 
-**使所有字段为终态。**这清楚地表达了您的意图，方式是由系统执行的。同样，如果引用新创建的实例在没有同步的情况下从一个线程传递到另一个线程，那么就有必要确保正确的行为，就像内存模型中描述的那样[JLS, 17.5;Goetz06, 16]。
+**使所有字段为终态。** 这清楚地表达了您的意图，方式是由系统执行的。同样，如果引用新创建的实例在没有同步的情况下从一个线程传递到另一个线程，那么就有必要确保正确的行为，就像内存模型中描述的那样[JLS, 17.5;Goetz06, 16]。
 
 4. **Make all fields private.** This prevents clients from obtaining access to mutable objects referred to by fields and modifying these objects directly.While it is technically permissible for immutable classes to have public final fields containing primitive values or references to immutable objects, it is not recommended because it precludes changing the internal representation in a later release (Items 15 and 16).
 
-**使所有字段为私有。**这将阻止客户端访问字段引用的可变对象并直接修改这些对象。虽然在技术上允许不可变类拥有包含基元值或对不可变对象的引用的公共final字段，但不建议这样做，因为它排除了在以后的版本中更改内部表示(项目15和16)。
+**使所有字段为私有。** 这将阻止客户端访问字段引用的可变对象并直接修改这些对象。虽然在技术上允许不可变类拥有包含基元值或对不可变对象的引用的公共final字段，但不建议这样做，因为它排除了在以后的版本中更改内部表示([Item-15](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4-Item-15-Minimize-the-accessibility-of-classes-and-members.md)和[Item-16](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4-Item-16-In-public-classes-use-accessor-methods-not-public-fields.md))。
 
 5. **Ensure exclusive access to any mutable components.** If your class has any fields that refer to mutable objects, ensure that clients of the class cannot obtain references to these objects. Never initialize such a field to a clientprovided object reference or return the field from an accessor. Make defensive copies (Item 50) in constructors, accessors, and readObject methods (Item 88).
 
-**确保对任何可变组件的独占访问。**如果您的类有任何引用可变对象的字段，请确保该类的客户端无法获得对这些对象的引用。永远不要将这样的字段初始化为clientprovide对象引用或从访问器返回字段。在构造函数、访问器和readObject方法(项目88)中创建防御性副本(项目50)。
+**确保对任何可变组件的独占访问。** 如果您的类有任何引用可变对象的字段，请确保该类的客户端无法获得对这些对象的引用。永远不要将这样的字段初始化为clientprovide对象引用或从访问器返回字段。在构造函数、访问器和readObject方法（[Item-88](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12-Item-88-Write-readObject-methods-defensively.md)）中创建防御性副本（[Item-50](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8-Item-50-Make-defensive-copies-when-needed.md)）。
 
 Many of the example classes in previous items are immutable. One such class is PhoneNumber in Item 11, which has accessors for each attribute but no corresponding mutators. Here is a slightly more complex example:
 
-前面项目中的许多示例类都是不可变的。其中一个类是Item 11中的PhoneNumber，它对每个属性都有访问器，但没有相应的mutators。下面是一个稍微复杂一点的例子:
+前面项目中的许多示例类都是不可变的。其中一个类是[Item-11](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)中的PhoneNumber，它对每个属性都有访问器，但没有相应的mutators。下面是一个稍微复杂一点的例子:
 
 ```
 // Immutable complex number class
@@ -88,7 +88,7 @@ This class represents a complex number (a number with both real and imaginary pa
 
 The functional approach（n. 方法；途径；接近） may appear unnatural if you’re not familiar（adj. 熟悉的；常见的；亲近的） with it,but it enables immutability, which has many advantages. **Immutable objects are simple.** An immutable object can be in exactly one state, the state in which it was created. If you make sure that all constructors establish class invariants, then it is guaranteed that these invariants will remain true for all time, with no further effort on your part or on the part of the programmer who uses the class. Mutable objects, on the other hand, can have arbitrarily complex state spaces. If the documentation does not provide a precise description of the state transitions performed by mutator methods, it can be difficult or impossible to use a mutable class reliably.
 
-如果您不熟悉函数方法，那么它可能看起来不自然，但是它支持不变性，这有很多优点。**不可变对象很简单。**一个不可变的对象可以恰好处于一种状态，即创建它的状态。如果您确保所有构造函数都建立了类不变量，那么就可以保证这些不变量将一直保持为真，而您和使用该类的程序员无需再做任何努力。另一方面，可变对象可以具有任意复杂的状态空间。如果文档没有提供mutator方法执行的状态转换的精确描述，那么可能很难或不可能可靠地使用可变类。
+如果您不熟悉函数方法，那么它可能看起来不自然，但是它支持不变性，这有很多优点。**不可变对象很简单。** 一个不可变的对象可以恰好处于一种状态，即创建它的状态。如果您确保所有构造函数都建立了类不变量，那么就可以保证这些不变量将一直保持为真，而您和使用该类的程序员无需再做任何努力。另一方面，可变对象可以具有任意复杂的状态空间。如果文档没有提供mutator方法执行的状态转换的精确描述，那么可能很难或不可能可靠地使用可变类。
 
 **Immutable objects are inherently thread-safe; they require no synchronization.** They cannot be corrupted by multiple threads accessing them concurrently. This is far and away the easiest approach to achieve thread safety.Since no thread can ever observe any effect of another thread on an immutable object, **immutable objects can be shared freely.** Immutable classes should therefore encourage clients to reuse existing instances wherever possible. One easy way to do this is to provide public static final constants for commonly used values. For example, the Complex class might provide these constants:
 
@@ -102,23 +102,23 @@ public static final Complex I = new Complex(0, 1);
 
 This approach can be taken one step further. An immutable class can provide static factories (Item 1) that cache frequently requested instances to avoid creating new instances when existing ones would do. All the boxed primitive classes and BigInteger do this. Using such static factories causes clients to share instances instead of creating new ones, reducing memory footprint and garbage collection costs. Opting for static factories in place of public constructors when designing a new class gives you the flexibility to add caching later, without modifying clients.
 
-这种方法可以更进一步。不可变类可以提供静态工厂(第1项)，这些工厂缓存经常请求的实例，以避免在现有实例可用时创建新实例。所有装箱的基元类和BigInteger都是这样做的。使用这种静态工厂会导致客户机共享实例而不是创建新实例，从而减少内存占用和垃圾收集成本。在设计新类时，选择静态工厂而不是公共构造函数，这使您能够灵活地在以后添加缓存，而无需修改客户机。
+这种方法可以更进一步。不可变类可以提供静态工厂（[Item-1](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)），这些工厂缓存经常请求的实例，以避免在现有实例可用时创建新实例。所有装箱的基元类和BigInteger都是这样做的。使用这种静态工厂会导致客户机共享实例而不是创建新实例，从而减少内存占用和垃圾收集成本。在设计新类时，选择静态工厂而不是公共构造函数，这使您能够灵活地在以后添加缓存，而无需修改客户机。
 
 A consequence of the fact that immutable objects can be shared freely is that you never have to make defensive copies of them (Item 50). In fact, you never have to make any copies at all because the copies would be forever equivalent to the originals. Therefore, you need not and should not provide a clone method or copy constructor (Item 13) on an immutable class. This was not well understood in the early days of the Java platform, so the String class does have a copy constructor, but it should rarely, if ever, be used (Item 6).
 
-不可变对象可以自由共享这一事实的一个后果是，您永远不需要对它们进行防御性的复制(项目50)。事实上，你根本不需要做任何拷贝，因为拷贝将永远等同于原件。因此，您不需要也不应该在不可变类上提供克隆方法或复制构造函数(项目13)。这在Java平台的早期并没有得到很好的理解，因此String类确实有一个复制构造函数，但是如果有的话，应该很少使用它(项目6)。
+不可变对象可以自由共享这一事实的一个后果是，您永远不需要对它们进行防御性的复制（[Item-50](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8-Item-50-Make-defensive-copies-when-needed.md)）。事实上，你根本不需要做任何拷贝，因为拷贝将永远等同于原件。因此，您不需要也不应该在不可变类上提供克隆方法或复制构造函数（[Item-13](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3-Item-13-Override-clone-judiciously.md)）。这在Java平台的早期并没有得到很好的理解，因此String类确实有一个复制构造函数，但是如果有的话，应该很少使用它（[Item-6](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2-Item-6-Avoid-creating-unnecessary-objects.md)）。
 
 **Not only can you share immutable objects, but they can share their internals.** For example, the BigInteger class uses a sign-magnitude representation internally. The sign is represented by an int, and the magnitude is represented by an int array. The negate method produces a new BigInteger of like magnitude and opposite sign. It does not need to copy the array even though it is mutable; the newly created BigInteger points to the same internal array as the original.
 
-您不仅可以共享不可变对象，而且可以共享它们的内部。例如，BigInteger类在内部使用符号幅度表示。符号用int表示，星等用int数组表示。反求法产生了一个大小相同、符号相反的大整数。即使数组是可变的，它也不需要复制;新创建的BigInteger指向与原始的内部数组相同的内部数组。
+**您不仅可以共享不可变对象，而且可以共享它们的内部。** 例如，BigInteger类在内部使用符号幅度表示。符号用int表示，星等用int数组表示。反求法产生了一个大小相同、符号相反的大整数。即使数组是可变的，它也不需要复制;新创建的BigInteger指向与原始的内部数组相同的内部数组。
 
 **Immutable objects make great building blocks for other objects,** whether mutable or immutable. It’s much easier to maintain the invariants of a complex object if you know that its component objects will not change underneath it. A special case of this principle is that immutable objects make great map keys and set elements: you don’t have to worry about their values changing once they’re in the map or set, which would destroy the map or set’s invariants.
 
-不可变对象是其他对象的很好的构建模块，无论是可变的还是不可变的。如果知道复杂对象的组件对象不会在其下面发生更改，那么维护复杂对象的不变性就会容易得多。这个原则的一个特殊情况是，不可变对象会生成很棒的map键和set元素:您不必担心它们的值在map或set中发生变化，这会破坏map或set的不变量。
+**不可变对象是其他对象的很好的构建模块，** 无论是可变的还是不可变的。如果知道复杂对象的组件对象不会在其下面发生更改，那么维护复杂对象的不变性就会容易得多。这个原则的一个特殊情况是，不可变对象会生成很棒的map键和set元素:您不必担心它们的值在map或set中发生变化，这会破坏map或set的不变量。
 
 **Immutable objects provide failure atomicity for free** (Item 76). Their state never changes, so there is no possibility of a temporary inconsistency.
 
-不可变对象免费提供故障原子性(第76项)。他们的状态从未改变，所以不可能出现暂时的不一致。
+不可变对象免费提供故障原子性（[Item-76](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10-Item-76-Strive-for-failure-atomicity.md)）。他们的状态从未改变，所以不可能出现暂时的不一致。
 
 **The major disadvantage of immutable classes is that they require a separate object for each distinct value.** Creating these objects can be costly,especially if they are large. For example, suppose that you have a million-bit BigInteger and you want to change its low-order bit:
 
@@ -148,7 +148,7 @@ The package-private mutable companion class approach works fine if you can accur
 
 Now that you know how to make an immutable class and you understand the pros and cons of immutability, let’s discuss a few design alternatives. Recall that to guarantee immutability, a class must not permit itself to be subclassed. This can be done by making the class final, but there is another, more flexible alternative. Instead of making an immutable class final, you can make all of its constructors private or package-private and add public static factories in place of the public constructors (Item 1). To make this concrete, here’s how Complex would look if you took this approach:
 
-既然您已经知道了如何创建不可变类，并且了解了不可变性的优缺点，那么让我们来讨论一些设计方案。回想一下，为了保证不变性，类不允许自己被子类化。这可以通过期末考试来完成，但是还有另外一个更灵活的选择。与使不可变类成为final不同，您可以将其所有构造函数变为私有或包-私有，并在公共构造函数的位置添加公共静态工厂(项目1)。
+既然您已经知道了如何创建不可变类，并且了解了不可变性的优缺点，那么让我们来讨论一些设计方案。回想一下，为了保证不变性，类不允许自己被子类化。这可以通过期末考试来完成，但是还有另外一个更灵活的选择。与使不可变类成为final不同，您可以将其所有构造函数变为私有或包-私有，并在公共构造函数的位置添加公共静态工厂（[Item-1](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)）。
 
 ```
 // Immutable class with static factories instead of constructors
@@ -172,7 +172,7 @@ This approach is often the best alternative. It is the most flexible because it 
 
 It was not widely understood that immutable classes had to be effectively final when BigInteger and BigDecimal were written, so all of their methods may be overridden. Unfortunately, this could not be corrected after the fact while preserving backward compatibility. If you write a class whose security depends on the immutability of a BigInteger or BigDecimal argument from an untrusted client, you must check to see that the argument is a “real” BigInteger or BigDecimal, rather than an instance of an untrusted subclass. If it is the latter, you must defensively copy it under the assumption that it might be mutable (Item 50):
 
-当编写BigInteger和BigDecimal时，不可变类必须是有效的final，因此可以重写它们的所有方法，这一点没有得到广泛的理解。遗憾的是，在保留向后兼容性的情况下，这一问题无法在事后得到纠正。如果您编写的类的安全性依赖于来自不受信任客户端的BigInteger或BigDecimal参数的不可变性，那么您必须检查该参数是否是“真正的”BigInteger或BigDecimal，而不是不受信任子类的实例。如果是后者，你必须防御地复制它，假设它可能是可变的(项目50):
+当编写BigInteger和BigDecimal时，不可变类必须是有效的final，因此可以重写它们的所有方法，这一点没有得到广泛的理解。遗憾的是，在保留向后兼容性的情况下，这一问题无法在事后得到纠正。如果您编写的类的安全性依赖于来自不受信任客户端的BigInteger或BigDecimal参数的不可变性，那么您必须检查该参数是否是“真正的”BigInteger或BigDecimal，而不是不受信任子类的实例。如果是后者，你必须防御地复制它，假设它可能是可变的（[Item-50](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8-Item-50-Make-defensive-copies-when-needed.md)）:
 
 ```
 public static BigInteger safeInstance(BigInteger val) {
@@ -187,23 +187,23 @@ The list of rules for immutable classes at the beginning of this item says that 
 
 For example, PhoneNumber’s hashCode method (Item 11, page 53) computes the hash code the first time it’s invoked and caches it in case it’s invoked again. This technique, an example of lazy initialization (Item 83), is also used by String.
 
-例如，PhoneNumber的hashCode方法(项目11，第53页)在第一次调用时计算哈希代码，并缓存它，以防再次调用它。这个技术是一个延迟初始化的例子(项目83)，String也使用这个技术。
+例如，PhoneNumber的hashCode方法([Item-11](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)，第53页)在第一次调用时计算哈希代码，并缓存它，以防再次调用它。这个技术是一个延迟初始化的例子（[Item-83](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11-Item-83-Use-lazy-initialization-judiciously.md)），String也使用这个技术。
 
 One caveat should be added concerning serializability. If you choose to have your immutable class implement Serializable and it contains one or more fields that refer to mutable objects, you must provide an explicit readObject or readResolve method, or use the ObjectOutputStream.writeUnshared and ObjectInputStream.readUnshared methods, even if the default serialized form is acceptable. Otherwise an attacker could create a mutable instance of your class. This topic is covered in detail in Item 88.
 
-关于可序列化性，应该添加一个注意事项。如果您选择让不可变类实现Serializable，并且它包含一个或多个引用可变对象的字段，那么您必须提供一个显式的readObject或readResolve方法，或者使用ObjectOutputStream。writeUnshared ObjectInputStream。readUnshared方法，即使默认的序列化形式是可以接受的。否则攻击者可能创建类的可变实例。项目88详细讨论了这个主题。
+关于可序列化性，应该添加一个注意事项。如果您选择让不可变类实现Serializable，并且它包含一个或多个引用可变对象的字段，那么您必须提供一个显式的readObject或readResolve方法，或者使用ObjectOutputStream。writeUnshared ObjectInputStream。readUnshared方法，即使默认的序列化形式是可以接受的。否则攻击者可能创建类的可变实例。[Item-88](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12-Item-88-Write-readObject-methods-defensively.md)详细讨论了这个主题。
 
 To summarize, resist the urge to write a setter for every getter. **Classes should be immutable unless there’s a very good reason to make them mutable.** Immutable classes provide many advantages, and their only disadvantage is the potential for performance problems under certain circumstances. You should always make small value objects, such as PhoneNumber and Complex, immutable. (There are several classes in the Java platform libraries, such as java.util.Date and java.awt.Point, that should have been immutable but aren’t.) You should seriously consider making larger value objects, such as String and BigInteger, immutable as well. You should provide a public mutable companion class for your immutable class only once you’ve confirmed that it’s necessary to achieve satisfactory performance (Item 67).
 
-总结一下，抵制为每个getter编写setter的冲动。类应该是不可变的，除非有很好的理由让它们可变。不可变类提供了许多优点，它们唯一的缺点是在某些情况下可能出现性能问题。您应该始终创建小的值对象，例如PhoneNumber和Complex、stable。(Java平台库中有几个类，比如Java .util。日期和java.awt。重点是，这本来是不可改变的，但事实并非如此。您应该认真考虑将较大的值对象(如String和BigInteger)设置为不可变的。只有在确认了实现满意性能的必要性之后，才应该为不可变类提供一个公共可变伴侣类(第67项)。
+总结一下，抵制为每个getter编写setter的冲动。类应该是不可变的，除非有很好的理由让它们可变。不可变类提供了许多优点，它们唯一的缺点是在某些情况下可能出现性能问题。您应该始终创建小的值对象，例如PhoneNumber和Complex、stable。(Java平台库中有几个类，比如Java .util。日期和java.awt。重点是，这本来是不可改变的，但事实并非如此。您应该认真考虑将较大的值对象(如String和BigInteger)设置为不可变的。只有在确认了实现满意性能的必要性之后，才应该为不可变类提供一个公共可变伴侣类（[Item-67](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9-Item-67-Optimize-judiciously.md)）。
 
 There are some classes for which immutability is impractical. **If a class cannot be made immutable, limit its mutability as much as possible.** Reducing the number of states in which an object can exist makes it easier to reason about the object and reduces the likelihood of errors. Therefore, make every field final unless there is a compelling reason to make it nonfinal. Combining the advice of this item with that of Item 15, your natural inclination should be to **declare every field private final unless there’s a good reason to do otherwise.**
 
-有些类的不变性是不切实际的。**如果一个类不能成为不可变的，那么就尽可能地限制它的可变性。**减少对象可能存在的状态数可以使对对象进行推理更容易，并减少出错的可能性。因此，除非有令人信服的理由使每个字段成为final。将此项目的建议与项目15的建议结合起来，您的自然倾向应该是**声明每个字段为私有final，除非有很好的理由这样做
+有些类的不变性是不切实际的。**如果一个类不能成为不可变的，那么就尽可能地限制它的可变性。** 减少对象可能存在的状态数可以使对对象进行推理更容易，并减少出错的可能性。因此，除非有令人信服的理由使每个字段成为final。将此项目的建议与项目15的建议结合起来，您的自然倾向应该是 **声明每个字段为私有final，除非有很好的理由这样做。**
 
 **Constructors should create fully initialized objects with all of their invariants established.** Don’t provide a public initialization method separate from the constructor or static factory unless there is a compelling reason to do so. Similarly, don’t provide a “reinitialize” method that enables an object to be reused as if it had been constructed with a different initial state. Such methods generally provide little if any performance benefit at the expense of increased complexity.
 
-**构造函数应该创建完全初始化的对象，并建立所有的不变量。不要提供与构造函数或静态工厂分离的公共初始化方法，除非有充分的理由这样做。类似地，不要提供“重新初始化”的方法，该方法允许重用对象，就好像它是用不同的初始状态构造的一样。这些方法通常只提供很少的性能收益，而代价是增加了复杂性。
+**构造函数应该创建完全初始化的对象，并建立所有的不变量。** 不要提供与构造函数或静态工厂分离的公共初始化方法，除非有充分的理由这样做。类似地，不要提供“重新初始化”的方法，该方法允许重用对象，就好像它是用不同的初始状态构造的一样。这些方法通常只提供很少的性能收益，而代价是增加了复杂性。
 
 The CountDownLatch class exemplifies these principles. It is mutable, but its state space is kept intentionally small. You create an instance, use it once, and it’s done: once the countdown latch’s count has reached zero, you may not reuse it.
 
