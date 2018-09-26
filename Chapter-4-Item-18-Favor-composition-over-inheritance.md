@@ -1,12 +1,18 @@
 ## Chapter 4. Classes and Interfaces（类和接口）
 
-### Item 18: Favor composition over inheritance
+### Item 18: Favor composition over inheritance（优先选择组合而不是继承）
 
-Inheritance is a powerful way to achieve code reuse, but it is not always the best tool for the job. Used inappropriately, it leads to fragile software. It is safe to use inheritance within a package, where the subclass and the superclass implementations are under the control of the same programmers. It is also safe to use inheritance when extending classes specifically designed and documented for extension (Item 19). Inheriting from ordinary concrete classes across package boundaries, however, is dangerous. As a reminder, this book uses the word “inheritance” to mean implementation inheritance (when one class extends another). The problems discussed in this item do not apply to interface inheritance (when a class implements an interface or when one interface extends another).
+Inheritance is a powerful way to achieve（vt. 取得；获得；实现；成功） code reuse（n. 重新使用，再用）, but it is not always the best tool for the job. Used inappropriately（adv. 不适当地）, it leads to fragile（adj. 脆的；易碎的） software. It is safe to use inheritance within a package, where the subclass and the superclass implementations are under the control of the same programmers. It is also safe to use inheritance when extending classes specifically designed and documented for extension (Item 19). Inheriting from ordinary concrete classes across package boundaries, however, is dangerous. As a reminder, this book uses the word “inheritance” to mean implementation inheritance (when one class extends another). The problems discussed in this item do not apply to interface inheritance (when a class implements an interface or when one interface extends another).
+
+继承是实现代码重用的一种强大方法，但它并不总是最佳的工具。使用不当会导致软件脆弱。在包中使用继承是安全的，其中子类和超类实现由相同的程序员控制。在扩展专门为扩展设计和文档化的类时使用继承也是安全的(项目19)。然而，跨包边界继承普通的具体类是危险的。作为提醒，本书使用“继承”一词来表示实现继承(当一个类扩展另一个类时)。本项目中讨论的问题不适用于接口继承(当类实现接口或一个接口扩展另一个接口时)。
 
 Unlike method invocation, inheritance violates encapsulation [Snyder86].In other words, a subclass depends on the implementation details of its superclass for its proper function. The superclass’s implementation may change from release to release, and if it does, the subclass may break, even though its code has not been touched. As a consequence, a subclass must evolve in tandem with its superclass, unless the superclass’s authors have designed and documented it specifically for the purpose of being extended.
 
+与方法调用不同，继承违反了封装[Snyder86]。换句话说，子类的正确功能依赖于它的父类的实现细节。超类的实现可能在版本之间发生变化，如果发生了变化，子类可能会崩溃，即使它的代码没有被修改过。因此，子类必须与其父类同步发展，除非父类的作者专门为扩展的目的而设计和记录它。
+
 To make this concrete, let’s suppose we have a program that uses a HashSet. To tune the performance of our program, we need to query the HashSet as to how many elements have been added since it was created (not to be confused with its current size, which goes down when an element is removed). To provide this functionality, we write a HashSet variant that keeps count of the number of attempted element insertions and exports an accessor for this count. The HashSet class contains two methods capable of adding elements, add and addAll, so we override both of these methods:
+
+为了使其具体化，让我们假设有一个使用HashSet的程序。为了优化程序的性能，我们需要查询HashSet，以确定自创建以来添加了多少元素(不要与当前的大小混淆，当元素被删除时，当前的大小会下降)。为了提供这个功能，我们编写了一个HashSet变体，它保持尝试元素插入的数量的计数，并为这个计数导出访问器。HashSet类包含两个能够添加元素、添加和addAll的方法，因此我们覆盖这两个方法:
 
 ```
 // Broken - Inappropriate use of inheritance!
@@ -34,7 +40,9 @@ public class InstrumentedHashSet<E> extends HashSet<E> {
 }
 ```
 
-This class looks reasonable, but it doesn’t work. Suppose we create an instance and add three elements using the addAll method. Incidentally, note that we create a list using the static factory method List.of, which was added in Java 9; if you’re using an earlier release, use Arrays.asList instead:
+This class looks reasonable, but it doesn’t work. Suppose we create an instance and add three elements using the addAll method. Incidentally（adv. 顺便；偶然地；附带地）, note that we create a list using the static factory method List.of, which was added in Java 9; if you’re using an earlier release, use Arrays.asList instead:
+
+这个类看起来很合理，但是它不起作用。假设我们创建了一个实例，并使用addAll方法添加了三个元素。顺便说一下，我们使用Java 9中添加的静态工厂方法List.of创建了一个列表；如果您使用的是早期版本，那么使用Arrays.asList:
 
 ```
 InstrumentedHashSet<String> s = new InstrumentedHashSet<>();
@@ -43,14 +51,23 @@ s.addAll(List.of("Snap", "Crackle", "Pop"));
 
 We would expect the getAddCount method to return three at this point, but it returns six. What went wrong? Internally, HashSet’s addAll method is implemented on top of its add method, although HashSet, quite reasonably,does not document this implementation detail. The addAll method in Instrumented-HashSet added three to addCount and then invoked HashSet’s addAll implementation using super.addAll. This in turn invoked the add method, as overridden in InstrumentedHashSet, once for each element. Each of these three invocations added one more to addCount,for a total increase of six: each element added with the addAll method is double-counted.
 
+我们希望getAddCount方法此时返回3，但它返回6。到底是哪里出了错？在内部，HashSet的addAll方法是在其add方法之上实现的，尽管HashSet相当合理地没有记录这个实现细节。工具-HashSet中的addAll方法向addCount添加了三个元素，然后使用super.addAll调用HashSet的addAll实现。这反过来调用add方法(在InstrumentedHashSet中被重写过)，每个元素一次。这三个调用中的每一个都向addCount添加了一个元素，总共增加了6个元素:使用addAll方法添加的每个元素都被重复计数。
+
 We could “fix” the subclass by eliminating its override of the addAll method. While the resulting class would work, it would depend for its proper function on the fact that HashSet’s addAll method is implemented on top of its add method. This “self-use” is an implementation detail, not guaranteed to hold in all implementations of the Java platform and subject to change from release to release. Therefore, the resulting InstrumentedHashSet class would be fragile.
+
+我们可以通过消除addAll方法的覆盖来“修复”子类。虽然生成的类可以工作，但它的正确功能取决于HashSet的addAll方法是在add方法之上实现的事实。这种“自用”是实现细节，不能保证在Java平台的所有实现中都存在，也不能保证在版本之间进行更改。因此，结果得到的InstrumentedHashSet类是脆弱的。
 
 It would be slightly better to override the addAll method to iterate over the specified collection, calling the add method once for each element. This would guarantee the correct result whether or not HashSet’s addAll method were implemented atop its add method because HashSet’s addAll implementation would no longer be invoked. This technique, however, does not solve all our problems. It amounts to reimplementing superclass methods that may or may not result in self-use, which is difficult, time-consuming, errorprone,and may reduce performance. Additionally, it isn’t always possible because some methods cannot be implemented without access to private fields inaccessible to the subclass.
 
-A related cause of fragility in subclasses is that their superclass can acquire new methods in subsequent releases. Suppose a program depends for its security on the fact that all elements inserted into some collection satisfy some predicate.This can be guaranteed by subclassing the collection and overriding each method capable of adding an element to ensure that the predicate is satisfied before adding the element. This works fine until a new method capable of inserting an
-element is added to the superclass in a subsequent release. Once this happens, it becomes possible to add an “illegal” element merely by invoking the new method, which is not overridden in the subclass. This is not a purely theoretical problem. Several security holes of this nature had to be fixed when Hashtable and Vector were retrofitted to participate in the Collections Framework.
+重写addAll方法以遍历指定的集合稍微好一些，为每个元素调用一次add方法。无论HashSet的addAll方法是否在其add方法之上实现，这都将保证正确的结果，因为HashSet的addAll实现将不再被调用。然而，这种技术并不能解决我们所有的问题。它相当于重新实现超类方法，这可能会导致自使用，也可能不会，这是困难的、耗时的、容易出错的，并且可能会降低性能。此外，这并不总是可能的，因为如果不访问子类无法访问的私有字段，就无法实现某些方法。
+
+A related cause of fragility in subclasses is that their superclass can acquire new methods in subsequent releases. Suppose a program depends for its security on the fact that all elements inserted into some collection satisfy some predicate.This can be guaranteed by subclassing the collection and overriding each method capable of adding an element to ensure that the predicate is satisfied before adding the element. This works fine until a new method capable of inserting an element is added to the superclass in a subsequent release. Once this happens, it becomes possible to add an “illegal” element merely by invoking the new method, which is not overridden in the subclass. This is not a purely theoretical problem. Several security holes of this nature had to be fixed when Hashtable and Vector were retrofitted to participate in the Collections Framework.
+
+子类脆弱的一个相关原因是他们的超类可以在后续版本中获得新的方法。假设一个程序的安全性取决于插入到某个集合中的所有元素满足某个谓词。这可以通过子类化集合和覆盖每个能够添加元素的方法来确保在添加元素之前满足谓词。这可以很好地工作，直到在后续版本中向超类中添加能够插入元素的新方法。一旦发生这种情况，只需调用新方法就可以添加“非法”元素，而新方法在子类中不会被覆盖。这不是一个纯粹的理论问题。当Hashtable和Vector被重新安装以加入集合框架时，必须修复这一性质的几个安全漏洞。
 
 Both of these problems stem from overriding methods. You might think that it is safe to extend a class if you merely add new methods and refrain from overriding existing methods. While this sort of extension is much safer, it is not without risk. If the superclass acquires a new method in a subsequent release and you have the bad luck to have given the subclass a method with the same signature and a different return type, your subclass will no longer compile [JLS, 8.4.8.3]. If you’ve given the subclass a method with the same signature and return type as the new superclass method, then you’re now overriding it, so you’re subject to the problems described earlier. Furthermore, it is doubtful that your method will fulfill the contract of the new superclass method, because that contract had not yet been written when you wrote the subclass method.
+
+这两个问题都源于重写方法。您可能认为，如果只添加新方法，并且不覆盖现有方法，那么扩展类是安全的。虽然这种延长会更安全，但也不是没有风险。如果超类在随后的版本中获得了一个新方法，而您不幸给了子类一个具有相同签名和不同返回类型的方法，那么您的子类将不再编译[JLS, 8.4.8.3]。如果给子类一个方法，该方法具有与新超类方法相同的签名和返回类型，那么现在要覆盖它，因此您要面对前面描述的问题。此外，您的方法是否能够完成新的超类方法的契约是值得怀疑的，因为在您编写子类方法时，该契约还没有被写入。
 
 Luckily, there is a way to avoid all of the problems described above. Instead of extending an existing class, give your new class a private field that references an instance of the existing class. This design is called composition because the existing class becomes a component of the new one. Each instance method in the new class invokes the corresponding method on the contained instance of the existing class and returns the results. This is known as forwarding, and the methods in the new class are known as forwarding methods. The resulting class will be rock solid, with no dependencies on the implementation details of the existing class. Even adding new methods to the existing class will have no impact on the new class. To make this concrete, here’s a replacement for InstrumentedHashSet that uses the composition-and-forwarding approach. Note that the implementation is broken into two pieces, the class itself and a reusable forwarding class, which contains all of the forwarding methods and nothing else:
 
@@ -64,7 +81,7 @@ public class InstrumentedSet<E> extends ForwardingSet<E> {
     @Override public boolean add(E e) {
         addCount++;
         return super.add(e);
-    } 
+    }
     @Override public boolean addAll(Collection<? extends E> c) {
         addCount += c.size();
         return super.addAll(c);
