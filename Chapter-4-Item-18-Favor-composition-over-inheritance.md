@@ -1,18 +1,18 @@
 ## Chapter 4. Classes and Interfaces（类和接口）
 
-### Item 18: Favor composition over inheritance（优先选择组合而不是继承）
+### Item 18: Favor composition over inheritance（优先选择复合而不是继承）
 
 Inheritance is a powerful way to achieve（vt. 取得；获得；实现；成功） code reuse（n. 重新使用，再用）, but it is not always the best tool for the job. Used inappropriately（adv. 不适当地）, it leads to fragile（adj. 脆的；易碎的） software. It is safe to use inheritance within a package, where the subclass and the superclass implementations are under the control of the same programmers. It is also safe to use inheritance when extending classes specifically designed and documented for extension (Item 19). Inheriting from ordinary concrete classes across package boundaries, however, is dangerous. As a reminder, this book uses the word “inheritance” to mean implementation inheritance (when one class extends another). The problems discussed in this item do not apply to interface inheritance (when a class implements an interface or when one interface extends another).
 
-继承是实现代码重用的一种强大方法，但它并不总是最佳的工具。使用不当会导致软件脆弱。在包中使用继承是安全的，其中子类和超类实现由相同的程序员控制。在扩展专门为扩展设计和文档化的类时使用继承也是安全的(项目19)。然而，跨包边界继承普通的具体类是危险的。作为提醒，本书使用“继承”一词来表示实现继承(当一个类扩展另一个类时)。本项目中讨论的问题不适用于接口继承(当类实现接口或一个接口扩展另一个接口时)。
+继承是实现代码重用的一种强大方法，但它并不总是最佳的工具。使用不当会导致软件脆弱。在包中使用继承是安全的，其中子类和超类实现由相同的程序员控制。在扩展专门为扩展设计和文档化的类时使用继承也是安全的（[Item-19](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4-Item-19-Design-and-document-for-inheritance-or-else-prohibit-it.md)）。然而，对普通的具体类进行跨包边界的继承是危险的。作为提醒，本书使用“继承”一词来表示实现继承(当一个类扩展另一个类时)。本项目中讨论的问题不适用于接口继承（当类实现接口或一个接口扩展另一个接口时）。
 
 Unlike method invocation, inheritance violates encapsulation [Snyder86].In other words, a subclass depends on the implementation details of its superclass for its proper function. The superclass’s implementation may change from release to release, and if it does, the subclass may break, even though its code has not been touched. As a consequence, a subclass must evolve in tandem with its superclass, unless the superclass’s authors have designed and documented it specifically for the purpose of being extended.
 
-与方法调用不同，继承违反了封装[Snyder86]。换句话说，子类的正确功能依赖于它的父类的实现细节。超类的实现可能在版本之间发生变化，如果发生了变化，子类可能会崩溃，即使它的代码没有被修改过。因此，子类必须与其父类同步发展，除非父类的作者专门为扩展的目的而设计和记录它。
+与方法调用不同，继承违反了封装[Snyder86]。换句话说，子类的正确功能依赖于它的父类的实现细节。超类的实现可能在版本之间发生变化，如果发生了变化，子类可能会崩溃，即使它的代码没有被修改过。因此，子类必须与其父类同步发展，除非父类是专门为扩展的目的而设计的，并具有很好的文档说明。
 
 To make this concrete, let’s suppose we have a program that uses a HashSet. To tune the performance of our program, we need to query the HashSet as to how many elements have been added since it was created (not to be confused with its current size, which goes down when an element is removed). To provide this functionality, we write a HashSet variant that keeps count of the number of attempted element insertions and exports an accessor for this count. The HashSet class contains two methods capable of adding elements, add and addAll, so we override both of these methods:
 
-为了使其具体化，让我们假设有一个使用HashSet的程序。为了优化程序的性能，我们需要查询HashSet，以确定自创建以来添加了多少元素(不要与当前的大小混淆，当元素被删除时，当前的大小会下降)。为了提供这个功能，我们编写了一个HashSet变体，它保持尝试元素插入的数量的计数，并为这个计数导出访问器。HashSet类包含两个能够添加元素、添加和addAll的方法，因此我们覆盖这两个方法:
+为了使其更具体一些，让我们假设有一个使用HashSet的程序。为了优化程序的性能，我们需要查询HashSet，以确定自创建以来添加了多少元素（不要与当前的大小混淆，当元素被删除时，当前的大小会递减）。为了提供这个功能，我们编写了一个HashSet变量，它记录试图插入的元素数量，并为这个计数导出一个访问。HashSet类包含两个能够添加元素的方法，add和addAll，因此我们覆盖这两个方法:
 
 ```
 // Broken - Inappropriate use of inheritance!
