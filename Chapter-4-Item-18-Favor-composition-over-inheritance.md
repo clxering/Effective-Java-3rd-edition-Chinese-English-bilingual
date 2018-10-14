@@ -51,7 +51,7 @@ s.addAll(List.of("Snap", "Crackle", "Pop"));
 
 We would expect the getAddCount method to return three at this point, but it returns six. What went wrong? Internally, HashSet’s addAll method is implemented on top of its add method, although HashSet, quite reasonably,does not document this implementation detail. The addAll method in Instrumented-HashSet added three to addCount and then invoked HashSet’s addAll implementation using super.addAll. This in turn invoked the add method, as overridden in InstrumentedHashSet, once for each element. Each of these three invocations added one more to addCount,for a total increase of six: each element added with the addAll method is double-counted.
 
-我们希望getAddCount方法此时返回3，但它返回6。到底是哪里出了错？在内部，HashSet的addAll方法是在其add方法之上实现的，尽管HashSet相当合理地没有记录这个实现细节。工具-HashSet中的addAll方法向addCount添加了三个元素，然后使用super.addAll调用HashSet的addAll实现。这反过来调用add方法(在InstrumentedHashSet中被重写过)，每个元素一次。这三个调用中的每一个都向addCount添加了一个元素，总共增加了6个元素:使用addAll方法添加的每个元素都被重复计数。
+我们希望getAddCount方法此时返回3，但它返回6。到底是哪里出了错？在内部，HashSet的addAll方法是在其add方法之上实现的，尽管HashSet相当合理地没有记录这个实现细节。InstrumentedHashSet中的addAll方法向addCount添加了三个元素，然后使用super.addAll调用HashSet的addAll实现。这反过来调用add方法（在InstrumentedHashSet中被重写过），每个元素一次。这三个调用中的每一个都向addCount添加了一个元素，总共增加了6个元素：使用addAll方法添加的每个元素都被重复计数。
 
 We could “fix” the subclass by eliminating its override of the addAll method. While the resulting class would work, it would depend for its proper function on the fact that HashSet’s addAll method is implemented on top of its add method. This “self-use” is an implementation detail, not guaranteed to hold in all implementations of the Java platform and subject to change from release to release. Therefore, the resulting InstrumentedHashSet class would be fragile.
 
@@ -71,6 +71,8 @@ Both of these problems stem from overriding methods. You might think that it is 
 
 Luckily, there is a way to avoid all of the problems described above. Instead of extending an existing class, give your new class a private field that references an instance of the existing class. This design is called composition because the existing class becomes a component of the new one. Each instance method in the new class invokes the corresponding method on the contained instance of the existing class and returns the results. This is known as forwarding, and the methods in the new class are known as forwarding methods. The resulting class will be rock solid, with no dependencies on the implementation details of the existing class. Even adding new methods to the existing class will have no impact on the new class. To make this concrete, here’s a replacement for InstrumentedHashSet that uses the composition-and-forwarding approach. Note that the implementation is broken into two pieces, the class itself and a reusable forwarding class, which contains all of the forwarding methods and nothing else:
 
+幸运的是，有一种方法可以避免上述所有问题。与其扩展现有类，不如为新类提供一个引用现有类实例的私有字段。这种设计称为复合，因为现有的类成为新类的一个组件。新类中的每个实例方法调用现有类的包含实例上的对应方法，并返回结果。这称为转发，新类中的方法称为转发方法。生成的类将非常坚固，不依赖于现有类的实现细节。即使向现有类添加新方法，也不会对新类产生影响。为了使其具体化，这里有一个使用复合和转发方法的InstrumentedHashSet的替代方法。注意，实现被分成两部分，类本身和一个可重用的转发类，其中包含所有的转发方法，没有其他内容:
+
 ```
 // Wrapper class - uses composition in place of inheritance
 public class InstrumentedSet<E> extends ForwardingSet<E> {
@@ -78,16 +80,24 @@ public class InstrumentedSet<E> extends ForwardingSet<E> {
     public InstrumentedSet(Set<E> s) {
         super(s);
     }
-    @Override public boolean add(E e) {
+
+    @Override
+    public boolean add(E e) {
         addCount++;
         return super.add(e);
     }
-    @Override public boolean addAll(Collection<? extends E> c) {
+
+    @Override
+    public boolean addAll(Collection<? extends E> c) {
         addCount += c.size();
         return super.addAll(c);
-    } public int getAddCount() {
+    }
+
+    public int getAddCount() {
         return addCount;
-    }}
+    }
+  }
+
 // Reusable forwarding class
 public class ForwardingSet<E> implements Set<E> {
     private final Set<E> s;
@@ -109,14 +119,21 @@ public class ForwardingSet<E> implements Set<E> {
     { return s.retainAll(c); }
     public Object[] toArray() { return s.toArray(); }
     public <T> T[] toArray(T[] a) { return s.toArray(a); }
-    @Override public boolean equals(Object o)
-    { return s.equals(o); }
-    @Override public int hashCode() { return s.hashCode(); }
-    @Override public String toString() { return s.toString(); }
+
+    @Override
+    public boolean equals(Object o){ return s.equals(o); }
+
+    @Override
+    public int hashCode() { return s.hashCode(); }
+
+    @Override
+    public String toString() { return s.toString(); }
 }
 ```
 
 The design of the InstrumentedSet class is enabled by the existence of the Set interface, which captures the functionality of the HashSet class.Besides being robust, this design is extremely flexible. The InstrumentedSet class implements the Set interface and has a single constructor whose argument is also of type Set. In essence, the class transforms one Set into another, adding the instrumentation functionality. Unlike the inheritance-based approach, which works only for a single concrete class and requires a separate constructor for each supported constructor in the superclass,the wrapper class can be used to instrument any Set implementation and will work in conjunction with any preexisting constructor:
+
+InstrumentedSet类的设计是通过Set接口来实现的，这个接口可以捕获HashSet类的功能。除了健壮外，这个设计非常灵活。InstrumentedSet类实现了Set接口，有一个构造函数，它的参数也是Set类型的。实际上，这个类可以将一个Set转换成另一个Set，添加了instrumentation的功能。基于继承的方法只适用于单个具体类，并且需要为超类中每个受支持的构造函数提供单独的构造函数，与此不同的是，包装器类可用于仪器任何集合实现，并将与任何现有构造函数一起工作:
 
 ```
 Set<Instant> times = new InstrumentedSet<>(new TreeSet<>(cmp));
@@ -124,6 +141,8 @@ Set<E> s = new InstrumentedSet<>(new HashSet<>(INIT_CAPACITY));
 ```
 
 The InstrumentedSet class can even be used to temporarily instrument a set instance that has already been used without instrumentation:
+
+InstrumentedSet类甚至还可以用来临时配置一个不用插装就可以使用的set实例:
 
 ```
 static void walk(Set<Dog> dogs) {
@@ -134,14 +153,28 @@ InstrumentedSet<Dog> iDogs = new InstrumentedSet<>(dogs);
 
 The InstrumentedSet class is known as a wrapper class because each InstrumentedSet instance contains (“wraps”) another Set instance. This is also known as the Decorator pattern [Gamma95] because the InstrumentedSet class “decorates” a set by adding instrumentation.Sometimes the combination of composition and forwarding is loosely referred to as delegation. Technically it’s not delegation unless the wrapper object passes itself to the wrapped object [Lieberman86; Gamma95].
 
+InstrumentedSet类被称为包装类，因为每个entedset实例都包含(“包装”)另一个集合实例。这也称为Decorator模式[Gamma95]，因为InstrumentedSet类通过添加插装来“修饰”一个集合。有时组合和转发的组合被松散地称为委托。严格来说，除非包装器对象将自身传递给包装对象，否则它不是委托[Lieberman86; Gamma95]。
+
 The disadvantages of wrapper classes are few. One caveat is that wrapper classes are not suited for use in callback frameworks, wherein objects pass selfreferences to other objects for subsequent invocations (“callbacks”). Because a wrapped object doesn’t know of its wrapper, it passes a reference to itself (this) and callbacks elude the wrapper. This is known as the SELF problem [Lieberman86]. Some people worry about the performance impact of forwarding method invocations or the memory footprint impact of wrapper objects. Neither turn out to have much impact in practice. It’s tedious to write forwarding methods, but you have to write the reusable forwarding class for each interface only once, and forwarding classes may be provided for you. For example, Guava provides forwarding classes for all of the collection interfaces [Guava].
+
+包装类的缺点很少。一个警告是包装类不适合在回调框架中使用，在回调框架中，对象为后续调用(“回调”)将自定义传递给其他对象。因为包装对象不知道它的包装器，所以它传递一个对它自己的引用(这个)，回调避开包装器。这就是所谓的自我问题。有些人担心转发方法调用的性能影响或包装器对象的内存占用影响。这两种方法在实践中都没有多大影响。编写转发方法很麻烦，但是您必须只为每个接口编写一次可重用的转发类，而且可能会为您提供转发类。例如，Guava为所有的集合接口提供了转发类[Guava]。
 
 Inheritance is appropriate only in circumstances where the subclass really is a subtype of the superclass. In other words, a class B should extend a class A only if an “is-a” relationship exists between the two classes. If you are tempted to have a class B extend a class A, ask yourself the question: Is every B really an A?If you cannot truthfully answer yes to this question, B should not extend A. If the answer is no, it is often the case that B should contain a private instance of A and expose a different API: A is not an essential part of B, merely a detail of its implementation.
 
+只有在子类确实是超类的子类型的情况下，继承才合适。换句话说，只有当两个类之间存在“is-a”关系时，类B才应该扩展类a。如果你想让B类扩展a类，那就问问自己：每个B都是a吗？如果你不能如实回答是的这个问题，B不应该延长a，如果答案是否定的，通常情况下，B应该包含一个私人的实例，让不同的API：不是B的一个重要组成部分，只是一个细节的实现。
+
 There are a number of obvious violations of this principle in the Java platform libraries. For example, a stack is not a vector, so Stack should not extend Vector. Similarly, a property list is not a hash table, so Properties should not extend Hashtable. In both cases, composition would have been preferable.
+
+在Java平台库中有许多明显违反这一原则的地方。例如，堆栈不是向量，因此堆栈不应该扩展向量。类似地，属性列表不是哈希表，因此属性不应该扩展哈希表。在这两种情况下，复合都是可取的。
 
 If you use inheritance where composition is appropriate, you needlessly expose implementation details. The resulting API ties you to the original implementation, forever limiting the performance of your class. More seriously,by exposing the internals you let clients access them directly. At the very least, it can lead to confusing semantics. For example, if p refers to a Properties instance, then p.getProperty(key) may yield different results from p.get(key): the former method takes defaults into account, while the latter method, which is inherited from Hashtable, does not. Most seriously, the client may be able to corrupt invariants of the subclass by modifying the superclass directly. In the case of Properties, the designers intended that only strings be allowed as keys and values, but direct access to the underlying Hashtable allows this invariant to be violated. Once violated, it is no longer possible to use other parts of the Properties API (load and store). By the time this problem was discovered, it was too late to correct it because clients depended on the use of non-string keys and values.
 
+如果在复合合适的地方使用继承，就不必要地公开实现细节。生成的API将您与原始实现绑定在一起，永远限制了类的性能。更严重的是，通过公开内部组件，您可以让客户端直接访问它们。至少，它会导致语义混乱。例如，如果p引用了一个属性实例，那么p. getproperty (key)可能会产生与p.get(key)不同的结果:前者考虑了默认值，而后者(从Hashtable继承而来)则不会。最严重的是，客户端可以通过直接修改超类来破坏子类的不变量。对于属性，设计者希望只允许字符串作为键和值，但是直接访问底层哈希表允许违反这个不变量。一旦违反，就不再可能使用Properties API的其他部分(加载和存储)。当发现这个问题时，已经太晚了，无法纠正它，因为客户端依赖于非字符串键和值的使用。
+
 There is one last set of questions you should ask yourself before deciding to use inheritance in place of composition. Does the class that you contemplate extending have any flaws in its API? If so, are you comfortable propagating those flaws into your class’s API? Inheritance propagates any flaws in the superclass’s API, while composition lets you design a new API that hides these flaws.
 
+在决定使用继承而不是复合之前，您应该问自己最后一组问题。您打算扩展的类在其API中有任何缺陷吗？如果是这样，您是否愿意将这些缺陷传播到类的API中？继承传播超类API中的任何缺陷，而复合允许您设计一个新的API来隐藏这些缺陷。
+
 To summarize, inheritance is powerful, but it is problematic because it violates encapsulation. It is appropriate only when a genuine subtype relationship exists between the subclass and the superclass. Even then, inheritance may lead to fragility if the subclass is in a different package from the superclass and the superclass is not designed for inheritance. To avoid this fragility, use composition and forwarding instead of inheritance, especially if an appropriate interface to implement a wrapper class exists. Not only are wrapper classes more robust than subclasses, they are also more powerful.
+
+总而言之，继承是强大的，但是它是有问题的，因为它违反了封装。只有当子类和超类之间存在真正的子类型关系时才合适。即使这样，如果子类与超类不在一个不同的包中，并且超类不是为继承而设计的，继承也可能导致脆弱性。为了避免这种脆弱性，使用组合和转发而不是继承，特别是如果存在实现包装器类的适当接口的话。包装类不仅比子类更健壮，而且更强大。
