@@ -30,36 +30,65 @@ This documentation leaves no doubt that overriding the iterator method will affe
 
 But doesn’t this violate the dictum that good API documentation should describe what a given method does and not how it does it? Yes, it does! This is an unfortunate consequence of the fact that inheritance violates encapsulation. To document a class so that it can be safely subclassed, you must describe implementation details that should otherwise be left unspecified.
 
+但是，这是否违背了一个格言：好的API文档应该描述一个给定的方法做什么，而不是如何做？是的，它确实（违背了）！这是继承违反封装这一事实的不幸结果。要为一个类编制文档，使其能够安全地子类化，您必须描述实现细节，否则这些细节应该是未指定的。
+
 The @implSpec tag was added in Java 8 and used heavily in Java 9. This tag should be enabled by default, but as of Java 9, the Javadoc utility still ignores it unless you pass the command line switch -tag "apiNote: a :API Note:".
+
+@implSpec标记在Java 8中添加，在Java 9中大量使用。默认情况下应该启用这个标记，但是在Java 9中，Javadoc实用程序仍然忽略它，除非传递命令行开关-tag "apiNote: a :API Note:"。
 
 Designing for inheritance involves more than just documenting patterns of self-use. To allow programmers to write efficient subclasses without undue pain, a class may have to provide hooks into its internal workings in the form of judiciously chosen protected methods or, in rare instances, protected fields.For example, consider the removeRange method from java.util.AbstractList:
 
+为继承而设计不仅仅是记录自使用的模式。为了允许程序员编写高效的子类而不受不必要的痛苦，类可能必须以明智地选择受保护的方法或(在很少的情况下)受保护的字段的形式为其内部工作提供挂钩。例如，考虑来自java.util.AbstractList的removeRange方法：
 
 > protected void removeRange(int fromIndex, int toIndex)
 
 > Removes from this list all of the elements whose index is between fromIndex, inclusive, and toIndex, exclusive. Shifts any succeeding elements to the left (reduces their index). This call shortens the list by (toIndex - fromIndex) elements. (If toIndex == fromIndex,this operation has no effect.)
 
+从这个列表中删除所有索引位于fromIndex（包含索引）和toIndex（独占索引）之间的元素。将任何后续元素移到左边（减少其索引）。这个调用使用（toIndex - fromIndex）元素缩短列表。（如果toIndex == fromIndex，此操作无效。）
+
 > This method is called by the clear operation on this list and its sublists.Overriding this method to take advantage of the internals of the list implementation can substantially improve the performance of the clear operation on this list and its sublists.
+
+此方法由此列表及其子列表上的clear操作调用。重写此方法以利用列表实现的内部特性，可以显著提高对该列表及其子列表的clear操作的性能。
 
 > Implementation Requirements: This implementation gets a list iterator positioned before fromIndex and repeatedly calls ListIterator.next followed by ListIterator.remove, until the entire range has been removed. Note: If ListIterator.remove requires linear time, this implementation requires quadratic time.
 
+实现需求：该实现获取位于fromIndex之前的列表迭代器，并依次重复调用ListIterator.next和ListIterator.remove，直到删除整个范围（的内容）。注意:如果ListIterator.remove需要线性时间，这个实现需要平方级的时间。
+
 > Parameters:
+
+参数
 
 > fromIndex index of first element to be removed.
 
+要删除的第一个元素的fromIndex索引。
+
 > toIndex index after last element to be removed.
+
+要删除的最后一个元素后的索引。
 
 This method is of no interest to end users of a List implementation. It is provided solely to make it easy for subclasses to provide a fast clear method on sublists. In the absence of the removeRange method, subclasses would have to make do with quadratic performance when the clear method was invoked on sublists or rewrite the entire subList mechanism from scratch— not an easy task!
 
+此方法对列表实现的最终用户没有任何兴趣。它的提供只是为了让子类更容易在子列表上提供快速清晰的方法。在没有removeRange方法的情况下，当在子列表上调用clear方法或从头重写整个子列表机制时，子类将不得不处理二次性能——这不是一项简单的任务!
+
 So how do you decide what protected members to expose when you design a class for inheritance? Unfortunately, there is no magic bullet. The best you can do is to think hard, take your best guess, and then test it by writing subclasses.You should expose as few protected members as possible because each one represents a commitment to an implementation detail. On the other hand, you must not expose too few because a missing protected member can render a class practically unusable for inheritance.
+
+那么，在为继承设计类时，如何决定要公开哪些受保护的成员呢?不幸的是，没有灵丹妙药。你能做的最好的事情就是认真思考，做出最好的猜测，然后通过编写子类来测试它。您应该尽可能少地公开受保护的成员，因为每个成员都表示对实现细节的承诺。另一方面，您不能公开太多，因为缺少受保护的成员会导致类实际上无法用于继承。
 
 **The only way to test a class designed for inheritance is to write subclasses.** If you omit a crucial protected member, trying to write a subclass will make the omission painfully obvious. Conversely, if several subclasses are written and none uses a protected member, you should probably make it private. Experience shows that three subclasses are usually sufficient to test an extendable class. One or more of these subclasses should be written by someone other than the superclass author.
 
+**测试为继承而设计的类的唯一方法是编写子类。** 如果您忽略了一个关键的受保护成员，那么尝试编写子类将使遗漏变得非常明显。相反，如果编写了几个子类，而没有一个子类使用受保护的成员，则应该将其设置为私有。经验表明，三个子类通常足以测试一个可扩展类。这些子类中的一个或多个应该由超类作者以外的其他人编写。
+
 When you design for inheritance a class that is likely to achieve wide use, realize that you are committing forever to the self-use patterns that you document and to the implementation decisions implicit in its protected methods and fields. These commitments can make it difficult or impossible to improve the performance or functionality of the class in a subsequent release. Therefore,**you must test your class by writing subclasses before you release it.**
+
+当您为继承设计一个可能获得广泛使用的类时，请意识到您将永远致力于您所记录的自使用模式，以及在其受保护的方法和字段中隐含的实现决策。这些承诺会使在后续版本中改进类的性能或功能变得困难或不可能。因此，**您必须在释放类之前通过编写子类来测试类。**
 
 Also, note that the special documentation required for inheritance clutters up normal documentation, which is designed for programmers who create instances of your class and invoke methods on them. As of this writing, there is little in the way of tools to separate ordinary API documentation from information of interest only to programmers implementing subclasses.
 
+另外，请注意，继承所需的特殊文档会使普通文档变得混乱，这种文档是为那些创建类实例并在其上调用方法的程序员设计的。在撰写本文时，很少有工具能够将普通API文档与只对实现子类的程序员感兴趣的信息分离开来。
+
 There are a few more restrictions that a class must obey to allow inheritance.**Constructors must not invoke overridable methods,** directly or indirectly. If you violate this rule, program failure will result. The superclass constructor runs before the subclass constructor, so the overriding method in the subclass will get invoked before the subclass constructor has run. If the overriding method depends on any initialization performed by the subclass constructor, the method will not behave as expected. To make this concrete, here’s a class that violates this rule:
+
+为了允许继承，类必须遵守更多的限制。**构造函数不能直接或间接调用可重写的方法。** 如果你违反了这个规则，程序就会失败。超类构造函数在子类构造函数之前运行，因此在子类构造函数运行之前将调用子类中的覆盖方法。如果重写方法依赖于子类构造函数执行的任何初始化，则该方法的行为将不像预期的那样。为了使其具体化，下面是一个违反此规则的类:
 
 ```
 public class Super {
@@ -73,6 +102,8 @@ public class Super {
 ```
 
 Here’s a subclass that overrides the overrideMe method, which is erroneously invoked by Super’s sole constructor:
+
+下面是覆盖overrideMe方法的子类，Super的唯一构造函数错误地调用了overrideMe方法：
 
 ```
 public final class Sub extends Super {
@@ -95,9 +126,15 @@ public final class Sub extends Super {
 
 You might expect this program to print out the instant twice, but it prints out null the first time because overrideMe is invoked by the Super constructor before the Sub constructor has a chance to initialize the instant field. Note that this program observes a final field in two different states! Note also that if overrideMe had invoked any method on instant, it would have thrown a NullPointerException when the Super constructor invoked overrideMe. The only reason this program doesn’t throw a NullPointerException as it stands is that the println method tolerates null parameters.
 
+您可能希望这个程序打印两次instant，但是它第一次打印null，因为在子构造函数有机会初始化instant字段之前，超级构造函数调用了overrideMe。注意，这个程序观察了两个不同状态的最后一个字段!还要注意，如果overrideMe立即调用了任何方法，那么当超级构造函数调用overrideMe时，它会抛出一个NullPointerException。这个程序不抛出NullPointerException的唯一原因是println方法允许空参数。
+
 Note that it is safe to invoke private methods, final methods, and static methods, none of which are overridable, from a constructor.
 
+注意，从构造函数调用私有方法、最终方法和静态方法是安全的，它们都是不可覆盖的。
+
 The Cloneable and Serializable interfaces present special difficulties when designing for inheritance. It is generally not a good idea for a class designed for inheritance to implement either of these interfaces because they place a substantial burden on programmers who extend the class. There are,however, special actions that you can take to allow subclasses to implement these interfaces without mandating that they do so. These actions are described in Item 13 and Item 86.
+
+可克隆和可序列化的接口在设计继承时存在特殊的困难。对于为继承而设计的类来说，实现这两种接口都不是一个好主意，因为它们给扩展类的程序员带来了沉重的负担。但是，您可以采取一些特殊的操作来允许子类实现这些接口，而无需强制它们这样做。项目13和项目86叙述了这些行动。
 
 If you do decide to implement either Cloneable or Serializable in a class that is designed for inheritance, you should be aware that because the clone and readObject methods behave a lot like constructors, a similar restriction applies: neither clone nor readObject may invoke an overridable method, directly or indirectly. In the case of readObject, the overriding method will run before the subclass’s state has been deserialized. In the case of clone, the overriding method will run before the subclass’s clone method has a chance to fix the clone’s state. In either case, a program failure is likely to follow. In the case of clone, the failure can damage the original object as well as the clone. This can happen, for example, if the overriding method assumes it is modifying the clone’s copy of the object’s deep structure, but the copy hasn’t been made yet.
 
