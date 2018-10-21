@@ -138,19 +138,37 @@ The Cloneable and Serializable interfaces present special difficulties when desi
 
 If you do decide to implement either Cloneable or Serializable in a class that is designed for inheritance, you should be aware that because the clone and readObject methods behave a lot like constructors, a similar restriction applies: neither clone nor readObject may invoke an overridable method, directly or indirectly. In the case of readObject, the overriding method will run before the subclass’s state has been deserialized. In the case of clone, the overriding method will run before the subclass’s clone method has a chance to fix the clone’s state. In either case, a program failure is likely to follow. In the case of clone, the failure can damage the original object as well as the clone. This can happen, for example, if the overriding method assumes it is modifying the clone’s copy of the object’s deep structure, but the copy hasn’t been made yet.
 
+如果您确实决定在为继承而设计的类中实现Cloneable或Serializable，那么您应该知道，由于克隆和readObject方法的行为与构造函数非常相似，因此存在类似的限制：克隆和readObject都不能直接或间接调用可覆盖的方法。对于readObject，重写方法将在子类的状态反序列化之前运行。在克隆的情况下，重写方法将在子类的克隆方法有机会修复克隆的状态之前运行。在任何一种情况下，程序失败都可能随之而来。在克隆的情况下，失败可以破坏原始对象和克隆。例如，如果覆盖方法假设它正在修改对象的深层结构的克隆副本，但是复制还没有完成，那么就会发生这种情况。
+
 Finally, if you decide to implement Serializable in a class designed for inheritance and the class has a readResolve or writeReplace method,you must make the readResolve or writeReplace method protected rather than private. If these methods are private, they will be silently ignored by subclasses. This is one more case where an implementation detail becomes part of a class’s API to permit inheritance.
+
+最后，如果您决定在一个为继承而设计的类中实现Serializable，并且这个类有一个readResolve或writeReplace方法，那么您必须使readResolve或writeReplace方法为protected，而不是private。如果这些方法是private的，它们将被子类静静地忽略。这是实现细节成为类API允许继承的一部分的又一种情况。
 
 By now it should be apparent that designing a class for inheritance requires great effort and places substantial limitations on the class. This is not a decision to be undertaken lightly. There are some situations where it is clearly the right thing to do, such as abstract classes, including skeletal implementations of interfaces (Item 20). There are other situations where it is clearly the wrong thing to do, such as immutable classes (Item 17).
 
+到目前为止，显然为继承而设计一个类需要付出很大的努力，并且对类有很大的限制。这不是一个可以轻易作出的决定。在某些情况下，这样做显然是正确的，例如抽象类，包括接口的骨架实现(项目20)。还有一些情况显然是错误的，比如不可变类（[Item-17](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4-Item-17-Minimize-mutability.md)）。
+
 But what about ordinary concrete classes? Traditionally, they are neither final nor designed and documented for subclassing, but this state of affairs is dangerous. Each time a change is made in such a class, there is a chance that subclasses extending the class will break. This is not just a theoretical problem.It is not uncommon to receive subclassing-related bug reports after modifying the internals of a nonfinal concrete class that was not designed and documented for inheritance.
+
+但是普通的具体类呢？传统上，它们既不是最终的，也不是为子类化而设计和记录的，但这种状态是危险的。每当在这样的类中进行更改时，扩展类的子类就有可能中断。这不仅仅是一个理论问题。在修改未为继承而设计和记录的非最终具体类的内部结构后，接收与子类相关的bug报告并不罕见。
 
 The best solution to this problem is to prohibit subclassing in classes that are not designed and documented to be safely subclassed. There are two ways to prohibit subclassing. The easier of the two is to declare the class final. The alternative is to make all the constructors private or package-private and to add public static factories in place of the constructors. This alternative, which provides the flexibility to use subclasses internally, is discussed in Item 17. Either approach is acceptable.
 
+这个问题的最佳解决方案是禁止在没有设计和文档记录的类中进行子类化。有两种方法可以禁止子类化。两者中比较容易的是声明类final。另一种方法是将所有构造函数变为私有或包私有，并在构造函数的位置添加公共静态工厂。这个替代方案提供了内部使用子类的灵活性，在[Item-17](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4-Item-17-Minimize-mutability.md)中进行了讨论。两种方法都可以接受。
+
 This advice may be somewhat controversial because many programmers have grown accustomed to subclassing ordinary concrete classes to add facilities such as instrumentation, notification, and synchronization or to limit functionality. If a class implements some interface that captures its essence, such as Set, List, or Map, then you should feel no compunction about prohibiting subclassing. The wrapper class pattern, described in Item 18, provides a superior alternative to inheritance for augmenting the functionality.
+
+这个建议可能有点争议，因为许多程序员已经习惯了子类化普通的具体类，以添加工具、通知和同步等功能或限制功能。如果一个类实现了某个接口，该接口捕获了它的本质，例如Set、List或Map，那么您不应该对禁止子类化感到内疚。在[Item-18](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4-Item-18-Favor-composition-over-inheritance.md)中描述的包装器类模式提供了一种优于继承的方法来增强功能。
 
 If a concrete class does not implement a standard interface, then you may inconvenience some programmers by prohibiting inheritance. If you feel that you must allow inheritance from such a class, one reasonable approach is to ensure that the class never invokes any of its overridable methods and to document this fact. In other words, eliminate the class’s self-use of overridable
 methods entirely. In doing so, you’ll create a class that is reasonably safe to subclass. Overriding a method will never affect the behavior of any other method.
 
+如果一个具体的类没有实现一个标准的接口，那么您可能会因为禁止继承而给一些程序员带来不便。如果您认为必须允许继承此类类，那么一种合理的方法是确保该类永远不会调用其任何可重写的方法，并记录这一事实。换句话说，消除类的自用overridable
+
 You can eliminate a class’s self-use of overridable methods mechanically, without changing its behavior. Move the body of each overridable method to a private “helper method” and have each overridable method invoke its private helper method. Then replace each self-use of an overridable method with a direct invocation of the overridable method’s private helper method.
 
+您可以在不改变类行为的情况下，机械地消除类对可重写方法的自使用。将每个可覆盖方法的主体移动到一个私有的“助手方法”，并让每个可覆盖方法调用它的私有助手方法。然后，用可覆盖方法的私有助手方法的直接调用替换可覆盖方法的每个自使用。
+
 In summary, designing a class for inheritance is hard work. You must document all of its self-use patterns, and once you’ve documented them, you must commit to them for the life of the class. If you fail to do this, subclasses may become dependent on implementation details of the superclass and may break if the implementation of the superclass changes. To allow others to write efficient subclasses, you may also have to export one or more protected methods.Unless you know there is a real need for subclasses, you are probably better off prohibiting inheritance by declaring your class final or ensuring that there are no accessible constructors.
+
+总之，为继承设计一个类是一项艰苦的工作。您必须记录所有的自用模式，并且一旦您记录了它们，您就必须在整个类的生命周期中都遵守它们。如果没有这样做，子类可能会依赖于超类的实现细节，如果超类的实现发生变化，子类可能会崩溃。为了允许其他人编写高效的子类，您可能还需要导出一个或多个受保护的方法。除非您知道确实需要子类，否则最好通过声明类为final或确保没有可访问的构造函数的方式来禁止继承。
