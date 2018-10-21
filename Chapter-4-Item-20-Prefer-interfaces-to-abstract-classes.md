@@ -1,8 +1,10 @@
 ## Chapter 4. Classes and Interfaces（类和接口）
 
-### Item 20: Prefer interfaces to abstract classes
+### Item 20: Prefer interfaces to abstract classes（接口优于抽象类）
 
 Java has two mechanisms to define a type that permits multiple implementations: interfaces and abstract classes. Since the introduction of default methods for interfaces in Java 8 [JLS 9.4.3], both mechanisms allow you to provide implementations for some instance methods. A major difference is that to implement the type defined by an abstract class, a class must be a subclass of the abstract class. Because Java permits only single inheritance, this restriction on abstract classes severely constrains their use as type definitions.Any class that defines all the required methods and obeys the general contract is permitted to implement an interface, regardless of where the class resides in the class hierarchy.
+
+Java有两种机制来定义允许多种实现的类型：接口和抽象类。由于Java 8 [JLS 9.4.3]中引入了接口的默认方法，这两种机制都允许您为一些实例方法提供实现。一个主要区别是，要实现抽象类定义的类型，类必须是抽象类的子类。因为Java只允许单一继承，所以这种对抽象类的限制严重限制了它们作为类型定义的使用。任何定义了所有必需的方法并遵守通用约定的类都允许实现接口，而不管类驻留在类层次结构中何处。
 
 **Existing classes can easily be retrofitted to implement a new interface.** All you have to do is to add the required methods, if they don’t yet exist, and to add an implements clause to the class declaration. For example, many existing classes were retrofitted to implement the Comparable, Iterable, and Autocloseable interfaces when they were added to the platform. Existing classes cannot, in general, be retrofitted to extend a new abstract class. If you want to have two classes extend the same abstract class, you have to place it high up in the type hierarchy where it is an ancestor of both classes. Unfortunately,this can cause great collateral damage to the type hierarchy, forcing all descendants of the new abstract class to subclass it, whether or not it is appropriate.
 
