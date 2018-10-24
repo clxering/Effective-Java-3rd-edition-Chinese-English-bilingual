@@ -27,7 +27,7 @@ Effective Java（第3版）各章节的中英文对照
     - [Item 17: Minimize mutability（减少可变性）](Chapter-4-Item-17-Minimize-mutability.md)
     - [Item 18: Favor composition over inheritance（优先选择复合而不是继承）](Chapter-4-Item-18-Favor-composition-over-inheritance.md)
     - [Item 19: Design and document for inheritance or else prohibit it（继承要设计良好并且具有文档，否则禁止使用）](Chapter-4-Item-19-Design-and-document-for-inheritance-or-else-prohibit-it.md)
-    - [Item 20: Prefer interfaces to abstract classes](Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md)
+    - [Item 20: Prefer interfaces to abstract classes（接口优于抽象类）](Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md)
     - [Item 21: Design interfaces for posterity](Chapter-4-Item-21-Design-interfaces-for-posterity.md)
     - [Item 22: Use interfaces only to define types](Chapter-4-Item-22-Use-interfaces-only-to-define-types.md)
     - [Item 23: Prefer class hierarchies to tagged classes](Chapter-4-Item-23-Prefer-class-hierarchies-to-tagged-classes.md)
