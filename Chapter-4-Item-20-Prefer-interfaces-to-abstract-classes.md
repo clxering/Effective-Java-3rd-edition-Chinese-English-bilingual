@@ -104,39 +104,50 @@ Writing a skeletal implementation is a relatively simple, if somewhat tedious, p
 
 As a simple example, consider the Map.Entry interface. The obvious primitives are getKey, getValue, and (optionally) setValue. The interface specifies the behavior of equals and hashCode, and there is an obvious implementation of toString in terms of the primitives. Since you are not allowed to provide default implementations for the Object methods, all implementations are placed in the skeletal implementation class:
 
-作为一个简单的例子，考虑一下地图。输入接口。最明显的基元是getKey、getValue和(可选的)setValue。该接口指定了equals和hashCode的行为，并且在原语方面有toString的明显实现。由于不允许为对象方法提供默认实现，所有实现都放在骨架实现类中:
+作为一个简单的例子，考虑一下Map.Entry接口。最明显的基元是getKey、getValue和(可选的)setValue。该接口指定了equals和hashCode的行为，并且在基元方面有toString的明显实现。由于不允许为对象方法提供默认实现，所有实现都放在骨架实现类中：
 
 ```
 // Skeletal implementation class
-public abstract class AbstractMapEntry<K,V>
-implements Map.Entry<K,V> {
-// Entries in a modifiable map must override this method
-@Override public V setValue(V value) {
-throw new UnsupportedOperationException();
-} // Implements the general contract of Map.Entry.equals
-@Override public boolean equals(Object o) {
-if (o == this)
-return true;
-if (!(o instanceof Map.Entry))
-return false;
-Map.Entry<?,?> e = (Map.Entry) o;
-return Objects.equals(e.getKey(), getKey())
-&& Objects.equals(e.getValue(), getValue());
+public abstract class AbstractMapEntry<K,V> implements Map.Entry<K,V> {
+
+  // Entries in a modifiable map must override this method
+  @Override public V setValue(V value) {
+    throw new UnsupportedOperationException();
+  }
+
+  // Implements the general contract of Map.Entry.equals
+  @Override public boolean equals(Object o) {
+    if (o == this)
+        return true;
+    if (!(o instanceof Map.Entry))
+        return false;
+    Map.Entry<?,?> e = (Map.Entry) o;
+    return Objects.equals(e.getKey(), getKey()) && Objects.equals(e.getValue(), getValue());
+  }
+
+  // Implements the general contract of Map.Entry.hashCode
+  @Override public int hashCode() {
+    return Objects.hashCode(getKey())^ Objects.hashCode(getValue());
+  }
+
+  @Override public String toString() {
+    return getKey() + "=" + getValue();
+  }
 }
-// Implements the general contract of Map.Entry.hashCode
-@Override public int hashCode() {
-return Objects.hashCode(getKey())
-^ Objects.hashCode(getValue());
-}
-@Override public String toString() {
-return getKey() + "=" + getValue();
-}}
 ```
 
 Note that this skeletal implementation could not be implemented in the Map.Entry interface or as a subinterface because default methods are not permitted to override Object methods such as equals, hashCode, and toString.
 
+注意，这个框架实现不能在Map.Entry接口或子接口中实现，因为不允许默认方法覆盖诸如equals、hashCode和toString等对象方法。
+
 Because skeletal implementations are designed for inheritance, you should follow all of the design and documentation guidelines in Item 19. For brevity’s sake, the documentation comments were omitted from the previous example, but good documentation is absolutely essential in a skeletal implementation, whether it consists of default methods on an interface or a separate abstract class.
+
+因为骨架实现是为继承而设计的，所以您应该遵循项目19中的所有设计和文档指南。为了简洁起见，在前面的示例中省略了文档注释，但是优秀的文档对于框架实现来说是绝对必要的，不管它是由接口上的默认方法还是单独的抽象类组成。
 
 A minor variant on the skeletal implementation is the simple implementation, exemplified by AbstractMap.SimpleEntry. A simple implementation is like a skeletal implementation in that it implements an interface and is designed for inheritance, but it differs in that it isn’t abstract: it is the simplest possible working implementation. You can use it as it stands or subclass it as circumstances warrant.
 
-To summarize, an interface is generally the best way to define a type that permits multiple implementations. If you export a nontrivial interface, you should strongly consider providing a skeletal implementation to go with it. To the extent possible, you should provide the skeletal implementation via default methods on the interface so that all implementors of the interface can make use of it. That said, restrictions on interfaces typically mandate that a skeletal implementation take the form of an abstract class.
+骨架实现的一个小变体是简单实现，例如AbstractMap.SimpleEntry。一个简单的实现就像一个骨架实现，因为它实现了一个接口，并且是为继承而设计的，但是它的不同之处在于它不是抽象的:它是最简单的工作实现。您可以根据它的状态使用它，也可以根据情况对它进行子类化。
+
+To summarize, an interface is generally the best way to define a type that permits multiple implementations. If you export a nontrivial（adj. 非平凡的） interface, you should strongly consider providing a skeletal implementation to go with it. To the extent possible, you should provide the skeletal implementation via default methods on the interface so that all implementors of the interface can make use of it. That said, restrictions on interfaces typically mandate that a skeletal implementation take the form of an abstract class.
+
+总之，接口通常是定义允许多种实现的类型的最佳方法。如果导出了一个重要的接口，则应该强烈考虑提供一个骨架实现。尽可能地，您应该通过接口上的默认方法提供骨架实现，以便接口的所有实现者都可以使用它。也就是说，对接口的限制通常要求框架实现采用抽象类的形式。
