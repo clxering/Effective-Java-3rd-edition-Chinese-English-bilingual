@@ -31,7 +31,7 @@ Effective Java（第3版）各章节的中英文对照
     - [Item 21: Design interfaces for posterity（为后代设计接口）](Chapter-4-Item-21-Design-interfaces-for-posterity.md)
     - [Item 22: Use interfaces only to define types（接口只用于定义类型）](Chapter-4-Item-22-Use-interfaces-only-to-define-types.md)
     - [Item 23: Prefer class hierarchies to tagged classes（类层次结构优于带标签的类）](Chapter-4-Item-23-Prefer-class-hierarchies-to-tagged-classes.md)
-    - [Item 24: Favor static member classes over nonstatic](Chapter-4-Item-24-Favor-static-member-classes-over-nonstatic.md)
+    - [Item 24: Favor static member classes over nonstatic（支持使用静态成员类而不是非静态类）](Chapter-4-Item-24-Favor-static-member-classes-over-nonstatic.md)
     - [Item 25: Limit source files to a single top level class](Chapter-4-Item-25-Limit-source-files-to-a-single-top-level-class.md)
 - **Chapter 5. Generics（泛型）**
     - [Chapter 5 Introduction（章节介绍）](Chapter-5-Introduction.md)
