@@ -35,7 +35,7 @@ Effective Java（第3版）各章节的中英文对照
     - [Item 25: Limit source files to a single top level class（源文件仅限有单个顶层类）](Chapter-4-Item-25-Limit-source-files-to-a-single-top-level-class.md)
 - **Chapter 5. Generics（泛型）**
     - [Chapter 5 Introduction（章节介绍）](Chapter-5-Introduction.md)
-    - [Item 26: Do not use raw types](Chapter-5-Item-26-Do-not-use-raw-types.md)
+    - [Item 26: Do not use raw types（不要使用原始类型）](Chapter-5-Item-26-Do-not-use-raw-types.md)
     - [Item 27: Eliminate unchecked warnings](Chapter-5-Item-27-Eliminate-unchecked-warnings.md)
     - [Item 28: Prefer lists to arrays](Chapter-5-Item-28-Prefer-lists-to-arrays.md)
     - [Item 29: Favor generic types](Chapter-5-Item-29-Favor-generic-types.md)
