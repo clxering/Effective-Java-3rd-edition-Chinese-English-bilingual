@@ -74,32 +74,33 @@ The compiler inserts invisible casts for you when retrieving（v. [计] 检索�
 
 As noted earlier, it is legal to use raw types (generic types without their type parameters), but you should never do it. **If you use raw types, you lose all the safety and expressiveness benefits of generics.** Given that you shouldn’t use them, why did the language designers permit raw types in the first place? For compatibility. Java was about to enter its second decade when generics were added, and there was an enormous amount of code in existence that did not use generics. It was deemed critical that all of this code remain legal and interoperate with newer code that does use generics. It had to be legal to pass instances of parameterized types to methods that were designed for use with raw types, and vice versa. This requirement, known as migration compatibility, drove the decisions to support raw types and to implement generics using erasure (Item 28).
 
-如前所述，使用原始类型（没有类型参数的泛型类型）是合法的，但是你永远不应该这样做。**如果使用原始类型，就会失去泛型的安全性和表现力。** 既然您不应该使用它们，那么为什么语言设计者一开始就允许原始类型呢？（答案是）为了兼容性。Java即将进入第二个十年，泛型被添加进来，（同时）存在大量不使用泛型的代码。所有这些代码保持合法并与使用泛型的新代码（兼容）被认为是关键的。将参数化类型的实例传递给设计用于原始类型的方法必须是合法的，反之亦然。这种被称为迁移兼容性的需求促使（了）支持原始类型并使用擦除实现泛型（[Item-28](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-28-Prefer-lists-to-arrays.md)）。
-
-
-如上所述，如果不提供类型参数，使用集合类型和其他泛型也仍然是合法的，但是不应该这么做。如果使用原生态类型，就失掉了泛型在安全性和表述性方面的所有优势。既然不应该使用原生态类型，为什么Java的设计者还要允许使用它们呢?这是为了提供兼容性。因为泛型出现的时候，Java平台即将进入它的第二个10年，已经存在大量没有使用泛型的Java代码。人们认为让所有这些代码保持合法，并且能够与使用泛型的新代码互用，这一点很重要。它必须合法，才能将参数化类型的实例传递给那些被设计成使用普通类型的方法，反之亦然。这种需求被称作移植兼容性(Migration Compatibility),促成了支持原生态类型的决定。
-
+如前所述，使用原始类型（没有类型参数的泛型类型）是合法的，但是你永远不应该这样做。**如果使用原始类型，就会失去泛型的安全性和表现力。** 既然您不应该使用它们，那么为什么语言设计者一开始就允许原始类型呢？（答案是）为了兼容性。Java即将进入第二个十年，泛型被添加进来（时），（还）存在大量不使用泛型的代码。保持所有这些代码合法并与使用泛型的新代码（兼容）被认为是关键的。将参数化类型的实例传递给设计用于原始类型的方法必须是合法的，反之亦然。这种被称为迁移兼容性的需求促使（了）支持原始类型并使用擦除实现泛型（[Item-28](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-28-Prefer-lists-to-arrays.md)）。
 
 While you shouldn’t use raw types such as List, it is fine to use types that are parameterized to allow insertion of arbitrary objects, such as List<Object>. Just what is the difference between the raw type List and the parameterized type List<Object>? Loosely speaking, the former has opted out of the generic type system, while the latter has explicitly told the compiler that it is capable of holding objects of any type. While you can pass a List<String> to a parameter of type List, you can’t pass it to a parameter of type List<Object>. There are sub-typing rules for generics, and List<String> is a subtype of the raw type List, but not of the parameterized type List<Object> (Item 28). As a consequence, **you lose type safety if you use a raw type such as List, but not if you use a parameterized type such as List&lt;Object&gt;.**
 
-虽然您不应该使用原始类型(如List)，但是可以使用参数化的类型来允许插入任意对象(如List<object>)。原始类型列表和参数化类型列表<对象>之间的区别是什么?粗略地说，前者选择了不使用泛型类型系统，而后者明确地告诉编译器它能够保存任何类型的对象。虽然可以将列表<string>传递给类型列表的参数，但不能将其传递给类型列表<object>的参数。泛型有子类型规则，列表<string>是原始类型列表的子类型，而不是参数化类型列表<object>(项目28)。因此，如果使用原始类型(如List)，就会失去类型安全性，但如果使用参数化类型(如List<Object>.**)则不会
-</object></string></object></string></object>
+虽然您不应该使用原始类型（如List），但是可以使用参数化的类型来允许插入任意对象（如List<Object>）。原始类型列表和参数化类型List<Object>之间的区别是什么？粗略地说，前者选择了不使用泛型类型系统，而后者明确地告诉编译器它能够保存任何类型的对象。虽然可以将List<String>传递给类型列表的参数，但不能将其传递给类型List<Object>的参数。泛型有子类型规则，List<String>是原始类型列表的子类型，而不是参数化类型列表<object>（[Item-28](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-28-Prefer-lists-to-arrays.md)）。因此，**如果使用原始类型（如List），就会失去类型安全性，但如果使用参数化类型（如List&lt;Object&gt;）则不会。**
 
 To make this concrete, consider the following program:
 
+为了使这一点具体化，考虑下面的程序：
+
 ```
 // Fails at runtime - unsafeAdd method uses a raw type (List)!
+
 public static void main(String[] args) {
-List<String> strings = new ArrayList<>();
-unsafeAdd(strings, Integer.valueOf(42));
-String s = strings.get(0); // Has compiler-generated cast
+  List<String> strings = new ArrayList<>();
+  unsafeAdd(strings, Integer.valueOf(42));
+  String s = strings.get(0); // Has compiler-generated cast
 }
+
 private static void unsafeAdd(List list, Object o) {
-list.add(o);
+  list.add(o);
 }
 ```
 
 This program compiles, but because it uses the raw type List, you get a warning:
+
+该程序将编译，但因为它使用原始类型List，所以您会得到一个警告:
 
 ```
 Test.java:10: warning: [unchecked] unchecked call to add(E) as a
@@ -110,7 +111,11 @@ list.add(o);
 
 And indeed, if you run the program, you get a ClassCastException when the program tries to cast the result of the invocation strings.get(0), which is an Integer, to a String. This is a compiler-generated cast, so it’s normally guaranteed to succeed, but in this case we ignored a compiler warning and paid the price.
 
+实际上，如果您运行程序，当程序试图将调用strings.get(0)的结果转换为字符串时，您会得到一个ClassCastException。这是一个编译器生成的强制类型转换，因此它通常保证会成功，但在本例中，我们忽略了编译器的警告，并为此付出了代价。
+
 If you replace the raw type List with the parameterized type List<Object> in the unsafeAdd declaration and try to recompile the program, you’ll find that it no longer compiles but emits the error message:
+
+如果将unsafeAdd声明中的原始类型List替换为参数化类型List<Object>，并尝试重新编译程序，您会发现它不再编译，而是发出错误消息：
 
 ```
 Test.java:5: error: incompatible types: List<String> cannot be
@@ -121,18 +126,22 @@ unsafeAdd(strings, Integer.valueOf(42));
 
 You might be tempted to use a raw type for a collection whose element type is unknown and doesn’t matter. For example, suppose you want to write a method that takes two sets and returns the number of elements they have in common. Here’s how you might write such a method if you were new to generics:
 
+对于元素类型未知且无关紧要的集合，您可能会尝试使用原始类型。例如，假设您希望编写一个方法，该方法接受两个集合并返回它们共有的元素数量。如果您是（使用）泛型（的）新手，那么您可以这样编写一个方法:
+
 ```
 // Use of raw type for unknown element type - don't do this!
 static int numElementsInCommon(Set s1, Set s2) {
-int result = 0;
-for (Object o1 : s1)
-if (s2.contains(o1))
-result++;
-return result;
+  int result = 0;
+  for (Object o1 : s1)
+    if (s2.contains(o1))
+  result++;
+  return result;
 }
 ```
 
 This method works but it uses raw types, which are dangerous. The safe alternative is to use unbounded wildcard types. If you want to use a generic type but you don’t know or care what the actual type parameter is, you can use a question mark instead. For example, the unbounded wildcard type for the generic type Set<E> is Set<?> (read “set of some type”). It is the most general parameterized Set type, capable of holding any set. Here is how the numElementsInCommon declaration looks with unbounded wildcard types:
+
+这种方法是可行的，但是它使用的是原始类型，这是很危险的。安全的替代方法是使用无界通配符类型。如果您想使用泛型，但不知道或不关心实际的类型参数是什么，那么可以使用问号代替。例如，泛型类型集Set<E>的无界通配符类型是Set<?>(读作“set of some type”)。它是最通用的参数化集合类型，能够容纳任何集合：
 
 ```
 // Uses unbounded wildcard type - typesafe and flexible
@@ -140,6 +149,8 @@ static int numElementsInCommon(Set<?> s1, Set<?> s2) { ... }
 ```
 
 What is the difference between the unbounded wildcard type Set<?> and the raw type Set? Does the question mark really buy you anything? Not to belabor the point, but the wildcard type is safe and the raw type isn’t. You can put any element into a collection with a raw type, easily corrupting the collection’s type invariant (as demonstrated by the unsafeAdd method on page 119); you can’t put any element (other than null) into a Collection<?>. Attempting to do so will generate a compile-time error message like this:
+
+无界通配符类型Set<?>和原始类型Set之间的区别是什么？问号真的能（起作用吗）？我并不是在强调这一点，但是通配符类型是安全的，而原始类型则不是。可以将任何元素放入具有原始类型的集合中，很容易破坏集合的类型不变量（如上述的unsafeAdd方法所示）；您不能将任何元素（除了null）放入Collection<?>。尝试这样做将生成这样的编译时错误消息:
 
 ```
 WildCard.java:13: error: incompatible types: String cannot be
@@ -151,11 +162,17 @@ fresh type-variable:
 CAP#1 extends Object from capture of ?
 ```
 
-Admittedly this error message leaves something to be desired, but the compiler has done its job, preventing you from corrupting the collection’s type invariant, whatever its element type may be. Not only can’t you put any element (other than null) into a Collection<?>, but you can’t assume anything about the type of the objects that you get out. If these restrictions are unacceptable, you can use generic methods (Item 30) or bounded wildcard types (Item 31).
+Admittedly this error message leaves something to be desired, but the compiler has done its job, preventing you from corrupting（vt. 使腐烂；使堕落，使恶化） the collection’s type invariant（n. [数] 不变量；[计] 不变式）, whatever its element type may be. Not only can’t you put any element (other than null) into a Collection<?>, but you can’t assume anything about the type of the objects that you get out. If these restrictions are unacceptable, you can use generic methods (Item 30) or bounded wildcard types (Item 31).
+
+无可否认，这个错误消息让人不满意，但是编译器已经完成了它的工作，防止您破坏集合的类型（约束），不管它的元素类型是什么。您不仅不能将任何元素（除null之外）放入Collection<?>，（而且）不能假设你得到的对象的类型。如果这些限制是不可接受的，您可以使用泛型方法（[Item-30](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-30-Favor-generic-methods.md)）或有界通配符类型（[Item-31](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)）。
 
 There are a few minor exceptions to the rule that you should not use raw types. **You must use raw types in class literals.** The specification does not permit the use of parameterized types (though it does permit array types and primitive types) [JLS, 15.8.2]. In other words, List.class, String[].class, and int.class are all legal, but List<String>.class and List<?>.class are not.
 
+对于不应该使用原始类型的规则，有一些小的例外。**必须在类文字中使用原始类型。** 该规范不允许使用参数化类型（尽管它允许数组类型和基本类型）[JLS, 15.8.2]。换句话说，List.class，String[].class和int.class都是合法的，但是List<String>.class和List<?>.class不是。
+
 A second exception to the rule concerns the instanceof operator. Because generic type information is erased at runtime, it is illegal to use the instanceof operator on parameterized types other than unbounded wildcard types. The use of unbounded wildcard types in place of raw types does not affect the behavior of the instanceof operator in any way. In this case, the angle brackets and question marks are just noise. **This is the preferred way to use the instanceof operator with generic types:**
+
+规则的第二个例外是instanceof运算符。由于泛型类型信息在运行时被删除，因此在非无界通配符类型之外的参数化类型上使用instanceof操作符是非法的。使用无界通配符类型代替原始类型不会以任何方式影响instanceof运算符的行为。在这种情况下，尖括号和问号只是（多余的）。**（下面的例子）是使用通用类型instanceof运算符的首选方法:**
 
 ```
 // Legitimate use of raw type - instanceof operator
@@ -167,20 +184,26 @@ Set<?> s = (Set<?>) o; // Wildcard type
 
 Note that once you’ve determined that o is a Set, you must cast it to the wildcard type Set<?>, not the raw type Set. This is a checked cast, so it will not cause a compiler warning.
 
-In summary, using raw types can lead to exceptions at runtime, so don’t use them. They are provided only for compatibility and interoperability with legacy code that predates the introduction of generics. As a quick review, Set<Object> is a parameterized type representing a set that can contain objects of any type, Set<?> is a wildcard type representing a set that can contain only objects of some unknown type, and Set is a raw type, which opts out of the generic type system. The first two are safe, and the last is not.
+注意，一旦确定o是一个Set，就必须将其转换为通配符类型Set<?>，而不是原始类型Set。这是一个（经过检查的）强制类型转换，所以不会引起编译器警告。
+
+In summary, using raw types can lead to exceptions at runtime, so don’t use them. They are provided only for compatibility and interoperability with legacy code that predates the introduction of generics. As a quick review, Set<Object> is a parameterized type representing a set that can contain objects of any type, Set<?> is a wildcard（n. 通配符） type representing（v. 代表；表示，表现） a set that can contain only objects of some unknown type, and Set is a raw type, which opts out of the generic type system. The first two are safe, and the last is not.
+
+总之，使用原始类型可能会在运行时导致异常，所以不要（轻易）使用它们。它们仅用于与引入泛型之前的遗留代码进行兼容和互操作。快速回顾一下，Set<Object>是一个参数化类型，表示可以包含任何类型的对象的集合，Set<?>是一个通配符类型，表示只能包含某种未知类型的对象的集合，Set是一个原始类型，它选择了泛型类型系统。前两个是安全的，后一个就不安全了。
 
 For quick reference, the terms introduced in this item (and a few introduced later in this chapter) are summarized in the following table:
 
+为了（便于）参考，本条目中介绍的术语（以及后面将要介绍的一些术语）总结如下表:
+
 |    Term    |       Example       |      Item     |
 |:-------:|:-------:|:-------:|
-|   Parameterized type  |     List<String>    |   Item 26   |
-|   Actual type parameter  |     String    |   Item 26   |
-|   Generic type  |     List<E>    |   Item 26, Item 29   |
-|   Formal type parameter  |     E    |   Item 26   |
-|   Unbounded wildcard type  |     List<?>    |   Item 26   |
-|   Raw type  |     List    |   Item 26   |
-|   Bounded type parameter  |     &lt;E extends Number&gt;    |   Item 29   |
-|   Recursive type bound  |     <T extends Comparable<T>>    |   Item 30   |
-|   Bounded wildcard type  |     List<? extends Number>    |   Item 31   |
-|   Generic method  |     static <E> List<E> asList(E[] a)    |   Item 30   |
-|   Type token  |     String.class    |   Item 33   |
+|   Parameterized type  |     List<String>    |   [Item-26](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-26-Do-not-use-raw-types.md)   |
+|   Actual type parameter  |     String    |   [Item-26](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-26-Do-not-use-raw-types.md)   |
+|   Generic type  |     List<E>    |   [Item-26](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-26-Do-not-use-raw-types.md), [Item-29](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-29-Favor-generic-types.md)   |
+|   Formal type parameter  |     E    |   [Item-26](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-26-Do-not-use-raw-types.md)   |
+|   Unbounded wildcard type  |     List<?>    |   [Item-26](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-26-Do-not-use-raw-types.md)   |
+|   Raw type  |     List    |   [Item-26](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-26-Do-not-use-raw-types.md)   |
+|   Bounded type parameter  |     &lt;E extends Number&gt;    |   [Item-29](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-29-Favor-generic-types.md)   |
+|   Recursive type bound  |     <T extends Comparable<T>>    |   [Item-30](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-30-Favor-generic-methods.md)   |
+|   Bounded wildcard type  |     List<? extends Number>    |   [Item-31](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)   |
+|   Generic method  |     static <E> List<E> asList(E[] a)    |   [Item-30](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-30-Favor-generic-methods.md)   |
+|   Type token  |     String.class    |   [Item-33](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-33-Consider-typesafe-heterogeneous-containers.md)   |
