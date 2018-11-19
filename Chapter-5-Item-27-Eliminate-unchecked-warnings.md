@@ -39,11 +39,11 @@ Some warnings will be much more difficult to eliminate. This chapter is filled w
 
 **If you can’t eliminate a warning, but you can prove that the code that provoked the warning is typesafe, then (and only then) suppress the warning with an @SuppressWarnings("unchecked") annotation.** If you suppress warnings without first proving that the code is typesafe, you are giving yourself a false sense of security. The code may compile without emitting any warnings, but it can still throw a ClassCastException at runtime. If, however, you ignore unchecked warnings that you know to be safe (instead of suppressing them), you won’t notice when a new warning crops up that represents a real problem. The new warning will get lost amidst all the false alarms that you didn’t silence.
 
-如果不能消除警告，但是可以证明引发警告的代码是类型安全的，那么（并且只有在那时）使用SuppressWarnings("unchecked")注解来抑制警告。如果你在没有首先证明代码是类型安全的情况下禁止警告，那么你是在给自己一种错误的安全感。代码可以在不发出任何警告的情况下编译，但它仍然可以在运行时抛出ClassCastException。但是，如果你忽略了你知道是安全的unchecked警告（而不是禁止它们），那么当出现一个代表真正问题的新警告时，你将不会注意到。新出现的警告就会淹设在所有的错误警告当中。
+**如果不能消除警告，但是可以证明引发警告的代码是类型安全的，那么（并且只有在那时）使用SuppressWarnings("unchecked")注解来抑制警告。** 如果你在没有首先证明代码是类型安全的情况下禁止警告，那么你是在给自己一种错误的安全感。代码可以在不发出任何警告的情况下编译，但它仍然可以在运行时抛出ClassCastException。但是，如果你忽略了你知道是安全的unchecked警告（而不是禁止它们），那么当出现一个代表真正问题的新警告时，你将不会注意到。新出现的警告就会淹设在所有的错误警告当中。
 
 The SuppressWarnings annotation can be used on any declaration, from an individual local variable declaration to an entire class. **Always use the SuppressWarnings annotation on the smallest scope possible.** Typically this will be a variable declaration or a very short method or constructor. Never use SuppressWarnings on an entire class. Doing so could mask critical warnings.
 
-SuppressWarnings注解可以用于任何声明（中），从单个局部变量声明到整个类。总是在尽可能小的范围上使用SuppressWarnings注解。通常（用在）一个变量声明或一个非常短的方法或构造函数。不要在整个类中使用SuppressWarnings。这样做可能会掩盖关键警告。
+SuppressWarnings注解可以用于任何声明（中），从单个局部变量声明到整个类。**总是在尽可能小的范围上使用SuppressWarnings注解。** 通常（用在）一个变量声明或一个非常短的方法或构造函数。不要在整个类中使用SuppressWarnings。这样做可能会掩盖关键警告。
 
 If you find yourself using the SuppressWarnings annotation on a method or constructor that’s more than one line long, you may be able to move it onto a local variable declaration. You may have to declare a new local variable, but it’s worth it. For example, consider this toArray method, which comes from ArrayList:
 
