@@ -1,16 +1,22 @@
 ## Chapter 5. Generics（泛型）
 
-### Item 27: Eliminate unchecked warnings
+### Item 27: Eliminate unchecked warnings（消除unchecked警告）
 
 When you program with generics, you will see many compiler warnings: unchecked cast warnings, unchecked method invocation warnings, unchecked parameterized vararg type warnings, and unchecked conversion warnings. The more experience you acquire with generics, the fewer warnings you’ll get, but don’t expect newly written code to compile cleanly.
 
+当你使用泛型编程时，你将看到许多编译器警告：unchecked强制转换警告、unchecked方法调用警告、unchecked可变参数类型警告和unchecked转换警告。使用泛型获得的经验越多，得到的警告就越少，但是不要期望新编写的代码能够（完全正确）地编译。
+
 Many unchecked warnings are easy to eliminate. For example, suppose you accidentally write this declaration:
+
+许多unchecked警告很容易消除。例如，假设你不小心写了这个声明：
 
 ```
 Set<Lark> exaltation = new HashSet();
 ```
 
 The compiler will gently remind you what you did wrong:
+
+编译器会（精确）地提醒你做错了什么：
 
 ```
 Venery.java:4: warning: [unchecked] unchecked conversion
@@ -19,7 +25,9 @@ Set<Lark> exaltation = new HashSet();
 found: HashSet
 ```
 
-You can then make the indicated correction, causing the warning to disappear. Note that you don’t actually have to specify the type parameter, merely to indicate that it’s present with the diamond operator (<>), introduced in Java 7. The compiler will then infer the correct actual type parameter (in this case, Lark):
+You can then make the indicated（v. 表明；指出；显示；adj. 表明的；指示的） correction, causing the warning to disappear. Note that you don’t actually have to specify the type parameter, merely（adv. 仅仅，只不过；只是） to indicate（vt. 表明；指出；预示；象征） that it’s present with the diamond operator (<>), introduced in Java 7. The compiler will then infer the correct actual type parameter (in this case, Lark):
+
+你可以进行指定（位置）的更正，（使）警告消失。注意，你实际上不必指定类型参数，只需给出由Java 7中引入的diamond操作符(<>)。然后编译器将推断出正确的实际类型参数（在本例中为Lark）：
 
 ```
 Set<Lark> exaltation = new HashSet<>();
@@ -27,7 +35,11 @@ Set<Lark> exaltation = new HashSet<>();
 
 Some warnings will be much more difficult to eliminate. This chapter is filled with examples of such warnings. When you get warnings that require some thought, persevere! **Eliminate every unchecked warning that you can.** If you eliminate all warnings, you are assured that your code is typesafe, which is a very good thing. It means that you won’t get a ClassCastException at runtime, and it increases your confidence that your program will behave as you intended.
 
+一些警告将更难消除。这一章充满这类警告的例子。当你收到需要（认真）思考的警告时，坚持下去！**（力求）消除所有unchecked警告。** 如果你消除了所有警告，你就可以确信你的代码是类型安全的，这是一件非常好的事情。这意味着你在运行时不会得到ClassCastException，它增加了你的信心，你的程序将按照预期的方式运行。
+
 **If you can’t eliminate a warning, but you can prove that the code that provoked the warning is typesafe, then (and only then) suppress the warning with an @SuppressWarnings("unchecked") annotation.** If you suppress warnings without first proving that the code is typesafe, you are giving yourself a false sense of security. The code may compile without emitting any warnings, but it can still throw a ClassCastException at runtime. If, however, you ignore unchecked warnings that you know to be safe (instead of suppressing them), you won’t notice when a new warning crops up that represents a real problem. The new warning will get lost amidst all the false alarms that you didn’t silence.
+
+如果不能消除警告，但是可以证明引发警告的代码是类型安全的，那么（并且只有在那时）使用@SuppressWarnings(“unchecked”)注解来抑制警告。如果你在没有首先证明代码是类型安全的情况下禁止警告，那么你是在给自己一种错误的安全感。代码可以在不发出任何警告的情况下编译，但它仍然可以在运行时抛出ClassCastException。但是，如果你忽略了你知道是安全的unchecked警告（而不是禁止它们），那么当出现一个代表真正问题的新警告时，你将不会注意到。新出现的警告就会淹设在所有的错误警告当中。
 
 The SuppressWarnings annotation can be used on any declaration, from an individual local variable declaration to an entire class. **Always use the SuppressWarnings annotation on the smallest scope possible.** Typically this will be a variable declaration or a very short method or constructor. Never use SuppressWarnings on an entire class. Doing so could mask critical warnings.
 
