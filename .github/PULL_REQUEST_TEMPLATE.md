@@ -9,6 +9,7 @@ closes #
 
 **What kind of change does this PR introduce?（该PR带来了什么样的改变，至少选择一个）** (check at least one)
 
+- [ ] Initializing translation（新增原始译文）
 - [ ] Bugfix（错误修复）
 - [ ] Improvement（改进翻译质量）
 - [ ] Other, please describe（其他）:
@@ -16,7 +17,7 @@ closes #
 If changing the content, please provide original text and the **before/after** text comparison（如果需要修改内容，请提供原文以及翻译前后的内容对比）:
 
 - original（原文）：functional interfaces
-- before（原译文）：功能接口
+- before（原始译文）：功能接口
 - after（更新的译文）：函数式接口
 
 **The PR fulfills these requirements（PR应该符合的要求）:**
