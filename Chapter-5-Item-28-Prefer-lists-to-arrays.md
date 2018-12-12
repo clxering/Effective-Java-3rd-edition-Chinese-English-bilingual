@@ -4,7 +4,7 @@
 
 Arrays differ from generic types in two important ways. First, arrays are covariant. This scary-sounding word means simply that if Sub is a subtype of Super, then the array type Sub[] is a subtype of the array type Super[]. Generics, by contrast, are invariant: for any two distinct types Type1 and Type2, List<Type1> is neither a subtype nor a supertype of List<Type2> [JLS, 4.10; Naftalin07, 2.5]. You might think this means that generics are deficient, but arguably（可能，大概） it is arrays that are deficient. This code fragment is legal:
 
-数组与泛型类型有两个重要区别。首先，数组是协变的。这个听起来很吓人的单词的意思很简单，如果 Sub 是 Super 的一个子类型，那么数组类型 Sub[] 就是数组类型 Super[] 的一个子类型。相比之下，泛型是不变的：对于任何两个不同类型 Type1 和 Type2，List<type1> 既不是 List<type2> 的子类型，也不是 List<type2> 的超类型 [JLS, 4.10; Naftalin07, 2.5]。您可能认为这意味着泛型是有缺陷的，但（实际上）可以说是数组有缺陷。这段代码是合法的：
+数组与泛型类型有两个重要区别。首先，数组是协变的。这个听起来很吓人的单词的意思很简单，如果 Sub 是 Super 的一个子类型，那么数组类型 Sub[] 就是数组类型 Super[] 的一个子类型。相比之下，泛型是不变的：对于任何两个不同类型 Type1 和 Type2，List<type1> 既不是 List<type2> 的子类型，也不是 List<type2> 的超类型 [JLS, 4.10; Naftalin07, 2.5]。你可能认为这意味着泛型是有缺陷的，但（实际上）可以说是数组有缺陷。这段代码是合法的：
 
 ```
 // Fails at runtime!
@@ -28,7 +28,7 @@ Either way you can’t put a String into a Long container, but with an array you
 
 The second major difference between arrays and generics is that arrays are reified（adj. 具体化的） [JLS, 4.7]. This means that arrays know and enforce their element type at runtime. As noted earlier, if you try to put a String into an array of Long, you’ll get an ArrayStoreException. Generics, by contrast, are implemented by erasure [JLS, 4.6]. This means that they enforce their type constraints only at compile time and discard (or erase) their element type information at runtime. Erasure is what allowed generic types to interoperate freely with legacy code that didn’t use generics (Item 26), ensuring a smooth transition to generics in Java 5.
 
-数组和泛型之间的第二个主要区别是数组是具体化的[JLS, 4.7]。这意味着数组在运行时知道并执行它们的元素类型。如前所述，如果试图将 String 放入一个Long数组中，就会得到ArrayStoreException。相比之下，泛型是通过擦除来实现的[JLS, 4.6]。这意味着它们只在编译时执行类型约束，并在运行时丢弃(或擦除)元素类型信息。擦除是允许泛型类型与不使用泛型的遗留代码自由交互操作的内容(项目26)，确保在Java 5中平稳地过渡到泛型。
+数组和泛型之间的第二个主要区别是数组是具体化的[JLS, 4.7]。这意味着数组在运行时知道并执行它们的元素类型。如前所述，如果试图将 String 元素放入一个 Long 类型的数组中，就会得到 ArrayStoreException 异常。相比之下，泛型是通过擦除来实现的[JLS, 4.6]。这意味着它们只在编译时执行类型约束，并在运行时丢弃(或擦除)元素类型信息。擦除是允许泛型类型与不使用泛型的遗留代码自由交互操作的内容(项目26)，确保在 Java 5 中平稳地过渡到泛型。
 
 Because of these fundamental differences, arrays and generics do not mix well. For example, it is illegal to create an array of a generic type, a parameterized type, or a type parameter. Therefore, none of these array creation expressions are legal: new List<E>[], new List<String>[], new E[]. All will result in generic array creation errors at compile time.
 
@@ -53,13 +53,23 @@ String s = stringLists[0].get(0); // (5)
 
 Let’s pretend that line 1, which creates a generic array, is legal. Line 2 creates and initializes a List<Integer> containing a single element. Line 3 stores the List<String> array into an Object array variable, which is legal because arrays are covariant. Line 4 stores the List<Integer> into the sole element of the Object array, which succeeds because generics are implemented by erasure: the runtime type of a List<Integer> instance is simply List, and the runtime type of a List<String>[] instance is List[], so this assignment doesn’t generate an ArrayStoreException. Now we’re in trouble. We’ve stored a List<Integer> instance into an array that is declared to hold only List<String> instances. In line 5, we retrieve the sole element from the sole list in this array. The compiler automatically casts the retrieved element to String, but it’s an Integer, so we get a ClassCastException at runtime. In order to prevent this from happening, line 1 (which creates a generic array) must generate a compile-time error.
 
+假设创建泛型数组的第 1 行是合法的。第 2 行创建并初始化一个包含单个元素的 List<Integer>。第 3 行将 List<String> 数组存储到 Object 类型的数组变量中，这是合法的，因为数组是协变的。第 4 行将 List<Integer> 存储到 Object 类型的数组的唯一元素中，这是成功的，因为泛型是由擦除实现的：List<Integer> 实例的运行时类型是 List，List<String>[] 实例的运行时类型是 List[]，因此这个赋值不会生成 ArrayStoreException。现在我们有麻烦了。我们将一个 List<Integer> 实例存储到一个数组中，该数组声明只保存 List<String> 实例。在第5行，我们从这个数组的唯一列表中检索唯一元素。编译器自动将检索到的元素转换为字符串，但它是一个整数，因此我们在运行时得到一个 ClassCastException。为了防止这种情况发生，第1行（创建泛型数组）必须生成编译时错误。
+
 Types such as E, List<E>, and List<String> are technically known as nonreifiable types [JLS, 4.7]. Intuitively speaking, a non-reifiable type is one whose runtime representation contains less information than its compile-time representation. Because of erasure, the only parameterized types that are reifiable are unbounded wildcard types such as List<?> and Map<?,?> (Item 26). It is legal, though rarely useful, to create arrays of unbounded wildcard types.
+
+E、List<E> 和 List<string> 等类型在技术上称为不可具体化类型 [JLS, 4.7]。直观地说，非具体化类型的运行时表示包含的信息少于其编译时表示。由于擦除，唯一可具体化的参数化类型是无限制通配符类型，如 List<?> 和 Map<?,?>(26项)。创建无边界通配符类型数组是合法的，但很少有用。
 
 The prohibition on generic array creation can be annoying. It means, for example, that it’s not generally possible for a generic collection to return an array of its element type (but see Item 33 for a partial solution). It also means that you get confusing warnings when using varargs methods (Item 53) in combination with generic types. This is because every time you invoke a varargs method, an array is created to hold the varargs parameters. If the element type of this array is not reifiable, you get a warning. The SafeVarargs annotation can be used to address this issue (Item 32).
 
+禁止创建泛型数组可能很烦人。例如，这意味着泛型集合通常不可能返回其元素类型的数组（但是部分解决方案请参见项目33）。这也意味着在使用 varargs 方法(项目53)与泛型类型组合时，你会得到令人混淆的警告。这是因为每次调用 varargs 方法时，都会创建一个数组来保存 varargs 参数。如果该数组的元素类型不可具体化，则会得到警告。SafeVarargs注解可以用来解决这个问题(项目32)。
+
 When you get a generic array creation error or an unchecked cast warning on a cast to an array type, the best solution is often to use the collection type List<E> in preference to the array type E[]. You might sacrifice some conciseness or performance, but in exchange you get better type safety and interoperability.
 
+当你在转换为数组类型时遇到泛型数组创建错误或未检查的转换警告时，最好的解决方案通常是使用集合类型 List<E>，而不是数组类型 E[]。你可能会牺牲一些简洁性或性能，但作为交换，你可以获得更好的类型安全性和互操作性。
+
 For example, suppose you want to write a Chooser class with a constructor that takes a collection, and a single method that returns an element of the collection chosen at random. Depending on what collection you pass to the constructor, you could use a chooser as a game die, a magic 8-ball, or a data source for a Monte Carlo simulation. Here’s a simplistic implementation without generics:
+
+例如，假设你希望编写一个Chooser类，该类的构造函数接受一个集合，而单个方法返回随机选择的集合元素。根据传递给构造函数的集合，可以将选择器用作游戏骰子、魔术 8 球或蒙特卡洛模拟的数据源。下面是一个没有泛型的简单实现：
 
 ```
 // Chooser - a class badly in need of generics!
@@ -78,6 +88,8 @@ return choiceArray[rnd.nextInt(choiceArray.length)];
 
 To use this class, you have to cast the choose method’s return value from Object to the desired type every time you use invoke the method, and the cast will fail at runtime if you get the type wrong. Taking the advice of Item 29 to heart, we attempt to modify Chooser to make it generic. Changes are shown in boldface:
 
+要使用这个类，每次使用方法调用时，必须将 choose 方法的返回值从对象转换为所需的类型，如果类型错误，转换将在运行时失败。我们认真考虑了项目29的建议，试图对 Chooser 进行修改，使其具有通用性。变化以粗体显示:
+
 ```
 // A first cut at making Chooser generic - won't compile
 public class Chooser<T> {
@@ -91,6 +103,8 @@ choiceArray = choices.toArray();
 
 If you try to compile this class, you’ll get this error message:
 
+如果你尝试编译这个类，你将得到这样的错误消息：
+
 ```
 Chooser.java:9: error: incompatible types: Object[] cannot be converted to T[]
 choiceArray = choices.toArray();
@@ -100,11 +114,15 @@ T extends Object declared in class Chooser
 
 No big deal, you say, I’ll cast the Object array to a T array:
 
+没什么大不了的，你会说，我把对象数组转换成 T 数组：
+
 ```
 choiceArray = (T[]) choices.toArray();
 ```
 
 This gets rid of the error, but instead you get a warning:
+
+这样就消除了错误，但你得到一个警告：
 
 ```
 Chooser.java:9: warning: [unchecked] unchecked cast choiceArray = (T[]) choices.toArray();
@@ -115,7 +133,11 @@ T extends Object declared in class Chooser
 
 The compiler is telling you that it can’t vouch for the safety of the cast at runtime because the program won’t know what type T represents—remember, element type information is erased from generics at runtime. Will the program work? Yes, but the compiler can’t prove it. You could prove it to yourself, put the proof in a comment and suppress the warning with an annotation, but you’re better off eliminating the cause of warning (Item 27).
 
+编译器告诉你，它不能保证在运行时转换的安全性，因为程序不知道类型 T 代表什么。记住，元素类型信息在运行时从泛型中删除。这个计划会奏效吗？是的，但是编译器不能证明它。你可以向自己证明这一点，将证据放在注释中，并使用注释隐藏警告，但是你最好消除警告的原因(项目27)。
+
 To eliminate the unchecked cast warning, use a list instead of an array. Here is a version of the Chooser class that compiles without error or warning:
+
+若要消除未选中的转换警告，请使用列表而不是数组。下面是编译时没有错误或警告的 Chooser 类的一个版本:
 
 ```
 // List-based Chooser - typesafe
@@ -135,4 +157,8 @@ public class Chooser<T> {
 
 This version is a tad more verbose, and perhaps a tad slower, but it’s worth it for the peace of mind that you won’t get a ClassCastException at runtime.
 
+这个版本稍微有点冗长，可能稍微慢一些，但是为了让你安心，在运行时不会得到 ClassCastException 是值得的。
+
 In summary, arrays and generics have very different type rules. Arrays are covariant and reified; generics are invariant and erased. As a consequence, arrays provide runtime type safety but not compile-time type safety, and vice versa for generics. As a rule, arrays and generics don’t mix well. If you find yourself mixing them and getting compile-time errors or warnings, your first impulse should be to replace the arrays with lists.
+
+总之，数组和泛型有非常不同的类型规则。数组是协变的、具体化的；泛型是不变的和被擦除的。因此，数组提供了运行时类型安全，而不是编译时类型安全，反之亦然。一般来说，数组和泛型不能很好地混合。如果你发现将它们混合在一起并得到编译时错误或警告，那么你的第一个冲动应该是将数组替换为列表。
