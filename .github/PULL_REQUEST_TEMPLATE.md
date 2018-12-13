@@ -5,7 +5,7 @@
 
 **The associated issue number（对应的issue编号）:**
 
-closes #
+fix #
 
 **What kind of change does this PR introduce?（该PR带来了什么样的改变，至少选择一个）** (check at least one)
 
