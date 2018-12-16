@@ -20,4 +20,4 @@ I’m really excited that you are interested in contributing to this project. Be
   - Provide convincing reason to add this improvement. Ideally you should open a suggestion issue first and have it greenlighted before working on it.
 
 - If fixing a bug:
-  - If you are resolving a issue, add `(fix #xxxx[,#xxx])` (#xxxx is the issue id) in your PR title for a better release log, e.g. `update Item 19 (fix #1899)`.
+  - If you are resolving a issue, add `(closes #xxxx[,#xxx])` (#xxxx is the issue id) in your PR title for a better release log, e.g. `update Item 19 (closes #1899)`.
