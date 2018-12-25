@@ -1,21 +1,29 @@
 ## Chapter 5. Generics（泛型）
 
-### Item 31: Use bounded wildcards to increase API flexibility
+### Item 31: Use bounded wildcards to increase API flexibility（使用有界通配符增加API的灵活性）
 
-As noted in Item 28, parameterized types are invariant. In other words, for any two distinct types Type1 and Type2, List<Type1> is neither a subtype nor a supertype of List<Type2>. Although it is counterintuitive that List<String> is not a subtype of List<Object>, it really does make sense. You can put any object into a List<Object>, but you can put only strings into a List<String>. Since a List<String> can’t do everything a List<Object> can, it isn’t a subtype (by the Liskov substitution principal, Item 10).
+As noted in Item 28, parameterized types are invariant. In other words, for any two distinct types `Type1` and `Type2`, `List<Type1>` is neither a subtype nor a supertype of `List<Type2>`. Although it is counterintuitive that `List<String>` is not a subtype of `List<Object>`, it really does make sense. You can put any object into a `List<Object>`, but you can put only strings into a `List<String>`. Since a `List<String>` can’t do everything a `List<Object>` can, it isn’t a subtype (by the Liskov substitution principal, Item 10).
+
+如（[Item-28](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-28-Prefer-lists-to-arrays.md)）所示，参数化类型是不变的。换句话说，对于任意两种不同类型 `Type1` 和 `Type2`，`List<Type1>` 既不是 `List<Type2>` 的子类型，也不是它的父类。虽然 `List<String>` 不是 `List<Object>` 的子类型，这和习惯的直觉不符，但它确实有意义。你可以将任何对象放入 `List<Object>`，但只能将字符串放入 `List<String>`。因为 `List<String>` 不能做 `List<Object>` 能做的所有事情，所以它不是子类型（可通过 Liskov 替换原则来理解这一点，[Item-10](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)）。
+
+***译注：里氏替换原则（Liskov Substitution Principle，LSP）面向对象设计的基本原则之一。里氏替换原则指出：任何基类可以出现的地方，子类一定可以出现。LSP是继承复用的基石，只有当衍生类可以替换掉基类，软件单位的功能不受到影响时，基类才能真正被复用，而衍生类也能够在基类的基础上增加新的行为。***
 
 Sometimes you need more flexibility than invariant typing can provide. Consider the Stack class from Item 29. To refresh your memory, here is its public API:
 
+有时你需要获得比不变类型更多的灵活性。考虑[Item-29](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-29-Favor-generic-types.md)中的堆栈类。以下是它的公共API：
+
 ```
 public class Stack<E> {
-public Stack();
-public void push(E e);
-public E pop();
-public boolean isEmpty();
+    public Stack();
+    public void push(E e);
+    public E pop();
+    public boolean isEmpty();
 }
 ```
 
 Suppose we want to add a method that takes a sequence of elements and pushes them all onto the stack. Here’s a first attempt:
+
+假设我们想添加一个方法，该方法接受一系列元素并将它们全部推入堆栈。这是第一次尝试：
 
 ```
 // pushAll method without wildcard type - deficient!
@@ -25,7 +33,9 @@ public void pushAll(Iterable<E> src) {
 }
 ```
 
-This method compiles cleanly, but it isn’t entirely satisfactory. If the element type of the Iterable src exactly matches that of the stack, it works fine. But suppose you have a Stack<Number> and you invoke push(intVal), where intVal is of type Integer. This works because Integer is a subtype of Number. So logically, it seems that this should work, too:
+This method compiles cleanly, but it isn’t entirely satisfactory. If the element type of the `Iterable src` exactly matches that of the stack, it works fine. But suppose you have a `Stack<Number>` and you invoke `push(intVal)`, where `intVal` is of type `Integer`. This works because `Integer` is a subtype of `Number`. So logically, it seems that this should work, too:
+
+该方法编译正确，但并不完全令人满意。如果 `Iterable src` 的元素类型与堆栈的元素类型完全匹配，那么它工作正常。但是假设你有一个 `Stack<Number>`，并且调用 `push(intVal)`，其中 `intVal` 的类型是 `Integer`。这是可行的，因为 `Integer` 是 `Number` 的子类型。因此，从逻辑上讲，这似乎也应该奏效：
 
 ```
 Stack<Number> numberStack = new Stack<>();
@@ -84,7 +94,7 @@ With this change, both Stack and the client code compile cleanly.
 
 The lesson is clear. **For maximum flexibility, use wildcard types on input parameters that represent producers or consumers.** If an input parameter is both a producer and a consumer, then wildcard types will do you no good: you need an exact type match, which is what you get without any wildcards. Here is a mnemonic to help you remember which wildcard type to use:
 
-**PECS stands for producer-extends, consumer-super.** 
+**PECS stands for producer-extends, consumer-super.**
 
 In other words, if a parameterized type represents a T producer, use <? extends T>; if it represents a T consumer, use <? super T>. In our Stack example, pushAll’s src parameter produces E instances for use by the Stack, so the appropriate type for src is Iterable<? extends E>; popAll’s dst parameter consumes E instances from the Stack, so the appropriate type for dst is Collection<? super E>. The PECS mnemonic captures the fundamental principle that guides the use of wild-card types. Naftalin and Wadler call it the Get and Put Principle [Naftalin07, 2.4].
 

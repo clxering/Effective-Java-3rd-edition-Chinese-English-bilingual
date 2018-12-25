@@ -9,7 +9,7 @@ closes #
 
 **What kind of change does this PR introduce?（该PR带来了什么样的改变，至少选择一个）** (check at least one)
 
-- [ ] Initializing translation（新增原始译文）
+- [ ] Add initial translation（新增原始译文）
 - [ ] Bugfix（错误修复）
 - [ ] Improvement（改进翻译质量）
 - [ ] Other, please describe（其他）:

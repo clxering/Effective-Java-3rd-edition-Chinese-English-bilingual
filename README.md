@@ -39,8 +39,8 @@ Effective Java（第3版）各章节的中英文对照
     - [Item 27: Eliminate unchecked warnings（消除unchecked警告）](Chapter-5-Item-27-Eliminate-unchecked-warnings.md)
     - [Item 28: Prefer lists to arrays（列表优于数组）](Chapter-5-Item-28-Prefer-lists-to-arrays.md)
     - [Item 29: Favor generic types（优先使用泛型）](Chapter-5-Item-29-Favor-generic-types.md)
-    - [Item 30: Favor generic methods](Chapter-5-Item-30-Favor-generic-methods.md)
-    - [Item 31: Use bounded wildcards to increase API flexibility](Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)
+    - [Item 30: Favor generic methods（优先使用泛型方法）](Chapter-5-Item-30-Favor-generic-methods.md)
+    - [Item 31: Use bounded wildcards to increase API flexibility（使用有界通配符增加API的灵活性）](Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)
     - [Item 32: Combine generics and varargs judiciously](Chapter-5-Item-32-Combine-generics-and-varargs-judiciously.md)
     - [Item 33: Consider typesafe heterogeneous containers](Chapter-5-Item-33-Consider-typesafe-heterogeneous-containers.md)
 - **Chapter 6. Enums and Annotations（枚举和注释）**
