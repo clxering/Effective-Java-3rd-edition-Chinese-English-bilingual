@@ -28,8 +28,8 @@ Suppose we want to add a method that takes a sequence of elements and pushes the
 ```
 // pushAll method without wildcard type - deficient!
 public void pushAll(Iterable<E> src) {
-  for (E e : src)
-    push(e);
+    for (E e : src)
+        push(e);
 }
 ```
 
@@ -45,34 +45,42 @@ numberStack.pushAll(integers);
 
 If you try it, however, you’ll get this error message because parameterized types are invariant:
 
+但是，如果您尝试一下，将会得到这个错误消息，因为参数化类型是不变的：
+
 ```
 StackTest.java:7: error: incompatible types: Iterable<Integer>
 cannot be converted to Iterable<Number>
-numberStack.pushAll(integers);
-^
+        numberStack.pushAll(integers);
+                    ^
 ```
 
 Luckily, there’s a way out. The language provides a special kind of parameterized type call a bounded wildcard type to deal with situations like this. The type of the input parameter to pushAll should not be “Iterable of E” but “Iterable of some subtype of E,” and there is a wildcard type that means precisely that: Iterable<? extends E>. (The use of the keyword extends is slightly misleading: recall from Item 29 that subtype is defined so that every type is a subtype of itself, even though it does not extend itself.) Let’s modify pushAll to use this type:
 
+幸运的是，有一条出路。Java 提供了一种特殊的参数化类型，`有界通配符类型`来处理这种情况。pushAll 的输入参数的类型不应该是「E 的 Iterable 接口」，而应该是「E 的某个子类型的 Iterable 接口」，并且有一个通配符类型，它的确切含义是：`Iterable<? extends E>`（关键字 extends 的使用稍微有些误导：回想一下第29项，定义了子类型，以便每个类型都是其本身的子类型，即使它没有扩展自己。）让我们修改 pushAll 来使用这种类型：
+
 ```
 // Wildcard type for a parameter that serves as an E producer
 public void pushAll(Iterable<? extends E> src) {
-  for (E e : src)
-    push(e);
+    for (E e : src)
+        push(e);
 }
 ```
 
 With this change, not only does Stack compile cleanly, but so does the client code that wouldn’t compile with the original pushAll declaration. Because Stack and its client compile cleanly, you know that everything is typesafe. Now suppose you want to write a popAll method to go with pushAll. The popAll method pops each element off the stack and adds the elements to the given collection. Here’s how a first attempt at writing the popAll method might look:
 
+有了这个更改，不仅 Stack 可以正确编译，而且不能用原始 pushAll 声明编译的客户机代码也可以正确编译。因为 Stack 和它的客户端可以正确编译，所以您知道所有东西都是类型安全的。现在假设您想编写一个与 pushAll 一起使用的 popAll 方法。popAll 方法将每个元素从堆栈中弹出，并将这些元素添加到给定的集合中。下面是编写popAll方法的第一次尝试：
+
 ```
 // popAll method without wildcard type - deficient!
 public void popAll(Collection<E> dst) {
-  while (!isEmpty())
-    dst.add(pop());
+    while (!isEmpty())
+        dst.add(pop());
 }
 ```
 
 Again, this compiles cleanly and works fine if the element type of the destination collection exactly matches that of the stack. But again, it isn’t entirely satisfactory. Suppose you have a Stack<Number> and variable of type Object. If you pop an element from the stack and store it in the variable, it compiles and runs without error. So shouldn’t you be able to do this, too?
+
+同样，如果目标集合的元素类型与堆栈的元素类型完全匹配，那么这种方法可以很好地编译。但这也不是完全令人满意。假设您有一个 Stack<Number> 和 Object 类型的变量。如果从堆栈中取出一个元素并将其存储在变量中，那么它将编译并运行，不会出错。所以你不能也这样做吗？
 
 ```
 Stack<Number> numberStack = new Stack<Number>();
