@@ -1,10 +1,10 @@
 ## Chapter 2. Creating and Destroying Objects（创建和销毁对象）
 
-### Item 1: Consider static factory methods instead of constructors（考虑静态工厂方法而不是构造函数）
+### Item 1: Consider static factory methods instead of constructors（考虑以静态工厂方法代替构造函数）
 
 The traditional way for a class to allow a client to obtain（获得） an instance is to provide a public constructor. There is another technique that should be a part of every programmer’s toolkit. A class can provide a public static factory method,which is simply a static method that returns an instance of the class. Here’s a simple example from Boolean (the boxed primitive class for boolean). This method translates a boolean primitive value into a Boolean object reference:
 
-类允许客户端获得实例的传统方法是提供一个公共构造函数。还有一种技术应该成为每个程序员工具包的一部分。一个类可以提供一个公共静态工厂方法，它只是一个返回类实例的静态方法。下面是一个来自 Boolean 的简单示例（boolean 的包装类）。该方法将布尔基本类型转换为布尔对象的引用：
+允许客户端获得实例的传统方法是由类提供一个公共构造函数。还有一种技术应该成为每个程序员工具包的一部分。一个类可以提供一个公共静态工厂方法，它只是一个返回类实例的静态方法。下面是一个来自 Boolean （boolean 的包装类）的简单示例。该方法将布尔基本类型转换为布尔对象的引用：
 
 ```
 public static Boolean valueOf(boolean b) {
@@ -18,7 +18,7 @@ Note that a static factory method is not the same as the Factory Method pattern 
 
 A class can provide its clients with static factory methods instead of, or in addition to（除了）, public constructors. Providing a static factory method instead of a public constructor has both advantages and disadvantages.
 
-除了公共构造函数，一个类还可以通过静态工厂方法提供它的客户端。提供静态工厂方法而不是公共构造函数既有优点也有缺点。
+除了公共构造函数，一个类还可以通过静态工厂方法提供它的客户端。提供静态工厂方法而不是公共构造函数的方式既有优点也有缺点。
 
 **One advantage of static factory methods is that, unlike constructors, they have names.** If the parameters to a constructor do not, in and of themselves,describe the object being returned, a static factory with a well-chosen name is easier to use and the resulting client code easier to read. For example, the constructor BigInteger(int, int, Random), which returns a BigInteger that is probably prime, would have been better expressed as a static factory method named BigInteger.probablePrime. (This method was added in Java 4.)
 
