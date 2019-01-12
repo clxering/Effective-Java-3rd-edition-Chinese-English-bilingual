@@ -1,10 +1,10 @@
 ## Chapter 2. Creating and Destroying Objects（创建和销毁对象）
 
-### Item 1: Consider static factory methods instead of constructors（考虑静态工厂方法而不是构造函数）
+### Item 1: Consider static factory methods instead of constructors（考虑以静态工厂方法代替构造函数）
 
 The traditional way for a class to allow a client to obtain（获得） an instance is to provide a public constructor. There is another technique that should be a part of every programmer’s toolkit. A class can provide a public static factory method,which is simply a static method that returns an instance of the class. Here’s a simple example from Boolean (the boxed primitive class for boolean). This method translates a boolean primitive value into a Boolean object reference:
 
-类允许客户端获得实例的传统方法是提供一个公共构造函数。还有一种技术应该成为每个程序员工具包的一部分。一个类可以提供一个公共静态工厂方法，它只是一个返回类实例的静态方法。下面是一个来自Boolean的简单示例（boolean的包装类）。该方法将布尔基本类型转换为布尔对象的引用：
+允许客户端获得实例的传统方法是由类提供一个公共构造函数。还有一种技术应该成为每个程序员工具包的一部分。一个类可以提供一个公共静态工厂方法，它只是一个返回类实例的静态方法。下面是一个来自 Boolean （boolean 的包装类）的简单示例。该方法将布尔基本类型转换为布尔对象的引用：
 
 ```
 public static Boolean valueOf(boolean b) {
@@ -18,11 +18,11 @@ Note that a static factory method is not the same as the Factory Method pattern 
 
 A class can provide its clients with static factory methods instead of, or in addition to（除了）, public constructors. Providing a static factory method instead of a public constructor has both advantages and disadvantages.
 
-除了公共构造函数，一个类还可以通过静态工厂方法提供它的客户端。提供静态工厂方法而不是公共构造函数既有优点也有缺点。
+除了公共构造函数，一个类还可以通过静态工厂方法提供它的客户端。提供静态工厂方法而不是公共构造函数的方式既有优点也有缺点。
 
 **One advantage of static factory methods is that, unlike constructors, they have names.** If the parameters to a constructor do not, in and of themselves,describe the object being returned, a static factory with a well-chosen name is easier to use and the resulting client code easier to read. For example, the constructor BigInteger(int, int, Random), which returns a BigInteger that is probably prime, would have been better expressed as a static factory method named BigInteger.probablePrime. (This method was added in Java 4.)
 
-**静态工厂方法的一个优点是它们有名称，这与构造函数不同。** 如果构造函数的参数本身并不能描述返回的对象，那么具有精心选择的名称的静态工厂更容易使用，生成的客户端代码也更容易阅读。例如，返回可能为素数的BigInteger的构造函数BigInteger(int, int, Random)最好表示为名为BigInteger.probableprime的静态工厂方法。（这个方法是在Java 4中添加的）
+**静态工厂方法的一个优点是它们有名称，这与构造函数不同。** 如果构造函数的参数本身并不能描述返回的对象，那么具有精心选择的名称的静态工厂更容易使用，生成的客户端代码也更容易阅读。例如，返回可能为素数的 BigInteger 的构造函数 BigInteger(int, int, Random) 最好表示为名为 BigInteger.probableprime 的静态工厂方法。（这个方法是在 Java 4 中添加的）
 
 A class can have only a single constructor with a given signature（n. 署名；签名；信号）.Programmers have been known to get around this restriction（n. 限制；约束；束缚） by providing two constructors whose parameter lists differ（vi. 相异；不同） only in the order of their parameter types. This is a really bad idea. The user of such an API will never be able to remember which constructor is which and will end up calling the wrong one by mistake. People reading code that uses these constructors will not know what the code does without referring to the class documentation.
 
@@ -33,7 +33,6 @@ Because they have names, static factory methods don’t share the restriction di
 因为静态工厂方法有名称，所以它们不受前一段中讨论的限制。如果一个类似乎需要具有相同签名的多个构造函数，那么用静态工厂方法替换构造函数，并仔细选择名称以突出它们的区别。
 
 **A second advantage of static factory methods is that, unlike constructors,they are not required to create a new object each time they’re invoked.** This allows immutable classes (Item 17) to use preconstructed instances, or to cache instances as they’re constructed, and dispense them repeatedly to avoid creating unnecessary duplicate（adj. 复制的；二重的） objects. The Boolean.valueOf(boolean) method illustrates this technique: it never creates an object. This technique is similar to the Flyweight pattern [Gamma95]. It can greatly improve performance if equivalent objects are requested often, especially if they are expensive to create.
-
 
 **静态工厂方法的第二个优点是，它们与构造函数不同，不需要在每次调用时创建新对象。** 这允许不可变类（[Item-17](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4-Item-17-Minimize-mutability.md)）使用预先构造的实例，或在构造实例时缓存实例，并重复分配它们以避免创建不必要的重复对象。Boolean.valueOf(boolean)方法说明了这种技术：它从不创建对象。这种技术类似于享元模式[Gamma95]。如果经常请求相同的对象，特别是在创建对象的代价很高时，它可以极大地提高性能。
 
