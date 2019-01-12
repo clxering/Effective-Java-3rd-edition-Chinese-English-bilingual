@@ -1,5 +1,5 @@
 ---
-name: Question or Suggestion
+name: Discussion or Suggestion
 about: Any technical discussion or constructive comments（技术讨论或建议）
 ---
 
