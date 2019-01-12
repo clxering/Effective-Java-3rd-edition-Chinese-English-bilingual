@@ -218,7 +218,9 @@ The revised max declaration is probably the most complex method declaration in t
 List<ScheduledFuture<?>> scheduledFutures = ... ;
 ```
 
-The reason that you can’t apply the original method declaration to this list is that ScheduledFuture does not implement Comparable<ScheduledFuture>. Instead, it is a subinterface of Delayed, which extends Comparable<Delayed>. In other words, a ScheduledFuture instance isn’t merely comparable to other ScheduledFuture instances; it is comparable to any Delayed instance, and that’s enough to cause the original declaration to reject it. More generally, the wildcard is required to support types that do not implement Comparable (or Comparator) directly but extend a type that does.
+The reason that you can’t apply the original method declaration to this list is that ScheduledFuture does not implement `Comparable<ScheduledFuture>`. Instead, it is a subinterface of Delayed, which extends Comparable<Delayed>. In other words, a ScheduledFuture instance isn’t merely comparable to other ScheduledFuture instances; it is comparable to any Delayed instance, and that’s enough to cause the original declaration to reject it. More generally, the wildcard is required to support types that do not implement Comparable (or Comparator) directly but extend a type that does.
+
+不能将原始方法声明应用于此列表的原因是 ScheduledFuture 没有实现 `Comparable<ScheduledFuture>`。相反，它是delay的一个子接口，扩展了Comparable< delay >。换句话说，ScheduledFuture实例不仅仅可以与其他ScheduledFuture实例进行比较;它可以与任何延迟实例相比较，这足以导致原始声明拒绝它。更一般地，通配符用于支持不直接实现Comparable(或Comparator)但扩展了实现Comparable(或Comparator)的类型的类型。
 
 There is one more wildcard-related topic that bears discussing. There is a duality between type parameters and wildcards, and many methods can be declared using one or the other. For example, here are two possible declarations for a static method to swap two indexed items in a list. The first uses an unbounded type parameter (Item 30) and the second an unbounded wildcard:
 
