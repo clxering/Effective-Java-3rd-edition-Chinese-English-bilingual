@@ -1,5 +1,5 @@
 # Effective-Java-3rd-edition-Chinese-English-bilingual
-Effective Java（第3版）各章节的中英文对照
+Effective Java（第3版）各章节的中英文学习参考
 
 ## 目录（Contents）
 - **Chapter 2. Creating and Destroying Objects（创建和销毁对象）**
