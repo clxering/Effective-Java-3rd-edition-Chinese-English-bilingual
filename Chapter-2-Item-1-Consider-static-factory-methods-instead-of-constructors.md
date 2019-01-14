@@ -22,7 +22,7 @@ A class can provide its clients with static factory methods instead of, or in ad
 
 **One advantage of static factory methods is that, unlike constructors, they have names.** If the parameters to a constructor do not, in and of themselves,describe the object being returned, a static factory with a well-chosen name is easier to use and the resulting client code easier to read. For example, the constructor BigInteger(int, int, Random), which returns a BigInteger that is probably prime, would have been better expressed as a static factory method named BigInteger.probablePrime. (This method was added in Java 4.)
 
-**静态工厂方法与构造函数相比的第一个优点，静态工厂方法有确切名称** 如果构造函数的参数本身并不能描述返回的对象，那么具有确切名称的静态工厂则更容易使用，生成的客户端代码也更容易阅读。例如，返回可能为素数的 BigInteger 类的构造函数 BigInteger(int, int, Random) 最好表示为名为 BigInteger.probableprime 的静态工厂方法。（这个方法是在 Java 4 中添加的）
+**静态工厂方法与构造函数相比的第一个优点，静态工厂方法有确切名称。** 如果构造函数的参数本身并不能描述返回的对象，那么具有确切名称的静态工厂则更容易使用，生成的客户端代码也更容易阅读。例如，返回可能为素数的 BigInteger 类的构造函数 BigInteger(int, int, Random) 最好表示为名为 BigInteger.probableprime 的静态工厂方法。（这个方法是在 Java 4 中添加的）
 
 A class can have only a single constructor with a given signature（n. 署名；签名；信号）.Programmers have been known to get around this restriction（n. 限制；约束；束缚） by providing two constructors whose parameter lists differ（vi. 相异；不同） only in the order of their parameter types. This is a really bad idea. The user of such an API will never be able to remember which constructor is which and will end up calling the wrong one by mistake. People reading code that uses these constructors will not know what the code does without referring to the class documentation.
 
