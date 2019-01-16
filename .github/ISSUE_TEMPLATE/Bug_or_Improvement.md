@@ -1,6 +1,6 @@
 ---
-name: Bug
-about: Find errors or inappropriate descriptions（发现错误或不恰当的描述）
+name: Bug or Improvement
+about: Bugfix or translation quality improvement（bug修复或翻译质量改进）
 ---
 
 <!-- Please don't delete this template -->
