@@ -4,11 +4,9 @@ Effective Java（第3版）各章节的中英文学习参考，希望对 Java �
 ## 赞助（sponsorship）
 提供小额赞助，鼓励译者。谢谢！
 <div>
-    <img src="image/alipay.png" width="130" height="130"/>
-    <img style="margin-left:30px" src="image/wechatpay.png" width="130" height="130"/>
+    <img src="image/alipay.png" width="130" height="145"/>
+    <img style="margin-left:30px" src="image/wechatpay.png" width="130" height="145"/>
 </div>
-
-       支付宝           微信支付
 
 ## 目录（Contents）
 - **Chapter 2. Creating and Destroying Objects（创建和销毁对象）**
