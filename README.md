@@ -1,5 +1,16 @@
 # Effective-Java-3rd-edition-Chinese-English-bilingual
-Effective Java（第3版）各章节的中英文学习参考
+Effective Java（第3版）各章节的中英文学习参考，希望对 Java 技术的提高有所帮助，欢迎通过 issue 或 pr 提出建议和修改意见。
+
+## 赞助（sponsorship）
+提供小额赞助，鼓励译者。谢谢！
+<div>
+    <img src="image/alipay.png" width="130" height="130"/>
+    <img style="margin-left:30px" src="image/wechatpay.png" width="130" height="130"/>
+</div>
+<div>
+    <span style="padding-left:42px;">支付宝</span>
+    <span style="padding-left:110px;">微信支付</span>
+</div>
 
 ## 目录（Contents）
 - **Chapter 2. Creating and Destroying Objects（创建和销毁对象）**
@@ -41,7 +52,7 @@ Effective Java（第3版）各章节的中英文学习参考
     - [Item 29: Favor generic types（优先使用泛型）](Chapter-5-Item-29-Favor-generic-types.md)
     - [Item 30: Favor generic methods（优先使用泛型方法）](Chapter-5-Item-30-Favor-generic-methods.md)
     - [Item 31: Use bounded wildcards to increase API flexibility（使用有界通配符增加API的灵活性）](Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)
-    - [Item 32: Combine generics and varargs judiciously](Chapter-5-Item-32-Combine-generics-and-varargs-judiciously.md)
+    - [Item 32: Combine generics and varargs judiciously（明智地合用泛型和可变参数）](Chapter-5-Item-32-Combine-generics-and-varargs-judiciously.md)
     - [Item 33: Consider typesafe heterogeneous containers](Chapter-5-Item-33-Consider-typesafe-heterogeneous-containers.md)
 - **Chapter 6. Enums and Annotations（枚举和注释）**
     - [Chapter 6 Introduction（章节介绍）](Chapter-6-Introduction.md)
