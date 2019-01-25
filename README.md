@@ -19,7 +19,7 @@ Effective Java（第3版）各章节的中英文学习参考，希望对 Java �
     - [Item 6: Avoid creating unnecessary objects（避免创建不必要的对象）](Chapter-2-Item-6-Avoid-creating-unnecessary-objects.md)
     - [Item 7: Eliminate obsolete object references（排除过时的对象引用）](Chapter-2-Item-7-Eliminate-obsolete-object-references.md)
     - [Item 8: Avoid finalizers and cleaners（避免使用终结器和清除器）](Chapter-2-Item-8-Avoid-finalizers-and-cleaners.md)
-    - [Item 9: Prefer try with resources to try finally（使用try-with-resources优于try-finally）](Chapter-2-Item-9-Prefer-try-with-resources-to-try-finally.md)
+    - [Item 9: Prefer try with resources to try finally（使用 try-with-resources 优于 try-finally）](Chapter-2-Item-9-Prefer-try-with-resources-to-try-finally.md)
 - **Chapter 3. Methods Common to All Objects（对象的通用方法）**
     - [Chapter 3 Introduction（章节介绍）](Chapter-3-Introduction.md)
     - [Item 10: Obey the general contract when overriding equals（重写equals方法时应遵守的约定）](Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)
