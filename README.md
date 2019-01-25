@@ -43,8 +43,8 @@ Effective Java（第3版）各章节的中英文学习参考，希望对 Java �
 - **Chapter 5. Generics（泛型）**
     - [Chapter 5 Introduction（章节介绍）](Chapter-5-Introduction.md)
     - [Item 26: Do not use raw types（不要使用原始类型）](Chapter-5-Item-26-Do-not-use-raw-types.md)
-    - [Item 27: Eliminate unchecked warnings（消除unchecked警告）](Chapter-5-Item-27-Eliminate-unchecked-warnings.md)
-    - [Item 28: Prefer lists to arrays（列表优于数组）](Chapter-5-Item-28-Prefer-lists-to-arrays.md)
+    - [Item 27: Eliminate unchecked warnings（消除 unchecked 警告）](Chapter-5-Item-27-Eliminate-unchecked-warnings.md)
+    - [Item 28: Prefer lists to arrays（list 优于数组）](Chapter-5-Item-28-Prefer-lists-to-arrays.md)
     - [Item 29: Favor generic types（优先使用泛型）](Chapter-5-Item-29-Favor-generic-types.md)
     - [Item 30: Favor generic methods（优先使用泛型方法）](Chapter-5-Item-30-Favor-generic-methods.md)
     - [Item 31: Use bounded wildcards to increase API flexibility（使用有界通配符增加API的灵活性）](Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)
