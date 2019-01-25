@@ -92,7 +92,7 @@ static void copy(String src, String dst) throws IOException {
 
 originals, but they provide far better diagnostics. Consider the firstLineOfFile method. If exceptions are thrown by both the readLine call and the (invisible) close, the latter exception is suppressed in favor of the former. In fact, multiple exceptions may be suppressed in order to preserve the exception that you actually want to see. These suppressed exceptions are not merely discarded; they are printed in the stack trace with a notation saying that they were suppressed. You can also access them programmatically with the getSuppressed method, which was added to Throwable in Java 7.
 
-一开始，是他们提供了更好的诊断。考虑firstLineOfFile方法。如果异常是由readLine调用和（不可见的）close抛出的，则后一个异常将被禁止，以支持前一个异常。实际上，可能会禁止多个异常，以保留您实际希望看到的异常。这些被抑制的异常不仅被抛弃；它们被打印在堆栈跟踪中，标记表示它们被抑制。您还可以通过编程方式使用get方法访问它们，该方法是在Java 7中添加到Throwable中的。
+和使用 try-finally 的原版代码相比，try-with-resources 为开发者提供了更好的诊断方式。考虑 firstLineOfFile 方法。如果异常是由 readLine 调用和不可见的 close 抛出的，则后一个异常将被抑制，以支持前一个异常。实际上，还可能会抑制多个异常，以保留实际希望看到的异常。这些被抑制的异常不会仅仅被抛弃；它们会被打印在堆栈跟踪中，并标记它们被抑制。可以通过编程方式使用 getSuppressed 方法访问到它们，该方法是在 Java 7 中添加到 Throwable 中的。
 
 You can put catch clauses on try-with-resources statements, just as you can on regular try-finally statements. This allows you to handle exceptions without sullying your code with another layer of nesting. As a slightly contrived example, here’s a version our firstLineOfFile method that does not throw exceptions, but takes a default value to return if it can’t open the file or read from it:
 
