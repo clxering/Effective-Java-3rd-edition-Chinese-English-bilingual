@@ -19,7 +19,7 @@ Effective Java（第3版）各章节的中英文学习参考，希望对 Java �
     - [Item 6: Avoid creating unnecessary objects（避免创建不必要的对象）](Chapter-2-Item-6-Avoid-creating-unnecessary-objects.md)
     - [Item 7: Eliminate obsolete object references（排除过时的对象引用）](Chapter-2-Item-7-Eliminate-obsolete-object-references.md)
     - [Item 8: Avoid finalizers and cleaners（避免使用终结器和清除器）](Chapter-2-Item-8-Avoid-finalizers-and-cleaners.md)
-    - [Item 9: Prefer try with resources to try finally（使用try-with-resources优于try-finally）](Chapter-2-Item-9-Prefer-try-with-resources-to-try-finally.md)
+    - [Item 9: Prefer try with resources to try finally（使用 try-with-resources 优于 try-finally）](Chapter-2-Item-9-Prefer-try-with-resources-to-try-finally.md)
 - **Chapter 3. Methods Common to All Objects（对象的通用方法）**
     - [Chapter 3 Introduction（章节介绍）](Chapter-3-Introduction.md)
     - [Item 10: Obey the general contract when overriding equals（重写equals方法时应遵守的约定）](Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)
@@ -49,7 +49,7 @@ Effective Java（第3版）各章节的中英文学习参考，希望对 Java �
     - [Item 30: Favor generic methods（优先使用泛型方法）](Chapter-5-Item-30-Favor-generic-methods.md)
     - [Item 31: Use bounded wildcards to increase API flexibility（使用有界通配符增加API的灵活性）](Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)
     - [Item 32: Combine generics and varargs judiciously（明智地合用泛型和可变参数）](Chapter-5-Item-32-Combine-generics-and-varargs-judiciously.md)
-    - [Item 33: Consider typesafe heterogeneous containers](Chapter-5-Item-33-Consider-typesafe-heterogeneous-containers.md)
+    - [Item 33: Consider typesafe heterogeneous containers（考虑类型安全的异构容器）](Chapter-5-Item-33-Consider-typesafe-heterogeneous-containers.md)
 - **Chapter 6. Enums and Annotations（枚举和注释）**
     - [Chapter 6 Introduction（章节介绍）](Chapter-6-Introduction.md)
     - [Item 34: Use enums instead of int constants](Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)
