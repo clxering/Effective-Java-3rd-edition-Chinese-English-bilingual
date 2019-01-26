@@ -4,6 +4,8 @@
 
 An enumerated type is a type whose legal values consist of a fixed set of constants, such as the seasons of the year, the planets in the solar system, or the suits in a deck of playing cards. Before enum types were added to the language, a common pattern for representing enumerated types was to declare a group of named int constants, one for each member of the type:
 
+枚举类型的合法值由一组固定的常量组成，如：一年中的季节、太阳系中的行星或扑克牌中的花色。在枚举类型被添加到 JAVA 之前，表示枚举类型的一种常见模式是声明一组 int 的常量，每个类型的成员都有一个：
+
 ```
 // The int enum pattern - severely deficient!
 public static final int APPLE_FUJI = 0;
@@ -16,12 +18,16 @@ public static final int ORANGE_BLOOD = 2;
 
 This technique, known as the int enum pattern, has many shortcomings. It provides nothing in the way of type safety and little in the way of expressive power. The compiler won’t complain if you pass an apple to a method that expects an orange, compare apples to oranges with the == operator, or worse:
 
+这种技术称为 int enum 模式，它有许多缺点。它没有提供任何类型安全性，也没有提供任何表达能力。如果你传递一个苹果给一个方法，希望得到一个橘子，使用 == 操作符比较苹果和橘子时编译器并不会提示错误，或更糟：
+
 ```
 // Tasty citrus flavored applesauce!
 int i = (APPLE_FUJI - ORANGE_TEMPLE) / APPLE_PIPPIN;
 ```
 
 Note that the name of each apple constant is prefixed with APPLE_ and the name of each orange constant is prefixed with ORANGE_. This is because Java doesn’t provide namespaces for int enum groups. Prefixes prevent name clashes when two int enum groups have identically named constants, for example between ELEMENT_MERCURY and PLANET_MERCURY.
+
+注意，每个 apple 常量的名称都以 APPLE_ 为前缀，每个 orange 常量的名称都以 ORANGE_ 为前缀。这是因为 Java 不为 int enum 组提供名称空间。当两个 int 枚举组具有相同的命名常量时，前缀可以防止名称冲突，例如 ELEMENT_MERCURY 和 PLANET_MERCURY 之间的冲突。
 
 Programs that use int enums are brittle. Because int enums are constant variables [JLS, 4.12.4], their int values are compiled into the clients that use them [JLS, 13.1]. If the value associated with an int enum is changed, its clients must be recompiled. If not, the clients will still run, but their behavior will be incorrect.
 
@@ -68,17 +74,17 @@ public enum Planet {
     // Universal gravitational constant in m^3 / kg s^2
     private static final double G = 6.67300E-11;
     // Constructor
-    
+
     Planet(double mass, double radius) {
         this.mass = mass;
         this.radius = radius;
         surfaceGravity = G * mass / (radius * radius);
     }
-    
+
     public double mass() { return mass; }
     public double radius() { return radius; }
     public double surfaceGravity() { return surfaceGravity; }
-    
+
     public double surfaceWeight(double mass) {
         return mass * surfaceGravity; // F = ma
     }
@@ -95,7 +101,7 @@ public class WeightTable {
     for (Planet p : Planet.values())
         System.out.printf("Weight on %s is %f%n",p, p.surfaceWeight(mass));
     }
-} 
+}
 ```
 
 Note that Planet, like all enums, has a static values method that returns an array of its values in the order they were declared. Note also that the toString method returns the declared name of each enum value, enabling easy printing by println and printf. If you’re dissatisfied with this string representation, you can change it by overriding the toString method. Here is the result of running our WeightTable program (which doesn’t override toString) with the command line argument 185:
@@ -130,7 +136,7 @@ public enum Operation {
             case MINUS: return x - y;
             case TIMES: return x * y;
             case DIVIDE: return x / y;
-        } 
+        }
     throw new AssertionError("Unknown op: "+this);
     }
 }
@@ -170,12 +176,12 @@ public enum Operation {
     DIVIDE("/") {
         public double apply(double x, double y) { return x / y; }
     };
-    
+
     private final String symbol;
     Operation(String symbol) { this.symbol = symbol; }
-    
+
     @Override public String toString() { return symbol; }
-    
+
     public abstract double apply(double x, double y);
 }
 ```
@@ -252,28 +258,28 @@ enum PayrollDay {
     private final PayType payType;
     PayrollDay(PayType payType) { this.payType = payType; }
     PayrollDay() { this(PayType.WEEKDAY); } // Default
-    
+
     int pay(int minutesWorked, int payRate) {
         return payType.pay(minutesWorked, payRate);
     }
-    
+
     // The strategy enum type
     private enum PayType {
         WEEKDAY {
             int overtimePay(int minsWorked, int payRate) {
                 return minsWorked <= MINS_PER_SHIFT ? 0 :(minsWorked - MINS_PER_SHIFT) * payRate / 2;
-            } 
+            }
         },
         WEEKEND {
             int overtimePay(int minsWorked, int payRate) {
                 return minsWorked * payRate / 2;
-            } 
+            }
         };
-        
+
         abstract int overtimePay(int mins, int payRate);
-        
+
         private static final int MINS_PER_SHIFT = 8 * 60;
-    
+
         int pay(int minsWorked, int payRate) {
             int basePay = minsWorked * payRate;
             return basePay + overtimePay(minsWorked, payRate);
@@ -304,5 +310,3 @@ Enums are, generally speaking, comparable in performance to int constants. A min
 So when should you use enums? **Use enums any time you need a set of constants whose members are known at compile time.** Of course, this includes “natural enumerated types,” such as the planets, the days of the week, and the chess pieces. But it also includes other sets for which you know all the possible values at compile time, such as choices on a menu, operation codes, and command line flags. **It is not necessary that the set of constants in an enum type stay fixed for all time.** The enum feature was specifically designed to allow for binary compatible evolution of enum types.
 
 In summary, the advantages of enum types over int constants are compelling. Enums are more readable, safer, and more powerful. Many enums require no explicit constructors or members, but others benefit from associating data with each constant and providing methods whose behavior is affected by this data. Fewer enums benefit from associating multiple behaviors with a single method. In this relatively rare case, prefer constant-specific methods to enums that switch on their own values. Consider the strategy enum pattern if some, but not all, enum constants share common behaviors.
-
-
