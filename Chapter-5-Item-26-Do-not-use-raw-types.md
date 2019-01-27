@@ -4,15 +4,15 @@
 
 First, a few terms. A class or interface whose declaration has one or more type parameters is a generic class or interface [JLS, 8.1.2, 9.1.2]. For example, the List interface has a single type parameter, E, representing its element type. The full name of the interface is `List<E>` (read “list of E”), but people often call it List for short. Generic classes and interfaces are collectively known as generic types.
 
-首先，介绍一些术语。声明中具有一个或多个类型参数的类或接口就是泛型类或泛型接口[JLS, 8.1.2, 9.1.2]。例如，List 接口有一个类型参数 E，用于表示其元素类型。该接口的全名是 `List<E>`（读作「List of E」），但人们通常简称为 List。泛型类和泛型接口统称为泛型。
+首先，介绍一些术语。声明中具有一个或多个类型参数的类或接口就是泛型类或泛型接口 [JLS, 8.1.2, 9.1.2]。例如，List 接口有一个类型参数 E，用于表示其元素类型。该接口的全名是 `List<E>`（读作「List of E」），但人们通常简称为 List。泛型类和泛型接口统称为泛型。
 
 Each generic type defines a set of parameterized types, which consist of the class or interface name followed by an angle-bracketed list of actual type parameters corresponding to the generic type’s formal type parameters [JLS, 4.4, 4.5]. For example, `List<String>` (read “list of string”) is a parameterized type representing a list whose elements are of type String. (String is the actual type parameter corresponding to the formal type parameter E.)
 
-每个泛型定义了一组参数化类型，这些参数化类型包括类名或接口名，以及带尖括号的参数列表，参数列表是与泛型的形式类型参数相对应的实际类型[JLS, 4.4, 4.5]。例如，`List<String>`（读作「List of String」）是一个参数化类型，表示元素类型为 String 类型的 List。（String 是与形式类型参数 E 对应的实际类型参数。）
+每个泛型定义了一组参数化类型，这些参数化类型包括类名或接口名，以及带尖括号的参数列表，参数列表是与泛型的形式类型参数相对应的实际类型 [JLS, 4.4, 4.5]。例如，`List<String>`（读作「List of String」）是一个参数化类型，表示元素类型为 String 类型的 List。（String 是与形式类型参数 E 对应的实际类型参数。）
 
 Finally, each generic type defines a raw type, which is the name of the generic type used without any accompanying type parameters [JLS, 4.8]. For example, the raw type corresponding to `List<E>` is List. Raw types behave as if all of the generic type information were erased from the type declaration. They exist primarily for compatibility with pre-generics code.
 
-最后，每个泛型都定义了一个原始类型，它是没有任何相关类型参数的泛型的名称[JLS, 4.8]。例如，`List<E>` 对应的原始类型是 List。原始类型的行为就好像所有泛型信息都从类型声明中删除了一样。它们的存在主要是为了与之前的泛型代码兼容。
+最后，每个泛型都定义了一个原始类型，它是没有任何相关类型参数的泛型的名称 [JLS, 4.8]。例如，`List<E>` 对应的原始类型是 List。原始类型的行为就好像所有泛型信息都从类型声明中删除了一样。它们的存在主要是为了与之前的泛型代码兼容。
 
 Before generics were added to Java, this would have been an exemplary collection declaration. As of Java 9, it is still legal, but far from exemplary:
 
@@ -59,7 +59,7 @@ private final Collection<Stamp> stamps = ... ;
 
 From this declaration, the compiler knows that stamps should contain only Stamp instances and guarantees it to be true, assuming your entire codebase compiles without emitting (or suppressing; see Item 27) any warnings. When stamps is declared with a parameterized type declaration, the erroneous insertion generates a compile-time error message that tells you exactly what is wrong:
 
-从这个声明看出，编译器应该知道 stamps 应该只包含 Stamp 实例，为保证它确实如此，假设你的整个代码库编译没有发出（或禁止；详见[Item-27](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-27-Eliminate-unchecked-warnings.md)）任何警告。当 stamps 利用一个参数化的类型进行声明时，错误的插入将生成编译时错误消息，该消息将确切地告诉你哪里出了问题：
+从这个声明看出，编译器应该知道 stamps 应该只包含 Stamp 实例，为保证它确实如此，假设你的整个代码库编译没有发出（或抑制；详见 [Item-27](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-27-Eliminate-unchecked-warnings.md)）任何警告。当 stamps 利用一个参数化的类型进行声明时，错误的插入将生成编译时错误消息，该消息将确切地告诉你哪里出了问题：
 
 ```
 Test.java:9: error: incompatible types: Coin cannot be converted
@@ -68,17 +68,17 @@ c.add(new Coin());
 ^
 ```
 
-The compiler inserts invisible casts for you when retrieving elements from collections and guarantees that they won’t fail (assuming, again, that all of your code did not generate or suppress any compiler warnings). While the prospect of accidentally inserting a coin into a stamp collection may appear far-fetched, the problem is real. For example, it is easy to imagine putting a BigInteger into a collection that is supposed to contain only BigDecimal instances.
+The compiler inserts invisible casts for you when retrieving（v. [计] 检索；恢复；取回；补偿） elements from collections and guarantees that they won’t fail (assuming, again, that all of your code did not generate or suppress any compiler warnings). While the prospect of accidentally inserting a coin into a stamp collection may appear far-fetched, the problem is real. For example, it is easy to imagine putting a BigInteger into a collection that is supposed to contain only BigDecimal instances.
 
-当从集合中检索元素时，编译器会为你执行不可见的强制类型转换，并确保它们不会失败（再次假设你的所有代码没有产生或禁止任何编译器警告）。虽然不小心将 coin 插入 stamps 集合看起来有些牵强，但问题是真实存在的。例如，很容易想象将一个 BigInteger 放入一个只包含 BigDecimal 实例的集合中。
+当从集合中检索元素时，编译器会为你执行不可见的强制类型转换，并确保它们不会失败（再次假设你的所有代码没有产生或抑制任何编译器警告）。虽然不小心将 coin 插入 stamps 集合看起来有些牵强，但这类问题是真实存在的。例如，很容易想象将一个 BigInteger 放入一个只包含 BigDecimal 实例的集合中。
 
 As noted earlier, it is legal to use raw types (generic types without their type parameters), but you should never do it. **If you use raw types, you lose all the safety and expressiveness benefits of generics.** Given that you shouldn’t use them, why did the language designers permit raw types in the first place? For compatibility. Java was about to enter its second decade when generics were added, and there was an enormous amount of code in existence that did not use generics. It was deemed critical that all of this code remain legal and interoperate with newer code that does use generics. It had to be legal to pass instances of parameterized types to methods that were designed for use with raw types, and vice versa. This requirement, known as migration compatibility, drove the decisions to support raw types and to implement generics using erasure (Item 28).
 
-如前所述，使用原始类型（没有类型参数的泛型）是合法的，但是你永远不应该这样做。**如果使用原始类型，就会失去泛型的安全性和表现力。** 既然你不应该使用它们，那么为什么语言设计者一开始就允许原始类型呢？答案是：为了兼容性。Java 即将进入第二个十年，泛型被添加进来时，还存在大量不使用泛型的代码。保持所有这些代码合法并与使用泛型的新代码兼容被认为是关键的。将参数化类型的实例传递给设计用于原始类型的方法必须是合法的，反之亦然。这种被称为迁移兼容性的需求促使了支持原始类型并使用擦除实现泛型（[Item-28](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-28-Prefer-lists-to-arrays.md)）。
+如前所述，使用原始类型（没有类型参数的泛型）是合法的，但是你永远不应该这样做。**如果使用原始类型，就会失去泛型的安全性和表现力。** 既然你不应该使用它们，那么为什么语言设计者一开始就允许原始类型呢？答案是：为了兼容性。Java 即将进入第二个十年，泛型被添加进来时，还存在大量不使用泛型的代码。保持所有这些代码合法并与使用泛型的新代码兼容被认为是关键的。将参数化类型的实例传递给设计用于原始类型的方法必须是合法的，反之亦然。这被称为迁移兼容性的需求，它促使原始类型得到支持并使用擦除实现泛型 （[Item-28](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-28-Prefer-lists-to-arrays.md)）。
 
 While you shouldn’t use raw types such as List, it is fine to use types that are parameterized to allow insertion of arbitrary objects, such as `List<Object>`. Just what is the difference between the raw type List and the parameterized type `List<Object>`? Loosely speaking, the former has opted out of the generic type system, while the latter has explicitly told the compiler that it is capable of holding objects of any type. While you can pass a `List<String>` to a parameter of type List, you can’t pass it to a parameter of type `List<Object>`. There are sub-typing rules for generics, and `List<String>` is a subtype of the raw type List, but not of the parameterized type `List<Object>` (Item 28). As a consequence, **you lose type safety if you use a raw type such as List, but not if you use a parameterized type such as List&lt;Object&gt;.**
 
-虽然你不应该使用原始类型（如 List），但是可以使用参数化的类型来允许插入任意对象，如 `List<Object>`。原始类型列表和参数化类型 `List<Object>` 之间的区别是什么？粗略地说，前者选择了不使用泛型系统，而后者明确地告诉编译器它能够保存任何类型的对象。虽然可以将 `List<String>` 传递给类型列表的参数，但不能将其传递给类型 `List<Object>` 的参数。泛型有子类型规则，`List<String>` 是原始类型列表的子类型，而不是参数化类型 `List<Object>`（[Item-28](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-28-Prefer-lists-to-arrays.md)）。因此，**如果使用原始类型（如List），就会失去类型安全性，但如果使用参数化类型（如 List&lt;Object&gt;）则不会。**
+虽然你不应该使用原始类型（如 List），但是可以使用参数化的类型来允许插入任意对象，如 `List<Object>`。原始类型 List 和参数化类型 `List<Object>` 之间的区别是什么？粗略地说，前者选择了不使用泛型系统，而后者明确地告诉编译器它能够保存任何类型的对象。虽然可以将 `List<String>` 传递给 List 类型的参数，但不能将其传递给类型 `List<Object>` 的参数。泛型有子类型规则，`List<String>` 是原始类型 List 的子类型，而不是参数化类型 `List<Object>` 的子类型（[Item-28](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-28-Prefer-lists-to-arrays.md)）。因此，**如果使用原始类型（如 List），就会失去类型安全性，但如果使用参数化类型（如 `List<Object>`）则不会。**
 
 To make this concrete, consider the following program:
 
@@ -111,7 +111,7 @@ list.add(o);
 
 And indeed, if you run the program, you get a ClassCastException when the program tries to cast the result of the invocation strings.get(0), which is an Integer, to a String. This is a compiler-generated cast, so it’s normally guaranteed to succeed, but in this case we ignored a compiler warning and paid the price.
 
-实际上，如果你运行程序，当程序试图将调用 strings.get(0) 的结果转换为字符串时，你会得到一个 ClassCastException。这是一个编译器生成的强制类型转换，因此它通常保证会成功，但在本例中，我们忽略了编译器的警告，并为此付出了代价。
+实际上，如果你运行程序，当程序试图将调用 strings.get(0) 的结果转换为字符串时，你会得到一个 ClassCastException。这是一个由编译器生成的类型转换，它通常都能成功，但在本例中，我们忽略了编译器的警告，并为此付出了代价。
 
 If you replace the raw type List with the parameterized type `List<Object>` in the unsafeAdd declaration and try to recompile the program, you’ll find that it no longer compiles but emits the error message:
 
@@ -150,7 +150,7 @@ static int numElementsInCommon(Set<?> s1, Set<?> s2) { ... }
 
 What is the difference between the unbounded wildcard type `Set<?>` and the raw type Set? Does the question mark really buy you anything? Not to belabor the point, but the wildcard type is safe and the raw type isn’t. You can put any element into a collection with a raw type, easily corrupting the collection’s type invariant (as demonstrated by the unsafeAdd method on page 119); you can’t put any element (other than null) into a `Collection<?>`. Attempting to do so will generate a compile-time error message like this:
 
-无界通配符类型 `Set<?>` 和原始类型 Set 之间的区别是什么？问号真的能起作用吗？我并不是在强调这一点，但是通配符类型是安全的，而原始类型则不是。可以将任何元素放入具有原始类型的集合中，很容易破坏集合的类型不变量（如上述的 unsafeAdd 方法所示）；你不能将任何元素（除了 null）放入 `Collection<?>`。尝试这样做将生成这样的编译时错误消息：
+无界通配符类型 `Set<?>` 和原始类型 Set 之间的区别是什么？问号真的能起作用吗？我并不是在强调这一点，但是通配符类型是安全的，而原始类型则不是。将任何元素放入具有原始类型的集合中，很容易破坏集合的类型一致性（如上述的 unsafeAdd 方法所示）；你不能将任何元素（除了 null）放入 `Collection<?>`。尝试这样做将生成这样的编译时错误消息：
 
 ```
 WildCard.java:13: error: incompatible types: String cannot be converted to CAP#1
@@ -162,7 +162,7 @@ CAP#1 extends Object from capture of ?
 
 Admittedly this error message leaves something to be desired, but the compiler has done its job, preventing you from corrupting（vt. 使腐烂；使堕落，使恶化） the collection’s type invariant（n. [数] 不变量；[计] 不变式）, whatever its element type may be. Not only can’t you put any element (other than null) into a `Collection<?>`, but you can’t assume anything about the type of the objects that you get out. If these restrictions are unacceptable, you can use generic methods (Item 30) or bounded wildcard types (Item 31).
 
-无可否认，这个错误消息让人不满意，但是编译器已经完成了它的工作，防止你破坏集合的类型约束，而不管它的元素类型是什么。你不仅不能将任何元素（除 null 之外）放入 `Collection<?>`，而且不能假设你得到的对象的类型。如果这些限制是不可接受的，你可以使用泛型方法（[Item-30](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-30-Favor-generic-methods.md)）或有界通配符类型（[Item-31](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)）。
+无可否认，这个错误消息让人不满意，但是编译器已经完成了它的工作，防止你无视它的元素类型而破坏集合的类型一致性。你不仅不能将任何元素（除 null 之外）放入 `Collection<?>`，而且不能臆想你得到的对象的类型。如果这些限制是不可接受的，你可以使用泛型方法（[Item-30](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-30-Favor-generic-methods.md)）或有界通配符类型（[Item-31](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)）。
 
 There are a few minor exceptions to the rule that you should not use raw types. **You must use raw types in class literals.** The specification does not permit the use of parameterized types (though it does permit array types and primitive types) [JLS, 15.8.2]. In other words, List.class, String[].class, and int.class are all legal, but `List<String>.class` and `List<?>.class` are not.
 
@@ -170,7 +170,7 @@ There are a few minor exceptions to the rule that you should not use raw types. 
 
 A second exception to the rule concerns the instanceof operator. Because generic type information is erased at runtime, it is illegal to use the instanceof operator on parameterized types other than unbounded wildcard types. The use of unbounded wildcard types in place of raw types does not affect the behavior of the instanceof operator in any way. In this case, the angle brackets and question marks are just noise. **This is the preferred way to use the instanceof operator with generic types:**
 
-规则的第二个例外是 instanceof 运算符。由于泛型信息在运行时被删除，因此在非无界通配符类型之外的参数化类型上使用 instanceof 操作符是非法的。使用无界通配符类型代替原始类型不会以任何方式影响 instanceof 运算符的行为。在这种情况下，尖括号和问号只是多余的。**下面的例子是使用通用类型instanceof运算符的首选方法：**
+规则的第二个例外是 instanceof 运算符。由于泛型信息在运行时被删除，因此在不是无界通配符类型之外的参数化类型上使用 instanceof 操作符是非法的。使用无界通配符类型代替原始类型不会以任何方式影响 instanceof 运算符的行为。在这种情况下，尖括号和问号只是多余的。**下面的例子是使用通用类型 instanceof 运算符的首选方法：**
 
 ```
 // Legitimate use of raw type - instanceof operator
@@ -182,7 +182,7 @@ if (o instanceof Set) { // Raw type
 
 Note that once you’ve determined that o is a Set, you must cast it to the wildcard type `Set<?>`, not the raw type Set. This is a checked cast, so it will not cause a compiler warning.
 
-注意，一旦确定 o 是一个 Set，就必须将其转换为通配符类型 `Set<?>`，而不是原始类型 Set。这是一个经过检查的强制类型转换，所以不会引起编译器警告。
+注意，一旦确定 o 是一个 Set，就必须将其转换为通配符类型 `Set<?>`，而不是原始类型 Set。这是一个经过检查的类型转换，所以不会引发编译器警告。
 
 In summary, using raw types can lead to exceptions at runtime, so don’t use them. They are provided only for compatibility and interoperability with legacy code that predates the introduction of generics. As a quick review, `Set<Object>` is a parameterized type representing a set that can contain objects of any type, `Set<?>` is a wildcard（n. 通配符） type representing（v. 代表；表示，表现） a set that can contain only objects of some unknown type, and Set is a raw type, which opts out of the generic type system. The first two are safe, and the last is not.
 
