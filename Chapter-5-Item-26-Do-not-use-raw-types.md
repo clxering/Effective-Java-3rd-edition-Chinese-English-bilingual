@@ -111,7 +111,7 @@ list.add(o);
 
 And indeed, if you run the program, you get a ClassCastException when the program tries to cast the result of the invocation strings.get(0), which is an Integer, to a String. This is a compiler-generated cast, so it’s normally guaranteed to succeed, but in this case we ignored a compiler warning and paid the price.
 
-实际上，如果你运行程序，当程序试图将调用 strings.get(0) 的结果转换为字符串时，你会得到一个 ClassCastException。这是一个由编译器生成的类型转换，它通常都能成功，但在本例中，我们忽略了编译器的警告，并为此付出了代价。
+实际上，如果你运行程序，当程序试图将调用 strings.get(0) 的结果强制转换为字符串时，你会得到一个 ClassCastException。这是一个由编译器生成的强制类型转换，它通常都能成功，但在本例中，我们忽略了编译器的警告，并为此付出了代价。
 
 If you replace the raw type List with the parameterized type `List<Object>` in the unsafeAdd declaration and try to recompile the program, you’ll find that it no longer compiles but emits the error message:
 
@@ -182,7 +182,7 @@ if (o instanceof Set) { // Raw type
 
 Note that once you’ve determined that o is a Set, you must cast it to the wildcard type `Set<?>`, not the raw type Set. This is a checked cast, so it will not cause a compiler warning.
 
-注意，一旦确定 o 是一个 Set，就必须将其转换为通配符类型 `Set<?>`，而不是原始类型 Set。这是一个经过检查的类型转换，所以不会引发编译器警告。
+注意，一旦确定 o 是一个 Set，就必须将其强制转换为通配符类型 `Set<?>`，而不是原始类型 Set。这是一个经过检查的强制类型转换，所以不会引发编译器警告。
 
 In summary, using raw types can lead to exceptions at runtime, so don’t use them. They are provided only for compatibility and interoperability with legacy code that predates the introduction of generics. As a quick review, `Set<Object>` is a parameterized type representing a set that can contain objects of any type, `Set<?>` is a wildcard（n. 通配符） type representing（v. 代表；表示，表现） a set that can contain only objects of some unknown type, and Set is a raw type, which opts out of the generic type system. The first two are safe, and the last is not.
 
