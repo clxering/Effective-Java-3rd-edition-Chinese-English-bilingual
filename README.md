@@ -50,9 +50,9 @@ Effective Java（第3版）各章节的中英文学习参考，希望对 Java �
     - [Item 31: Use bounded wildcards to increase API flexibility（使用有界通配符增加API的灵活性）](Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)
     - [Item 32: Combine generics and varargs judiciously（明智地合用泛型和可变参数）](Chapter-5-Item-32-Combine-generics-and-varargs-judiciously.md)
     - [Item 33: Consider typesafe heterogeneous containers（考虑类型安全的异构容器）](Chapter-5-Item-33-Consider-typesafe-heterogeneous-containers.md)
-- **Chapter 6. Enums and Annotations（枚举和注释）**
+- **Chapter 6. Enums and Annotations（枚举和注解）**
     - [Chapter 6 Introduction（章节介绍）](Chapter-6-Introduction.md)
-    - [Item 34: Use enums instead of int constants](Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)
+    - [Item 34: Use enums instead of int constants（用枚举类型代替 int 常量）](Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)
     - [Item 35: Use instance fields instead of ordinals](Chapter-6-Item-35-Use-instance-fields-instead-of-ordinals.md)
     - [Item 36: Use EnumSet instead of bit fields](Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)
     - [Item 37: Use EnumMap instead of ordinal indexing](Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)

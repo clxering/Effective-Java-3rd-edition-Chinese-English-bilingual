@@ -1,4 +1,4 @@
-## Chapter 6. Enums and Annotations（枚举和注释）
+## Chapter 6. Enums and Annotations（枚举和注解）
 
 ### Item 37: Use EnumMap instead of ordinal indexing
 
@@ -9,12 +9,12 @@ class Plant {
     enum LifeCycle { ANNUAL, PERENNIAL, BIENNIAL }
     final String name;
     final LifeCycle lifeCycle;
-    
+
     Plant(String name, LifeCycle lifeCycle) {
         this.name = name;
         this.lifeCycle = lifeCycle;
     }
-    
+
     @Override public String toString() {
         return name;
     }
@@ -29,10 +29,10 @@ Set<Plant>[] plantsByLifeCycle =(Set<Plant>[]) new Set[Plant.LifeCycle.values().
 
 for (int i = 0; i < plantsByLifeCycle.length; i++)
     plantsByLifeCycle[i] = new HashSet<>();
-    
+
 for (Plant p : garden)
     plantsByLifeCycle[p.lifeCycle.ordinal()].add(p);
-    
+
 // Print the results
 for (int i = 0; i < plantsByLifeCycle.length; i++) {
     System.out.printf("%s: %s%n",
@@ -85,17 +85,17 @@ You may see an array of arrays indexed (twice!) by ordinals used to represent a 
 // Using ordinal() to index array of arrays - DON'T DO THIS!
 public enum Phase {
     SOLID, LIQUID, GAS;
-    
+
     public enum Transition {
         MELT, FREEZE, BOIL, CONDENSE, SUBLIME, DEPOSIT;
-        
+
         // Rows indexed by from-ordinal, cols by to-ordinal
         private static final Transition[][] TRANSITIONS = {
             { null, MELT, SUBLIME },
             { FREEZE, null, BOIL },
             { DEPOSIT, CONDENSE, null }
         };
-        
+
         // Returns the phase transition from one phase to another
         public static Transition from(Phase from, Phase to) {
             return TRANSITIONS[from.ordinal()][to.ordinal()];
@@ -112,7 +112,7 @@ Again, you can do much better with EnumMap. Because each phase transition is ind
 // Using a nested EnumMap to associate data with enum pairs
 public enum Phase {
     SOLID, LIQUID, GAS;
-    
+
     public enum Transition {
         MELT(SOLID, LIQUID), FREEZE(LIQUID, SOLID),
         BOIL(LIQUID, GAS), CONDENSE(GAS, LIQUID),

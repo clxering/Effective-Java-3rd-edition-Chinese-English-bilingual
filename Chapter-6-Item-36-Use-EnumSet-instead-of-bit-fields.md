@@ -1,4 +1,4 @@
-## Chapter 6. Enums and Annotations（枚举和注释）
+## Chapter 6. Enums and Annotations（枚举和注解）
 
 ### Item 36: Use EnumSet instead of bit fields
 
@@ -46,4 +46,3 @@ text.applyStyles(EnumSet.of(Style.BOLD, Style.ITALIC));
 Note that the applyStyles method takes a Set<Style> rather than an EnumSet<Style>. While it seems likely that all clients would pass an EnumSet to the method, it is generally good practice to accept the interface type rather than the implementation type (Item 64). This allows for the possibility of an unusual client to pass in some other Set implementation.
 
 In summary, **just because an enumerated type will be used in sets, there is no reason to represent it with bit fields.** The EnumSet class combines the conciseness and performance of bit fields with all the many advantages of enum types described in Item 34. The one real disadvantage of EnumSet is that it is not, as of Java 9, possible to create an immutable EnumSet, but this will likely be remedied in an upcoming release. In the meantime, you can wrap an EnumSet with Collections.unmodifiableSet, but conciseness and performance will suffer.
-
