@@ -1,4 +1,4 @@
-## Chapter 6. Enums and Annotations（枚举和注释）
+## Chapter 6. Enums and Annotations（枚举和注解）
 
 ### Item 39: Prefer annotations to naming patterns
 
@@ -33,28 +33,28 @@ Here is how the Test annotation looks in practice. It is called a marker annotat
 ```
 // Program containing marker annotations
 public class Sample {
-    @Test 
+    @Test
     public static void m1() { } // Test should pass
-    
+
     public static void m2() { }
-    
-    @Test 
+
+    @Test
     public static void m3() { // Test should fail
         throw new RuntimeException("Boom");
-    } 
-    
+    }
+
     public static void m4() { }
-    
-    @Test 
+
+    @Test
     public void m5() { } // INVALID USE: nonstatic method
-    
+
     public static void m6() { }
-    
-    @Test 
+
+    @Test
     public static void m7() { // Test should fail
         throw new RuntimeException("Crash");
-    } 
-    
+    }
+
     public static void m8() { }
 }
 ```
@@ -84,7 +84,7 @@ public class RunTests {
                     System.out.println("Invalid @Test: " + m);
                 }
         }
-    } 
+    }
     System.out.printf("Passed: %d, Failed: %d%n",passed, tests - passed);
     }
 }
@@ -126,14 +126,14 @@ public class Sample2 {
     public static void m1() { // Test should pass
         int i = 0;
         i = i / i;
-    } 
-    
+    }
+
     @ExceptionTest(ArithmeticException.class)
     public static void m2() { // Should fail (wrong exception)
         int[] a = new int[0];
         int i = a[1];
-    } 
-    
+    }
+
     @ExceptionTest(ArithmeticException.class)
     public static void m3() { } // Should fail (no exception)
 }
@@ -205,7 +205,7 @@ if (m.isAnnotationPresent(ExceptionTest.class)) {
                 passed++;
                 break;
             }
-        } 
+        }
         if (passed == oldPassed)
             System.out.printf("Test %s failed: %s %n", m, exc);
     }
@@ -257,7 +257,7 @@ if (m.isAnnotationPresent(ExceptionTest.class)|| m.isAnnotationPresent(Exception
                 passed++;
                 break;
             }
-        } 
+        }
         if (passed == oldPassed)
             System.out.printf("Test %s failed: %s %n", m, exc);
     }
@@ -269,4 +269,3 @@ Repeatable annotations were added to improve the readability of source code that
 The testing framework in this item is just a toy, but it clearly demonstrates the superiority of annotations over naming patterns, and it only scratches the surface of what you can do with them. If you write a tool that requires programmers to add information to source code, define appropriate annotation types. **There is simply no reason to use naming patterns when you can use annotations instead.**
 
 That said, with the exception of toolsmiths, most programmers will have no need to define annotation types. But **all programmers should use the predefined annotation types that Java provides** (Items 40, 27). Also, consider using the annotations provided by your IDE or static analysis tools. Such annotations can improve the quality of the diagnostic information provided by these tools. Note, however, that these annotations have yet to be standardized, so you may have some work to do if you switch tools or if a standard emerges.
-
