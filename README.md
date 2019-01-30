@@ -1,13 +1,6 @@
 # Effective-Java-3rd-edition-Chinese-English-bilingual
 Effective Java（第3版）各章节的中英文学习参考，希望对 Java 技术的提高有所帮助，欢迎通过 issue 或 pr 提出建议和修改意见。
 
-## 赞助（sponsorship）
-提供小额赞助，鼓励译者。谢谢！
-<div>
-    <img src="image/alipay.png" width="130" height="145"/>
-    <img style="margin-left:30px" src="image/wechatpay.png" width="130" height="145"/>
-</div>
-
 ## 目录（Contents）
 - **Chapter 2. Creating and Destroying Objects（创建和销毁对象）**
     - [Chapter 2 Introduction（章节介绍）](Chapter-2-Introduction.md)
@@ -54,7 +47,7 @@ Effective Java（第3版）各章节的中英文学习参考，希望对 Java �
     - [Chapter 6 Introduction（章节介绍）](Chapter-6-Introduction.md)
     - [Item 34: Use enums instead of int constants（用枚举类型代替 int 常量）](Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)
     - [Item 35: Use instance fields instead of ordinals（使用实例字段替代序数）](Chapter-6-Item-35-Use-instance-fields-instead-of-ordinals.md)
-    - [Item 36: Use EnumSet instead of bit fields](Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)
+    - [Item 36: Use EnumSet instead of bit fields（用 EnumSet 替代位字段）](Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)
     - [Item 37: Use EnumMap instead of ordinal indexing](Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)
     - [Item 38: Emulate extensible enums with interfaces](Chapter-6-Item-38-Emulate-extensible-enums-with-interfaces.md)
     - [Item 39: Prefer annotations to naming patterns](Chapter-6-Item-39-Prefer-annotations-to-naming-patterns.md)
