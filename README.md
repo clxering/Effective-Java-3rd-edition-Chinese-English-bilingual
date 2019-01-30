@@ -60,7 +60,7 @@ Effective Java（第3版）各章节的中英文学习参考，希望对 Java �
     - [Item 39: Prefer annotations to naming patterns](Chapter-6-Item-39-Prefer-annotations-to-naming-patterns.md)
     - [Item 40: Consistently use the Override annotation](Chapter-6-Item-40-Consistently-use-the-Override-annotation.md)
     - [Item 41: Use marker interfaces to define types](Chapter-6-Item-41-Use-marker-interfaces-to-define-types.md)
-- **Chapter 7. Lambdas and Streams（λ表达式和流）**
+- **Chapter 7. Lambdas and Streams（λ 表达式和流）**
     - [Chapter 7 Introduction（章节介绍）](Chapter-7-Introduction.md)
     - [Item 42: Prefer lambdas to anonymous classes](Chapter-7-Item-42-Prefer-lambdas-to-anonymous-classes.md)
     - [Item 43: Prefer method references to lambdas](Chapter-7-Item-43-Prefer-method-references-to-lambdas.md)
@@ -79,7 +79,7 @@ Effective Java（第3版）各章节的中英文学习参考，希望对 Java �
     - [Item 54: Return empty collections or arrays not nulls](Chapter-8-Item-54-Return-empty-collections-or-arrays-not-nulls.md)
     - [Item 55: Return optionals judiciously](Chapter-8-Item-55-Return-optionals-judiciously.md)
     - [Item 56: Write doc comments for all exposed API elements](Chapter-8-Item-56-Write-doc-comments-for-all-exposed-API-elements.md)
-- **Chapter 9. General Programming（泛型编程）**
+- **Chapter 9. General Programming（通用程序设计）**
     - [Chapter 9 Introduction（章节介绍）](Chapter-9-Introduction.md)
     - [Item 57: Minimize the scope of local variables](Chapter-9-Item-57-Minimize-the-scope-of-local-variables.md)
     - [Item 58: Prefer for each loops to traditional for loops](Chapter-9-Item-58-Prefer-for-each-loops-to-traditional-for-loops.md)
