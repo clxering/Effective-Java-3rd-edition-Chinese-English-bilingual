@@ -4,6 +4,8 @@
 
 If the elements of an enumerated type are used primarily in sets, it is traditional to use the int enum pattern (Item 34), assigning a different power of 2 to each constant:
 
+如果枚举类型的元素主要在集合中使用，传统上使用int enum模式（Item 34），为每个常量分配不同的2次方：
+
 ```
 // Bit field enumeration constants - OBSOLETE!
 public class Text {
