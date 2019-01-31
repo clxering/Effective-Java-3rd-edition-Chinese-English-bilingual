@@ -8,7 +8,7 @@ It is generally not too difficult to parameterize your declarations and make use
 
 Consider the simple (toy) stack implementation from Item 7:
 
-考虑[Item-7](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2-Item-7-Eliminate-obsolete-object-references.md)中简单的堆栈实现：
+考虑 [Item-7](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2-Item-7-Eliminate-obsolete-object-references.md) 中简单的堆栈实现：
 
 ```
 // Object-based collection - a prime candidate for generics
@@ -91,7 +91,7 @@ elements = new E[DEFAULT_INITIAL_CAPACITY];
 
 As explained in Item 28, you can’t create an array of a non-reifiable type, such as E. This problem arises every time you write a generic type that is backed by an array. There are two reasonable ways to solve it. The first solution directly circumvents the prohibition on generic array creation: create an array of Object and cast it to the generic array type. Now in place of an error, the compiler will emit a warning. This usage is legal, but it’s not (in general) typesafe:
 
-正如[Item-28](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-28-Prefer-lists-to-arrays.md)中所解释的，你不能创建非具体化类型的数组，例如 E。每当你编写由数组支持的泛型时，就会出现这个问题。有两种合理的方法来解决它。第一个解决方案直接绕过了创建泛型数组的禁令：创建对象数组并将其转换为泛型数组类型。现在，编译器将发出一个警告来代替错误。这种用法是合法的，但（一般而言）它不是类型安全的：
+正如 [Item-28](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-28-Prefer-lists-to-arrays.md) 中所解释的，你不能创建非具体化类型的数组，例如 E。每当你编写由数组支持的泛型时，就会出现这个问题。有两种合理的方法来解决它。第一个解决方案直接绕过了创建泛型数组的禁令：创建对象数组并将其强制转换为泛型数组类型。现在，编译器将发出一个警告来代替错误。这种用法是合法的，但（一般而言）它不是类型安全的：
 
 ```
 Stack.java:8: warning: [unchecked] unchecked cast
@@ -114,7 +114,7 @@ Once you’ve proved that an unchecked cast is safe, suppress the warning in as 
 // type of the array won't be E[]; it will always be Object[]!
 @SuppressWarnings("unchecked")
 public Stack() {
-elements = (E[]) new Object[DEFAULT_INITIAL_CAPACITY];
+    elements = (E[]) new Object[DEFAULT_INITIAL_CAPACITY];
 }
 ```
 
@@ -142,17 +142,18 @@ E result = (E) elements[--size];
 
 Because E is a non-reifiable type, there’s no way the compiler can check the cast at runtime. Again, you can easily prove to yourself that the unchecked cast is safe, so it’s appropriate to suppress the warning. In line with the advice of Item 27, we suppress the warning only on the assignment that contains the unchecked cast, not on the entire pop method:
 
-因为 E 是不可具体化的类型，编译器无法在运行时检查转换。同样，你可以很容易地向自己证明 unchecked 的强制转换是安全的，因此可以适当地抑制警告。根据[Item-27](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-27-Eliminate-unchecked-warnings.md)的建议，我们仅对包含 unchecked 类型转换的赋值禁用警告，而不是对整个 pop 方法禁用警告：
+因为 E 是不可具体化的类型，编译器无法在运行时检查强制转换。同样，你可以很容易地向自己证明 unchecked 的强制转换是安全的，因此可以适当地抑制警告。根据 [Item-27](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-27-Eliminate-unchecked-warnings.md) 的建议，我们仅对包含 unchecked 强制转换的赋值禁用警告，而不是对整个 pop 方法禁用警告：
 
 ```
 // Appropriate suppression of unchecked warning
 public E pop() {
-if (size == 0)
-throw new EmptyStackException();
-// push requires elements to be of type E, so cast is correct
-@SuppressWarnings("unchecked") E result =(E) elements[--size];
-elements[size] = null; // Eliminate obsolete reference
-return result;
+    if (size == 0)
+        throw new EmptyStackException();
+    // push requires elements to be of type E, so cast is correct
+    @SuppressWarnings("unchecked")
+    E result =(E) elements[--size];
+    elements[size] = null; // Eliminate obsolete reference
+    return result;
 }
 ```
 
@@ -167,17 +168,17 @@ The following program demonstrates the use of our generic Stack class. The progr
 ```
 // Little program to exercise our generic Stack
 public static void main(String[] args) {
-Stack<String> stack = new Stack<>();
-for (String arg : args)
-stack.push(arg);
-while (!stack.isEmpty())
-System.out.println(stack.pop().toUpperCase());
+    Stack<String> stack = new Stack<>();
+    for (String arg : args)
+        stack.push(arg);
+    while (!stack.isEmpty())
+        System.out.println(stack.pop().toUpperCase());
 }
 ```
 
 The foregoing（adj. 前述的；前面的；在前的） example may appear to contradict Item 28, which encourages the use of lists in preference to arrays. It is not always possible or desirable to use lists inside your generic types. Java doesn’t support lists natively, so some generic types, such as ArrayList, must be implemented atop arrays. Other generic types, such as HashMap, are implemented atop arrays for performance. The great majority of generic types are like our Stack example in that their type parameters have no restrictions: you can create a Stack<Object>, Stack<int[]>, Stack<List<String>>, or Stack of any other object reference type. Note that you can’t create a Stack of a primitive type: trying to create a Stack<int> or Stack<double> will result in a compile-time error.
 
-前面的例子可能与[Item-28](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-28-Prefer-lists-to-arrays.md)相矛盾，Item-28 鼓励优先使用列表而不是数组。在泛型中使用列表并不总是可能的或可取的。Java 本身不支持列表，因此一些泛型（如 ArrayList）必须在数组之上实现。其他泛型（如 HashMap）是在数组之上实现的，以提高性能。大多数泛型与我们的 Stack 示例相似，因为它们的类型参数没有限制：你可以创建 Stack<Object>、Stack<int[]>、Stack<List<String>> 或任何其他对象引用类型的堆栈。注意，不能创建基本类型的 Stack：试图创建 Stack<int> 或 Stack<double> 将导致编译时错误。
+前面的例子可能与 [Item-28](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-28-Prefer-lists-to-arrays.md) 相矛盾，Item-28 鼓励优先使用列表而不是数组。在泛型中使用列表并不总是可能的或可取的。Java 本身不支持列表，因此一些泛型（如 ArrayList）必须在数组之上实现。其他泛型（如 HashMap）是在数组之上实现的，以提高性能。大多数泛型与我们的 Stack 示例相似，因为它们的类型参数没有限制：你可以创建 Stack<Object>、Stack<int[]>、Stack<List<String>> 或任何其他对象引用类型的堆栈。注意，不能创建基本类型的 Stack：试图创建 Stack<int> 或 Stack<double> 将导致编译时错误。
 
 This is a fundamental limitation of Java’s generic type system. You can work around this restriction by using boxed primitive types (Item 61). There are some generic types that restrict the permissible values of their type parameters. For example, consider java.util.concurrent.DelayQueue, whose declaration looks like this:
 

@@ -1,19 +1,12 @@
 # Effective-Java-3rd-edition-Chinese-English-bilingual
 Effective Java（第3版）各章节的中英文学习参考，希望对 Java 技术的提高有所帮助，欢迎通过 issue 或 pr 提出建议和修改意见。
 
-## 赞助（sponsorship）
-提供小额赞助，鼓励译者。谢谢！
-<div>
-    <img src="image/alipay.png" width="130" height="145"/>
-    <img style="margin-left:30px" src="image/wechatpay.png" width="130" height="145"/>
-</div>
-
 ## 目录（Contents）
 - **Chapter 2. Creating and Destroying Objects（创建和销毁对象）**
     - [Chapter 2 Introduction（章节介绍）](Chapter-2-Introduction.md)
     - [Item 1: Consider static factory methods instead of constructors（考虑静态工厂方法而不是构造函数）](Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)
     - [Item 2: Consider a builder when faced with many constructor parameters（在面对多个构造函数参数时，请考虑构建器）](Chapter-2-Item-2-Consider-a-builder-when-faced-with-many-constructor-parameters.md)
-    - [Item 3: Enforce the singleton property with a private constructor or an enum type（使用私有构造函数或枚举类型执行单例属性）](Chapter-2-Item-3-Enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type.md)
+    - [Item 3: Enforce the singleton property with a private constructor or an enum type（使用私有构造函数或枚举类型实施单例属性）](Chapter-2-Item-3-Enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type.md)
     - [Item 4: Enforce noninstantiability with a private constructor（用私有构造函数执行非实例化）](Chapter-2-Item-4-Enforce-noninstantiability-with-a-private-constructor.md)
     - [Item 5: Prefer dependency injection to hardwiring resources（依赖注入优于硬连接资源）](Chapter-2-Item-5-Prefer-dependency-injection-to-hardwiring-resources.md)
     - [Item 6: Avoid creating unnecessary objects（避免创建不必要的对象）](Chapter-2-Item-6-Avoid-creating-unnecessary-objects.md)
@@ -43,24 +36,24 @@ Effective Java（第3版）各章节的中英文学习参考，希望对 Java �
 - **Chapter 5. Generics（泛型）**
     - [Chapter 5 Introduction（章节介绍）](Chapter-5-Introduction.md)
     - [Item 26: Do not use raw types（不要使用原始类型）](Chapter-5-Item-26-Do-not-use-raw-types.md)
-    - [Item 27: Eliminate unchecked warnings（消除unchecked警告）](Chapter-5-Item-27-Eliminate-unchecked-warnings.md)
-    - [Item 28: Prefer lists to arrays（列表优于数组）](Chapter-5-Item-28-Prefer-lists-to-arrays.md)
+    - [Item 27: Eliminate unchecked warnings（消除 unchecked 警告）](Chapter-5-Item-27-Eliminate-unchecked-warnings.md)
+    - [Item 28: Prefer lists to arrays（list 优于数组）](Chapter-5-Item-28-Prefer-lists-to-arrays.md)
     - [Item 29: Favor generic types（优先使用泛型）](Chapter-5-Item-29-Favor-generic-types.md)
     - [Item 30: Favor generic methods（优先使用泛型方法）](Chapter-5-Item-30-Favor-generic-methods.md)
     - [Item 31: Use bounded wildcards to increase API flexibility（使用有界通配符增加API的灵活性）](Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)
     - [Item 32: Combine generics and varargs judiciously（明智地合用泛型和可变参数）](Chapter-5-Item-32-Combine-generics-and-varargs-judiciously.md)
     - [Item 33: Consider typesafe heterogeneous containers（考虑类型安全的异构容器）](Chapter-5-Item-33-Consider-typesafe-heterogeneous-containers.md)
-- **Chapter 6. Enums and Annotations（枚举和注释）**
+- **Chapter 6. Enums and Annotations（枚举和注解）**
     - [Chapter 6 Introduction（章节介绍）](Chapter-6-Introduction.md)
-    - [Item 34: Use enums instead of int constants](Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)
-    - [Item 35: Use instance fields instead of ordinals](Chapter-6-Item-35-Use-instance-fields-instead-of-ordinals.md)
-    - [Item 36: Use EnumSet instead of bit fields](Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)
+    - [Item 34: Use enums instead of int constants（用枚举类型代替 int 常量）](Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)
+    - [Item 35: Use instance fields instead of ordinals（使用实例字段替代序数）](Chapter-6-Item-35-Use-instance-fields-instead-of-ordinals.md)
+    - [Item 36: Use EnumSet instead of bit fields（用 EnumSet 替代位字段）](Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)
     - [Item 37: Use EnumMap instead of ordinal indexing](Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)
     - [Item 38: Emulate extensible enums with interfaces](Chapter-6-Item-38-Emulate-extensible-enums-with-interfaces.md)
     - [Item 39: Prefer annotations to naming patterns](Chapter-6-Item-39-Prefer-annotations-to-naming-patterns.md)
     - [Item 40: Consistently use the Override annotation](Chapter-6-Item-40-Consistently-use-the-Override-annotation.md)
     - [Item 41: Use marker interfaces to define types](Chapter-6-Item-41-Use-marker-interfaces-to-define-types.md)
-- **Chapter 7. Lambdas and Streams（λ表达式和流）**
+- **Chapter 7. Lambdas and Streams（λ 表达式和流）**
     - [Chapter 7 Introduction（章节介绍）](Chapter-7-Introduction.md)
     - [Item 42: Prefer lambdas to anonymous classes](Chapter-7-Item-42-Prefer-lambdas-to-anonymous-classes.md)
     - [Item 43: Prefer method references to lambdas](Chapter-7-Item-43-Prefer-method-references-to-lambdas.md)
@@ -79,7 +72,7 @@ Effective Java（第3版）各章节的中英文学习参考，希望对 Java �
     - [Item 54: Return empty collections or arrays not nulls](Chapter-8-Item-54-Return-empty-collections-or-arrays-not-nulls.md)
     - [Item 55: Return optionals judiciously](Chapter-8-Item-55-Return-optionals-judiciously.md)
     - [Item 56: Write doc comments for all exposed API elements](Chapter-8-Item-56-Write-doc-comments-for-all-exposed-API-elements.md)
-- **Chapter 9. General Programming（泛型编程）**
+- **Chapter 9. General Programming（通用程序设计）**
     - [Chapter 9 Introduction（章节介绍）](Chapter-9-Introduction.md)
     - [Item 57: Minimize the scope of local variables](Chapter-9-Item-57-Minimize-the-scope-of-local-variables.md)
     - [Item 58: Prefer for each loops to traditional for loops](Chapter-9-Item-58-Prefer-for-each-loops-to-traditional-for-loops.md)

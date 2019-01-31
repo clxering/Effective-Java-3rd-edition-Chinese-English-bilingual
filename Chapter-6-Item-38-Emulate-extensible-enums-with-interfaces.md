@@ -1,4 +1,4 @@
-## Chapter 6. Enums and Annotations（枚举和注释）
+## Chapter 6. Enums and Annotations（枚举和注解）
 
 ### Item 38: Emulate extensible enums with interfaces
 
@@ -27,13 +27,13 @@ public enum BasicOperation implements Operation {
     DIVIDE("/") {
         public double apply(double x, double y) { return x / y; }
     };
-    
+
     private final String symbol;
-    
+
     BasicOperation(String symbol) {
         this.symbol = symbol;
     }
-    
+
     @Override public String toString() {
         return symbol;
     }
@@ -48,20 +48,20 @@ public enum ExtendedOperation implements Operation {
     EXP("^") {
         public double apply(double x, double y) {
             return Math.pow(x, y);
-        } 
+        }
     },
     REMAINDER("%") {
         public double apply(double x, double y) {
             return x % y;
-    } 
+    }
 };
 
     private final String symbol;
-    
+
     ExtendedOperation(String symbol) {
         this.symbol = symbol;
     }
-    
+
     @Override public String toString() {
         return symbol;
     }
@@ -116,4 +116,3 @@ A minor disadvantage of the use of interfaces to emulate extensible enums is tha
 The pattern described in this item is used in the Java libraries. For example, the java.nio.file.LinkOption enum type implements the CopyOption and OpenOption interfaces.
 
 In summary, **while you cannot write an extensible enum type, you can emulate it by writing an interface to accompany a basic enum type that implements the interface.** This allows clients to write their own enums (or other types) that implement the interface. Instances of these types can then be used wherever instances of the basic enum type can be used, assuming APIs are written in terms of the interface.
-
