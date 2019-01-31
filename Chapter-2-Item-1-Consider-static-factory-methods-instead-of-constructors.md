@@ -40,7 +40,7 @@ The ability of static factory methods to return the same object from repeated in
 
 静态工厂方法在重复调用中能够返回相同对象，这样的能力允许类严格控制任何时候存在的实例。这样做的类被称为实例受控的类。编写实例受控的类有几个原因。实例控制允许一个类来保证它是一个单例（[Item-3](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2-Item-3-Enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type.md)）或不可实例化的（[Item-4](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2-Item-4-Enforce-noninstantiability-with-a-private-constructor.md)）。同时,它允许一个不可变的值类（[Item-17](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4-Item-17-Minimize-mutability.md)）保证不存在两个相同的实例：a.equals(b) 当且仅当 a==b。这是享元模式的基础[Gamma95]。枚举类型（[Item-34](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)）提供了这种保证。
 
-**译注：原文 noninstantiable 修改为 non-instantiable ，译为「不可实例化的」**
+**译注：原文 noninstantiable 应修改为 non-instantiable ，译为「不可实例化的」**
 
 **A third advantage of static factory methods is that, unlike constructors,they can return an object of any subtype of their return type.** This gives you great flexibility in choosing the class of the returned object.
 
@@ -54,7 +54,7 @@ Prior to Java 8, interfaces couldn’t have static methods. By convention, stati
 
 在 Java 8 之前，接口不能有静态方法。按照惯例，一个名为 Type 的接口的静态工厂方法被放在一个名为 Types 的不可实例化的伴随类（[Item-4](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2-Item-4-Enforce-noninstantiability-with-a-private-constructor.md)）中。例如，Java 的 Collections 框架有 45 个接口实用工具实现，提供了不可修改的集合、同步集合等。几乎所有这些实现都是通过一个非实例化类（java.util.Collections）中的静态工厂方法导出的。返回对象的类都是非公共的。
 
-**译注：原文 noninstantiable 修改为 non-instantiable ，译为「不可实例化的」**
+**译注：原文 noninstantiable 应修改为 non-instantiable ，译为「不可实例化的」**
 
 The Collections Framework API is much smaller than it would have been had it exported forty-five separate public classes, one for each convenience implementation. It is not just the bulk of the API that is reduced but the conceptual（abj.概念上的） weight: the number and difficulty of the concepts that programmers must master in order to use the API. The programmer knows that the returned object has precisely the API specified by its interface, so there is no need to read additional class documentation for the implementation class. Furthermore, using such a static factory method requires the client to refer to the returned object by interface rather than implementation class, which is generally good practice (Item 64).
 
