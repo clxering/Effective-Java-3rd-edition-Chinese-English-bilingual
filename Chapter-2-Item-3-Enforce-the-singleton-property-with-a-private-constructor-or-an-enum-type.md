@@ -1,6 +1,6 @@
 ## Chapter 2. Creating and Destroying Objects（创建和销毁对象）
 
-### Item 3: Enforce the singleton property with a private constructor or an enum type（使用私有构造函数或枚举类型执行单例属性）
+### Item 3: Enforce the singleton property with a private constructor or an enum type（使用私有构造函数或枚举类型实施单例属性）
 
 A singleton is simply a class that is instantiated（v.实例化） exactly once [Gamma95].Singletons typically represent either a stateless object such as a function (Item24) or a system component that is intrinsically unique. **Making a class a singleton can make it difficult to test its clients** because it’s impossible to substitute a mock implementation for a singleton unless it implements an interface that serves as its type.
 
