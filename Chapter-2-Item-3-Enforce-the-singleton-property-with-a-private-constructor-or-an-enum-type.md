@@ -64,9 +64,11 @@ One advantage of the static factory approach is that it gives you the flexibilit
 
 ***译注：static factory approach 等同于 static factory method***
 
-静态工厂方法的一个优点是，它可以在不更改 API 的情况下决定类是否是单例。工厂方法返回唯一的实例，但是可以对其进行修改，为调用它的每个线程返回一个单独的实例。第二个优点是，如果应用程序需要的话，可以编写泛型的单例工厂（[Item-30](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-30-Favor-generic-methods.md)）。使用静态工厂的最后一个优点是方法引用能够作为一个提供者，例如 `Elvis::instance` 是 `Supplier<Elvis>` 的提供者。除非能够与这些优点沾边，否则使用 public 字段的方式更可取。
+静态工厂方法的一个优点是，它可以在不更改 API 的情况下决定类是否是单例。工厂方法返回唯一的实例，但是可以对其进行修改，为调用它的每个线程返回一个单独的实例。第二个优点是，如果应用程序需要的话，可以编写泛型的单例工厂（[Item-30](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-30-Favor-generic-methods.md)）。使用静态工厂的最后一个优点是方法引用能够作为一个提供者，例如 `Elvis::getInstance` 是 `Supplier<Elvis>` 的提供者。除非能够与这些优点沾边，否则使用 public 字段的方式更可取。
 
-***译注：方法引用作为一个提供者的例子：***
+***译注 1：原文方法引用可能是笔误，修改为 `Elvis::getInstance`***
+
+***译注 2：方法引用作为提供者的例子：***
 ```
 Supplier<Elvis> sup = Elvis::getInstance;
 Elvis obj = sup.get();
