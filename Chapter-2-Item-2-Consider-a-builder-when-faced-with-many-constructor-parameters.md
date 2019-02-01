@@ -226,9 +226,9 @@ public abstract class Pizza {
 }
 ```
 
-Note that Pizza.Builder is a generic type with a recursive type parameter (Item 30). This, along with the abstract self method, allows method chaining to work properly in subclasses, without the need for casts. This workaround for the fact that Java lacks a self type is known as the simulated self-type idiom.Here are two concrete subclasses of Pizza, one of which represents a standard New-York-style pizza, the other a calzone. The former has a required size parameter,while the latter lets you specify whether sauce should be inside or out:
+Note that Pizza.Builder is a generic type with a recursive type parameter (Item 30). This, along with the abstract self method, allows method chaining to work properly in subclasses, without the need for casts. This workaround for the fact that Java lacks a self type is known as the simulated self-type idiom. Here are two concrete subclasses of Pizza, one of which represents a standard New-York-style pizza, the other a calzone. The former has a required size parameter,while the latter lets you specify whether sauce should be inside or out:
 
-请注意，Pizza.Builder 是具有递归类型参数的泛型类型（[Item-31](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)）。这与抽象 self 方法一起，允许方法链接在子类中正常工作，而不需要强制转换。对于 Java 缺少自类型这一事实，这种变通方法称为模拟自类型习语。这里有两个具体的比萨子类，一个是标准的纽约风格的比萨，另一个是 calzone。前者有一个所需的大小参数，而后者让你指定酱料应该是内部还是外部：
+请注意，Pizza.Builder 是具有递归类型参数的泛型类型（[Item-31](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)）。这与抽象 self 方法一起，允许方法链接在子类中正常工作，而不需要强制转换。对于 Java 缺少自类型这一事实，这种变通方法称为模拟自类型习惯用法。这里有两个具体的比萨子类，一个是标准的纽约风格的比萨，另一个是 calzone。前者有一个所需的大小参数，而后者让你指定酱料应该是内部还是外部：
 
 ```
 import java.util.Objects;
