@@ -1,6 +1,6 @@
 ## Chapter 3. Methods Common to All Objects（对象的通用方法）
 
-### Item 11: Always override hashCode when you override equals（当重写equals时，也重写hashCode）
+### Item 11: Always override hashCode when you override equals（当覆盖 equals 时，也覆盖 hashCode）
 
 **You must override hashCode in every class that overrides equals.** If you fail to do so, your class will violate（vt.违反） the general contract for hashCode, which will prevent it from functioning properly（adv.适当地，正确地） in collections such as HashMap and HashSet. Here is the contract, adapted from the Object specification :
 

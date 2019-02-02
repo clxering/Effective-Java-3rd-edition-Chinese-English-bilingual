@@ -1,6 +1,6 @@
 ## Chapter 3. Methods Common to All Objects（对象的通用方法）
 
-### Item 12: Always override toString（总是重写toString方法）
+### Item 12: Always override toString（总是覆盖 toString 方法）
 
 While Object provides an implementation of the toString method, the string that it returns is generally not what the user of your class wants to see. It consists of（由…组成） the class name followed by an “at” sign (@) and the unsigned hexadecimal representation of the hash code, for example,PhoneNumber@163b91. The general contract for toString says that the returned string should be “a concise but informative representation that is easy for a person to read.” While it could be argued that PhoneNumber@163b91 is concise and easy to read, it isn’t very informative when compared to 707-867-5309. The toString contract goes on to say, “It is recommended that all subclasses override this method.” Good advice, indeed!
 

@@ -1,6 +1,6 @@
 ## Chapter 3. Methods Common to All Objects（对象的通用方法）
 
-### Item 13: Override clone judiciously（明智地重写clone方法）
+### Item 13: Override clone judiciously（明智地覆盖 clone 方法）
 
 The Cloneable interface was intended（目的） as a mixin interface (Item 20) for classes to advertise that they permit cloning. Unfortunately, it fails to serve this purpose. Its primary flaw（n. 瑕疵，缺点） is that it lacks a clone method, and Object’s clone method is protected. You cannot, without resorting（求助） to reflection (Item 65), invoke clone on an object merely（adv. 仅仅，只是） because it implements Cloneable.Even a reflective invocation may fail, because there is no guarantee（n. 保证；担保） that the object has an accessible clone method. Despite this flaw and many others, the facility（n. 设施；设备） is in reasonably wide use, so it pays to understand it. This item tells you how to implement a well-behaved clone method, discusses when it is appropriate to do so, and presents alternatives.
 

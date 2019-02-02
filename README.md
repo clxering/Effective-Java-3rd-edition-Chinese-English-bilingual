@@ -15,10 +15,10 @@ Effective Java（第3版）各章节的中英文学习参考，希望对 Java �
     - [Item 9: Prefer try with resources to try finally（使用 try-with-resources 优于 try-finally）](Chapter-2-Item-9-Prefer-try-with-resources-to-try-finally.md)
 - **Chapter 3. Methods Common to All Objects（对象的通用方法）**
     - [Chapter 3 Introduction（章节介绍）](Chapter-3-Introduction.md)
-    - [Item 10: Obey the general contract when overriding equals（重写equals方法时应遵守的约定）](Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)
-    - [Item 11: Always override hashCode when you override equals（当重写equals时，也重写hashCode）](Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)
-    - [Item 12: Always override toString（总是重写toString方法）](Chapter-3-Item-12-Always-override-toString.md)
-    - [Item 13: Override clone judiciously（明智地重写clone方法）](Chapter-3-Item-13-Override-clone-judiciously.md)
+    - [Item 10: Obey the general contract when overriding equals（覆盖 equals 方法时应遵守的约定）](Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)
+    - [Item 11: Always override hashCode when you override equals（当覆盖 equals 时，也覆盖 hashCode）](Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)
+    - [Item 12: Always override toString（总是覆盖 toString 方法）](Chapter-3-Item-12-Always-override-toString.md)
+    - [Item 13: Override clone judiciously（明智地覆盖 clone 方法）](Chapter-3-Item-13-Override-clone-judiciously.md)
     - [Item 14: Consider implementing Comparable](Chapter-3-Item-14-Consider-implementing-Comparable.md)
 - **Chapter 4. Classes and Interfaces（类和接口）**
     - [Chapter 4 Introduction（章节介绍）](Chapter-4-Introduction.md)
