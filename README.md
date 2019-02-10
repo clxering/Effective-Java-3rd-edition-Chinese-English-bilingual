@@ -1,5 +1,5 @@
 # Effective-Java-3rd-edition-Chinese-English-bilingual
-Effective Java（第3版）各章节的中英文学习参考，希望对 Java 技术的提高有所帮助，欢迎通过 issue 或 pr 提出建议和修改意见。
+Effective Java（第 3 版）各章节的中英文学习参考，希望对 Java 技术的提高有所帮助，欢迎通过 issue 或 pr 提出建议和修改意见。
 
 ## 目录（Contents）
 - **Chapter 2. Creating and Destroying Objects（创建和销毁对象）**
@@ -40,7 +40,7 @@ Effective Java（第3版）各章节的中英文学习参考，希望对 Java �
     - [Item 28: Prefer lists to arrays（list 优于数组）](Chapter-5/Chapter-5-Item-28-Prefer-lists-to-arrays.md)
     - [Item 29: Favor generic types（优先使用泛型）](Chapter-5/Chapter-5-Item-29-Favor-generic-types.md)
     - [Item 30: Favor generic methods（优先使用泛型方法）](Chapter-5/Chapter-5-Item-30-Favor-generic-methods.md)
-    - [Item 31: Use bounded wildcards to increase API flexibility（使用有界通配符增加API的灵活性）](Chapter-5/Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)
+    - [Item 31: Use bounded wildcards to increase API flexibility（使用有界通配符增加 API 的灵活性）](Chapter-5/Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)
     - [Item 32: Combine generics and varargs judiciously（明智地合用泛型和可变参数）](Chapter-5/Chapter-5-Item-32-Combine-generics-and-varargs-judiciously.md)
     - [Item 33: Consider typesafe heterogeneous containers（考虑类型安全的异构容器）](Chapter-5/Chapter-5-Item-33-Consider-typesafe-heterogeneous-containers.md)
 - **Chapter 6. Enums and Annotations（枚举和注解）**
