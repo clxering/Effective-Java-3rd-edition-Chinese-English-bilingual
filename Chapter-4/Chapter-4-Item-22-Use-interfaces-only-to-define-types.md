@@ -30,11 +30,11 @@ The constant interface pattern is a poor use of interfaces. That a class uses so
 
 There are several constant interfaces in the Java platform libraries, such as java.io.ObjectStreamConstants. These interfaces should be regarded as anomalies and should not be emulated.
 
-Java平台库中有几个常量接口，例如java.io.ObjectStreamConstants。这些接口应该被视为（反例），不应该被（效仿）。
+Java 平台库中有几个常量接口，例如 java.io.ObjectStreamConstants。这些接口应该被视为（反例），不应该被（效仿）。
 
 If you want to export constants, there are several reasonable choices. If the constants are strongly tied to an existing class or interface, you should add them to the class or interface. For example, all of the boxed numerical primitive classes, such as Integer and Double, export MIN_VALUE and MAX_VALUE constants. If the constants are best viewed as members of an enumerated type, you should export them with an enum type (Item 34). Otherwise, you should export the constants with a noninstantiable utility class (Item 4). Here is a utility class version of the PhysicalConstants example shown earlier:
 
-如果您想导出常量，有几个合理的选择。如果这些常量与现有的类或接口紧密绑定，则应该将它们添加到类或接口。例如，所有装箱的数值包装类，比如 Integer 和 Double，都导出MIN_VALUE和MAX_VALUE常量。如果最好将这些常量看作枚举类型的成员，那么应该使用 enum 类型导出它们（[Item-34](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)）。否则，您应该使用不可实例化的工具类（[Item-4](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-4-Enforce-noninstantiability-with-a-private-constructor.md)）导出常量。下面是一个之前的 PhysicalConstants 例子的工具类另一个版本：
+如果你想导出常量，有几个合理的选择。如果这些常量与现有的类或接口紧密绑定，则应该将它们添加到类或接口。例如，所有装箱的数值包装类，比如 Integer 和 Double，都导出 MIN_VALUE 和 MAX_VALUE 常量。如果最好将这些常量看作枚举类型的成员，那么应该使用 enum 类型导出它们（[Item-34](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)）。否则，你应该使用不可实例化的工具类（[Item-4](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-4-Enforce-noninstantiability-with-a-private-constructor.md)）导出常量。下面是一个之前的 PhysicalConstants 例子的工具类另一个版本：
 
 ```
 // Constant utility class
@@ -50,11 +50,11 @@ public class PhysicalConstants {
 
 Incidentally, note the use of the underscore character ( _ ) in the numeric literals. Underscores, which have been legal since Java 7, have no effect on the values of numeric literals, but can make them much easier to read if used with discretion. Consider adding underscores to numeric literals, whether fixed of floating point, if they contain five or more consecutive digits. For base ten literals, whether integral or floating point, you should use underscores to separate literals into groups of three digits indicating positive and negative powers of one thousand.
 
-顺便说一下，请注意在数字字面值中使用了下划线( _ )。下划线自Java 7以来一直是合法的，它对数字字面值没有影响，如果谨慎使用，可以使它们更容易阅读。考虑添加下划线到数字字面值，无论是固定的浮点数，如果它们包含五个或多个连续数字。对于以 10 为基数的字面值，无论是整数还是浮点数，都应该使用下划线将字面值分隔为三位数，表示一千的正幂和负幂。
+顺便说一下，请注意在数字字面值中使用了下划线( _ )。下划线自 Java 7 以来一直是合法的，它对数字字面值没有影响，如果谨慎使用，可以使它们更容易阅读。考虑添加下划线到数字字面值，无论是固定的浮点数，如果它们包含五个或多个连续数字。对于以 10 为基数的字面值，无论是整数还是浮点数，都应该使用下划线将字面值分隔为三位数，表示一千的正幂和负幂。
 
 Normally a utility class requires clients to qualify constant names with a class name, for example, PhysicalConstants.AVOGADROS_NUMBER. If you make heavy use of the constants exported by a utility class, you can avoid the need for qualifying the constants with the class name by making use of the static import facility:
 
-通常，工具类要求客户端使用类名来限定常量名，例如PhysicalConstants.AVOGADROS_NUMBER。如果您大量使用工具类导出的常量，您可以通过使用静态导入机制来避免使用类名限定常量：
+通常，工具类要求客户端使用类名来限定常量名，例如 PhysicalConstants.AVOGADROS_NUMBER。如果你大量使用工具类导出的常量，你可以通过使用静态导入机制来避免使用类名限定常量：
 
 ```
 // Use of static import to avoid qualifying constants

@@ -4,7 +4,7 @@ Effective Java（第 3 版）各章节的中英文学习参考，希望对 Java 
 ## 目录（Contents）
 - **Chapter 2. Creating and Destroying Objects（创建和销毁对象）**
     - [Chapter 2 Introduction（章节介绍）](Chapter-2/Chapter-2-Introduction.md)
-    - [Item 1: Consider static factory methods instead of constructors（考虑静态工厂方法而不是构造函数）](Chapter-2/Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)
+    - [Item 1: Consider static factory methods instead of constructors（考虑以静态工厂方法代替构造函数）](Chapter-2/Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)
     - [Item 2: Consider a builder when faced with many constructor parameters（在面对多个构造函数参数时，请考虑构建器）](Chapter-2/Chapter-2-Item-2-Consider-a-builder-when-faced-with-many-constructor-parameters.md)
     - [Item 3: Enforce the singleton property with a private constructor or an enum type（使用私有构造函数或枚举类型实施单例属性）](Chapter-2/Chapter-2-Item-3-Enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type.md)
     - [Item 4: Enforce noninstantiability with a private constructor（用私有构造函数实施不可实例化）](Chapter-2/Chapter-2-Item-4-Enforce-noninstantiability-with-a-private-constructor.md)
@@ -16,10 +16,10 @@ Effective Java（第 3 版）各章节的中英文学习参考，希望对 Java 
 - **Chapter 3. Methods Common to All Objects（对象的通用方法）**
     - [Chapter 3 Introduction（章节介绍）](Chapter-3/Chapter-3-Introduction.md)
     - [Item 10: Obey the general contract when overriding equals（覆盖 equals 方法时应遵守的约定）](Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)
-    - [Item 11: Always override hashCode when you override equals（当覆盖 equals 时，也覆盖 hashCode）](Chapter-3/Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)
-    - [Item 12: Always override toString（总是覆盖 toString 方法）](Chapter-3/Chapter-3-Item-12-Always-override-toString.md)
+    - [Item 11: Always override hashCode when you override equals（当覆盖 equals 时，始终覆盖 hashCode）](Chapter-3/Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)
+    - [Item 12: Always override toString（始终覆盖 toString 方法）](Chapter-3/Chapter-3-Item-12-Always-override-toString.md)
     - [Item 13: Override clone judiciously（明智地覆盖 clone 方法）](Chapter-3/Chapter-3-Item-13-Override-clone-judiciously.md)
-    - [Item 14: Consider implementing Comparable](Chapter-3/Chapter-3-Item-14-Consider-implementing-Comparable.md)
+    - [Item 14: Consider implementing Comparable（考虑实现 Comparable 接口）](Chapter-3/Chapter-3-Item-14-Consider-implementing-Comparable.md)
 - **Chapter 4. Classes and Interfaces（类和接口）**
     - [Chapter 4 Introduction（章节介绍）](Chapter-4/Chapter-4-Introduction.md)
     - [Item 15: Minimize the accessibility of classes and members（尽量减少类和成员的可访问性）](Chapter-4/Chapter-4-Item-15-Minimize-the-accessibility-of-classes-and-members.md)

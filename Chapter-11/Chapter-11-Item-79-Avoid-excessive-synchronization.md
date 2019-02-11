@@ -12,9 +12,9 @@ To make this concrete, consider the following class, which implements an observa
 // Broken - invokes alien method from synchronized block!
 public class ObservableSet<E> extends ForwardingSet<E> {
     public ObservableSet(Set<E> set) { super(set); }
-    
+
     private final List<SetObserver<E>> observers= new ArrayList<>();
-    
+
     public void addObserver(SetObserver<E> observer) {
         synchronized(observers) {
             observers.add(observer);
@@ -26,23 +26,23 @@ public class ObservableSet<E> extends ForwardingSet<E> {
             return observers.remove(observer);
         }
     }
-    
+
     private void notifyElementAdded(E element) {
         synchronized(observers) {
             for (SetObserver<E> observer : observers)
                 observer.added(this, element);
         }
     }
-    
-    @Override 
+
+    @Override
     public boolean add(E element) {
         boolean added = super.add(element);
         if (added)
             notifyElementAdded(element);
         return added;
     }
-    
-    @Override 
+
+    @Override
     public boolean addAll(Collection<? extends E> c) {
         boolean result = false;
         for (E element : c)
@@ -61,7 +61,7 @@ void added(ObservableSet<E> set, E element);
 }
 ```
 
-This interface is structurally identical to BiConsumer<ObservableSet<E>,E>. We chose to define a custom functional interface because the interface and method names make the code more readable and because the interface could evolve to incorporate multiple callbacks. That said, a reasonable argument could also be made for using BiConsumer (Item 44).
+This interface is structurally identical to `BiConsumer<ObservableSet<E>,E>`. We chose to define a custom functional interface because the interface and method names make the code more readable and because the interface could evolve to incorporate multiple callbacks. That said, a reasonable argument could also be made for using BiConsumer (Item 44).
 
 On cursory inspection, ObservableSet appears to work fine. For example, the following program prints the numbers from 0 through 99:
 
@@ -82,7 +82,7 @@ set.addObserver(new SetObserver<>() {
         System.out.println(e);
         if (e == 23)
             s.removeObserver(this);
-    } 
+    }
 });
 ```
 
@@ -107,7 +107,7 @@ set.addObserver(new SetObserver<>() {
                 exec.shutdown();
             }
         }
-    } 
+    }
 });
 ```
 
@@ -127,7 +127,7 @@ private void notifyElementAdded(E element) {
     List<SetObserver<E>> snapshot = null;
     synchronized(observers) {
         snapshot = new ArrayList<>(observers);
-    } 
+    }
     for (SetObserver<E> observer :snapshot)
         observer.added(this, element);
 }
@@ -170,4 +170,3 @@ If you do synchronize your class internally, you can use various techniques to a
 If a method modifies a static field and there is any possibility that the method will be called from multiple threads, you must synchronize access to the field internally (unless the class can tolerate nondeterministic behavior). It is not possible for a multithreaded client to perform external synchronization on such a method, because unrelated clients can invoke the method without synchronization. The field is essentially a global variable even if it is private because it can be read and modified by unrelated clients. The nextSerialNumber field used by the method generateSerialNumber in Item 78 exemplifies this situation.
 
 In summary, to avoid deadlock and data corruption, never call an alien method from within a synchronized region. More generally, keep the amount of work that you do from within synchronized regions to a minimum. When you are designing a mutable class, think about whether it should do its own synchronization. In the multicore era, it is more important than ever not to oversynchronize. Synchronize your class internally only if there is a good reason to do so, and document your decision clearly (Item 82).
-

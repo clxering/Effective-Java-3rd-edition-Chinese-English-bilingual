@@ -4,7 +4,7 @@
 
 Occasionally you may run across a class whose instances come in two or more flavors and contain a tag field indicating the flavor of the instance. For example, consider this class, which is capable of representing a circle or a rectangle:
 
-有时候，您可能会遇到这样一个类，它的实例有两种或两种以上的样式，并且包含一个标签字段，指示实例的样式。例如，考虑这个类，它能够表示一个圆或一个矩形：
+有时候，你可能会遇到这样一个类，它的实例有两种或两种以上的样式，并且包含一个标签字段，指示实例的样式。例如，考虑这个类，它能够表示一个圆或一个矩形：
 
 ```
 // Tagged class - vastly inferior to a class hierarchy!
@@ -46,11 +46,11 @@ class Figure {
 
 Such tagged classes have numerous（adj. 许多的，很多的） shortcomings. They are cluttered with boilerplate, including enum declarations, tag fields, and switch statements. Readability is further harmed because multiple implementations are jumbled together in a single class. Memory footprint is increased because instances are burdened with irrelevant fields belonging to other flavors. Fields can’t be made final unless constructors initialize irrelevant fields, resulting in more boilerplate. Constructors must set the tag field and initialize the right data fields with no help from the compiler: if you initialize the wrong fields, the program will fail at runtime. You can’t add a flavor to a tagged class unless you can modify its source file. If you do add a flavor, you must remember to add a case to every switch statement, or the class will fail at runtime. Finally, the data type of an instance gives no clue as to its flavor. In short, **tagged classes are verbose, error-prone, and inefficient.**
 
-这样的标签类有许多缺点。它们充斥着样板文件，包括 enum 声明、标签字段和 switch 语句。可读性会进一步受损，因为多个实现在一个类中混杂在一起。内存占用增加了，因为实例被其他类型的不相关字段所累。除非构造函数初始化不相关的字段，导致更多的样板文件，否则字段不能成为 final。构造函数必须设置标签字段并初始化正确的数据字段，而不需要编译器的帮助：如果初始化了错误的字段，程序将在运行时失败。除非您能够修改它的源文件，否则您不能向标签类添加样式。如果您确实添加了一个样式，那么您必须记住为每个 switch 语句添加一个 case，否则类将在运行时失败。最后，实例的数据类型没有给出它任何关于风格的线索。简而言之，**标签类冗长、容易出错和低效。**
+这样的标签类有许多缺点。它们充斥着样板文件，包括 enum 声明、标签字段和 switch 语句。可读性会进一步受损，因为多个实现在一个类中混杂在一起。内存占用增加了，因为实例被其他类型的不相关字段所累。除非构造函数初始化不相关的字段，导致更多的样板文件，否则字段不能成为 final。构造函数必须设置标签字段并初始化正确的数据字段，而不需要编译器的帮助：如果初始化了错误的字段，程序将在运行时失败。除非你能够修改它的源文件，否则你不能向标签类添加样式。如果你确实添加了一个样式，那么你必须记住为每个 switch 语句添加一个 case，否则类将在运行时失败。最后，实例的数据类型没有给出它任何关于风格的线索。简而言之，**标签类冗长、容易出错和低效。**
 
 Luckily, object-oriented languages such as Java offer a far better alternative for defining a single data type capable of representing objects of multiple flavors: subtyping. **A tagged class is just a pallid（adj. 苍白的；暗淡的；无生气的） imitation of a class hierarchy.**
 
-幸运的是，面向对象的语言（如Java）提供了一个更好的选择来定义能够表示多种类型对象的单一数据类型：子类型。**标签的类只是类层次结构的（简单）的模仿。**
+幸运的是，面向对象的语言（如 Java）提供了一个更好的选择来定义能够表示多种类型对象的单一数据类型：子类型。**标签的类只是类层次结构的（简单）的模仿。**
 
 To transform a tagged class into a class hierarchy, first define an abstract class containing an abstract method for each method in the tagged class whose behavior depends on the tag value. In the Figure class, there is only one such method, which is area. This abstract class is the root of the class hierarchy. If there are any methods whose behavior does not depend on the value of the tag, put them in this class. Similarly, if there are any data fields used by all the flavors, put them in this class. There are no such flavor-independent methods or fields in the Figure class.
 
@@ -117,4 +117,4 @@ Note that the fields in the above hierarchy are accessed directly rather than by
 
 In summary, tagged classes are seldom appropriate. If you’re tempted to write a class with an explicit tag field, think about whether the tag could be eliminated and the class replaced by a hierarchy. When you encounter an existing class with a tag field, consider refactoring it into a hierarchy.
 
-总之，标签类很少（有）合适（的时候）。如果您想用显式标签字段编写类，请考虑是否可以消除标签并用层次结构替换类。当您遇到带有标签字段的现有类时，请考虑将其重构为层次结构。
+总之，标签类很少（有）合适（的时候）。如果你想用显式标签字段编写类，请考虑是否可以消除标签并用层次结构替换类。当你遇到带有标签字段的现有类时，请考虑将其重构为层次结构。
