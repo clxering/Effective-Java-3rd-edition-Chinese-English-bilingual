@@ -15,7 +15,7 @@ try {
 }
 ```
 
-Here is an example of exception translation taken from the AbstractSequentialList class, which is a skeletal implementation (Item 20) of the List interface. In this example, exception translation is mandated by the specification of the get method in the List<E> interface:
+Here is an example of exception translation taken from the AbstractSequentialList class, which is a skeletal implementation (Item 20) of the List interface. In this example, exception translation is mandated by the specification of the get method in the `List<E>` interface:
 
 ```
 /**
@@ -27,7 +27,7 @@ public E get(int index) {
     ListIterator<E> i = listIterator(index);
     try {
         return i.next();
-    } 
+    }
     catch (NoSuchElementException e) {
         throw new IndexOutOfBoundsException("Index: " + index);
     }
@@ -40,7 +40,7 @@ A special form of exception translation called exception chaining is called for 
 // Exception Chaining
 try {
     ... // Use lower-level abstraction to do our bidding
-} 
+}
 catch (LowerLevelException cause) {
     throw new HigherLevelException(cause);
 }
@@ -64,5 +64,3 @@ Most standard exceptions have chaining-aware constructors. For exceptions that d
 If it is impossible to prevent exceptions from lower layers, the next best thing is to have the higher layer silently work around these exceptions, insulating the caller of the higher-level method from lower-level problems. Under these circumstances, it may be appropriate to log the exception using some appropriate logging facility such as java.util.logging. This allows programmers to investigate the problem, while insulating client code and the users from it.
 
 In summary, if it isn’t feasible to prevent or to handle exceptions from lower layers, use exception translation, unless the lower-level method happens to guarantee that all of its exceptions are appropriate to the higher level. Chaining provides the best of both worlds: it allows you to throw an appropriate higherlevel exception, while capturing the underlying cause for failure analysis (Item 75).
-
-

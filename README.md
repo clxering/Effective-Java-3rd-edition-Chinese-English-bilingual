@@ -1,10 +1,10 @@
 # Effective-Java-3rd-edition-Chinese-English-bilingual
-Effective Java（第3版）各章节的中英文学习参考，希望对 Java 技术的提高有所帮助，欢迎通过 issue 或 pr 提出建议和修改意见。
+Effective Java（第 3 版）各章节的中英文学习参考，希望对 Java 技术的提高有所帮助，欢迎通过 issue 或 pr 提出建议和修改意见。
 
 ## 目录（Contents）
 - **Chapter 2. Creating and Destroying Objects（创建和销毁对象）**
     - [Chapter 2 Introduction（章节介绍）](Chapter-2/Chapter-2-Introduction.md)
-    - [Item 1: Consider static factory methods instead of constructors（考虑静态工厂方法而不是构造函数）](Chapter-2/Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)
+    - [Item 1: Consider static factory methods instead of constructors（考虑以静态工厂方法代替构造函数）](Chapter-2/Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)
     - [Item 2: Consider a builder when faced with many constructor parameters（在面对多个构造函数参数时，请考虑构建器）](Chapter-2/Chapter-2-Item-2-Consider-a-builder-when-faced-with-many-constructor-parameters.md)
     - [Item 3: Enforce the singleton property with a private constructor or an enum type（使用私有构造函数或枚举类型实施单例属性）](Chapter-2/Chapter-2-Item-3-Enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type.md)
     - [Item 4: Enforce noninstantiability with a private constructor（用私有构造函数实施不可实例化）](Chapter-2/Chapter-2-Item-4-Enforce-noninstantiability-with-a-private-constructor.md)
@@ -16,10 +16,10 @@ Effective Java（第3版）各章节的中英文学习参考，希望对 Java �
 - **Chapter 3. Methods Common to All Objects（对象的通用方法）**
     - [Chapter 3 Introduction（章节介绍）](Chapter-3/Chapter-3-Introduction.md)
     - [Item 10: Obey the general contract when overriding equals（覆盖 equals 方法时应遵守的约定）](Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)
-    - [Item 11: Always override hashCode when you override equals（当覆盖 equals 时，也覆盖 hashCode）](Chapter-3/Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)
-    - [Item 12: Always override toString（总是覆盖 toString 方法）](Chapter-3/Chapter-3-Item-12-Always-override-toString.md)
+    - [Item 11: Always override hashCode when you override equals（当覆盖 equals 时，始终覆盖 hashCode）](Chapter-3/Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)
+    - [Item 12: Always override toString（始终覆盖 toString 方法）](Chapter-3/Chapter-3-Item-12-Always-override-toString.md)
     - [Item 13: Override clone judiciously（明智地覆盖 clone 方法）](Chapter-3/Chapter-3-Item-13-Override-clone-judiciously.md)
-    - [Item 14: Consider implementing Comparable](Chapter-3/Chapter-3-Item-14-Consider-implementing-Comparable.md)
+    - [Item 14: Consider implementing Comparable（考虑实现 Comparable 接口）](Chapter-3/Chapter-3-Item-14-Consider-implementing-Comparable.md)
 - **Chapter 4. Classes and Interfaces（类和接口）**
     - [Chapter 4 Introduction（章节介绍）](Chapter-4/Chapter-4-Introduction.md)
     - [Item 15: Minimize the accessibility of classes and members（尽量减少类和成员的可访问性）](Chapter-4/Chapter-4-Item-15-Minimize-the-accessibility-of-classes-and-members.md)
@@ -40,7 +40,7 @@ Effective Java（第3版）各章节的中英文学习参考，希望对 Java �
     - [Item 28: Prefer lists to arrays（list 优于数组）](Chapter-5/Chapter-5-Item-28-Prefer-lists-to-arrays.md)
     - [Item 29: Favor generic types（优先使用泛型）](Chapter-5/Chapter-5-Item-29-Favor-generic-types.md)
     - [Item 30: Favor generic methods（优先使用泛型方法）](Chapter-5/Chapter-5-Item-30-Favor-generic-methods.md)
-    - [Item 31: Use bounded wildcards to increase API flexibility（使用有界通配符增加API的灵活性）](Chapter-5/Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)
+    - [Item 31: Use bounded wildcards to increase API flexibility（使用有界通配符增加 API 的灵活性）](Chapter-5/Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)
     - [Item 32: Combine generics and varargs judiciously（明智地合用泛型和可变参数）](Chapter-5/Chapter-5-Item-32-Combine-generics-and-varargs-judiciously.md)
     - [Item 33: Consider typesafe heterogeneous containers（考虑类型安全的异构容器）](Chapter-5/Chapter-5-Item-33-Consider-typesafe-heterogeneous-containers.md)
 - **Chapter 6. Enums and Annotations（枚举和注解）**
