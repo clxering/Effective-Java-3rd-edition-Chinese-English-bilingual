@@ -4,7 +4,7 @@
 
 The single most important factor that distinguishes（vt/vi. 区别，区分；辨别） a well-designed component from a poorly designed one is the degree to which the component hides its internal data and other implementation details from other components. A welldesigned component hides all its implementation details, cleanly separating its API from its implementation. Components then communicate only through their APIs and are oblivious to each others’ inner workings. This concept, known as information hiding or encapsulation, is a fundamental tenet of software design [Parnas72].
 
-将设计良好的组件与设计糟糕的组件区别开来的最重要的因素是组件对其他组件隐藏内部数据和其他实现细节的程度。设计良好的组件隐藏了所有实现细节，干净地将 API 与实现分离。然后组件只通过它们的 api 进行通信，而不知道彼此的内部工作方式。这个概念被称为信息隐藏或封装，是软件设计的基本原则[Parnas72]。
+将设计良好的组件与设计糟糕的组件区别开来的最重要的因素是组件对其他组件隐藏内部数据和其他实现细节的程度。设计良好的组件隐藏了所有实现细节，干净地将 API 与实现分离。然后组件只通过它们的 api 进行通信，而不知道彼此的内部工作方式。这个概念被称为信息隐藏或封装，是软件设计的基本原则 [Parnas72]。
 
 Information hiding is important for many reasons, most of which stem from the fact that it decouples（解耦） the components that comprise a system, allowing them to be developed, tested, optimized, used, understood, and modified in isolation（n. 隔离；孤立）.This speeds up system development because components can be developed in parallel（n. 平行线；对比 adj. 平行的；类似的，相同的 vt. 使…与…平行）. It eases（简化了） the burden（n. 负担；责任；vt. 使负担；烦扰） of maintenance（n. 维护，维修；保持） because components can be understood more quickly and debugged or replaced with little fear of harming other components. While information hiding does not, in and of itself, cause good performance, it enables effective performance tuning: once a system is complete and profiling（剖析） has determined which components are causing performance problems (Item 67), those components can be optimized without affecting the correctness of others. Information hiding increases software reuse because components that aren’t tightly coupled often prove useful in other contexts besides the ones for which they were developed. Finally, information hiding decreases the risk in building large systems because individual components may prove successful even if the system does not.
 
@@ -12,7 +12,7 @@ Information hiding is important for many reasons, most of which stem from the fa
 
 Java has many facilities to aid in information hiding. The access control mechanism [JLS, 6.6] specifies the accessibility of classes, interfaces, and members. The accessibility of an entity is determined by the location of its declaration and by which, if any, of the access modifiers (private,protected, and public) is present on the declaration. Proper use of these modifiers is essential to information hiding.
 
-Java 有许多工具来帮助隐藏信息。访问控制机制[JLS, 6.6]指定了类、接口和成员的可访问性。实体的可访问性由其声明的位置决定，如果有的话，则由声明中显示的访问修饰符(私有、受保护和公共)决定。正确使用这些修饰词是信息隐藏的关键。
+Java 有许多工具来帮助隐藏信息。访问控制机制 [JLS, 6.6] 指定了类、接口和成员的可访问性。实体的可访问性由其声明的位置决定，如果有的话，则由声明中显示的访问修饰符（私有、受保护和公共）决定。正确使用这些修饰词是信息隐藏的关键。
 
 The rule of thumb is simple: make each class or member as inaccessible as possible. In other words, use the lowest possible access level consistent with the proper functioning of the software that you are writing.
 
@@ -24,11 +24,11 @@ For top-level (non-nested) classes and interfaces, there are only two possible a
 
 If a package-private top-level class or interface is used by only one class,consider making the top-level class a private static nested class of the sole class that uses it (Item 24). This reduces its accessibility from all the classes in its package to the one class that uses it. But it is far more important to reduce the accessibility of a gratuitously public class than of a package-private top-level class: the public class is part of the package’s API, while the package-private top-level class is already part of its implementation.
 
-如果包私有顶级类或接口只被一个类使用，那么考虑将顶级类设置为使用它的唯一类的私有静态嵌套类（[Item-24](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-24-Favor-static-member-classes-over-nonstatic.md)）。这降低了它从包中的所有类到使用它的类的可访问性。但是，减少免费公共类的可访问性比减少包-私有顶级类的可访问性重要得多:公共类是包的 API 的一部分，而包-私有顶级类已经是包的实现的一部分。
+如果包私有顶级类或接口只被一个类使用，那么考虑将顶级类设置为使用它的唯一类的私有静态嵌套类（[Item-24](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-24-Favor-static-member-classes-over-nonstatic.md)）。这降低了它从包中的所有类到使用它的类的可访问性。但是，减少免费公共类的可访问性比减少包-私有顶级类的可访问性重要得多：公共类是包的 API 的一部分，而包-私有顶级类已经是包的实现的一部分。
 
 For members (fields, methods, nested classes, and nested interfaces), there are four possible access levels, listed here in order of increasing accessibility:
 
-对于成员(字段、方法、嵌套类和嵌套接口)，有四个可能的访问级别，这里列出了增加可访问性的顺序：
+对于成员（字段、方法、嵌套类和嵌套接口），有四个可能的访问级别，这里列出了增加可访问性的顺序：
 
 - **private** —The member is accessible only from the top-level class where it is declared.
 
@@ -36,11 +36,11 @@ For members (fields, methods, nested classes, and nested interfaces), there are 
 
 - **package-private** —The member is accessible from any class in the package where it is declared. Technically known as default access, this is the access level you get if no access modifier is specified (except for interface members,which are public by default).
 
-包级私有，成员可以从包中声明它的任何类访问。技术上称为默认访问，如果没有指定访问修饰符(接口成员除外，默认情况下，接口成员是公共的)，就会得到这个访问级别。
+包级私有，成员可以从包中声明它的任何类访问。技术上称为默认访问，如果没有指定访问修饰符（接口成员除外，默认情况下，接口成员是公共的），就会得到这个访问级别。
 
 - **protected** —The member is accessible from subclasses of the class where it is declared (subject to a few restrictions [JLS, 6.6.2]) and from any class in the package where it is declared.
 
-保护，成员可以从声明它的类的子类(受一些限制[JLS, 6.6.2])和包中声明它的任何类访问。
+保护，成员可以从声明它的类的子类（受一些限制 [JLS, 6.6.2])和包中声明它的任何类访问。
 
 - **public** —The member is accessible from anywhere.
 
@@ -48,7 +48,7 @@ For members (fields, methods, nested classes, and nested interfaces), there are 
 
 After carefully designing your class’s public API, your reflex（n. 反射；反映；映像；回复；习惯性思维 adj. 反射的；反省的；反作用的） should be to make all other members private. Only if another class in the same package really needs to access a member should you remove the private modifier, making the member package-private. If you find yourself doing this often, you should reexamine（重新审视） the design of your system to see if another decomposition（n. 分解，腐烂；变质） might yield classes that are better decoupled from one another. That said, both private and package-private members are part of a class’s implementation and do not normally impact its exported API. These fields can, however, “leak” into the exported API if the class implements Serializable (Items 86 and 87).
 
-在仔细设计了类的公共 API 之后，你的反射应该是使所有其他成员都是私有的。只有当同一包中的另一个类确实需要访问一个成员时，你才应该删除私有修饰符，使成员包成为私有的。如果你发现自己经常这样做，那么你应该重新检查系统的设计，看看另一个分解是否会产生更好地相互分离的类。也就是说，私有成员和包私有成员都是类实现的一部分，通常不会影响其导出的 API。但是，如果类实现了 Serializable([Item-86](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-86-Implement-Serializable-with-great-caution.md)和[Item-87](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-87-Consider-using-a-custom-serialized-form.md))，这些字段可能会「泄漏」到导出的 API 中。
+在仔细设计了类的公共 API 之后，你的反射应该是使所有其他成员都是私有的。只有当同一包中的另一个类确实需要访问一个成员时，你才应该删除私有修饰符，使成员包成为私有的。如果你发现自己经常这样做，那么你应该重新检查系统的设计，看看另一个分解是否会产生更好地相互分离的类。也就是说，私有成员和包私有成员都是类实现的一部分，通常不会影响其导出的 API。但是，如果类实现了 Serializable（[Item-86](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-86-Implement-Serializable-with-great-caution.md) 和 [Item-87](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-87-Consider-using-a-custom-serialized-form.md)），这些字段可能会「泄漏」到导出的 API 中。
 
 For members of public classes, a huge increase in accessibility occurs when the access level goes from package-private to protected. A protected member is part of the class’s exported API and must be supported forever. Also, a protected member of an exported class represents a public commitment to an implementation detail (Item 19). The need for protected members should be relatively rare.
 
@@ -56,7 +56,7 @@ For members of public classes, a huge increase in accessibility occurs when the 
 
 There is a key rule that restricts your ability to reduce the accessibility of methods. If a method overrides a superclass method, it cannot have a more restrictive access level in the subclass than in the superclass [JLS, 8.4.8.3]. This is necessary to ensure that an instance of the subclass is usable anywhere that an instance of the superclass is usable (the Liskov substitution principle, see Item15). If you violate this rule, the compiler will generate an error message when you try to compile the subclass. A special case of this rule is that if a class implements an interface, all of the class methods that are in the interface must be declared public in the class.
 
-有一个关键规则限制了你减少方法可访问性的能力。如果一个方法覆盖了超类方法，那么它在子类中的访问级别就不能比在超类[JLS, 8.4.8.3]中更严格。这对于确保子类的实例在超类的实例可用的任何地方都可用是必要的(Liskov 替换原则，请参阅[Item-15](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-15-Minimize-the-accessibility-of-classes-and-members.md))。如果违反此规则，编译器将在尝试编译子类时生成错误消息。这个规则的一个特殊情况是，如果一个类实现了一个接口，那么该接口中的所有类方法都必须在类中声明为 public。
+有一个关键规则限制了你减少方法可访问性的能力。如果一个方法覆盖了超类方法，那么它在子类中的访问级别就不能比在超类 [JLS, 8.4.8.3] 中更严格。这对于确保子类的实例在超类的实例可用的任何地方都可用是必要的（Liskov 替换原则，请参阅 [Item-15](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-15-Minimize-the-accessibility-of-classes-and-members.md)）。如果违反此规则，编译器将在尝试编译子类时生成错误消息。这个规则的一个特殊情况是，如果一个类实现了一个接口，那么该接口中的所有类方法都必须在类中声明为 public。
 
 To facilitate（vt. 促进；帮助；使容易） testing your code, you may be tempted to make a class, interface,or member more accessible than otherwise necessary. This is fine up to a point.It is acceptable to make a private member of a public class package-private in order to test it, but it is not acceptable to raise the accessibility any higher. In other words, it is not acceptable to make a class, interface, or member a part of a pack-age’s exported API to facilitate testing. Luckily, it isn’t necessary either because tests can be made to run as part of the package being tested, thus gaining access to its package-private elements.
 
@@ -85,8 +85,7 @@ Beware of the fact that some IDEs generate accessors that return references to p
 
 ```
 private static final Thing[] PRIVATE_VALUES = { ... };
-public static final List<Thing> VALUES =
-Collections.unmodifiableList(Arrays.asList(PRIVATE_VALUES));
+public static final List<Thing> VALUES = Collections.unmodifiableList(Arrays.asList(PRIVATE_VALUES));
 ```
 
 Alternatively, you can make the array private and add a public method that returns a copy of a private array:
@@ -96,7 +95,7 @@ Alternatively, you can make the array private and add a public method that retur
 ```
 private static final Thing[] PRIVATE_VALUES = { ... };
 public static final Thing[] values() {
-return PRIVATE_VALUES.clone();
+    return PRIVATE_VALUES.clone();
 }
 ```
 
@@ -106,16 +105,16 @@ To choose between these alternatives, think about what the client is likely to d
 
 As of Java 9, there are two additional, implicit access levels introduced as part of the module system. A module is a grouping of packages, like a package is a grouping of classes. A module may explicitly export some of its packages via export declarations in its module declaration (which is by convention contained in a source file named module-info.java). Public and protected members of unexported packages in a module are inaccessible outside the module; within the module, accessibility is unaffected by export declarations. Using the module system allows you to share classes among packages within a module without making them visible to the entire world. Public and protected members of public classes in unexported packages give rise to the two implicit access levels, which are intramodular analogues of the normal public and protected levels. The need for this kind of sharing is relatively rare and can often be eliminated by rearranging the classes within your packages.
 
-对于 Java 9，作为模块系统的一部分，还引入了另外两个隐式访问级别。模块是包的分组，就像包是类的分组一样。模块可以通过模块声明中的导出声明显式地导出它的一些包(按照约定包含在名为 module-info.java 的源文件中)。模块中未导出包的公共成员和受保护成员在模块外不可访问;在模块中，可访问性不受导出声明的影响。通过使用模块系统，你可以在模块内的包之间共享类，而不会让整个世界看到它们。未导出包中的公共类和受保护的成员产生了两个隐式访问级别，它们是正常公共级别和受保护级别的内部类似物。这种共享的需求相对较少，通常可以通过重新安排包中的类来消除。
+对于 Java 9，作为模块系统的一部分，还引入了另外两个隐式访问级别。模块是包的分组，就像包是类的分组一样。模块可以通过模块声明中的导出声明显式地导出它的一些包（按照约定包含在名为 `module-info.java` 的源文件中）。模块中未导出包的公共成员和受保护成员在模块外不可访问;在模块中，可访问性不受导出声明的影响。通过使用模块系统，你可以在模块内的包之间共享类，而不会让整个世界看到它们。未导出包中的公共类和受保护的成员产生了两个隐式访问级别，它们是正常公共级别和受保护级别的内部类似物。这种共享的需求相对较少，通常可以通过重新安排包中的类来消除。
 
 Unlike the four main access levels, the two module-based levels are largely advisory. If you place a module’s JAR file on your application’s class path instead of its module path, the packages in the module revert to their nonmodular behavior: all of the public and protected members of the packages’ public classes have their normal accessibility, regardless of whether the packages are exported by the module [Reinhold, 1.2]. The one place where the newly introduced access levels are strictly enforced is the JDK itself: the unexported packages in the Java libraries are truly inaccessible outside of their modules.
 
-与四个主要的访问级别不同，这两个基于模块的级别在很大程度上是顾问级别。如果你把一个模块的 JAR 文件在你的应用程序的类路径中,而不是模块路径,包模块恢复到他们 nonmodular 行为:所有的公共成员和保护成员包的公共类正常的可访问性,不管模块导出的包(Reinhold,1.2)。严格执行新引入的访问级别的一个地方是 JDK 本身:Java 库中未导出的包在其模块之外确实不可访问。
+与四个主要的访问级别不同，这两个基于模块的级别在很大程度上是顾问级别。如果你把一个模块的 JAR 文件在你的应用程序的类路径中,而不是模块路径,包模块恢复到他们 nonmodular 行为：所有的公共成员和保护成员包的公共类正常的可访问性,不管模块导出的包 [Reinhold,1.2]。严格执行新引入的访问级别的一个地方是 JDK 本身：Java 库中未导出的包在其模块之外确实不可访问。
 
 Not only is the access protection afforded by modules of limited utility to the typical Java programmer, and largely advisory in nature; in order to take advantage of it, you must group your packages into modules, make all of their dependencies explicit in module declarations, rearrange your source tree, and take special actions to accommodate any access to non-modularized packages from within your modules [Reinhold, 3]. It is too early to say whether modules will achieve widespread use outside of the JDK itself. In the meantime, it seems best to avoid them unless you have a compelling need.
 
-对于典型的 Java 程序员来说，访问保护不仅是有限实用的模块所提供的，而且本质上是建议性的；为了利用它，你必须将包分组到模块中，在模块声明中显式地声明它们的所有依赖项，重新安排源代码树，并采取特殊操作以适应从模块中对非模块化包的任何访问[Reinhold, 3]。现在说模块能否在 JDK 之外得到广泛使用还为时过早。与此同时，除非你有迫切的需求，否则最好还是避开它们。
+对于典型的 Java 程序员来说，访问保护不仅是有限实用的模块所提供的，而且本质上是建议性的；为了利用它，你必须将包分组到模块中，在模块声明中显式地声明它们的所有依赖项，重新安排源代码树，并采取特殊操作以适应从模块中对非模块化包的任何访问 [Reinhold, 3]。现在说模块能否在 JDK 之外得到广泛使用还为时过早。与此同时，除非你有迫切的需求，否则最好还是避开它们。
 
 To summarize, you should reduce accessibility of program elements as much as possible (within reason). After carefully designing a minimal public API, you should prevent any stray classes, interfaces, or members from becoming part of the API. With the exception of public static final fields, which serve as constants,public classes should have no public fields. Ensure that objects referenced by public static final fields are immutable.
 
-总之，你应该尽可能减少程序元素的可访问性(在合理的范围内)。在仔细设计了一个最小的公共 API 之后，你应该防止任何游离的类、接口或成员成为 API 的一部分。除了作为常量的公共静态 final 字段外，公共类应该没有公共字段。确保公共静态 final 字段引用的对象是不可变的。
+总之，你应该尽可能减少程序元素的可访问性（在合理的范围内）。在仔细设计了一个最小的公共 API 之后，你应该防止任何游离的类、接口或成员成为 API 的一部分。除了作为常量的公共静态 final 字段外，公共类应该没有公共字段。确保公共静态 final 字段引用的对象是不可变的。

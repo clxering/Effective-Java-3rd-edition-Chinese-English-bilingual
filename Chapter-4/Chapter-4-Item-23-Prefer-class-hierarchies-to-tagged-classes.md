@@ -10,11 +10,15 @@ Occasionally you may run across a class whose instances come in two or more flav
 // Tagged class - vastly inferior to a class hierarchy!
 class Figure {
     enum Shape {RECTANGLE, CIRCLE};
+
     // Tag field - the shape of this figure
     final Shape shape;
+
     // These fields are used only if shape is RECTANGLE
     double length;
+
     double width;
+
     // This field is used only if shape is CIRCLE
     double radius;
 
@@ -117,4 +121,4 @@ Note that the fields in the above hierarchy are accessed directly rather than by
 
 In summary, tagged classes are seldom appropriate. If you’re tempted to write a class with an explicit tag field, think about whether the tag could be eliminated and the class replaced by a hierarchy. When you encounter an existing class with a tag field, consider refactoring it into a hierarchy.
 
-总之，标签类很少（有）合适（的时候）。如果你想用显式标签字段编写类，请考虑是否可以消除标签并用层次结构替换类。当你遇到带有标签字段的现有类时，请考虑将其重构为层次结构。
+总之，标签类很少有合适的时候。如果你想用显式标签字段编写类，请考虑是否可以消除标签并用层次结构替换类。当你遇到带有标签字段的现有类时，请考虑将其重构为层次结构。

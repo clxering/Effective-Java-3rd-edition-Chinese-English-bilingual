@@ -50,7 +50,7 @@ As mentioned throughout this book, it pays to discover errors as soon as possibl
 
 With generics, the type declaration contains the information, not the comment:
 
-对于泛型，类型声明应该包含类型信息，而不是注释:
+对于泛型，类型声明应该包含类型信息，而不是注释：
 
 ```
 // Parameterized collection type - typesafe
@@ -100,7 +100,7 @@ private static void unsafeAdd(List list, Object o) {
 
 This program compiles, but because it uses the raw type List, you get a warning:
 
-该程序可以编译，但因为它使用原始类型 List，所以你会得到一个警告:
+该程序可以编译，但因为它使用原始类型 List，所以你会得到一个警告：
 
 ```
 Test.java:10: warning: [unchecked] unchecked call to add(E) as a
@@ -126,7 +126,7 @@ unsafeAdd(strings, Integer.valueOf(42));
 
 You might be tempted to use a raw type for a collection whose element type is unknown and doesn’t matter. For example, suppose you want to write a method that takes two sets and returns the number of elements they have in common. Here’s how you might write such a method if you were new to generics:
 
-对于元素类型未知且无关紧要的集合，你可能会尝试使用原始类型。例如，假设你希望编写一个方法，该方法接受两个集合并返回它们共有的元素数量。如果你是使用泛型的新手，那么你可以这样编写一个方法:
+对于元素类型未知且无关紧要的集合，你可能会尝试使用原始类型。例如，假设你希望编写一个方法，该方法接受两个集合并返回它们共有的元素数量。如果你是使用泛型的新手，那么你可以这样编写一个方法：
 
 ```
 // Use of raw type for unknown element type - don't do this!
@@ -190,7 +190,7 @@ In summary, using raw types can lead to exceptions at runtime, so don’t use th
 
 For quick reference, the terms introduced in this item (and a few introduced later in this chapter) are summarized in the following table:
 
-为便于参考，本条目中介绍的术语（以及后面将要介绍的一些术语）总结如下:
+为便于参考，本条目中介绍的术语（以及后面将要介绍的一些术语）总结如下：
 
 |    Term    |       Example       |      Item     |
 |:-------:|:-------:|:-------:|

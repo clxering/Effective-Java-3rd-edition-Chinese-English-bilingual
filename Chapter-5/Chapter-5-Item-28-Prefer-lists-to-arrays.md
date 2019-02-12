@@ -91,7 +91,7 @@ public class Chooser {
 
 To use this class, you have to cast the choose method’s return value from Object to the desired type every time you use invoke the method, and the cast will fail at runtime if you get the type wrong. Taking the advice of Item 29 to heart, we attempt to modify Chooser to make it generic. Changes are shown in boldface:
 
-要使用这个类，每次使用方法调用时，必须将 choose 方法的返回值从对象转换为所需的类型，如果类型错误，转换将在运行时失败。我们认真考虑了 [Item-29](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-29-Favor-generic-types.md) 的建议，试图对 Chooser 进行修改，使其具有通用性。变化以粗体显示:
+要使用这个类，每次使用方法调用时，必须将 choose 方法的返回值从对象转换为所需的类型，如果类型错误，转换将在运行时失败。我们认真考虑了 [Item-29](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-29-Favor-generic-types.md) 的建议，试图对 Chooser 进行修改，使其具有通用性。变化以粗体显示：
 
 ```
 // A first cut at making Chooser generic - won't compile
@@ -142,7 +142,7 @@ The compiler is telling you that it can’t vouch for the safety of the cast at 
 
 To eliminate the unchecked cast warning, use a list instead of an array. Here is a version of the Chooser class that compiles without error or warning:
 
-若要消除 unchecked 强制转换警告，请使用 list 而不是数组。下面是编译时没有错误或警告的 Chooser 类的一个版本:
+若要消除 unchecked 强制转换警告，请使用 list 而不是数组。下面是编译时没有错误或警告的 Chooser 类的一个版本：
 
 ```
 // List-based Chooser - typesafe
