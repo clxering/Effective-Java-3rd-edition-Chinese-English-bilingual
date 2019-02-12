@@ -7,7 +7,7 @@ I’m really excited that you are interested in contributing to this project. Be
 - [Code of Conduct](CODE_OF_CONDUCT.md)
 - [Issue Reporting Guidelines](#issue-reporting-guidelines)
 - [Pull Request Guidelines](#pull-request-guidelines)
-- [Format](#Format)
+- [Format Guidelines](#format-guidelines)
 
 ## Issue Reporting Guidelines
 
@@ -29,9 +29,9 @@ I’m really excited that you are interested in contributing to this project. Be
 
 - If you are resolving a issue, add `(closes #xxxx[,#xxx])` (#xxxx is the issue id) in your PR title for a better release log, e.g. `update Item 19 (closes #1899)`.
 
-- All updated content should be formatted in accordance with [Format](#Format) requirements.
+- All updated content should be formatted in accordance with [Format Guidelines](#format-guidelines) requirements.
 
-## Format
+## Format Guidelines
 The following is a quote from: [中文文案排版指北](https://github.com/sparanoid/chinese-copywriting-guidelines)
 
 ## Spacing
