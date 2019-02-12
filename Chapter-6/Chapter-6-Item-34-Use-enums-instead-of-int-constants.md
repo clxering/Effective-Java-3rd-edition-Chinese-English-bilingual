@@ -283,8 +283,6 @@ Also note that the fromString method returns an `Optional<String>`. This allows 
 
 还要注意 fromString 方法返回一个 `Optional<String>`。这允许该方法提示传入的字符串并非有效操作，并强制客户端处理这种可能（[Item-55](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8/Chapter-8-Item-55-Return-optionals-judiciously.md)）。
 
-还要注意 fromString 方法返回一个 Optional<String>。这允许该方法提示传入的字符串并非有效操作，并强制客户端处理这种可能（[Item-55](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8/Chapter-8-Item-55-Return-optionals-judiciously.md)）。
-
 A disadvantage of constant-specific method implementations is that they make it harder to share code among enum constants. For example, consider an enum representing the days of the week in a payroll package. This enum has a method that calculates a worker’s pay for that day given the worker’s base salary (per hour) and the number of minutes worked on that day. On the five weekdays, any time worked in excess of a normal shift generates overtime pay; on the two weekend days, all work generates overtime pay. With a switch statement, it’s easy to do this calculation by applying multiple case labels to each of two code fragments:
 
 特定常量方法实现的一个缺点是，它们使得在枚举常量之间共享代码变得更加困难。例如，考虑一个表示一周当中计算工资发放的枚举。枚举有一个方法，该方法根据工人的基本工资（每小时）和当天的工作分钟数计算工人当天的工资。在五个工作日内，任何超过正常轮班时间的工作都会产生加班费；在两个周末，所有的工作都会产生加班费。使用 switch 语句，通过多个 case 标签应用于每一类情况，可以很容易地进行计算：
