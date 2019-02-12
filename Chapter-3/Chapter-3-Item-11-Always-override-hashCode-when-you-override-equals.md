@@ -114,11 +114,11 @@ public int hashCode() {
 
 Because this method returns the result of a simple deterministic（adj.确定性的） computation whose only inputs are the three significant fields in a PhoneNumber instance,it is clear that equal PhoneNumber instances have equal hash codes. This method is, in fact, a perfectly good hashCode implementation for PhoneNumber, on par with those in the Java platform libraries. It is simple, is reasonably fast, and does a reasonable job of dispersing unequal phone numbers into different hash buckets.
 
-因为这个方法返回一个简单的确定性计算的结果，它的唯一输入是 PhoneNumber 实例中的三个重要字段，所以很明显，相等的 PhoneNumber 实例具有相等的 hash 码。实际上，这个方法是 PhoneNumber 的一个非常好的 hashCode 实现，与 Java 平台库中的 hashCode 实现相当。它很简单，速度也相当快，并且合理地将不相等的电话号码分散到不同的 hash 桶中。
+因为这个方法返回一个简单的确定性计算的结果，它的唯一输入是 PhoneNumber 实例中的三个重要字段，所以很明显，相等的 PhoneNumber 实例具有相等的 hash 码。实际上，这个方法是 PhoneNumber 的一个非常好的 hashCode 实现，与 Java 库中的 hashCode 实现相当。它很简单，速度也相当快，并且合理地将不相等的电话号码分散到不同的 hash 桶中。
 
 While the recipe in this item yields reasonably good hash functions, they are not state-of-the-art. They are comparable in quality to the hash functions found in the Java platform libraries’ value types and are adequate for most uses. If you have a bona fide need for hash functions less likely to produce collisions, see Guava’s com.google.common.hash.Hashing [Guava].
 
-虽然本条目中的方法产生了相当不错的 hash 函数，但它们并不是最先进的。它们的质量可与 Java 平台库的值类型中的 hash 函数相媲美，对于大多数用途来说都是足够的。如果你确实需要不太可能产生冲突的 hash 函数，请参阅 Guava 的 com.google.common.hash.Hashing [Guava]。
+虽然本条目中的方法产生了相当不错的 hash 函数，但它们并不是最先进的。它们的质量可与 Java 库的值类型中的 hash 函数相媲美，对于大多数用途来说都是足够的。如果你确实需要不太可能产生冲突的 hash 函数，请参阅 Guava 的 com.google.common.hash.Hashing [Guava]。
 
 The Objects class has a static method that takes an arbitrary number of objects and returns a hash code for them. This method, named hash, lets you write one-line hashCode methods whose quality is comparable to those written according to the recipe in this item. Unfortunately, they run more slowly because they entail array creation to pass a variable number of arguments, as well as boxing and unboxing if any of the arguments are of primitive type. This style of hash function is recommended for use only in situations where performance is not critical. Here is a hash function for PhoneNumber written using this technique:
 
