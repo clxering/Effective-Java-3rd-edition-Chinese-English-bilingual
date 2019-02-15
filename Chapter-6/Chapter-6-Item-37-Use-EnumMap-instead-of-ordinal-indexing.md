@@ -4,7 +4,7 @@
 
 Occasionally you may see code that uses the ordinal method (Item 35) to index into an array or list. For example, consider this simplistic class meant to represent a plant:
 
-偶尔您可能会看到使用序数方法（[Item-35](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-35-Use-instance-fields-instead-of-ordinals.md)）索引到数组或列表中的代码。例如，考虑这个简单的类，它表示一种植物：
+偶尔你可能会看到使用序数方法（[Item-35](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-35-Use-instance-fields-instead-of-ordinals.md)）索引到数组或列表中的代码。例如，考虑这个简单的类，它表示一种植物：
 
 ```
 class Plant {
@@ -25,7 +25,7 @@ class Plant {
 
 Now suppose you have an array of plants representing a garden, and you want to list these plants organized by life cycle (annual, perennial, or biennial). To do this, you construct three sets, one for each life cycle, and iterate through the garden, placing each plant in the appropriate set. Some programmers would do this by putting the sets into an array indexed by the life cycle’s ordinal:
 
-现在假设您有一个代表花园的 Plant 数组，您想要列出按生命周期（一年生、多年生或两年生）排列的植物。要做到这一点，您需要构造三个集合，每个生命周期一个，然后遍历整个花园，将每个植物放入适当的集合中：
+现在假设你有一个代表花园的 Plant 数组，你想要列出按生命周期（一年生、多年生或两年生）排列的植物。要做到这一点，你需要构造三个集合，每个生命周期一个，然后遍历整个花园，将每个植物放入适当的集合中：
 
 ```
 // Using ordinal() to index into an array - DON'T DO THIS!
@@ -64,11 +64,11 @@ BIENNIAL: [B, D]
 
 This technique works, but it is fraught with problems. Because arrays are not compatible with generics (Item 28), the program requires an unchecked cast and will not compile cleanly. Because the array does not know what its index represents, you have to label the output manually. But the most serious problem with this technique is that when you access an array that is indexed by an enum’s ordinal, it is your responsibility to use the correct int value; ints do not provide the type safety of enums. If you use the wrong value, the program will silently do the wrong thing or—if you’re lucky—throw an ArrayIndexOutOfBoundsException.
 
-这种技术是有效的，但它充满了问题。因为数组与泛型不兼容（[Item-28](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-28-Prefer-lists-to-arrays.md)），所以该程序需要 unchecked 的转换，并且不能顺利地编译。因为数组不知道它的索引表示什么，所以必须手动标记输出。但是这种技术最严重的问题是，当您访问一个由枚举序数索引的数组时，您有责任使用正确的 int 值；int 不提供枚举的类型安全性。如果您使用了错误的值，程序将默认执行错误的操作，如果幸运的话，则抛出 ArrayIndexOutOfBoundsException。
+这种技术是有效的，但它充满了问题。因为数组与泛型不兼容（[Item-28](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-28-Prefer-lists-to-arrays.md)），所以该程序需要 unchecked 的转换，并且不能顺利地编译。因为数组不知道它的索引表示什么，所以必须手动标记输出。但是这种技术最严重的问题是，当你访问一个由枚举序数索引的数组时，你有责任使用正确的 int 值；int 不提供枚举的类型安全性。如果你使用了错误的值，程序将默认执行错误的操作，如果幸运的话，则抛出 ArrayIndexOutOfBoundsException。
 
 There is a much better way to achieve the same effect. The array is effectively serving as a map from the enum to a value, so you might as well use a Map. More specifically, there is a very fast Map implementation designed for use with enum keys, known as java.util.EnumMap. Here is how the program looks when it is rewritten to use EnumMap:
 
-有一种更好的方法可以达到同样的效果。该数组有效地充当从枚举到值的映射，因此您不妨使用 Map。更具体地说，有一种非常快速的 Map 实现，用于枚举键，称为 `java.util.EnumMap`。以下就是这个程序在使用 EnumMap 时的样子：
+有一种更好的方法可以达到同样的效果。该数组有效地充当从枚举到值的映射，因此你不妨使用 Map。更具体地说，有一种非常快速的 Map 实现，用于枚举键，称为 `java.util.EnumMap`。以下就是这个程序在使用 EnumMap 时的样子：
 
 ```
 // Using an EnumMap to associate data with an enum
@@ -124,7 +124,7 @@ The behavior of the stream-based versions differs slightly from that of the Emum
 
 You may see an array of arrays indexed (twice!) by ordinals used to represent a mapping from two enum values. For example, this program uses such an array to map two phases to a phase transition (liquid to solid is freezing, liquid to gas is boiling, and so forth):
 
-您可能会看到被序数索引（两次！）的数组，序数用于表示两个枚举值的映射。例如，这个程序使用这样的一个数组来映射两个状态到一个状态的转换过程（液体到固体是冻结的，液体到气体是沸腾的，等等）：
+你可能会看到被序数索引（两次！）的数组，序数用于表示两个枚举值的映射。例如，这个程序使用这样的一个数组来映射两个状态到一个状态的转换过程（液体到固体是冻结的，液体到气体是沸腾的，等等）：
 
 ```
 // Using ordinal() to index array of arrays - DON'T DO THIS!
@@ -153,7 +153,7 @@ public enum Phase {
 
 This program works and may even appear elegant, but appearances can be deceiving. Like the simpler garden example shown earlier, the compiler has no way of knowing the relationship between ordinals and array indices. If you make a mistake in the transition table or forget to update it when you modify the Phase or Phase.Transition enum type, your program will fail at runtime. The failure may be an ArrayIndexOutOfBoundsException, a NullPointerException, or (worse) silent erroneous behavior. And the size of the table is quadratic in the number of phases, even if the number of non-null entries is smaller.
 
-这个程序可以工作，甚至可能看起来很优雅，但外表可能具有欺骗性。就像前面展示的更简单的 garden 示例一样，编译器无法知道序数和数组索引之间的关系。如果您在转换表中出错，或者在修改 Phase 或 `Phase.Transition` 枚举类型时忘记更新，您的程序将在运行时失败。失败可能是抛出 ArrayIndexOutOfBoundsException、NullPointerException 或（更糟糕的）静默错误行为。并且即使非空项的数目更小，该表的大小也为状态数量的二次方。
+这个程序可以工作，甚至可能看起来很优雅，但外表可能具有欺骗性。就像前面展示的更简单的 garden 示例一样，编译器无法知道序数和数组索引之间的关系。如果你在转换表中出错，或者在修改 Phase 或 `Phase.Transition` 枚举类型时忘记更新，你的程序将在运行时失败。失败可能是抛出 ArrayIndexOutOfBoundsException、NullPointerException 或（更糟糕的）静默错误行为。并且即使非空项的数目更小，该表的大小也为状态数量的二次方。
 
 Again, you can do much better with EnumMap. Because each phase transition is indexed by a pair of phase enums, you are best off representing the relationship as a map from one enum (the “from” phase) to a map from the second enum (the “to” phase) to the result (the phase transition). The two phases associated with a phase transition are best captured by associating them with the phase transition enum, which can then be used to initialize the nested EnumMap:
 
@@ -216,7 +216,7 @@ public static Transition from(Phase src, Phase dst) {
 
 Now suppose you want to add a new phase to the system: plasma, or ionized gas. There are only two transitions associated with this phase: ionization, which takes a gas to a plasma; and deionization, which takes a plasma to a gas. To update the array-based program, you would have to add one new constant to Phase and two to Phase.Transition, and replace the original nine-element array of arrays with a new sixteen-element version. If you add too many or too few elements to the array or place an element out of order, you are out of luck: the program will compile, but it will fail at runtime. To update the EnumMap-based version, all you have to do is add PLASMA to the list of phases, and IONIZE(GAS, PLASMA) and DEIONIZE(PLASMA, GAS) to the list of phase transitions:
 
-现在假设你想向系统中加入一种新阶段：等离子体，或电离气体。这个阶段只有两个变化：电离，它把气体转为等离子体；去离子作用，把等离子体变成气体。假设要更新基于数组版本的程序，必须向 Phase 添加一个新常量，向 `Phase.Transition` 添加两个新常量，并用一个新的 16 个元素版本替换原来的数组中的 9 个元素数组。如果您向数组中添加了太多或太少的元素，或者打乱了元素的顺序，那么您就麻烦了：程序将编译，但在运行时将失败。相比之下，要更新基于 EnumMap 的版本，只需将 PLASMA 添加到 Phase 列表中，将 `IONIZE(GAS, PLASMA)` 和 `DEIONIZE(PLASMA, GAS)` 添加到 `Phase.Transition` 中：
+现在假设你想向系统中加入一种新阶段：等离子体，或电离气体。这个阶段只有两个变化：电离，它把气体转为等离子体；去离子作用，把等离子体变成气体。假设要更新基于数组版本的程序，必须向 Phase 添加一个新常量，向 `Phase.Transition` 添加两个新常量，并用一个新的 16 个元素版本替换原来的数组中的 9 个元素数组。如果你向数组中添加了太多或太少的元素，或者打乱了元素的顺序，那么你就麻烦了：程序将编译，但在运行时将失败。相比之下，要更新基于 EnumMap 的版本，只需将 PLASMA 添加到 Phase 列表中，将 `IONIZE(GAS, PLASMA)` 和 `DEIONIZE(PLASMA, GAS)` 添加到 `Phase.Transition` 中：
 
 ```
 // Adding a new phase using the nested EnumMap implementation
@@ -234,7 +234,7 @@ public enum Phase {
 
 The program takes care of everything else and leaves you virtually no opportunity for error. Internally, the map of maps is implemented with an array of arrays, so you pay little in space or time cost for the added clarity, safety, and ease of maintenance.
 
-这个程序会处理所有其他事情，实际上不会给您留下任何出错的机会。在内部，Map 的映射是用一个数组来实现的，因此您只需花费很少的空间或时间成本就可以获得更好的清晰度、安全性并易于维护。
+这个程序会处理所有其他事情，实际上不会给你留下任何出错的机会。在内部，Map 的映射是用一个数组来实现的，因此你只需花费很少的空间或时间成本就可以获得更好的清晰度、安全性并易于维护。
 
 In the interest of brevity, the above examples use null to indicate the absence of a state change (wherein to and from are identical). This is not good practice and is likely to result in a NullPointerException at runtime. Designing a clean, elegant solution to this problem is surprisingly tricky, and the resulting programs are sufficiently long that they would detract from the primary material in this item.
 
