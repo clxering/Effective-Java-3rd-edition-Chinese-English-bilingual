@@ -8,7 +8,7 @@ There are several ways to achieve this effect. The simplest is to design immutab
 
 For methods that operate on mutable objects, the most common way to achieve failure atomicity is to check parameters for validity before performing the operation (Item 49). This causes most exceptions to get thrown before object modification commences. For example, consider the Stack.pop method in Item 7:
 
-```
+```java
 public Object pop() {
     if (size == 0)
         throw new EmptyStackException();

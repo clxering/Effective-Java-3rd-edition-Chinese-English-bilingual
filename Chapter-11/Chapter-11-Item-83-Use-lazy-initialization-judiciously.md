@@ -12,14 +12,14 @@ In the presence of multiple threads, lazy initialization is tricky. If two or mo
 
 **Under most circumstances, normal initialization is preferable to lazy initialization.** Here is a typical declaration for a normally initialized instance field. Note the use of the final modifier (Item 17):
 
-```
+```java
 // Normal initialization of an instance field
 private final FieldType field = computeFieldValue();
 ```
 
 **If you use lazy initialization to break an initialization circularity, use a synchronized accessor** because it is the simplest, clearest alternative:
 
-```
+```java
 // Lazy initialization of instance field - synchronized accessor
 private FieldType field;
 private synchronized FieldType getField() {
@@ -33,7 +33,7 @@ Both of these idioms (normal initialization and lazy initialization with a synch
 
 **If you need to use lazy initialization for performance on a static field, use the lazy initialization holder class idiom.** This idiom exploits the guarantee that a class will not be initialized until it is used [JLS, 12.4.1]. Here’s how it looks:
 
-```
+```java
 // Lazy initialization holder class idiom for static fields
 private static class FieldHolder {
     static final FieldType field = computeFieldValue();
@@ -45,7 +45,7 @@ When getField is invoked for the first time, it reads FieldHolder.field for the 
 
 **If you need to use lazy initialization for performance on an instance field, use the double-check idiom.** This idiom avoids the cost of locking when accessing the field after initialization (Item 79). The idea behind the idiom is to check the value of the field twice (hence the name double-check): once without locking and then, if the field appears to be uninitialized, a second time with locking. Only if the second check indicates that the field is uninitialized does the call initialize the field. Because there is no locking once the field is initialized, it is critical that the field be declared volatile (Item 78). Here is the idiom:
 
-```
+```java
 // Double-check idiom for lazy initialization of instance fields
 private volatile FieldType field;
 private FieldType getField() {
@@ -66,7 +66,7 @@ While not strictly necessary, this may improve performance and is more elegant b
 
 Two variants of the double-check idiom bear noting. Occasionally, you may need to lazily initialize an instance field that can tolerate repeated initialization. If you find yourself in this situation, you can use a variant of the double-check idiom that dispenses with the second check. It is, not surprisingly, known as the single-check idiom. Here is how it looks. Note that field is still declared volatile:
 
-```
+```java
 // Single-check idiom - can cause repeated initialization!
 private volatile FieldType field;
 private FieldType getField() {

@@ -10,7 +10,7 @@ A third disadvantage of naming patterns is that they provide no good way to asso
 
 Annotations [JLS, 9.7] solve all of these problems nicely, and JUnit adopted them starting with release 4. In this item, we’ll write our own toy testing framework to show how annotations work. Suppose you want to define an annotation type to designate simple tests that are run automatically and fail if they throw an exception. Here’s how such an annotation type, named Test, might look:
 
-```
+```java
 // Marker annotation type declaration
 import java.lang.annotation.*;
 /**
@@ -30,7 +30,7 @@ The comment before the Test annotation declaration says, “Use only on paramete
 
 Here is how the Test annotation looks in practice. It is called a marker annotation because it has no parameters but simply “marks” the annotated element. If the programmer were to misspell Test or to apply the Test annotation to a program element other than a method declaration, the program wouldn’t compile:
 
-```
+```java
 // Program containing marker annotations
 public class Sample {
     @Test
@@ -63,7 +63,7 @@ The Sample class has seven static methods, four of which are annotated as tests.
 
 The Test annotations have no direct effect on the semantics of the Sample class. They serve only to provide information for use by interested programs. More generally, annotations don’t change the semantics of the annotated code but enable it for special treatment by tools such as this simple test runner:
 
-```
+```java
 // Program to process marker annotations
 import java.lang.reflect.*;
 public class RunTests {
@@ -94,7 +94,7 @@ The test runner tool takes a fully qualified class name on the command line and 
 
 If an attempt to invoke a test method by reflection throws any exception other than InvocationTargetException, it indicates an invalid use of the Test annotation that was not caught at compile time. Such uses include annotation of an instance method, of a method with one or more parameters, or of an inaccessible method. The second catch block in the test runner catches these Test usage errors and prints an appropriate error message. Here is the output that is printed if RunTests is run on Sample:
 
-```
+```java
 public static void Sample.m3() failed: RuntimeException: Boom
 Invalid @Test: public void Sample.m5()
 public static void Sample.m7() failed: RuntimeException: Crash
@@ -103,7 +103,7 @@ Passed: 1, Failed: 3
 
 Now let’s add support for tests that succeed only if they throw a particular exception. We’ll need a new annotation type for this:
 
-```
+```java
 // Annotation type with a parameter
 import java.lang.annotation.*;
 /**
@@ -119,7 +119,7 @@ public @interface ExceptionTest {
 
 The type of the parameter for this annotation is Class<? extends Throwable>. This wildcard type is, admittedly, a mouthful. In English, it means “the Class object for some class that extends Throwable,” and it allows the user of the annotation to specify any exception (or error) type. This usage is an example of a bounded type token (Item 33). Here’s how the annotation looks in practice. Note that class literals are used as the values for the annotation parameter:
 
-```
+```java
 // Program containing annotations with a parameter
 public class Sample2 {
     @ExceptionTest(ArithmeticException.class)
@@ -141,7 +141,7 @@ public class Sample2 {
 
 Now let’s modify the test runner tool to process the new annotation. Doing so consists of adding the following code to the main method:
 
-```
+```java
 if (m.isAnnotationPresent(ExceptionTest.class)) {
     tests++;
     try {
@@ -166,7 +166,7 @@ This code is similar to the code we used to process Test annotations, with one e
 
 Taking our exception testing example one step further, it is possible to envision a test that passes if it throws any one of several specified exceptions. The annotation mechanism has a facility that makes it easy to support this usage. Suppose we change the parameter type of the ExceptionTest annotation to be an array of Class objects:
 
-```
+```java
 // Annotation type with an array parameter
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -177,7 +177,7 @@ public @interface ExceptionTest {
 
 The syntax for array parameters in annotations is flexible. It is optimized for single-element arrays. All of the previous ExceptionTest annotations are still valid with the new array-parameter version of ExceptionTest and result in single-element arrays. To specify a multiple-element array, surround the elements with curly braces and separate them with commas:
 
-```
+```java
 // Code containing an annotation with an array parameter
 @ExceptionTest({ IndexOutOfBoundsException.class,NullPointerException.class })
 public static void doublyBad() {
@@ -190,7 +190,7 @@ public static void doublyBad() {
 
 It is reasonably straightforward to modify the test runner tool to process the new version of ExceptionTest. This code replaces the original version:
 
-```
+```java
 if (m.isAnnotationPresent(ExceptionTest.class)) {
     tests++;
     try {
@@ -214,7 +214,7 @@ if (m.isAnnotationPresent(ExceptionTest.class)) {
 
 As of Java 8, there is another way to do multivalued annotations. Instead of declaring an annotation type with an array parameter, you can annotate the declaration of an annotation with the @Repeatable meta-annotation, to indicate that the annotation may be applied repeatedly to a single element. This meta-annotation takes a single parameter, which is the class object of a containing annotation type, whose sole parameter is an array of the annotation type [JLS, 9.6.3]. Here’s how the annotation declarations look if we take this approach with our ExceptionTest annotation. Note that the containing annotation type must be annotated with an appropriate retention policy and target, or the declarations won’t compile:
 
-```
+```java
 // Repeatable annotation type
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -232,7 +232,7 @@ public @interface ExceptionTestContainer {
 
 Here’s how our doublyBad test looks with a repeated annotation in place of an array-valued annotation:
 
-```
+```java
 // Code containing a repeated annotation
 @ExceptionTest(IndexOutOfBoundsException.class)
 @ExceptionTest(NullPointerException.class)
@@ -241,7 +241,7 @@ public static void doublyBad() { ... }
 
 Processing repeatable annotations requires care. A repeated annotation generates a synthetic annotation of the containing annotation type. The getAnnotationsByType method glosses over this fact, and can be used to access both repeated and non-repeated annotations of a repeatable annotation type. But isAnnotationPresent makes it explicit that repeated annotations are not of the annotation type, but of the containing annotation type. If an element has a repeated annotation of some type and you use the isAnnotationPresent method to check if the element has an annotation of that type, you’ll find that it does not. Using this method to check for the presence of an annotation type will therefore cause your program to silently ignore repeated annotations. Similarly, using this method to check for the containing annotation type will cause the program to silently ignore non-repeated annotations. To detect repeated and non-repeated annotations with isAnnotationPresent, you much check for both the annotation type and its containing annotation type. Here’s how the relevant part of our RunTests program looks when modified to use the repeatable version of the ExceptionTest annotation:
 
-```
+```java
 // Processing repeatable annotations
 if (m.isAnnotationPresent(ExceptionTest.class)|| m.isAnnotationPresent(ExceptionTestContainer.class)) {
     tests++;

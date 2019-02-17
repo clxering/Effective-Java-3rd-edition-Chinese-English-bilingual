@@ -24,7 +24,7 @@ Creates and returns a copy of this object. The precise meaning of “copy” may
 
 创建并返回此对象的副本。「复制」的确切含义可能取决于对象的类别。一般的目的是，对于任何对象 x，表达式
 
-```
+```java
 x.clone() != x
 ```
 
@@ -32,7 +32,7 @@ will be true, and the expression
 
 值将为 true，并且这个表达式
 
-```
+```java
 x.clone().getClass() == x.getClass()
 ```
 
@@ -40,7 +40,7 @@ will be true, but these are not absolute requirements（n. 要求；必要条件
 
 值将为 true，但这些不是绝对的必要条件。通常情况下
 
-```
+```java
 x.clone().equals(x)
 ```
 
@@ -52,7 +52,7 @@ By convention（n. 大会；惯例；约定；协定；习俗）, the object ret
 
 按照惯例，这个方法返回的对象应该通过调用 super.clone 来获得。如果一个类和它的所有超类（对象除外）都遵守这个约定，那么情况就是这样
 
-```
+```java
 x.clone().getClass() == x.getClass().
 ```
 
@@ -68,7 +68,7 @@ Suppose you want to implement Cloneable in a class whose superclass provides a w
 
 假设你希望在一个类中实现 Cloneable，该类的超类提供了一个表现良好的克隆方法。第一个叫 super.clone。返回的对象将是原始对象的完整功能副本。类中声明的任何字段都具有与原始字段相同的值。如果每个字段都包含一个基元值或对不可变对象的引用，那么返回的对象可能正是你所需要的，在这种情况下不需要进一步的处理。例如，对于[Item-11](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)中的 PhoneNumber 类就是这样，但是要注意，**不可变类永远不应该提供克隆方法**，因为它只会鼓励浪费复制。有了这个警告，以下是 PhoneNumber 的克隆方法的外观：
 
-```
+```java
 // Clone method for class with no references to mutable state
 @Override public PhoneNumber clone() {
     try {
@@ -91,7 +91,7 @@ If an object contains fields that refer to mutable objects, the simple clone imp
 
 如果对象包含引用可变对象的字段，前面所示的简单克隆实现可能是灾难性的。例如，考虑 [Item-7](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-7-Eliminate-obsolete-object-references.md) 中的堆栈类：
 
-```
+```java
 public class Stack {
     private Object[] elements;
     private int size = 0;
@@ -130,7 +130,7 @@ This situation could never occur as a result of calling the sole constructor in 
 
 由于调用堆栈类中的唯一构造函数，这种情况永远不会发生。实际上，clone 方法充当构造函数;你必须确保它不会对原始对象造成伤害，并且在克隆上正确地建立不变量。为了使堆栈上的克隆方法正常工作，它必须复制堆栈的内部。最简单的方法是在元素数组上递归地调用 clone：
 
-```
+```java
 // Clone method for class with references to mutable state
 @Override
 public Stack clone() {
@@ -156,7 +156,7 @@ It is not always sufficient（adj. 足够的；充分的） merely to call clone
 
 仅仅递归地调用克隆并不总是足够的。例如，假设你正在为 hash 表编写一个克隆方法， hash 表的内部由一组 bucket 组成，每个 bucket 引用键-值对链表中的第一个条目。为了提高性能，类实现了自己的轻量级单链表，而不是在内部使用 `java.util.LinkedList`：
 
-```
+```java
 public class HashTable implements Cloneable {
     private Entry[] buckets = ...;
 
@@ -178,7 +178,7 @@ Suppose you merely clone the bucket array recursively, as we did for Stack:
 
 假设你只是递归地克隆 bucket 数组，就像我们对 Stack 所做的那样：
 
-```
+```java
 // Broken clone method - results in shared mutable state!
 @Override
 public HashTable clone() {
@@ -196,7 +196,7 @@ Though the clone has its own bucket array, this array references the same linked
 
 尽管克隆具有自己的 bucket 数组，但该数组引用的链接列表与原始链表相同，这很容易导致克隆和原始的不确定性行为。要解决这个问题，你必须复制包含每个 bucket 的链表。这里有一个常见的方法：
 
-```
+```java
 // Recursive clone method for class with complex mutable state
 public class HashTable implements Cloneable {
 
@@ -241,7 +241,7 @@ The private class HashTable.Entry has been augmented to support a “deep copy�
 
 私有类 HashTable.Entry 已经被增强为支持「深度复制」方法。HashTable 上的 clone 方法分配一个大小合适的新 bucket 数组，并遍历原始 bucket 数组，深度复制每个非空 bucket。条目上的 deepCopy 方法会递归地调用自己来复制以条目开头的整个链表。虽然这种技术很可爱，而且如果 bucket 不太长也可以很好地工作，但是克隆链表并不是一个好方法，因为它为链表中的每个元素消耗一个堆栈帧。如果列表很长，很容易导致堆栈溢出。为了防止这种情况的发生，你可以用迭代替换 deepCopy 中的递归：
 
-```
+```java
 // Iteratively copy the linked list headed by this Entry
 Entry deepCopy() {
     Entry result = new Entry(key, value, next);
@@ -267,7 +267,7 @@ You have two choices when designing a class for inheritance (Item 19), but which
 
 在为继承设计类时，你有两种选择（[Item-19](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-19-Design-and-document-for-inheritance-or-else-prohibit-it.md)），但是无论你选择哪一种，类都不应该实现 Cloneable。你可以选择通过实现一个功能正常的受保护克隆方法来模拟对象的行为，该方法声明为抛出 CloneNotSupportedException。这给子类实现 Cloneable 或不实现 Cloneable 的自由，就像它们直接扩展对象一样。或者，你可以选择不实现工作克隆方法，并通过提供以下简并克隆实现来防止子类实现一个工作克隆方法：
 
-```
+```java
 // clone method for extendable class not supporting Cloneable
 @Override
 protected final Object clone() throws CloneNotSupportedException {
@@ -287,7 +287,7 @@ Is all this complexity really necessary? Rarely. If you extend a class that alre
 
 所有这些复杂性真的有必要吗？很少。如果你扩展了一个已经实现了 Cloneable 的类，那么除了实现行为良好的克隆方法之外，你别无选择。否则，最好提供对象复制的替代方法。一个更好的对象复制方法是提供一个复制构造函数或复制工厂。复制构造函数是一个简单的构造函数，它接受单个参数，其类型是包含构造函数的类，例如，
 
-```
+```java
 // Copy constructor
 public Yum(Yum yum) { ... };
 ```
@@ -296,7 +296,7 @@ A copy factory is the static factory (Item 1) analogue of a copy constructor:
 
 复制工厂是复制构造函数的静态工厂（[Item-1](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)）类似物：
 
-```
+```java
 // Copy factory
 public static Yum newInstance(Yum yum) { ... };
 ```

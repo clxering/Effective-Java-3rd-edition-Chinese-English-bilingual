@@ -10,7 +10,7 @@ Strings are designed to represent text, and they do a fine job of it. Because st
 
 **Strings are poor substitutes for aggregate types.** If an entity has multiple components, it is usually a bad idea to represent it as a single string. For example, here’s a line of code that comes from a real system—identifier names have been changed to protect the guilty:
 
-```
+```java
 // Inappropriate use of string as aggregate type
 String compoundKey = className + "#" + i.next();
 ```
@@ -19,7 +19,7 @@ This approach has many disadvantages. If the character used to separate fields o
 
 **Strings are poor substitutes for capabilities.** Occasionally, strings are used to grant access to some functionality. For example, consider the design of a thread-local variable facility. Such a facility provides variables for which each thread has its own value. The Java libraries have had a thread-local variable facility since release 1.2, but prior to that, programmers had to roll their own. When confronted with the task of designing such a facility many years ago, several people independently came up with the same design, in which clientprovided string keys are used to identify each thread-local variable:
 
-```
+```java
 // Broken - inappropriate use of string as capability!
 public class ThreadLocal {
     private ThreadLocal() { } // Noninstantiable
@@ -36,7 +36,7 @@ The problem with this approach is that the string keys represent a shared global
 
 This API can be fixed by replacing the string with an unforgeable key (sometimes called a capability):
 
-```
+```java
 public class ThreadLocal {
     private ThreadLocal() { } // Noninstantiable
     
@@ -57,7 +57,7 @@ public static Object get(Key key);
 
 While this solves both of the problems with the string-based API, you can do much better. You don’t really need the static methods anymore. They can instead become instance methods on the key, at which point the key is no longer a key for a thread-local variable: it is a thread-local variable. At this point, the toplevel class isn’t doing anything for you anymore, so you might as well get rid of it and rename the nested class to ThreadLocal:
 
-```
+```java
 public final class ThreadLocal {
 public ThreadLocal();
 public void set(Object value);
@@ -67,7 +67,7 @@ public Object get();
 
 This API isn’t typesafe, because you have to cast the value from Object to its actual type when you retrieve it from a thread-local variable. It is impossible to make the original String-based API typesafe and difficult to make the Keybased API typesafe, but it is a simple matter to make this API typesafe by making ThreadLocal a parameterized class (Item 29):
 
-```
+```java
 public final class ThreadLocal<T> {
 public ThreadLocal();
 public void set(T value);

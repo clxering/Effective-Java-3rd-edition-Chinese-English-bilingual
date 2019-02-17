@@ -20,7 +20,7 @@ A third technique that combines aspects of the first two is to adapt the Builder
 
 **Prefer two-element enum types to boolean parameters,** unless the meaning of the boolean is clear from the method name. Enums make your code easier to read and to write. Also, they make it easy to add more options later. For example, you might have a Thermometer type with a static factory that takes this enum:
 
-```
+```java
 public enum TemperatureScale { FAHRENHEIT, CELSIUS }
 ```
 

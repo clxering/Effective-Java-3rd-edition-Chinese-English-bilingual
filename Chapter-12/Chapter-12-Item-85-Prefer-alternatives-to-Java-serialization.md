@@ -16,7 +16,7 @@ Attackers and security researchers study the serializable types in the Java libr
 
 Without using any gadgets, you can easily mount a denial-of-service attack by causing the deserialization of a short stream that requires a long time to deserialize. Such streams are known as deserialization bombs [Svoboda16]. Here’s an example by Wouter Coekaerts that uses only hash sets and a string [Coekaerts15]:
  
-```
+```java
 // Deserialization bomb - deserializing this stream takes forever
 static byte[] bomb() {
     Set<Object> root = new HashSet<>();

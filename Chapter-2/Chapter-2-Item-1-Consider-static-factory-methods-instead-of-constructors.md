@@ -104,7 +104,7 @@ There are many variants of the service provider framework pattern. For example, 
 
 from，一种型转换方法，该方法接受单个参数并返回该类型的相应实例，例如：
 
-```
+```java
 Date d = Date.from(instant);
 ```
 
@@ -112,7 +112,7 @@ Date d = Date.from(instant);
 
 of，一个聚合方法，它接受多个参数并返回一个包含这些参数的此类实例，例如：
 
-```
+```java
 Set<Rank> faceCards = EnumSet.of(JACK, QUEEN, KING);
 ```
 
@@ -120,7 +120,7 @@ Set<Rank> faceCards = EnumSet.of(JACK, QUEEN, KING);
 
 valueOf，一种替代 from 和 of 但更冗长的方法，例如：
 
-```
+```java
 BigInteger prime = BigInteger.valueOf(Integer.MAX_VALUE);
 ```
 
@@ -128,7 +128,7 @@ BigInteger prime = BigInteger.valueOf(Integer.MAX_VALUE);
 
 instance 或 getInstance，返回一个实例，该实例由其参数（如果有的话）描述，但不具有相同的值，例如：
 
-```
+```java
 StackWalker luke = StackWalker.getInstance(options);
 ```
 
@@ -136,7 +136,7 @@ StackWalker luke = StackWalker.getInstance(options);
 
 create 或 newInstance，与 instance 或 getInstance 类似，只是该方法保证每个调用都返回一个新实例，例如：
 
-```
+```java
 Object newArray = Array.newInstance(classObject, arrayLen);
 ```
 
@@ -144,7 +144,7 @@ Object newArray = Array.newInstance(classObject, arrayLen);
 
 getType，类似于 getInstance，但如果工厂方法位于不同的类中，则使用此方法。类型是工厂方法返回的对象类型，例如：
 
-```
+```java
 FileStore fs = Files.getFileStore(path);
 ```
 
@@ -152,7 +152,7 @@ FileStore fs = Files.getFileStore(path);
 
 newType，与 newInstance 类似，但是如果工厂方法在不同的类中使用。类型是工厂方法返回的对象类型，例如：
 
-```
+```java
 BufferedReader br = Files.newBufferedReader(path);
 ```
 
@@ -160,7 +160,7 @@ BufferedReader br = Files.newBufferedReader(path);
 
 type，一个用来替代 getType 和 newType 的比较简单的方式，例如：
 
-```
+```java
 List<Complaint> litany = Collections.list(legacyLitany);
 ```
 

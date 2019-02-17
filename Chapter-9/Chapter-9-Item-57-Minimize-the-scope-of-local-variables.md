@@ -16,7 +16,7 @@ Loops present a special opportunity to minimize the scope of variables. The for 
 
 For example, here is the preferred idiom for iterating over a collection (Item 58):
 
-```
+```java
 // Preferred idiom for iterating over a collection or array
 for (Element e : c) {
     ... // Do Something with e
@@ -25,7 +25,7 @@ for (Element e : c) {
 
 If you need access to the iterator, perhaps to call its remove method, the preferred idiom uses a traditional for loop in place of the for-each loop:
 
-```
+```java
 // Idiom for iterating when you need the iterator
 for (Iterator<Element> i = c.iterator(); i.hasNext(); ) {
     Element e = i.next();
@@ -35,7 +35,7 @@ for (Iterator<Element> i = c.iterator(); i.hasNext(); ) {
 
 To see why these for loops are preferable to a while loop, consider the following code fragment, which contains two while loops and one bug:
 
-```
+```java
 Iterator<Element> i = c.iterator();
 while (i.hasNext()) {
     doSomething(i.next());
@@ -51,7 +51,7 @@ The second loop contains a copy-and-paste error: it initializes a new loop varia
 
 If a similar copy-and-paste error were made in conjunction with either of the for loops (for-each or traditional), the resulting code wouldn’t even compile. The element (or iterator) variable from the first loop would not be in scope in the second loop. Here’s how it looks with the traditional for loop:
 
-```
+```java
 for (Iterator<Element> i = c.iterator(); i.hasNext(); ) {
 Element e = i.next();
 ... // Do something with e and i
@@ -66,7 +66,7 @@ Element e2 = i2.next();
 
 Moreover, if you use a for loop, it’s much less likely that you’ll make the copy-and-paste error because there’s no incentive to use different variable names in the two loops. The loops are completely independent, so there’s no harm in reusing the element (or iterator) variable name. In fact, it’s often stylish to do so. The for loop has one more advantage over the while loop: it is shorter, which enhances readability. Here is another loop idiom that minimizes the scope of local variables:
 
-```
+```java
 for (int i = 0, n = expensiveComputation(); i < n; i++) {
     ... // Do something with i;
 }

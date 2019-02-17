@@ -4,7 +4,7 @@
 
 Historically, interfaces (or, rarely, abstract classes) with a single abstract method were used as function types. Their instances, known as function objects, represent functions or actions. Since JDK 1.1 was released in 1997, the primary means of creating a function object was the anonymous class (Item 24). Here’s a code snippet to sort a list of strings in order of length, using an anonymous class to create the sort’s comparison function (which imposes the sort order):
 
-```
+```java
 // Anonymous class instance as a function object - obsolete!
 Collections.sort(words, new Comparator<String>() {
     public int compare(String s1, String s2) {
@@ -17,7 +17,7 @@ Anonymous classes were adequate for the classic objected-oriented design pattern
 
 In Java 8, the language formalized the notion that interfaces with a single abstract method are special and deserve special treatment. These interfaces are now known as functional interfaces, and the language allows you to create instances of these interfaces using lambda expressions, or lambdas for short. Lambdas are similar in function to anonymous classes, but far more concise. Here’s how the code snippet above looks with the anonymous class replaced by a lambda. The boilerplate is gone, and the behavior is clearly evident:
 
-```
+```java
 // Lambda expression as function object (replaces anonymous class)
 Collections.sort(words,(s1, s2) -> Integer.compare(s1.length(), s2.length()));
 ```
@@ -28,19 +28,19 @@ One caveat should be added concerning type inference. Item 26 tells you not to u
 
 Incidentally, the comparator in the snippet can be made even more succinct if a comparator construction method is used in place of a lambda (Items 14. 43):
 
-```
+```java
 Collections.sort(words, comparingInt(String::length));
 ```
 
 In fact, the snippet can be made still shorter by taking advantage of the sort method that was added to the List interface in Java 8:
 
-```
+```java
 words.sort(comparingInt(String::length));
 ```
 
 The addition of lambdas to the language makes it practical to use function objects where it would not previously have made sense. For example, consider the Operation enum type in Item 34. Because each enum required different behavior for its apply method, we used constant-specific class bodies and overrode the apply method in each enum constant. To refresh your memory, here is the code:
 
-```
+```java
 // Enum type with constant-specific class bodies & data (Item 34)
 public enum Operation {
     PLUS("+") {
@@ -68,7 +68,7 @@ public enum Operation {
 
 Item 34 says that enum instance fields are preferable to constant-specific class bodies. Lambdas make it easy to implement constant-specific behavior using the former instead of the latter. Merely pass a lambda implementing each enum constant’s behavior to its constructor. The constructor stores the lambda in an instance field, and the apply method forwards invocations to the lambda. The resulting code is simpler and clearer than the original version:
 
-```
+```java
 // Enum with function object fields & constant-specific behavior
 public enum Operation {
     PLUS ("+", (x, y) -> x + y),

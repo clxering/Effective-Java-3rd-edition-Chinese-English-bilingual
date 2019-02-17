@@ -10,7 +10,7 @@ The default serialized form of an object is a reasonably efficient encoding of t
 
 **The default serialized form is likely to be appropriate if an object’s physical representation is identical to its logical content.** For example, the default serialized form would be reasonable for the following class, which simplistically represents a person’s name:
 
-```
+```java
 // Good candidate for default serialized form
 public class Name implements Serializable {
     /**
@@ -42,7 +42,7 @@ Note that there are documentation comments on the lastName, firstName, and middl
 
 Near the opposite end of the spectrum from Name, consider the following class, which represents a list of strings (ignoring for the moment that you would probably be better off using one of the standard List implementations):
 
-```
+```java
 // Awful candidate for default serialized form
 public final class StringList implements Serializable {
     private int size = 0;
@@ -70,7 +70,7 @@ Logically speaking, this class represents a sequence of strings. Physically, it 
 
 A reasonable serialized form for StringList is simply the number of strings in the list, followed by the strings themselves. This constitutes the logical data represented by a StringList, stripped of the details of its physical representation. Here is a revised version of StringList with writeObject and readObject methods that implement this serialized form. As a reminder, the transient modifier indicates that an instance field is to be omitted from a class’s default serialized form:
 
-```
+```java
 // StringList with a reasonable custom serialized form
 public final class StringList implements Serializable {
     private transient int size = 0;
@@ -129,7 +129,7 @@ If you are using the default serialized form and you have labeled one or more fi
 
 Whether or not you use the default serialized form, **you must impose any synchronization on object serialization that you would impose on any other method that reads the entire state of the object.** So, for example, if you have a thread-safe object (Item 82) that achieves its thread safety by synchronizing every method and you elect to use the default serialized form, use the following write-Object method:
 
-```
+```java
 // writeObject for synchronized class with default serialized form
 private synchronized void writeObject(ObjectOutputStream s) throws IOException {
     s.defaultWriteObject();
@@ -142,7 +142,7 @@ If you put synchronization in the writeObject method, you must ensure that it ad
 
 Declaring a serial version UID is simple. Just add this line to your class:
 
-```
+```java
 private static final long serialVersionUID = randomLongValue;
 ```
 

@@ -8,7 +8,7 @@ Item 78 warns of the dangers of insufficient synchronization. This item concerns
 
 To make this concrete, consider the following class, which implements an observable set wrapper. It allows clients to subscribe to notifications when elements are added to the set. This is the Observer pattern [Gamma95]. For brevity’s sake, the class does not provide notifications when elements are removed from the set, but it would be a simple matter to provide them. This class is implemented atop the reusable ForwardingSet from Item 18 (page 90):
 
-```
+```java
 // Broken - invokes alien method from synchronized block!
 public class ObservableSet<E> extends ForwardingSet<E> {
     public ObservableSet(Set<E> set) { super(set); }
@@ -54,7 +54,7 @@ public class ObservableSet<E> extends ForwardingSet<E> {
 
 Observers subscribe to notifications by invoking the addObserver method and unsubscribe by invoking the removeObserver method. In both cases, an instance of this callback interface is passed to the method.
 
-```
+```java
 @FunctionalInterface public interface SetObserver<E> {
 // Invoked when an element is added to the observable set
 void added(ObservableSet<E> set, E element);
@@ -65,7 +65,7 @@ This interface is structurally identical to `BiConsumer<ObservableSet<E>,E>`. We
 
 On cursory inspection, ObservableSet appears to work fine. For example, the following program prints the numbers from 0 through 99:
 
-```
+```java
 public static void main(String[] args) {
     ObservableSet<Integer> set =new ObservableSet<>(new HashSet<>());
     set.addObserver((s, e) -> System.out.println(e));
@@ -76,7 +76,7 @@ public static void main(String[] args) {
 
 Now let’s try something a bit fancier. Suppose we replace the addObserver call with one that passes an observer that prints the Integer value that was added to the set and removes itself if the value is 23:
 
-```
+```java
 set.addObserver(new SetObserver<>() {
     public void added(ObservableSet<Integer> s, Integer e) {
         System.out.println(e);
@@ -92,7 +92,7 @@ You might expect the program to print the numbers 0 through 23, after which the 
 
 Now let’s try something odd: let’s write an observer that tries to unsubscribe, but instead of calling removeObserver directly, it engages the services of another thread to do the deed. This observer uses an executor service (Item 80):
 
-```
+```java
 // Observer that uses a background thread needlessly
 set.addObserver(new SetObserver<>() {
     public void added(ObservableSet<Integer> s, Integer e) {
@@ -121,7 +121,7 @@ In both of the previous examples (the exception and the deadlock) we were lucky.
 
 Luckily, it is usually not too hard to fix this sort of problem by moving alien method invocations out of synchronized blocks. For the notifyElementAdded method, this involves taking a “snapshot” of the observers list that can then be safely traversed without a lock. With this change, both of the previous examples run without exception or deadlock:
 
-```
+```java
 // Alien method moved outside of synchronized block - open calls
 private void notifyElementAdded(E element) {
     List<SetObserver<E>> snapshot = null;
@@ -137,7 +137,7 @@ In fact, there’s a better way to move the alien method invocations out of the 
 
 The add and addAll methods of ObservableSet need not be changed if the list is modified to use CopyOnWriteArrayList. Here is how the remainder of the class looks. Notice that there is no explicit synchronization whatsoever:
 
-```
+```java
 // Thread-safe observable set with CopyOnWriteArrayList
 private final List<SetObserver<E>> observers =new CopyOnWriteArrayList<>();
 

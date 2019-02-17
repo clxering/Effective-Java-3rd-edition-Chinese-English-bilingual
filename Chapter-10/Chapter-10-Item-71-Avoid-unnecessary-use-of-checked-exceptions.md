@@ -6,7 +6,7 @@ Many Java programmers dislike checked exceptions, but used properly, they can im
 
 This burden may be justified if the exceptional condition cannot be prevented by proper use of the API and the programmer using the API can take some useful action once confronted with the exception. Unless both of these conditions are met, an unchecked exception is appropriate. As a litmus test, ask yourself how the programmer will handle the exception. Is this the best that can be done?
 
-```
+```java
 } catch (TheCheckedException e) {
     throw new AssertionError(); // Can't happen!
 }
@@ -14,7 +14,7 @@ This burden may be justified if the exceptional condition cannot be prevented by
 
 Or this?
 
-```
+```java
 } catch (TheCheckedException e) {
     e.printStackTrace(); // Oh well, we lose.
     System.exit(1);
@@ -29,7 +29,7 @@ The easiest way to eliminate a checked exception is to return an optional of the
 
 You can also turn a checked exception into an unchecked exception by breaking the method that throws the exception into two methods, the first of which returns a boolean indicating whether the exception would be thrown. This API refactoring transforms the calling sequence from this:
 
-```
+```java
 // Invocation with checked exception
 try {
     obj.action(args);
@@ -41,7 +41,7 @@ catch (TheCheckedException e) {
 
 into this:
 
-```
+```java
 // Invocation with state-testing method and unchecked exception
 if (obj.actionPermitted(args)) {
     obj.action(args);
@@ -53,7 +53,7 @@ else {
 
 This refactoring is not always appropriate, but where it is, it can make an API more pleasant to use. While the latter calling sequence is no prettier than the former, the refactored API is more flexible. If the programmer knows the call will succeed, or is content to let the thread terminate if it fails, the refactoring also allows this trivial calling sequence:
 
-```
+```java
 obj.action(args);
 ```
 

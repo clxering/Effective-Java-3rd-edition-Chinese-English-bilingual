@@ -12,7 +12,7 @@ Because you can’t exclude concurrent activity on concurrent collections, you c
 
 For example, Map’s putIfAbsent(key, value) method inserts a mapping for a key if none was present and returns the previous value associated with the key, or null if there was none. This makes it easy to implement thread-safe canonicalizing maps. This method simulates the behavior of String.intern:
 
-```
+```java
 // Concurrent canonicalizing map atop ConcurrentMap - not optimal
 private static final ConcurrentMap<String, String> map =new ConcurrentHashMap<>();
 public static String intern(String s) {
@@ -23,7 +23,7 @@ public static String intern(String s) {
 
 In fact, you can do even better. ConcurrentHashMap is optimized for retrieval operations, such as get. Therefore, it is worth invoking get initially and calling putIfAbsent only if get indicates that it is necessary:
 
-```
+```java
 // Concurrent canonicalizing map atop ConcurrentMap - faster!
 public static String intern(String s) {
     String result = map.get(s);
@@ -46,7 +46,7 @@ Countdown latches are single-use barriers that allow one or more threads to wait
 
 It is surprisingly easy to build useful things atop this simple primitive. For example, suppose you want to build a simple framework for timing the concurrent execution of an action. This framework consists of a single method that takes an executor to execute the action, a concurrency level representing the number of actions to be executed concurrently, and a runnable representing the action. All of the worker threads ready themselves to run the action before the timer thread starts the clock. When the last worker thread is ready to run the action, the timer thread “fires the starting gun,” allowing the worker threads to perform the action. As soon as the last worker thread finishes performing the action, the timer thread stops the clock. Implementing this logic directly on top of wait and notify would be messy to say the least, but it is surprisingly straightforward on top of CountDownLatch:
 
-```
+```java
 // Simple framework for timing concurrent execution
 public static long time(Executor executor, int concurrency,Runnable action) throws InterruptedException {
     CountDownLatch ready = new CountDownLatch(concurrency);
@@ -81,7 +81,7 @@ This item only scratches the surface of what you can do with the concurrency uti
 
 While you should always use the concurrency utilities in preference to wait and notify, you might have to maintain legacy code that uses wait and notify. The wait method is used to make a thread wait for some condition. It must be invoked inside a synchronized region that locks the object on which it is invoked. Here is the standard idiom for using the wait method:
 
-```
+```java
 // The standard idiom for using the wait method
 synchronized (obj) {
     while (<condition does not hold>)

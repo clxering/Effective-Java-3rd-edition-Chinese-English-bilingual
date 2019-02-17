@@ -6,7 +6,7 @@ Varargs methods, formally known as variable arity methods [JLS, 8.4.1], accept z
 
 For example, here is a varargs method that takes a sequence of int arguments and returns their sum. As you would expect, the value of sum(1, 2, 3) is 6, and the value of sum() is 0:
 
-```
+```java
 // Simple use of varargs
 static int sum(int... args) {
     int sum = 0;
@@ -18,7 +18,7 @@ static int sum(int... args) {
 
 Sometimes it’s appropriate to write a method that requires one or more arguments of some type, rather than zero or more. For example, suppose you want to write a function that computes the minimum of its arguments. This function is not well defined if the client passes no arguments. You could check the array length at runtime:
 
-```
+```java
 // The WRONG way to use varargs to pass one or more arguments!
 static int min(int... args) {
     if (args.length == 0)
@@ -35,7 +35,7 @@ This solution has several problems. The most serious is that if the client invok
 
 Luckily there’s a much better way to achieve the desired effect. Declare the method to take two parameters, one normal parameter of the specified type and one varargs parameter of this type. This solution corrects all the deficiencies of the previous one:
 
-```
+```java
 // The right way to use varargs to pass one or more arguments
 static int min(int firstArg, int... remainingArgs) {
     int min = firstArg;
@@ -50,7 +50,7 @@ As you can see from this example, varargs are effective in circumstances where y
 
 Exercise care when using varargs in performance-critical situations. Every invocation of a varargs method causes an array allocation and initialization. If you have determined empirically that you can’t afford this cost but you need the flexibility of varargs, there is a pattern that lets you have your cake and eat it too. Suppose you’ve determined that 95 percent of the calls to a method have three or fewer parameters. Then declare five overloadings of the method, one each with zero through three ordinary parameters, and a single varargs method for use when the number of arguments exceeds three:
 
-```
+```java
 public void foo() { }
 public void foo(int a1) { }
 public void foo(int a1, int a2) { }

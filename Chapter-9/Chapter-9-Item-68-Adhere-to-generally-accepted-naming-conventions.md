@@ -39,7 +39,7 @@ Methods that perform some action are generally named with a verb or verb phrase 
 
 Methods that return a non-boolean function or attribute of the object on which they’re invoked are usually named with a noun, a noun phrase, or a verb phrase beginning with the verb get, for example, size, hashCode, or getTime. There is a vocal contingent that claims that only the third form (beginning with get) is acceptable, but there is little basis for this claim. The first two forms usually lead to more readable code, for example:
 
-```
+```java
 if (car.speed() > 2 * SPEED_LIMIT)
 generateAudibleAlert("Watch out for cops!");
 ```

@@ -10,7 +10,7 @@ There are three major differences between primitives and boxed primitives. First
 
 Consider the following comparator, which is designed to represent ascending numerical order on Integer values. (Recall that a comparator’s compare method returns a number that is negative, zero, or positive, depending on whether its first argument is less than, equal to, or greater than its second.) You wouldn’t need to write this comparator in practice because it implements the natural ordering on Integer, but it makes for an interesting example:
 
-```
+```java
 // Broken comparator - can you spot the flaw?
 Comparator<Integer> naturalOrder =(i, j) -> (i < j) ? -1 : (i == j ? 0 : 1);
 ```
@@ -21,7 +21,7 @@ So what’s the problem? The first test in naturalOrder works fine. Evaluating t
 
 In practice, if you need a comparator to describe a type’s natural order, you should simply call Comparator.naturalOrder(), and if you write a comparator yourself, you should use the comparator construction methods, or the static compare methods on primitive types (Item 14). That said, you could fix the problem in the broken comparator by adding two local variables to store the primitive int values corresponding to the boxed Integer parameters, and performing all of the comparisons on these variables. This avoids the erroneous identity comparison:
 
-```
+```java
 Comparator<Integer> naturalOrder = (iBoxed, jBoxed) -> {
     int i = iBoxed, j = jBoxed; // Auto-unboxing
     return i < j ? -1 : (i == j ? 0 : 1);
@@ -30,7 +30,7 @@ Comparator<Integer> naturalOrder = (iBoxed, jBoxed) -> {
 
 Next, consider this delightful little program:
 
-```
+```java
 public class Unbelievable {
 static Integer i;
 public static void main(String[] args) {
@@ -44,7 +44,7 @@ No, it doesn’t print Unbelievable—but what it does is almost as strange. It 
 
 Finally, consider the program from page 24 in Item 6:
 
-```
+```java
 // Hideously slow program! Can you spot the object creation?
 public static void main(String[] args) {
     Long sum = 0L;

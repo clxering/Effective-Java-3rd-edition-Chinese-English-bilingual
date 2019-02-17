@@ -4,7 +4,7 @@
 
 Item 3 describes the Singleton pattern and gives the following example of a singleton class. This class restricts access to its constructor to ensure that only a single instance is ever created:
 
-```
+```java
 public class Elvis {
     public static final Elvis INSTANCE = new Elvis();
     private Elvis() { ... }
@@ -18,7 +18,7 @@ The readResolve feature allows you to substitute another instance for the one cr
 
 If the Elvis class is made to implement Serializable, the following read-Resolve method suffices to guarantee the singleton property:
 
-```
+```java
 // readResolve for instance control - you can do better!
 private Object readResolve() {
     // Return the one true Elvis and let the garbage collector
@@ -39,7 +39,7 @@ The stealer’s readResolve method copies the reference from its instance field 
 
 To make this concrete, consider the following broken singleton:
 
-```
+```java
 // Broken singleton - has nontransient object reference field!
 public class Elvis implements Serializable {
     public static final Elvis INSTANCE = new Elvis();
@@ -56,7 +56,7 @@ public class Elvis implements Serializable {
 
 Here is a “stealer” class, constructed as per the description above:
 
-```
+```java
 public class ElvisStealer implements Serializable {
     static Elvis impersonator;
     private Elvis payload;
@@ -74,7 +74,7 @@ public class ElvisStealer implements Serializable {
 
 Finally, here is an ugly program that deserializes a handcrafted stream to produce two distinct instances of the flawed singleton. The deserialize method is omitted from this program because it’s identical to the one on page 354:
 
-```
+```java
 public class ElvisImpersonator {
 // Byte stream couldn't have come from a real Elvis instance!
     private static final byte[] serializedForm = {
@@ -106,7 +106,7 @@ public class ElvisImpersonator {
 
 Running this program produces the following output, conclusively proving that it’s possible to create two distinct Elvis instances (with different tastes in music):
 
-```
+```java
 [Hound Dog, Heartbreak Hotel]
 [A Fool Such as I]
 ```
@@ -115,7 +115,7 @@ You could fix the problem by declaring the favoriteSongs field transient, but yo
 
 If you write your serializable instance-controlled class as an enum, Java guarantees you that there can be no instances besides the declared constants, unless an attacker abuses a privileged method such as AccessibleObject.setAccessible. Any attacker who can do that already has sufficient privileges to execute arbitrary native code, and all bets are off. Here’s how our Elvis example looks as an enum:
 
-```
+```java
 // Enum singleton - the preferred approach
 public enum Elvis {
     INSTANCE;

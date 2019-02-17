@@ -8,7 +8,7 @@ You may hear it said that streams are now the obvious choice to return a sequenc
 
 Sadly, there is no good workaround for this problem. At first glance, it might appear that passing a method reference to Stream’s iterator method would work. The resulting code is perhaps a bit noisy and opaque, but not unreasonable:
 
-```
+```java
 // Won't compile, due to limitations on Java's type inference
 for (ProcessHandle ph : ProcessHandle.allProcesses()::iterator) {
     // Process the process
@@ -17,7 +17,7 @@ for (ProcessHandle ph : ProcessHandle.allProcesses()::iterator) {
 
 Unfortunately, if you attempt to compile this code, you’ll get an error message:
 
-```
+```java
 Test.java:6: error: method reference not expected here
 for (ProcessHandle ph : ProcessHandle.allProcesses()::iterator) {
 ^
@@ -25,7 +25,7 @@ for (ProcessHandle ph : ProcessHandle.allProcesses()::iterator) {
 
 In order to make the code compile, you have to cast the method reference to an appropriately parameterized Iterable:
 
-```
+```java
 // Hideous workaround to iterate over a stream
 for (ProcessHandle ph : (Iterable<ProcessHandle>)
     ProcessHandle.allProcesses()::iterator)
@@ -33,7 +33,7 @@ for (ProcessHandle ph : (Iterable<ProcessHandle>)
 
 This client code works, but it is too noisy and opaque to use in practice. A better workaround is to use an adapter method. The JDK does not provide such a method, but it’s easy to write one, using the same technique used in-line in the snippets above. Note that no cast is necessary in the adapter method because Java’s type inference works properly in this context:
 
-```
+```java
 // Adapter from Stream<E> to Iterable<E>
 public static <E> Iterable<E> iterableOf(Stream<E> stream) {
     return stream::iterator;
@@ -42,7 +42,7 @@ public static <E> Iterable<E> iterableOf(Stream<E> stream) {
 
 With this adapter, you can iterate over any stream with a for-each statement:
 
-```
+```java
 for (ProcessHandle p : iterableOf(ProcessHandle.allProcesses())) {
     // Process the process
 }
@@ -52,7 +52,7 @@ Note that the stream versions of the Anagrams program in Item 34 use the Files.l
 
 Conversely, a programmer who wants to process a sequence using a stream pipeline will be justifiably upset by an API that provides only an Iterable. Again the JDK does not provide an adapter, but it’s easy enough to write one:
 
-```
+```java
 // Adapter from Iterable<E> to Stream<E>
 public static <E> Stream<E> streamOf(Iterable<E> iterable) {
     return StreamSupport.stream(iterable.spliterator(), false);
@@ -67,7 +67,7 @@ If the sequence you’re returning is large but can be represented concisely, co
 
 The trick is to use the index of each element in the power set as a bit vector, where the nth bit in the index indicates the presence or absence of the nth element from the source set. In essence, there is a natural mapping between the binary numbers from 0 to 2n − 1 and the power set of an n-element set. Here’s the code:
 
-```
+```java
 // Returns the power set of an input set as custom collection
 public class PowerSet {
     public static final <E> Collection<Set<E>> of(Set<E> s) {
@@ -103,7 +103,7 @@ There are times when you’ll choose the return type based solely on ease of imp
 
 It is, however, straightforward to implement a stream of all the sublists of an input list, though it does require a minor insight. Let’s call a sublist that contains the first element of a list a prefix of the list. For example, the prefixes of (a, b, c) are (a), (a, b), and (a, b, c). Similarly, let’s call a sublist that contains the last element a suffix, so the suffixes of (a, b, c) are (a, b, c), (b, c), and (c). The insight is that the sublists of a list are simply the suffixes of the prefixes (or identically, the prefixes of the suffixes) and the empty list. This observation leads directly to a clear, reasonably concise implementation:
 
-```
+```java
 // Returns a stream of all the sublists of its input list
 public class SubLists {
     public static <E> Stream<List<E>> of(List<E> list) {
@@ -122,7 +122,7 @@ public class SubLists {
 
 Note that the Stream.concat method is used to add the empty list into the returned stream. Also note that the flatMap method (Item 45) is used to generate a single stream consisting of all the suffixes of all the prefixes. Finally, note that we generate the prefixes and suffixes by mapping a stream of consecutive int values returned by IntStream.range and IntStream.rangeClosed. This idiom is, roughly speaking, the stream equivalent of the standard for-loop on integer indices. Thus, our sublist implementation is similar in spirit to the obvious nested for-loop:
 
-```
+```java
 for (int start = 0; start < src.size(); start++)
     for (int end = start + 1; end <= src.size(); end++)
         System.out.println(src.subList(start, end));
@@ -130,7 +130,7 @@ for (int start = 0; start < src.size(); start++)
 
 It is possible to translate this for-loop directly into a stream. The result is more concise than our previous implementation, but perhaps a bit less readable. It is similar in spirit to the streams code for the Cartesian product in Item 45:
 
-```
+```java
 // Returns a stream of all the sublists of its input list
 public static <E> Stream<List<E>> of(List<E> list) {
     return IntStream.range(0, list.size())

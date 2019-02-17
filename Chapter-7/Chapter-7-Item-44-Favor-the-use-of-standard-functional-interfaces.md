@@ -6,7 +6,7 @@ Now that Java has lambdas, best practices for writing APIs have changed consider
 
 Consider LinkedHashMap. You can use this class as a cache by overriding its protected removeEldestEntry method, which is invoked by put each time a new key is added to the map. When this method returns true, the map removes its eldest entry, which is passed to the method. The following override allows the map to grow to one hundred entries and then deletes the eldest entry each time a new key is added, maintaining the hundred most recent entries:
 
-```
+```java
 protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
     return size() > 100;
 }
@@ -14,7 +14,7 @@ protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
 
 This technique works fine, but you can do much better with lambdas. If LinkedHashMap were written today, it would have a static factory or constructor that took a function object. Looking at the declaration for removeEldestEntry, you might think that the function object should take a Map.Entry<K,V> and return a boolean, but that wouldn’t quite do it: The removeEldestEntry method calls size() to get the number of entries in the map, which works because removeEldestEntry is an instance method on the map. The function object that you pass to the constructor is not an instance method on the map and can’t capture it because the map doesn’t exist yet when its factory or constructor is invoked. Thus, the map must pass itself to the function object, which must therefore take the map on input as well as its eldest entry. If you were to declare such a functional interface, it would look something like this:
 
-```
+```java
 // Unnecessary functional interface; use a standard one instead.
 @FunctionalInterface interface EldestEntryRemovalFunction<K,V>{
     boolean remove(Map<K,V> map, Map.Entry<K,V> eldest);

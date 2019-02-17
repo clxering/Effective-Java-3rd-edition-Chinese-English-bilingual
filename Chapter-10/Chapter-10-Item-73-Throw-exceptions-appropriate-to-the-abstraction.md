@@ -6,7 +6,7 @@ It is disconcerting when a method throws an exception that has no apparent conne
 
 To avoid this problem, **higher layers should catch lower-level exceptions and, in their place, throw exceptions that can be explained in terms of the higher-level abstraction.** This idiom is known as exception translation:
 
-```
+```java
 // Exception Translation
 try {
     ... // Use lower-level abstraction to do our bidding
@@ -17,7 +17,7 @@ try {
 
 Here is an example of exception translation taken from the AbstractSequentialList class, which is a skeletal implementation (Item 20) of the List interface. In this example, exception translation is mandated by the specification of the get method in the `List<E>` interface:
 
-```
+```java
 /**
 * Returns the element at the specified position in this list.
 * @throws IndexOutOfBoundsException if the index is out of range
@@ -36,7 +36,7 @@ public E get(int index) {
 
 A special form of exception translation called exception chaining is called for in cases where the lower-level exception might be helpful to someone debugging the problem that caused the higher-level exception. The lower-level exception (the cause) is passed to the higher-level exception, which provides an accessor method (Throwable’s getCause method) to retrieve the lower-level exception:
 
-```
+```java
 // Exception Chaining
 try {
     ... // Use lower-level abstraction to do our bidding
@@ -48,7 +48,7 @@ catch (LowerLevelException cause) {
 
 The higher-level exception’s constructor passes the cause to a chaining-aware superclass constructor, so it is ultimately passed to one of Throwable’s chaining-aware constructors, such as Throwable(Throwable):
 
-```
+```java
 // Exception with chaining-aware constructor
 class HigherLevelException extends Exception {
     HigherLevelException(Throwable cause) {

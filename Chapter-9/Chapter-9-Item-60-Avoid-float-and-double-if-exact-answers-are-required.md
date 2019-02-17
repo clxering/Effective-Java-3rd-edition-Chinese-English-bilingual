@@ -6,13 +6,13 @@ The float and double types are designed primarily for scientific and engineering
 
 For example, suppose you have $1.03 in your pocket, and you spend 42¢. How much money do you have left? Here’s a naive program fragment that attempts to answer this question:
 
-```
+```java
 System.out.println(1.03 - 0.42);
 ```
 
 Unfortunately, it prints out 0.6100000000000001. This is not an isolated case. Suppose you have a dollar in your pocket, and you buy nine washers priced at ten cents each. How much change do you get?
 
-```
+```java
 System.out.println(1.00 - 9 * 0.10);
 ```
 
@@ -20,7 +20,7 @@ According to this program fragment, you get $0.09999999999999998.
 
 You might think that the problem could be solved merely by rounding results prior to printing, but unfortunately this does not always work. For example, suppose you have a dollar in your pocket, and you see a shelf with a row of delicious candies priced at 10¢, 20¢, 30¢, and so forth, up to a dollar. You buy one of each candy, starting with the one that costs 10¢, until you can’t afford to buy the next candy on the shelf. How many candies do you buy, and how much change do you get? Here’s a naive program designed to solve this problem:
 
-```
+```java
 // Broken - uses floating point for monetary calculation!
 public static void main(String[] args) {
     double funds = 1.00;
@@ -38,7 +38,7 @@ If you run the program, you’ll find that you can afford three pieces of candy,
 
 Here’s a straightforward transformation of the previous program to use the BigDecimal type in place of double. Note that BigDecimal’s String constructor is used rather than its double constructor. This is required in order to avoid introducing inaccurate values into the computation [Bloch05, Puzzle 2]:
 
-```
+```java
 public static void main(String[] args) {
     final BigDecimal TEN_CENTS = new BigDecimal(".10");
     int itemsBought = 0;
@@ -58,7 +58,7 @@ There are, however, two disadvantages to using BigDecimal: it’s a lot less con
 
 An alternative to using BigDecimal is to use int or long, depending on the amounts involved, and to keep track of the decimal point yourself. In this example, the obvious approach is to do all computation in cents instead of dollars. Here’s a straightforward transformation that takes this approach:
 
-```
+```java
 public static void main(String[] args) {
     int itemsBought = 0;
     int funds = 100;
