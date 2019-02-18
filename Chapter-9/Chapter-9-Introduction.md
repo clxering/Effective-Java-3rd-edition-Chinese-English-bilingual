@@ -1,4 +1,4 @@
-## Chapter 9. General Programming（泛型编程）
+## Chapter 9. General Programming（通用程序设计）
 
 ### Chapter 9 Introduction（章节介绍）
 

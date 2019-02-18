@@ -1,4 +1,4 @@
-## Chapter 7. Lambdas and Streams（λ表达式和流）
+## Chapter 7. Lambdas and Streams（λ 表达式和流）
 
 ### Item 47: Prefer Collection to Stream as a return type
 
