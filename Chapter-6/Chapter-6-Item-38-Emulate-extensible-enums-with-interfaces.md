@@ -83,6 +83,14 @@ You can now use your new operations anywhere you could use the basic operations,
 现在可以在任何可以使用 Operation 的地方使用新 Operation，前提是编写的 API 采用接口类型（Operation），而不是实现（BasicOperation）。注意，不必像在具有特定于实例的方法实现的非可扩展枚举中那样在枚举中声明抽象 apply 方法（第 162 页）。这是因为抽象方法（apply）是接口（Operation）的成员。
 
 ***译注：示例如下***
+```
+public static void main(String[] args) {
+    Operation op = BasicOperation.DIVIDE;
+    System.out.println(op.apply(15, 3));
+    op=ExtendedOperation.EXP;
+    System.out.println(op.apply(2,5));
+}
+```
 
 Not only is it possible to pass a single instance of an “extension enum” anywhere a “base enum” is expected, but it is possible to pass in an entire extension enum type and use its elements in addition to or instead of those of the base type. For example, here is a version of the test program on page 163 that exercises all of the extended operations defined previously:
 
