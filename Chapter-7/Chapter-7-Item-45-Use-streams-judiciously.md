@@ -1,4 +1,4 @@
-## Chapter 7. Lambdas and Streams（λ表达式和流）
+## Chapter 7. Lambdas and Streams（λ 表达式和流）
 
 ### Item 45: Use streams judiciously
 

@@ -1,4 +1,4 @@
-## Chapter 7. Lambdas and Streams（λ表达式和流）
+## Chapter 7. Lambdas and Streams（λ 表达式和流）
 
 ### Item 48: Use caution when making streams parallel
 
