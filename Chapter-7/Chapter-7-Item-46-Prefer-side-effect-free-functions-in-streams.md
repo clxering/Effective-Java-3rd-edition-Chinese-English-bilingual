@@ -1,4 +1,4 @@
-## Chapter 7. Lambdas and Streams（λ表达式和流）
+## Chapter 7. Lambdas and Streams（λ 表达式和流）
 
 ### Item 46: Prefer side-effect-free functions in streams
 

@@ -1,4 +1,4 @@
-## Chapter 9. General Programming（泛型编程）
+## Chapter 9. General Programming（通用程序设计）
 
 ### Item 62: Avoid strings where other types are more appropriate
 

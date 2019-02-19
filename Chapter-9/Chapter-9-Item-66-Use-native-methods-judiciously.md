@@ -1,4 +1,4 @@
-## Chapter 9. General Programming（泛型编程）
+## Chapter 9. General Programming（通用程序设计）
 
 ### Item 66: Use native methods judiciously
 
