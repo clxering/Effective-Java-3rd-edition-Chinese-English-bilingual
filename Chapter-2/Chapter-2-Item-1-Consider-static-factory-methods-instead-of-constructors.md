@@ -6,7 +6,7 @@ The traditional way for a class to allow a client to obtain（获得） an insta
 
 允许客户端获得实例的传统方法是由类提供一个公共构造函数。还有一种技术应该成为每个程序员工具包的一部分。一个类可以提供一个公共静态工厂方法，它只是一个返回类实例的静态方法。下面是一个来自 Boolean （boolean 的包装类）的简单示例。该方法将布尔基本类型转换为布尔对象的引用：
 
-```java
+```
 public static Boolean valueOf(boolean b) {
 	return b ? Boolean.TRUE : Boolean.FALSE;
 }
