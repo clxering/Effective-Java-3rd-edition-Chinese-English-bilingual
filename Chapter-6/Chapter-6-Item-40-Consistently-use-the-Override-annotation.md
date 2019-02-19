@@ -1,10 +1,10 @@
 ## Chapter 6. Enums and Annotations（枚举和注解）
 
-### Item 40: Consistently use the Override annotation
+### Item 40: Consistently use the Override annotation（坚持使用 @Override 注解）
 
 The Java libraries contain several annotation types. For the typical programmer, the most important of these is @Override. This annotation can be used only on method declarations, and it indicates that the annotated method declaration overrides a declaration in a supertype. If you consistently use this annotation, it will protect you from a large class of nefarious bugs. Consider this program, in which the class Bigram represents a bigram, or ordered pair of letters:
 
-Java 库包含几种注解类型。对于大多数的程序员来说，其中最重要的是 `@Override`。此注解只能在方法声明上使用，带有该注解的方法声明将覆盖超类型中的声明。如果你~~一直使用这个注解~~，它将帮助你减少受到有害错误的影响。考虑这个程序，其中类 Bigram 表示一个二元语法，或有序的字母对：
+Java 库包含几种注解类型。对于大多数的程序员来说，其中最重要的是 `@Override`。此注解只能在方法声明上使用，带有该注解的方法声明将覆盖超类型中的声明。如果你坚持使用这个注解，它将帮助你减少受到有害错误的影响。考虑这个程序，其中类 Bigram 表示一个二元语法，或有序的字母对：
 
 ```
 // Can you spot the bug?
