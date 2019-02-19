@@ -1,10 +1,14 @@
 ## Chapter 6. Enums and Annotations（枚举和注解）
 
-### Item 41: Use marker interfaces to define types
+### Item 41: Use marker interfaces to define types（使用标记接口定义类型）
 
 A marker interface is an interface that contains no method declarations but merely designates (or “marks”) a class that implements the interface as having some property. For example, consider the Serializable interface (Chapter 12). By implementing this interface, a class indicates that its instances can be written to an ObjectOutputStream (or “serialized”).
 
+标记接口是一种不包含任何方法声明的接口，它只是指定（或「标记」）一个类，该类实现了具有某些属性的接口。例如，考虑 Serializable 接口（Chapter 12）。通过实现此接口，类指示其实例可以写入 ObjectOutputStream（或「序列化」）。
+
 You may hear it said that marker annotations (Item 39) make marker interfaces obsolete. This assertion is incorrect. Marker interfaces have two advantages over marker annotations. First and foremost, **marker interfaces define a type that is implemented by instances of the marked class; marker annotations do not.** The existence of a marker interface type allows you to catch errors at compile time that you couldn’t catch until runtime if you used a marker annotation.
+
+您可能听说过标记接口过时了，更好的方式是标记注解（[Item-39](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-39-Prefer-annotations-to-naming-patterns.md)）。这个言论是错误的。与标记注解相比，标记接口有两个优点。首先，**标记接口定义了由标记类的实例实现的类型；标记注解不会。** 标记接口类型的存在允许您在编译时捕获错误，如果您使用标记注解，则在运行时才能捕获这些错误。
 
 Java’s serialization facility (Chapter 6) uses the Serializable marker interface to indicate that a type is serializable. The ObjectOutputStream.writeObject method, which serializes the object that is passed to it, requires that its argument be serializable. Had the argument of this method been of type Serializable, an attempt to serialize an inappropriate object would have been detected at compile time (by type checking). Compile-time error detection is the intent of marker interfaces, but unfortunately, the ObjectOutputStream.write API does not take advantage of the Serializable interface: its argument is declared to be of type Object, so attempts to serialize an unserializable object won’t fail until runtime.
 
