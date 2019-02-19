@@ -6,7 +6,7 @@ The string concatenation operator (+) is a convenient way to combine a few strin
 
 For example, consider this method, which constructs the string representation of a billing statement by repeatedly concatenating a line for each item:
 
-```java
+```
 // Inappropriate use of string concatenation - Performs poorly!
 public String statement() {
     String result = "";
@@ -18,7 +18,7 @@ public String statement() {
 
 The method performs abysmally if the number of items is large. **To achieve acceptable performance, use a StringBuilder in place of a String** to store the statement under construction:
 
-```java
+```
 public String statement() {
     StringBuilder b = new StringBuilder(numItems() * LINE_WIDTH);
     for (int i = 0; i < numItems(); i++)

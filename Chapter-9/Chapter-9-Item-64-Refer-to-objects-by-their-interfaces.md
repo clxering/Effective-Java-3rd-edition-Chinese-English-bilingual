@@ -4,21 +4,21 @@
 
 Item 51 says that you should use interfaces rather than classes as parameter types. More generally, you should favor the use of interfaces over classes to refer to objects. **If appropriate interface types exist, then parameters, return values, variables, and fields should all be declared using interface types.** The only time you really need to refer to an object’s class is when you’re creating it with a constructor. To make this concrete, consider the case of LinkedHashSet, which is an implementation of the Set interface. Get in the habit of typing this:
 
-```java
+```
 // Good - uses interface as type
 Set<Son> sonSet = new LinkedHashSet<>();
 ```
 
 not this:
 
-```java
+```
 // Bad - uses class as type!
 LinkedHashSet<Son> sonSet = new LinkedHashSet<>();
 ```
 
 **If you get into the habit of using interfaces as types, your program will be much more flexible.** If you decide that you want to switch implementations, all you have to do is change the class name in the constructor (or use a different static factory). For example, the first declaration could be changed to read:
 
-```java
+```
 Set<Son> sonSet = new HashSet<>();
 ```
 

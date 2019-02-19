@@ -6,7 +6,7 @@ An enumerated type is a type whose legal values consist of a fixed set of consta
 
 枚举类型是这样一种类型：它合法的值由一组固定的常量组成，如：一年中的季节、太阳系中的行星或扑克牌中的花色。在枚举类型被添加到 JAVA 之前，表示枚举类型的一种常见模式是声明一组 int 的常量，每个类型的成员都有一个：
 
-```java
+```
 // The int enum pattern - severely deficient!
 public static final int APPLE_FUJI = 0;
 public static final int APPLE_PIPPIN = 1;
@@ -20,7 +20,7 @@ This technique, known as the int enum pattern, has many shortcomings. It provide
 
 这种技术称为 int 枚举模式，它有许多缺点。它没有提供任何类型安全性，并且几乎不具备表现力。如果你传递一个苹果给方法，希望得到一个橘子，使用 == 操作符比较苹果和橘子时编译器并不会提示错误，或更糟的情况：
 
-```java
+```
 // Tasty citrus flavored applesauce!
 int i = (APPLE_FUJI - ORANGE_TEMPLE) / APPLE_PIPPIN;
 ```
@@ -45,7 +45,7 @@ Luckily, Java provides an alternative that avoids all the shortcomings of the in
 
 幸运的是，Java 提供了一种替代方案，它避免了 int 和 String 枚举模式的所有缺点，并提供了许多额外的好处。它就是枚举类型 [JLS, 8.9]。下面是它最简单的形式：
 
-```java
+```
 public enum Apple { FUJI, PIPPIN, GRANNY_SMITH }
 public enum Orange { NAVEL, TEMPLE, BLOOD }
 ```
@@ -78,7 +78,7 @@ For a nice example of a rich enum type, consider the eight planets of our solar 
 
 对于富枚举类型来说，有个很好的例子，考虑我们太阳系的八颗行星。每颗行星都有质量和半径，通过这两个属性你可以计算出它的表面引力。反过来，可以给定物体的质量，让你计算出一个物体在行星表面的重量。这个枚举是这样的。每个枚举常量后括号中的数字是传递给其构造函数的参数。在本例中，它们是行星的质量和半径：
 
-```java
+```
 // Enum type with data and behavior
 public enum Planet {
     MERCURY(3.302e+23, 2.439e6),
@@ -118,7 +118,7 @@ It is easy to write a rich enum type such as Planet. **To associate data with en
 
 编写一个富枚举类型很容易，如上述的 Planet。**要将数据与枚举常量关联，可声明实例字段并编写一个构造函数，该构造函数接受数据并将其存储在字段中。** 枚举本质上是不可变的，因此所有字段都应该是 final（[Item-17](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)）。字段可以是公共的，但是最好将它们设置为私有并提供公共访问器（[Item-16](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-16-In-public-classes-use-accessor-methods-not-public-fields.md)）。在 Planet 的例子中，构造函数还计算和存储表面重力，但这只是一个优化。每一次使用 surfaceWeight 方法时，都可以通过质量和半径重新计算重力。surfaceWeight 方法获取一个物体的质量，并返回其在该常数所表示的行星上的重量。虽然 Planet 枚举很简单，但它的力量惊人。下面是一个简短的程序，它获取一个物体的地球重量（以任何单位表示），并打印一个漂亮的表格，显示该物体在所有 8 个行星上的重量（以相同的单位表示）：
 
-```java
+```
 public class WeightTable {
     public static void main(String[] args) {
         double earthWeight = Double.parseDouble(args[0]);
@@ -133,7 +133,7 @@ Note that Planet, like all enums, has a static values method that returns an arr
 
 请注意，Planet 和所有枚举一样，有一个静态值方法，该方法按照声明值的顺序返回其值的数组。还要注意的是，toString 方法返回每个枚举值的声明名称，这样就可以通过 println 和 printf 轻松打印。如果你对这个字符串表示不满意，可以通过重写 toString 方法来更改它。下面是用命令行运行我们的 WeightTable 程序（未覆盖 toString）的结果：
 
-```java
+```
 Weight on MERCURY is 69.912739
 Weight on VENUS is 167.434436
 Weight on EARTH is 185.000000
@@ -164,7 +164,7 @@ The techniques demonstrated in the Planet example are sufficient（adj. 足够�
 
 Planet 示例中演示的技术对于大多数枚举类型来说已经足够了，但有时还需要更多。每个行星常数都有不同的数据，但有时你需要将基本不同的行为与每个常数联系起来。例如，假设你正在编写一个枚举类型来表示一个基本的四则运算计算器上的操作，并且你希望提供一个方法来执行由每个常量表示的算术操作。实现这一点的一种方式是切换枚举的值：
 
-```java
+```
 // Enum type that switches on its own value - questionable
 public enum Operation {
     PLUS, MINUS, TIMES, DIVIDE;
@@ -189,7 +189,7 @@ Luckily, there is a better way to associate a different behavior with each enum 
 
 幸运的是，有一种更好的方法可以将不同的行为与每个枚举常量关联起来：在枚举类型中声明一个抽象的 apply 方法，并用一个特定于常量的类体中的每个常量的具体方法覆盖它。这些方法称为特定常量方法实现：
 
-```java
+```
 // Enum type with constant-specific method implementations
 public enum Operation {
     PLUS {public double apply(double x, double y){return x + y;}},
@@ -210,7 +210,7 @@ Constant-specific method implementations can be combined with constantspecific d
 
 ***译注：原文 constantspecific data 修改为 constant-specific data ，译为「特定常量数据」***
 
-```java
+```
 // Enum type with constant-specific class bodies and data
 public enum Operation {
     PLUS("+") {
@@ -241,7 +241,7 @@ The toString implementation shown makes it easy to print arithmetic expressions,
 
 重写的 toString 实现使得打印算术表达式变得很容易，如下面的小程序所示：
 
-```java
+```
 public static void main(String[] args) {
     double x = Double.parseDouble(args[0]);
     double y = Double.parseDouble(args[1]);
@@ -254,7 +254,7 @@ Running this program with 2 and 4 as command line arguments produces the followi
 
 以 2 和 4 作为命令行参数运行这个程序将产生以下输出：
 
-```java
+```
 2.000000 + 4.000000 = 6.000000
 2.000000 - 4.000000 = -2.000000
 2.000000 * 4.000000 = 8.000000
@@ -265,7 +265,7 @@ Enum types have an automatically generated valueOf(String) method that translate
 
 枚举类型有一个自动生成的 valueOf(String) 方法，该方法将常量的名称转换为常量本身。如果在枚举类型中重写 toString 方法，可以考虑编写 fromString 方法将自定义字符串表示形式转换回相应的枚举。只要每个常量都有唯一的字符串表示形式，下面的代码（类型名称适当更改）就可以用于任何枚举：
 
-```java
+```
 // Implementing a fromString method on an enum type
 private static final Map<String, Operation> stringToEnum =Stream.of(values()).collect(toMap(Object::toString, e -> e));
 
@@ -287,7 +287,7 @@ A disadvantage of constant-specific method implementations is that they make it 
 
 特定常量方法实现的一个缺点是，它们使得在枚举常量之间共享代码变得更加困难。例如，考虑一个表示一周当中计算工资发放的枚举。枚举有一个方法，该方法根据工人的基本工资（每小时）和当天的工作分钟数计算工人当天的工资。在五个工作日内，任何超过正常轮班时间的工作都会产生加班费；在两个周末，所有的工作都会产生加班费。使用 switch 语句，通过多个 case 标签应用于每一类情况，可以很容易地进行计算：
 
-```java
+```
 // Enum that switches on its value to share code - questionable
 enum PayrollDay {
     MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY,SATURDAY, SUNDAY;
@@ -313,7 +313,7 @@ enum PayrollDay {
 ***译注 1：该例子中，加班的每分钟工资为工作日每分钟工资（payRate）的一半***
 
 ***译注 2：原文中 pay 方法存在问题，说明如下：***
-```java
+```
 // 基本工资 basePay 不应该直接将工作时间参与计算，如果工作日存在加班的情况，会将加班时间也计入基本工资计算。假设在周一工作 10 小时，假设每分钟 1 元：
 /*
 修改前：
@@ -358,7 +358,7 @@ What you really want is to be forced to choose an overtime pay strategy each tim
 
 你真正想要的是在每次添加枚举常量时被迫选择加班费策略。幸运的是，有一个很好的方法可以实现这一点。其思想是将加班费计算移到私有嵌套枚举中，并将此策略枚举的实例传递给 PayrollDay 枚举的构造函数。然后 PayrollDay 枚举将加班费计算委托给策略枚举，从而消除了在 PayrollDay 中使用 switch 语句或特定于常量的方法实现的需要。虽然这种模式不如 switch 语句简洁，但它更安全，也更灵活：
 
-```java
+```
 // The strategy enum pattern
 enum PayrollDay {
     MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY,SATURDAY(PayType.WEEKEND), SUNDAY(PayType.WEEKEND);
@@ -397,7 +397,7 @@ enum PayrollDay {
 ```
 
 ***译注：上述代码 pay 方法也存将加班时间计入基本工资计算的问题，修改如下：***
-```java
+```
 int pay(int minsWorked, int payRate) {
     int basePay = minsWorked <= MINS_PER_SHIFT ? minsWorked * payRate : MINS_PER_SHIFT * payRate;
     return basePay + overtimePay(minsWorked, payRate);
@@ -408,7 +408,7 @@ If switch statements on enums are not a good choice for implementing constant-sp
 
 如果在枚举上实现特定常量的行为时 switch 语句不是一个好的选择，那么它们有什么用呢？**枚举中的 switch 有利于扩展具有特定常量行为的枚举类型。** 例如，假设 Operation 枚举不在你的控制之下，你希望它有一个实例方法来返回每个操作的逆操作。你可以用以下静态方法模拟效果：
 
-```java
+```
 // Switch on an enum to simulate a missing method
 public static Operation inverse(Operation op) {
     switch(op) {

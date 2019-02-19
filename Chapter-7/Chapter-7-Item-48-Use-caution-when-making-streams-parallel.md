@@ -6,7 +6,7 @@ Among mainstream languages, Java has always been at the forefront of providing f
 
 Consider this program from Item 45:
 
-```java
+```
 // Stream-based program to generate the first 20 Mersenne primes
 public static void main(String[] args) {
     primes().map(p -> TWO.pow(p.intValueExact()).subtract(ONE))
@@ -42,7 +42,7 @@ If it sounds like the odds are stacked against you when parallelizing stream pip
 
 As a simple example of a stream pipeline where parallelism is effective, consider this function for computing π(n), the number of primes less than or equal to n:
 
-```java
+```
 // Prime-counting stream pipeline - benefits from parallelization
 static long pi(long n) {
     return LongStream.rangeClosed(2, n)
@@ -54,7 +54,7 @@ static long pi(long n) {
 
 On my machine, it takes 31 seconds to compute π(108) using this function. Simply adding a parallel() call reduces the time to 9.2 seconds:
 
-```java
+```
 // Prime-counting stream pipeline - parallel version
 static long pi(long n) {
     return LongStream.rangeClosed(2, n)

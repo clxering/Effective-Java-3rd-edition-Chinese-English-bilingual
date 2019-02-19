@@ -8,7 +8,7 @@ The serialization proxy pattern is reasonably straightforward. First, design a p
 
 For example, consider the immutable Period class written in Item 50 and made serializable in Item 88. Here is a serialization proxy for this class. Period is so simple that its serialization proxy has exactly the same fields as the class:
  
-```java
+```
 // Serialization proxy for Period class
 private static class SerializationProxy implements Serializable {
     private final Date start;
@@ -23,7 +23,7 @@ private static class SerializationProxy implements Serializable {
 
 Next, add the following writeReplace method to the enclosing class. This method can be copied verbatim into any class with a serialization proxy:
  
-```java
+```
 // writeReplace method for the serialization proxy pattern
 private Object writeReplace() {
     return new SerializationProxy(this);
@@ -34,7 +34,7 @@ The presence of this method on the enclosing class causes the serialization syst
 
 With this writeReplace method in place, the serialization system will never generate a serialized instance of the enclosing class, but an attacker might fabricate one in an attempt to violate the class’s invariants. To guarantee that such an attack would fail, merely add this readObject method to the enclosing class:
  
-```java
+```
 // readObject method for the serialization proxy pattern
 private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Proxy required");
@@ -47,7 +47,7 @@ This readResolve method creates an instance of the enclosing class using only it
 
 Here is the readResolve method for Period.SerializationProxy above:
  
-```java
+```
 // readResolve method for Period.SerializationProxy
 private Object readResolve() {
     return new Period(start, end); // Uses public constructor
@@ -62,7 +62,7 @@ Consider the case of EnumSet (Item 36). This class has no public constructors, o
 
 Now consider what happens if you serialize an enum set whose enum type has sixty elements, then add five more elements to the enum type, and then deserialize the enum set. It was a RegularEnumSet instance when it was serialized, but it had better be a JumboEnumSet instance once it is deserialized. In fact that’s exactly what happens, because EnumSet uses the serialization proxy pattern. In case you’re curious, here is EnumSet’s serialization proxy. It really is this simple:
  
-```java
+```
 // EnumSet's serialization proxy
 private static class SerializationProxy <E extends Enum<E>> implements Serializable {
     // The element type of this enum set.

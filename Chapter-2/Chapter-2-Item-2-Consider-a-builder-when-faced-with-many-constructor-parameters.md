@@ -10,7 +10,7 @@ What sort（n.种类，方式；vt.将…排序） of constructors or static fac
 
 应该为这样的类编写什么种类的构造函数或静态工厂呢？传统的方式是使用可伸缩构造函数，在这种模式中，只向构造函数提供必需的参数。即，向第一个构造函数提供单个可选参数，向第二个构造函数提供两个可选参数，以此类推，最后一个构造函数是具有所有可选参数的。这是它在实际应用中的样子。为了简洁起见，只展示具备四个可选字段的情况：
 
-```java
+```
 // Telescoping constructor pattern - does not scale well!
 public class NutritionFacts {
     private final int servingSize; // (mL) required
@@ -51,7 +51,7 @@ When you want to create an instance, you use the constructor with the shortest p
 
 当你想要创建一个实例时，可以使用包含所需的参数的最短参数列表的构造函数：
 
-```java
+```
 NutritionFacts cocaCola =new NutritionFacts(240, 8, 100, 0, 35, 27);
 ```
 
@@ -67,7 +67,7 @@ A second alternative（n.二中择一；adj.供选择的） when you’re faced 
 
 当你在构造函数中遇到许多可选参数时，另一种选择是 JavaBean 模式，在这种模式中，你调用一个无参数的构造函数来创建对象，然后调用 setter 方法来设置每个所需的参数和每个感兴趣的可选参数：
 
-```java
+```
 // JavaBeans Pattern - allows inconsistency, mandates mutability
 public class NutritionFacts {
     // Parameters initialized to default values (if any)
@@ -92,7 +92,7 @@ This pattern has none of the disadvantages of the telescoping constructor patter
 
 这个模式没有可伸缩构造函数模式的缺点。创建实例很容易，虽然有点冗长，但很容易阅读生成的代码：
 
-```java
+```
 NutritionFacts cocaCola = new NutritionFacts();
 cocaCola.setServingSize(240);
 cocaCola.setServings(8);
@@ -113,7 +113,7 @@ Luckily, there is a third alternative that combines the safety of the telescopin
 
 幸运的是，还有第三种选择，它结合了可伸缩构造函数模式的安全性和 JavaBean 模式的可读性。它是建造者模式的一种形式[Gamma95]。客户端不直接生成所需的对象，而是使用所有必需的参数调用构造函数（或静态工厂），并获得一个 builder 对象。然后，客户端在构建器对象上调用像 setter 这样的方法来设置每个感兴趣的可选参数。最后，客户端调用一个无参数的构建方法来生成对象，这通常是不可变的。构建器通常是它构建的类的静态成员类（[Item-24](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-24-Favor-static-member-classes-over-nonstatic.md)）。下面是它在实际应用中的样子：
 
-```java
+```
 // Builder Pattern
 public class NutritionFacts {
     private final int servingSize;
@@ -178,7 +178,7 @@ The NutritionFacts class is immutable, and all parameter default values are in o
 
 NutritionFacts 类是不可变的，所有参数默认值都在一个位置。构建器的 setter 方法返回构建器本身，这样就可以链接调用，从而得到一个流畅的 API。下面是客户端代码的样子：
 
-```java
+```
 NutritionFacts cocaCola = new NutritionFacts.Builder(240, 8)
 .calories(100).sodium(35).carbohydrate(27).build();
 ```
@@ -195,7 +195,7 @@ The Builder pattern is well suited to class hierarchies. Use a parallel hierarch
 
 建造者模式非常适合于类层次结构。使用构建器的并行层次结构，每个构建器都嵌套在相应的类中。抽象类有抽象类构建器；具体类有具体类构建器。例如，考虑一个在层次结构处于最低端的抽象类，它代表各种比萨饼：
 
-```java
+```
 import java.util.EnumSet;
 import java.util.Objects;
 import java.util.Set;
@@ -230,7 +230,7 @@ Note that Pizza.Builder is a generic type with a recursive type parameter (Item 
 
 请注意，Pizza.Builder 是具有递归类型参数的泛型类型（[Item-31](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)）。这与抽象 self 方法一起，允许方法链接在子类中正常工作，而不需要强制转换。对于 Java 缺少自类型这一事实，这种变通方法称为模拟自类型习惯用法。这里有两个具体的比萨子类，一个是标准的纽约风格的比萨，另一个是 calzone。前者有一个所需的大小参数，而后者让你指定酱料应该是内部还是外部：
 
-```java
+```
 import java.util.Objects;
 
 public class NyPizza extends Pizza {
@@ -295,7 +295,7 @@ Note that the build method in each subclass’s builder is declared to return th
 
 注意，每个子类的构建器中的构建方法声明为返回正确的子类：构建的方法 NyPizza.Builder 返回 NyPizza，而在 Calzone.Builder 则返回 Calzone。这种技术称为协变返回类型，其中一个子类方法声明为返回超类中声明的返回类型的子类型。它允许客户使用这些构建器，而不需要强制转换。这些「层次构建器」的客户端代码与简单的 NutritionFacts 构建器的代码基本相同。为简洁起见，下面显示的示例客户端代码假定枚举常量上的静态导入：
 
-```java
+```
 NyPizza pizza = new NyPizza.Builder(SMALL)
 .addTopping(SAUSAGE).addTopping(ONION).build();
 Calzone calzone = new Calzone.Builder()

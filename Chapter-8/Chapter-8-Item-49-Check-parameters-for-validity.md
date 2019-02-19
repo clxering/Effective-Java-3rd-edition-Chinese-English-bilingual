@@ -8,7 +8,7 @@ If an invalid parameter value is passed to a method and the method checks its pa
 
 For public and protected methods, use the Javadoc @throws tag to document the exception that will be thrown if a restriction on parameter values is violated (Item 74). Typically, the resulting exception will be IllegalArgumentException, IndexOutOfBoundsException, or NullPointerException (Item 72). Once you’ve documented the restrictions on a method’s parameters and you’ve documented the exceptions that will be thrown if these restrictions are violated, it is a simple matter to enforce the restrictions. Here’s a typical example:
 
-```java
+```
 /**
 * Returns a BigInteger whose value is (this mod m). This method
 * differs from the remainder method in that it always returns a
@@ -29,7 +29,7 @@ Note that the doc comment does not say “mod throws NullPointerException if m i
 
 **The Objects.requireNonNull method, added in Java 7, is flexible and convenient, so there’s no reason to perform null checks manually anymore.** You can specify your own exception detail message if you wish. The method returns its input, so you can perform a null check at the same time as you use a value:
 
-```java
+```
 // Inline use of Java's null-checking facility
 this.strategy = Objects.requireNonNull(strategy, "strategy");
 ```
@@ -40,7 +40,7 @@ In Java 9, a range-checking facility was added to java.util.Objects. This facili
 
 For an unexported method, you, as the package author, control the circumstances under which the method is called, so you can and should ensure that only valid parameter values are ever passed in. Therefore, nonpublic methods can check their parameters using assertions, as shown below:
 
-```java
+```
 // Private helper function for a recursive sort
 private static void sort(long a[], int offset, int length) {
     assert a != null;

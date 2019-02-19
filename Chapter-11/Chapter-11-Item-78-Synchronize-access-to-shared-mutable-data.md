@@ -12,7 +12,7 @@ You may hear it said that to improve performance, you should dispense with synch
 
 The consequences of failing to synchronize access to shared mutable data can be dire even if the data is atomically readable and writable. Consider the task of stopping one thread from another. The libraries provide the Thread.stop method, but this method was deprecated long ago because it is inherently unsafe —its use can result in data corruption. **Do not use Thread.stop.** A recommended way to stop one thread from another is to have the first thread poll a boolean field that is initially false but can be set to true by the second thread to indicate that the first thread is to stop itself. Because reading and writing a boolean field is atomic, some programmers dispense with synchronization when accessing the field:
 
-```java
+```
 // Broken! - How long would you expect this program to run?
 public class StopThread {
     private static boolean stopRequested;
@@ -33,7 +33,7 @@ You might expect this program to run for about a second, after which the main th
 
 The problem is that in the absence of synchronization, there is no guarantee as to when, if ever, the background thread will see the change in the value of stopRequested made by the main thread. In the absence of synchronization, it’s quite acceptable for the virtual machine to transform this code:
 
-```java
+```
 while (!stopRequested)
 i++;
 into this code:
@@ -44,7 +44,7 @@ i++;
 
 This optimization is known as hoisting, and it is precisely what the OpenJDK Server VM does. The result is a liveness failure: the program fails to make progress. One way to fix the problem is to synchronize access to the stopRequested field. This program terminates in about one second, as expected:
 
-```java
+```
 // Properly synchronized cooperative thread termination
 public class StopThread {
     private static boolean stopRequested;
@@ -74,7 +74,7 @@ Note that both the write method (requestStop) and the read method (stop-Requeste
 
 The actions of the synchronized methods in StopThread would be atomic even without synchronization. In other words, the synchronization on these methods is used solely for its communication effects, not for mutual exclusion. While the cost of synchronizing on each iteration of the loop is small, there is a correct alternative that is less verbose and whose performance is likely to be better. The locking in the second version of StopThread can be omitted if stopRequested is declared volatile. While the volatile modifier performs no mutual exclusion, it guarantees that any thread that reads the field will see the most recently written value:
 
-```java
+```
 // Cooperative thread termination with a volatile field
 public class StopThread {
     private static volatile boolean stopRequested;
@@ -93,7 +93,7 @@ public class StopThread {
 
 You do have to be careful when using volatile. Consider the following method, which is supposed to generate serial numbers:
 
-```java
+```
 // Broken - requires synchronization!
 private static volatile int nextSerialNumber = 0;
 public static int generateSerialNumber() {
@@ -109,7 +109,7 @@ One way to fix generateSerialNumber is to add the synchronized modifier to its d
 
 Better still, follow the advice in Item 59 and use the class AtomicLong, which is part of java.util.concurrent.atomic. This package provides primitives for lock-free, thread-safe programming on single variables. While volatile provides only the communication effects of synchronization, this package also provides atomicity. This is exactly what we want for generateSerialNumber, and it is likely to outperform the synchronized version:
 
-```java
+```
 // Lock-free synchronization with java.util.concurrent.atomic
 private static final AtomicLong nextSerialNum = new AtomicLong();
 public static long generateSerialNumber() {

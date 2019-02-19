@@ -18,7 +18,7 @@ There are a few sophisticated applications that require reflection. Examples inc
 
 For example, here is a program that creates a Set<String> instance whose class is specified by the first command line argument. The program inserts the remaining command line arguments into the set and prints it. Regardless of the first argument, the program prints the remaining arguments with duplicates eliminated. The order in which these arguments are printed, however, depends on the class specified in the first argument. If you specify java.util.HashSet, they’re printed in apparently random order; if you specify java.util.TreeSet, they’re printed in alphabetical order because the elements in a TreeSet are sorted:
 
-```java
+```
 // Reflective instantiation with interface access
 public static void main(String[] args) {
 

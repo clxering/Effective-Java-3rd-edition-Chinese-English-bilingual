@@ -8,7 +8,7 @@ The most important part of the streams paradigm is to structure your computation
 
 Occasionally, you may see streams code that looks like this snippet, which builds a frequency table of the words in a text file:
 
-```java
+```
 // Uses the streams API but not the paradigm--Don't do this!
 Map<String, Long> freq = new HashMap<>();
 try (Stream<String> words = new Scanner(file).tokens()) {
@@ -20,7 +20,7 @@ try (Stream<String> words = new Scanner(file).tokens()) {
 
 What’s wrong with this code? After all, it uses streams, lambdas, and method references, and gets the right answer. Simply put, it’s not streams code at all; it’s iterative code masquerading as streams code. It derives no benefits from the streams API, and it’s (a bit) longer, harder to read, and less maintainable than the corresponding iterative code. The problem stems from the fact that this code is doing all its work in a terminal forEach operation, using a lambda that mutates external state (the frequency table). A forEach operation that does anything more than present the result of the computation performed by a stream is a “bad smell in code,” as is a lambda that mutates state. So how should this code look?
 
-```java
+```
 // Proper use of streams to initialize a frequency table
 Map<String, Long> freq;
 try (Stream<String> words = new Scanner(file).tokens()) {
@@ -34,7 +34,7 @@ The improved code uses a collector, which is a new concept that you have to lear
 
 The collectors for gathering the elements of a stream into a true Collection are straightforward. There are three such collectors: toList(), toSet(), and toCollection(collectionFactory). They return, respectively, a set, a list, and a programmer-specified collection type. Armed with this knowledge, we can write a stream pipeline to extract a top-ten list from our frequency table.
 
-```java
+```
 // Pipeline to get a top-ten list of words from a frequency table
 List<String> topTen = freq.keySet().stream()
 .sorted(comparing(freq::get).reversed())
@@ -52,7 +52,7 @@ So what about the other thirty-six methods in Collectors? Most of them exist to 
 
 The simplest map collector is toMap(keyMapper, valueMapper), which takes two functions, one of which maps a stream element to a key, the other, to a value. We used this collector in our fromString implementation in Item 34 to make a map from the string form of an enum to the enum itself:
 
-```java
+```
 // Using a toMap collector to make a map from string to enum
 private static final Map<String, Operation> stringToEnum =Stream.of(values()).collect(toMap(Object::toString, e -> e));
 ```
@@ -63,7 +63,7 @@ The more complicated forms of toMap, as well as the groupingBy method, give you 
 
 The three-argument form of toMap is also useful to make a map from a key to a chosen element associated with that key. For example, suppose we have a stream of record albums by various artists, and we want a map from recording artist to best-selling album. This collector will do the job.
 
-```java
+```
 // Collector to generate a map from key to chosen element for key
 Map<Artist, Album> topHits = albums.collect(
         toMap(Album::artist, a->a, maxBy(comparing(Album::sales)
@@ -75,7 +75,7 @@ Note that the comparator uses the static factory method maxBy, which is statical
 
 Another use of the three-argument form of toMap is to produce a collector that imposes a last-write-wins policy when there are collisions. For many streams, the results will be nondeterministic, but if all the values that may be associated with a key by the mapping functions are identical, or if they are all acceptable, this collector’s s behavior may be just what you want:
 
-```java
+```
 // Collector to impose last-write-wins policy
 toMap(keyMapper, valueMapper, (v1, v2) -> v2)
 ```
@@ -86,7 +86,7 @@ There are also variant forms of the first three versions of toMap, named toConcu
 
 In addition to the toMap method, the Collectors API provides the groupingBy method, which returns collectors to produce maps that group elements into categories based on a classifier function. The classifier function takes an element and returns the category into which it falls. This category serves as the element’s map key. The simplest version of the groupingBy method takes only a classifier and returns a map whose values are lists of all the elements in each category. This is the collector that we used in the Anagram program in Item 45 to generate a map from alphabetized word to a list of the words sharing the alphabetization:
 
-```java
+```
 words.collect(groupingBy(word -> alphabetize(word)))
 ```
 
@@ -94,7 +94,7 @@ If you want groupingBy to return a collector that produces a map with values oth
 
 Alternatively, you can pass toCollection(collectionFactory), which lets you create the collections into which each category of elements is placed. This gives you the flexibility to choose any collection type you want. Another simple use of the two-argument form of groupingBy is to pass counting() as the downstream collector. This results in a map that associates each category with the number of elements in the category, rather than a collection containing the elements. That’s what you saw in the frequency table example at the beginning of this item:
 
-```java
+```
 Map<String, Long> freq = words.collect(groupingBy(String::toLowerCase, counting()));
 ```
 

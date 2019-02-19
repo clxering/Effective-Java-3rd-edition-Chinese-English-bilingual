@@ -4,7 +4,7 @@
 
 The primary advantage of lambdas over anonymous classes is that they are more succinct. Java provides a way to generate function objects even more succinct than lambdas: method references. Here is a code snippet from a program that maintains a map from arbitrary keys to Integer values. If the value is interpreted as a count of the number of instances of the key, then the program is a multiset implementation. The function of the code snippet is to associate the number 1 with the key if it is not in the map and to increment the associated value if the key is already present:
 
-```java
+```
 map.merge(key, 1, (count, incr) -> count + incr);
 ```
 
@@ -12,7 +12,7 @@ Note that this code uses the merge method, which was added to the Map interface 
 
 The code reads nicely, but there’s still some boilerplate. The parameters count and incr don’t add much value, and they take up a fair amount of space. Really, all the lambda tells you is that the function returns the sum of its two arguments. As of Java 8, Integer (and all the other boxed numerical primitive types) provides a static method sum that does exactly the same thing. We can simply pass a reference to this method and get the same result with less visual clutter:
 
-```java
+```
 map.merge(key, 1, Integer::sum);
 ```
 
@@ -22,13 +22,13 @@ There’s nothing you can do with a method reference that you can’t also do wi
 
 If you’re programming with an IDE, it will offer to replace a lambda with a method reference wherever it can. You should usually, but not always, take the IDE up on the offer. Occasionally, a lambda will be more succinct than a method reference. This happens most often when the method is in the same class as the lambda. For example, consider this snippet, which is presumed to occur in a class named GoshThisClassNameIsHumongous:
 
-```java
+```
 service.execute(GoshThisClassNameIsHumongous::action);
 ```
 
 The lambda equivalent looks like this:
 
-```java
+```
 service.execute(() -> action());
 ```
 

@@ -18,7 +18,7 @@ For example, consider the removeIf method, which was added to the Collection int
 
 例如，考虑 removeIf 方法，它被添加到 Java 8 中的集合接口中。该方法删除了给定的布尔函数（或 predicate）返回 true 的所有元素。指定默认实现，以使用迭代器遍历集合，在每个元素上调用 predicate，并使用迭代器的 remove 方法删除谓词返回 true 的元素。大概声明是这样的：
 
-```java
+```
 // Default method added to the Collection interface in Java 8
 default boolean removeif(predicate<? super e> filter) {
     objects.requirenonnull(filter);

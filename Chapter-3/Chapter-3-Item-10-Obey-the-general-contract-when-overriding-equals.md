@@ -22,7 +22,7 @@ Overriding the equals method seems simple, but there are many ways to get it wro
 
 **类是私有的或包私有的，并且你确信它的 equals 方法永远不会被调用。** 如果你非常厌恶风险，你可以覆盖 equals 方法，以确保它不会意外调用：
 
-```java
+```
 @Override
 public boolean equals(Object o) {
     throw new AssertionError(); // Method is never called
@@ -34,7 +34,7 @@ So when is it appropriate to override equals? It is when a class has a notion of
 什么时候覆盖 equals 方法是合适的？当一个类有一个逻辑相等的概念，而这个概念不同于仅判断对象的同一性（相同对象的引用），并且超类还没有覆盖 equals。对于值类通常是这样。值类只是表示值的类，例如 Integer 或 String。使用 equals 方法比较引用和值对象的程序员希望发现它们在逻辑上是否等价，而不是它们是否引用相同的对象。覆盖 equals 方法不仅是为了满足程序员的期望，它还使实例能够作为 Map 的键或 Set 元素时，具有可预测的、理想的行为。
 
 ***译注 1 ：有一个表示状态的内部类。没有覆盖 equals 方法时，equals 的结果与 s1==s2 相同，为 false，即两者并不是相同对象的引用。***
-```java
+```
 public static void main(String[] args) {
 
     class Status {
@@ -49,7 +49,7 @@ public static void main(String[] args) {
 }
 ```
 ***译注 2 ：覆盖 equals 方法后，以业务逻辑来判断是否相同，具备相同 status 字段即为相同。在使用去重功能时，也以此作为判断依据。***
-```java
+```
 public static void main(String[] args) {
 
     class Status {
@@ -121,7 +121,7 @@ So what is an equivalence relation? Loosely speaking, it’s an operator that pa
 
 **对称性** ，第二个要求是任何两个对象必须在是否相等的问题上达成一致。与第一个要求不同，无意中违反了这个要求的情况不难想象。例如，考虑下面的类，它实现了不区分大小写的字符串。字符串的情况是保留的 toString，但忽略在 equals 的比较：
 
-```java
+```
 // Broken - violates symmetry!
 public final class CaseInsensitiveString {
     private final String s;
@@ -148,7 +148,7 @@ The well-intentioned equals method in this class naively attempts to interoperat
 
 这个类中的 equals 方法天真地尝试与普通字符串进行互操作。假设我们有一个不区分大小写的字符串和一个普通字符串：
 
-```java
+```
 CaseInsensitiveString cis = new CaseInsensitiveString("Polish");
 String s = "polish";
 ```
@@ -157,7 +157,7 @@ As expected, cis.equals(s) returns true. The problem is that while the equals me
 
 正如预期的那样，`cis.equals(s)` 返回 true。问题是，虽然 CaseInsensitiveString 中的 equals 方法知道普通字符串，但是 String 中的 equals 方法对不区分大小写的字符串不知情。因此，`s.equals(cis)` 返回 false，这明显违反了对称性。假设你将不区分大小写的字符串放入集合中：
 
-```java
+```
 List<CaseInsensitiveString> list = new ArrayList<>();
 list.add(cis);
 ```
@@ -167,7 +167,7 @@ What does list.contains(s) return at this point? Who knows? In the current OpenJ
 此时 `list.contains(s)` 返回什么？谁知道呢？在当前的 OpenJDK 实现中，它碰巧返回 false，但这只是一个实现案例。在另一个实现中，它可以很容易地返回 true 或抛出运行时异常。一旦你违反了 equals 约定，就不知道当其他对象面对你的对象时，会如何表现。
 
 ***译注：contains 方法在 ArrayList 中的实现源码如下（省略了源码中的多行注释）：***
-```java
+```
 // ArrayList 的大小
 private int size;
 
@@ -205,7 +205,7 @@ To eliminate the problem, merely remove the ill-conceived attempt to interoperat
 
 为了消除这个问题，只需从 equals 方法中删除与 String 互操作的错误尝试。一旦你这样做了，你可以重构方法为一个单一的返回语句：
 
-```java
+```
 @Override
 public boolean equals(Object o) {
     return o instanceof CaseInsensitiveString && ((CaseInsensitiveString) o).s.equalsIgnoreCase(s);
@@ -216,7 +216,7 @@ public boolean equals(Object o) {
 
 **传递性** ，equals 约定的第三个要求是，如果一个对象等于第二个对象，而第二个对象等于第三个对象，那么第一个对象必须等于第三个对象。同样，无意中违反了这个要求的情况不难想象。考虑向超类添加新的值组件时，子类的情况。换句话说，子类添加了一条影响 equals 比较的信息。让我们从一个简单的不可变二维整数点类开始：
 
-```java
+```
 public class Point {
     private final int x;
     private final int y;
@@ -241,7 +241,7 @@ Suppose you want to extend this class, adding the notion of color to a point:
 
 假设你想继承这个类，对一个点添加颜色的概念：
 
-```java
+```
 public class ColorPoint extends Point {
     private final Color color;
 
@@ -257,7 +257,7 @@ How should the equals method look? If you leave it out entirely, the implementat
 
 equals 方法应该是什么样子？如果你完全忽略它，则实现将从 Point 类继承而来，在 equals 比较中颜色信息将被忽略。虽然这并不违反 equals 约定，但显然是不可接受的。假设你写了一个 equals 方法，该方法只有当它的参数是另一个颜色点，且位置和颜色相同时才返回 true：
 
-```java
+```
 // Broken - violates symmetry!
 @Override
 public boolean equals(Object o) {
@@ -271,7 +271,7 @@ The problem with this method is that you might get different results when compar
 
 这种方法的问题是，当你比较一个点和一个颜色点时，你可能会得到不同的结果，反之亦然。前者比较忽略颜色，而后者比较总是返回 false，因为参数的类型是不正确的。为了使问题更具体，让我们创建一个点和一个颜色点：
 
-```java
+```
 Point p = new Point(1, 2);
 ColorPoint cp = new ColorPoint(1, 2, Color.RED);
 ```
@@ -280,7 +280,7 @@ Then p.equals(cp) returns true, while cp.equals(p) returns false. You might try 
 
 然后，`p.equals(cp)` 返回 true，而 `cp.equals(p)` 返回 false。当你做「混合比较」的时候，你可以通过让 `ColorPoint.equals` 忽略颜色来解决这个问题：
 
-```java
+```
 // Broken - violates transitivity!
 @Override
 public boolean equals(Object o) {
@@ -300,7 +300,7 @@ This approach does provide symmetry, but at the expense of transitivity:
 
 这种方法确实提供了对称性，但牺牲了传递性：
 
-```java
+```
 ColorPoint p1 = new ColorPoint(1, 2, Color.RED);
 Point p2 = new Point(1, 2);
 ColorPoint p3 = new ColorPoint(1, 2, Color.BLUE);
@@ -322,7 +322,7 @@ You may hear it said that you can extend an instantiable class and add a value c
 
 你可能会听到它说你可以继承一个实例化的类并添加一个值组件，同时通过在 equals 方法中使用 getClass 测试来代替 instanceof 测试来保持 equals 约定：
 
-```java
+```
 // Broken - violates Liskov substitution principle (page 43)
 @Override
 public boolean equals(Object o) {
@@ -339,7 +339,7 @@ This has the effect of equating objects only if they have the same implementatio
 
 只有当对象具有相同的实现类时，才会产生相等的效果。这可能看起来不是很糟糕，但其后果是不可接受的：Point 的子类的实例仍然是一个 Point，并且它仍然需要作为一个函数来工作，但是如果采用这种方法，它就不会这样做！假设我们要写一个方法来判断一个点是否在单位圆上。我们可以这样做：
 
-```java
+```
 // Initialize unitCircle to contain all Points on the unit circle
 private static final Set<Point> unitCircle = Set.of(
         new Point( 1, 0), new Point( 0, 1),
@@ -355,7 +355,7 @@ While this may not be the fastest way to implement the functionality, it works f
 
 虽然这可能不是实现功能的最快方法，但它工作得很好。假设你以一种不添加值组件的简单方式继承 Point，例如，让它的构造函数跟踪创建了多少实例：
 
-```java
+```
 public class CounterPoint extends Point {
     private static final AtomicInteger counter = new AtomicInteger();
 
@@ -380,7 +380,7 @@ While there is no satisfactory way to extend an instantiable class and add a val
 
 虽然没有令人满意的方法来继承一个可实例化的类并添加一个值组件，但是有一个很好的解决方案：遵循 [Item-18](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md) 的建议，「Favor composition over inheritance.」。给 ColorPoint 一个私有的 Point 字段和一个 public 视图方法（[Item-6](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-6-Avoid-creating-unnecessary-objects.md)），而不是让 ColorPoint 继承 Point，该方法返回与这个颜色点相同位置的点：
 
-```java
+```
 // Adds a value component without violating the equals contract
 public class ColorPoint {
     private final Point point;
@@ -430,7 +430,7 @@ Whether or not a class is immutable, **do not write an equals method that depend
 
 **非无效性** ，最后的要求没有一个正式的名称，所以我冒昧地称之为「非无效性」。它说所有对象都不等于 null。虽然很难想象在响应调用 `o.equals(null)` 时意外地返回 true，但不难想象意外地抛出 NullPointerException。一般约定中禁止这样做。许多类都有相等的方法，通过显式的 null 测试来防止它：
 
-```java
+```
 @Override
 public boolean equals(Object o) {
     if (o == null)
@@ -443,7 +443,7 @@ This test is unnecessary. To test its argument for equality, the equals method m
 
 这个测试是不必要的。要测试其参数是否相等，equals 方法必须首先将其参数转换为适当的类型，以便能够调用其访问器或访问其字段。在执行转换之前，方法必须使用 instanceof 运算符来检查其参数的类型是否正确：
 
-```java
+```
 @Override
 public boolean equals(Object o) {
     if (!(o instanceof MyType))
@@ -501,7 +501,7 @@ An equals method constructed according to the previous recipe（n.食谱，配�
 
 在这个简单的 PhoneNumber 类中，根据前面的方法构造了一个 equals 方法：
 
-```java
+```
 // Class with a typical equals method
 public final class PhoneNumber {
     private final short areaCode, prefix, lineNum;
@@ -547,7 +547,7 @@ Here are a few final caveats:
 
 **不要用另一种类型替换 equals 声明中的对象。** 对于程序员来说，编写一个类似于这样的 equals 方法，然后花上几个小时思考为什么它不能正常工作是很常见的：
 
-```java
+```
 // Broken - parameter type must be Object!
 public boolean equals(MyClass o) {
     ...
@@ -562,7 +562,7 @@ Consistent use of the Override annotation, as illustrated throughout this item, 
 
 如本条目所示，一致使用 Override 注释将防止你犯此错误（[Item-40](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-40-Consistently-use-the-Override-annotation.md)）。这个 equals 方法不会编译，错误消息会告诉你什么是错误的：
 
-```java
+```
 // Still broken, but won’t compile
 @Override
 public boolean equals(MyClass o) {

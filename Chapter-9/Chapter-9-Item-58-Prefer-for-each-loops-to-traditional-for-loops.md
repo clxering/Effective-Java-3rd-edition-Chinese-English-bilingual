@@ -4,7 +4,7 @@
 
 As discussed in Item 45, some tasks are best accomplished with streams, others with iteration. Here is a traditional for loop to iterate over a collection:
 
-```java
+```
 // Not the best way to iterate over a collection!
 for (Iterator<Element> i = c.iterator(); i.hasNext(); ) {
     Element e = i.next();
@@ -14,7 +14,7 @@ for (Iterator<Element> i = c.iterator(); i.hasNext(); ) {
 
 and here is a traditional for loop to iterate over an array:
 
-```java
+```
 // Not the best way to iterate over an array!
 for (int i = 0; i < a.length; i++) {
     ... // Do something with a[i]
@@ -25,7 +25,7 @@ These idioms are better than while loops (Item 57), but they aren’t perfect. T
 
 The for-each loop (officially known as the “enhanced for statement”) solves all of these problems. It gets rid of the clutter and the opportunity for error by hiding the iterator or index variable. The resulting idiom applies equally to collections and arrays, easing the process of switching the implementation type of a container from one to the other:
 
-```java
+```
 // The preferred idiom for iterating over collections and arrays
 for (Element e : elements) {
     ... // Do something with e
@@ -36,7 +36,7 @@ When you see the colon (:), read it as “in.” Thus, the loop above reads as �
 
 The advantages of the for-each loop over the traditional for loop are even greater when it comes to nested iteration. Here is a common mistake that people make when doing nested iteration:
 
-```java
+```
 // Can you spot the bug?
 enum Suit { CLUB, DIAMOND, HEART, SPADE }
 enum Rank { ACE, DEUCE, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT,NINE, TEN, JACK, QUEEN, KING }
@@ -53,7 +53,7 @@ Don’t feel bad if you didn’t spot the bug. Many expert programmers have made
 
 If you’re really unlucky and the size of the outer collection is a multiple of the size of the inner collection—perhaps because they’re the same collection—the loop will terminate normally, but it won’t do what you want. For example, consider this ill-conceived attempt to print all the possible rolls of a pair of dice:
 
-```java
+```
 // Same bug, different symptom!
 enum Face { ONE, TWO, THREE, FOUR, FIVE, SIX }
 ...
@@ -67,7 +67,7 @@ The program doesn’t throw an exception, but it prints only the six “doubles�
 
 To fix the bugs in these examples, you must add a variable in the scope of the outer loop to hold the outer element:
 
-```java
+```
 // Fixed, but ugly - you can do better!
 for (Iterator<Suit> i = suits.iterator(); i.hasNext(); ) {
     Suit suit = i.next();
@@ -78,7 +78,7 @@ for (Iterator<Suit> i = suits.iterator(); i.hasNext(); ) {
 
 If instead you use a nested for-each loop, the problem simply disappears. The resulting code is as succinct as you could wish for:
 
-```java
+```
 // Preferred idiom for nested iteration on collections and arrays
 for (Suit suit : suits)
 for (Rank rank : ranks)
@@ -95,7 +95,7 @@ Unfortunately, there are three common situations where you can’t use foreach:
 
 Not only does the for-each loop let you iterate over collections and arrays, it lets you iterate over any object that implements the Iterable interface, which consists of a single method. Here is how the interface looks:
 
-```java
+```
 public interface Iterable<E> {
 // Returns an iterator over the elements in this iterable
 Iterator<E> iterator();

@@ -22,7 +22,7 @@ Classes designed for inheritance that do implement Serializable include Throwabl
 
 If you implement a class with instance fields that is both serializable and extendable, there are several risks to be aware of. If there are any invariants on the instance field values, it is critical to prevent subclasses from overriding the finalize method, which the class can do by overriding finalize and declaring it final. Otherwise, the class will be susceptible to finalizer attacks (Item 8). Finally, if the class has invariants that would be violated if its instance fields were initialized to their default values (zero for integral types, false for boolean, and null for object reference types), you must add this readObjectNoData method:
 
-```java
+```
 // readObjectNoData for stateful extendable serializable classes
 private void readObjectNoData() throws InvalidObjectException {
     throw new InvalidObjectException("Stream data required");

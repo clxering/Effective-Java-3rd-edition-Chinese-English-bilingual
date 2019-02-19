@@ -8,7 +8,7 @@ That said, there is at least one compelling use case for extensible enumerated t
 
 Luckily, there is a nice way to achieve this effect using enum types. The basic idea is to take advantage of the fact that enum types can implement arbitrary interfaces by defining an interface for the opcode type and an enum that is the standard implementation of the interface. For example, here is an extensible version of the Operation type from Item 34:
 
-```java
+```
 // Emulated extensible enum using an interface
 public interface Operation {
     double apply(double x, double y);
@@ -42,7 +42,7 @@ public enum BasicOperation implements Operation {
 
 While the enum type (BasicOperation) is not extensible, the interface type (Operation) is, and it is the interface type that is used to represent operations in APIs. You can define another enum type that implements this interface and use instances of this new type in place of the base type. For example, suppose you want to define an extension to the operation type shown earlier, consisting of the exponentiation and remainder operations. All you have to do is write an enum type that implements the Operation interface:
 
-```java
+```
 // Emulated extension enum
 public enum ExtendedOperation implements Operation {
     EXP("^") {
@@ -72,7 +72,7 @@ You can now use your new operations anywhere you could use the basic operations,
 
 Not only is it possible to pass a single instance of an “extension enum” anywhere a “base enum” is expected, but it is possible to pass in an entire extension enum type and use its elements in addition to or instead of those of the base type. For example, here is a version of the test program on page 163 that exercises all of the extended operations defined previously:
 
-```java
+```
 public static void main(String[] args) {
     double x = Double.parseDouble(args[0]);
     double y = Double.parseDouble(args[1]);
@@ -89,7 +89,7 @@ Note that the class literal for the extended operation type (ExtendedOperation.c
 
 A second alternative is to pass a Collection<? extends Operation>, which is a bounded wildcard type (Item 31), instead of passing a class object:
 
-```java
+```
 public static void main(String[] args) {
     double x = Double.parseDouble(args[0]);
     double y = Double.parseDouble(args[1]);
@@ -106,7 +106,7 @@ The resulting code is a bit less complex, and the test method is a bit more flex
 
 Both programs shown previously will produce this output when run with command line arguments 4 and 2:
 
-```java
+```
 4.000000 ^ 2.000000 = 16.000000
 4.000000 % 2.000000 = 0.000000
 ```

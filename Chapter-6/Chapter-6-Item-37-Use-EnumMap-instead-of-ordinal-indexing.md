@@ -4,7 +4,7 @@
 
 Occasionally you may see code that uses the ordinal method (Item 35) to index into an array or list. For example, consider this simplistic class meant to represent a plant:
 
-```java
+```
 class Plant {
     enum LifeCycle { ANNUAL, PERENNIAL, BIENNIAL }
     final String name;
@@ -23,7 +23,7 @@ class Plant {
 
 Now suppose you have an array of plants representing a garden, and you want to list these plants organized by life cycle (annual, perennial, or biennial). To do this, you construct three sets, one for each life cycle, and iterate through the garden, placing each plant in the appropriate set. Some programmers would do this by putting the sets into an array indexed by the life cycle’s ordinal:
 
-```java
+```
 // Using ordinal() to index into an array - DON'T DO THIS!
 Set<Plant>[] plantsByLifeCycle =(Set<Plant>[]) new Set[Plant.LifeCycle.values().length];
 
@@ -44,7 +44,7 @@ This technique works, but it is fraught with problems. Because arrays are not co
 
 There is a much better way to achieve the same effect. The array is effectively serving as a map from the enum to a value, so you might as well use a Map. More specifically, there is a very fast Map implementation designed for use with enum keys, known as java.util.EnumMap. Here is how the program looks when it is rewritten to use EnumMap:
 
-```java
+```
 // Using an EnumMap to associate data with an enum
 Map<Plant.LifeCycle, Set<Plant>> plantsByLifeCycle =new EnumMap<>(Plant.LifeCycle.class);
 
@@ -61,14 +61,14 @@ This program is shorter, clearer, safer, and comparable in speed to the original
 
 The previous program can be further shortened by using a stream (Item 45) to manage the map. Here is the simplest stream-based code that largely duplicates the behavior of the previous example:
 
-```java
+```
 // Naive stream-based approach - unlikely to produce an EnumMap!
 System.out.println(Arrays.stream(garden).collect(groupingBy(p -> p.lifeCycle)));
 ```
 
 The problem with this code is that it chooses its own map implementation, and in practice it won’t be an EnumMap, so it won’t match the space and time performance of the version with the explicit EnumMap. To rectify this problem, use the three-parameter form of Collectors.groupingBy, which allows the caller to specify the map implementation using the mapFactory parameter:
 
-```java
+```
 // Using a stream and an EnumMap to associate data with an enum
 System.out.println(
     Arrays.stream(garden).collect(groupingBy(p -> p.lifeCycle,() -> new EnumMap<>(LifeCycle.class), toSet()))
@@ -81,7 +81,7 @@ The behavior of the stream-based versions differs slightly from that of the Emum
 
 You may see an array of arrays indexed (twice!) by ordinals used to represent a mapping from two enum values. For example, this program uses such an array to map two phases to a phase transition (liquid to solid is freezing, liquid to gas is boiling, and so forth):
 
-```java
+```
 // Using ordinal() to index array of arrays - DON'T DO THIS!
 public enum Phase {
     SOLID, LIQUID, GAS;
@@ -108,7 +108,7 @@ This program works and may even appear elegant, but appearances can be deceiving
 
 Again, you can do much better with EnumMap. Because each phase transition is indexed by a pair of phase enums, you are best off representing the relationship as a map from one enum (the “from” phase) to a map from the second enum (the “to” phase) to the result (the phase transition). The two phases associated with a phase transition are best captured by associating them with the phase transition enum, which can then be used to initialize the nested EnumMap:
 
-```java
+```
 // Using a nested EnumMap to associate data with enum pairs
 public enum Phase {
     SOLID, LIQUID, GAS;
@@ -141,7 +141,7 @@ The code to initialize the phase transition map is a bit complicated. The type o
 
 Now suppose you want to add a new phase to the system: plasma, or ionized gas. There are only two transitions associated with this phase: ionization, which takes a gas to a plasma; and deionization, which takes a plasma to a gas. To update the array-based program, you would have to add one new constant to Phase and two to Phase.Transition, and replace the original nineelement array of arrays with a new sixteen-element version. If you add too many or too few elements to the array or place an element out of order, you are out of luck: the program will compile, but it will fail at runtime. To update the EnumMap-based version, all you have to do is add PLASMA to the list of phases, and IONIZE(GAS, PLASMA) and DEIONIZE(PLASMA, GAS) to the list of phase transitions:
 
-```java
+```
 // Adding a new phase using the nested EnumMap implementation
 public enum Phase {
     SOLID, LIQUID, GAS, PLASMA;

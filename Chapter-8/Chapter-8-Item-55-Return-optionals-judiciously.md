@@ -10,7 +10,7 @@ A method that conceptually returns a T but may be unable to do so under certain 
 
 In Item 30, we showed this method to calculate the maximum value in a collection, according to its elements’ natural order.
 
-```java
+```
 // Returns maximum value in collection - throws exception if empty
 public static <E extends Comparable<E>> E max(Collection<E> c) {
     if (c.isEmpty())
@@ -25,7 +25,7 @@ public static <E extends Comparable<E>> E max(Collection<E> c) {
 
 This method throws an IllegalArgumentException if the given collection is empty. We mentioned in Item 30 that a better alternative would be to return Optional<E>. Here’s how the method looks when it is modified to do so:
 
-```java
+```
 // Returns maximum value in collection as an Optional<E>
 public static <E extends Comparable<E>> Optional<E> max(Collection<E> c) {
     if (c.isEmpty())
@@ -42,7 +42,7 @@ As you can see, it is straightforward to return an optional. All you have to do 
 
 Many terminal operations on streams return optionals. If we rewrite the max method to use a stream, Stream’s max operation does the work of generating an optional for us (though we do have to pass in an explicit comparator):
 
-```java
+```
 // Returns max val in collection as Optional<E> - uses stream
 public static <E extends Comparable<E>> Optional<E> max(Collection<E> c) {
     return c.stream().max(Comparator.naturalOrder());
@@ -53,21 +53,21 @@ So how do you choose to return an optional instead of returning a null or throwi
 
 If a method returns an optional, the client gets to choose what action to take if the method can’t return a value. You can specify a default value:
 
-```java
+```
 // Using an optional to provide a chosen default value
 String lastWordInLexicon = max(words).orElse("No words...");
 ```
 
 or you can throw any exception that is appropriate. Note that we pass in an exception factory rather than an actual exception. This avoids the expense of creating the exception unless it will actually be thrown:
 
-```java
+```
 // Using an optional to throw a chosen exception
 Toy myToy = max(toys).orElseThrow(TemperTantrumException::new);
 ```
 
 If you can prove that an optional is nonempty, you can get the value from the optional without specifying an action to take if the optional is empty, but if you’re wrong, your code will throw a NoSuchElementException:
 
-```java
+```
 // Using optional when you know there’s a return value
 Element lastNobleGas = max(Elements.NOBLE_GASES).get();
 ```
@@ -78,7 +78,7 @@ In case none of these methods meets your needs, Optional provides the isPresent(
 
 For example, consider this code snippet, which prints the process ID of the parent of a process, or N/A if the process has no parent. The snippet uses the ProcessHandle class, introduced in Java 9:
 
-```java
+```
 Optional<ProcessHandle> parentProcess = ph.parent();
 System.out.println("Parent PID: " + (parentProcess.isPresent() ?
 String.valueOf(parentProcess.get().pid()) : "N/A"));
@@ -86,19 +86,19 @@ String.valueOf(parentProcess.get().pid()) : "N/A"));
 
 The code snippet above can be replaced by this one, which uses Optional’s map function:
 
-```java
+```
 System.out.println("Parent PID: " + ph.parent().map(h -> String.valueOf(h.pid())).orElse("N/A"));
 ```
 
 When programming with streams, it is not uncommon to find yourself with a Stream<Optional<T>> and to require a Stream<T> containing all the elements in the nonempty optionals in order to proceed. If you’re using Java 8, here’s how to bridge the gap:
 
-```java
+```
 streamOfOptionals.filter(Optional::isPresent).map(Optional::get)
 ```
 
 In Java 9, Optional was outfitted with a stream() method. This method is an adapter that turns an Optional into a Stream containing an element if one is present in the optional, or none if it is empty. In conjunction with Stream’s flatMap method (Item 45), this method provides a concise replacement for the code snippet above:
 
-```java
+```
 streamOfOptionals..flatMap(Optional::stream)
 ```
 

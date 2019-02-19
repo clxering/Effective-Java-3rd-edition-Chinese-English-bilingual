@@ -4,7 +4,7 @@
 
 Suppose you want to generate random integers between zero and some upper bound. Faced with this common task, many programmers would write a little method that looks something like this:
 
-```java
+```
 // Common but deeply flawed!
 static Random rnd = new Random();
 static int random(int n) {
@@ -14,7 +14,7 @@ static int random(int n) {
 
 This method may look good, but it has three flaws. The first is that if n is a small power of two, the sequence of random numbers will repeat itself after a fairly short period. The second flaw is that if n is not a power of two, some numbers will, on average, be returned more frequently than others. If n is large, this effect can be quite pronounced. This is powerfully demonstrated by the following program, which generates a million random numbers in a carefully chosen range and then prints out how many of the numbers fell in the lower half of the range:
 
-```java
+```
 public static void main(String[] args) {
     int n = 2 * (Integer.MAX_VALUE / 3);
     int low = 0;
@@ -41,7 +41,7 @@ A final advantage of using the standard libraries is that you place your code in
 
 Given all these advantages, it seems only logical to use library facilities in preference to ad hoc implementations, yet many programmers don’t. Why not? Perhaps they don’t know the library facilities exist. **Numerous features are added to the libraries in every major release, and it pays to keep abreast of these additions.** Each time there is a major release of the Java platform, a web page is published describing its new features. These pages are well worth reading [Java8-feat, Java9-feat]. To reinforce this point, suppose you wanted to write a program to print the contents of a URL specified on the command line (which is roughly what the Linux curl command does). Prior to Java 9, this code was a bit tedious, but in Java 9 the transferTo method was added to InputStream. Here is a complete program to perform this task using this new method:
 
-```java
+```
 // Printing the contents of a URL with transferTo, added in Java 9
 public static void main(String[] args) throws IOException {
     try (InputStream in = new URL(args[0]).openStream()) {

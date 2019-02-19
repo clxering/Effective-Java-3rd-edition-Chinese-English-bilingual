@@ -4,7 +4,7 @@
 
 The following program is a well-intentioned attempt to classify collections according to whether they are sets, lists, or some other kind of collection:
 
-```java
+```
 // Broken! - What does this program print?
 public class CollectionClassifier {
     public static String classify(Set<?> s) {
@@ -33,7 +33,7 @@ You might expect this program to print Set, followed by List and Unknown Collect
 
 The behavior of this program is counterintuitive because **selection among overloaded methods is static, while selection among overridden methods is dynamic.** The correct version of an overridden method is chosen at runtime, based on the runtime type of the object on which the method is invoked. As a reminder, a method is overridden when a subclass contains a method declaration with the same signature as a method declaration in an ancestor. If an instance method is overridden in a subclass and this method is invoked on an instance of the subclass, the subclass’s overriding method executes, regardless of the compile-time type of the subclass instance. To make this concrete, consider the following program:
 
-```java
+```
 class Wine {
     String name() { return "wine"; }
 }
@@ -61,7 +61,7 @@ The name method is declared in class Wine and overridden in subclasses Sparkling
 
 In the CollectionClassifier example, the intent of the program was to discern the type of the parameter by dispatching automatically to the appropriate method overloading based on the runtime type of the parameter, just as the name method did in the Wine example. Method overloading simply does not provide this functionality. Assuming a static method is required, the best way to fix the CollectionClassifier program is to replace all three overloadings of classify with a single method that does explicit instanceof tests:
 
-```java
+```
 public static String classify(Collection<?> c) {
     return c instanceof Set ? "Set" :c instanceof List ? "List" : "Unknown Collection";
 }
@@ -79,7 +79,7 @@ Exporting multiple overloadings with the same number of parameters is unlikely t
 
 Prior to Java 5, all primitive types were radically different from all reference types, but this is not true in the presence of autoboxing, and it has caused real trouble. Consider the following program:
 
-```java
+```
 public class SetList {
 public static void main(String[] args) {
     Set<Integer> set = new TreeSet<>();
@@ -101,7 +101,7 @@ First, the program adds the integers from −3 to 2, inclusive, to a sorted set 
 
 Here’s what’s happening: The call to set.remove(i) selects the overloading remove(E), where E is the element type of the set (Integer), and autoboxes i from int to Integer. This is the behavior you’d expect, so the program ends up removing the positive values from the set. The call to list.remove(i), on the other hand, selects the overloading remove(int i), which removes the element at the specified position in the list. If you start with the list [-3, -2, -1, 0, 1, 2] and remove the zeroth element, then the first, and then the second, you’re left with [-2, 0, 2], and the mystery is solved. To fix the problem, cast list.remove’s argument to Integer, forcing the correct overloading to be selected. Alternatively, you could invoke Integer.valueOf on i and pass the result to list.remove. Either way, the program prints [-3, -2, -1] [-3, -2, -1], as expected:
 
-```java
+```
 for (int i = 0; i < 3; i++) {
     set.remove(i);
     list.remove((Integer) i); // or remove(Integer.valueOf(i))
@@ -110,7 +110,7 @@ for (int i = 0; i < 3; i++) {
 
 The confusing behavior demonstrated by the previous example came about because the List<E> interface has two overloadings of the remove method: remove(E) and remove(int). Prior to Java 5 when the List interface was “generified,” it had a remove(Object) method in place of remove(E), and the corresponding parameter types, Object and int, were radically different. But in the presence of generics and autoboxing, the two parameter types are no longer radically different. In other words, adding generics and autoboxing to the language damaged the List interface. Luckily, few if any other APIs in the Java libraries were similarly damaged, but this tale makes it clear that autoboxing and generics increased the importance of caution when overloading. The addition of lambdas and method references in Java 8 further increased the potential for confusion in overloading. For example, consider these two snippets:
 
-```java
+```
 new Thread(System.out::println).start();
 ExecutorService exec = Executors.newCachedThreadPool();
 exec.submit(System.out::println);
@@ -128,7 +128,7 @@ There may be times when you feel the need to violate the guidelines in this item
 
 While the resulting overloading clearly violates the guidelines in this item, it causes no harm because both overloaded methods do exactly the same thing when they are invoked on the same object reference. The programmer may not know which overloading will be invoked, but it is of no consequence so long as they behave identically. The standard way to ensure this behavior is to have the more specific overloading forward to the more general:
 
-```java
+```
 // Ensuring that 2 methods have identical behavior by forwarding
 public boolean contentEquals(StringBuffer sb) {
     return contentEquals((CharSequence) sb);

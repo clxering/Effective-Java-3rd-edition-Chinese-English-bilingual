@@ -10,7 +10,7 @@ The main technique for keeping the number of runnable threads low is to have eac
 
 Threads should not busy-wait, repeatedly checking a shared object waiting for its state to change. Besides making the program vulnerable to the vagaries of the thread scheduler, busy-waiting greatly increases the load on the processor, reducing the amount of useful work that others can accomplish. As an extreme example of what not to do, consider this perverse reimplementation of CountDownLatch:
 
-```java
+```
 // Awful CountDownLatch implementation - busy-waits incessantly!
 public class SlowCountDownLatch {
 

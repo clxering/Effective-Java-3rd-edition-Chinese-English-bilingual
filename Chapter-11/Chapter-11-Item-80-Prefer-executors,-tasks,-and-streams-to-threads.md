@@ -6,7 +6,7 @@ The first edition of this book contained code for a simple work queue [Bloch01, 
 
 By the time the second edition of this book came out, java.util.concurrent had been added to Java. This package contains an Executor Framework, which is a flexible interface-based task execution facility. Creating a work queue that is better in every way than the one in the first edition of this book requires but a single line of code:
 
-```java
+```
 ExecutorService exec = Executors.newSingleThreadExecutor();
 Here is how to submit a runnable for execution:
 exec.execute(runnable);

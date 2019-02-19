@@ -24,7 +24,7 @@ Documenting a conditionally thread-safe class requires care. You must indicate w
 
 It is imperative that the user manually synchronize on the returned map when iterating over any of its collection views:
 
-```java
+```
 Map<K, V> m = Collections.synchronizedMap(new HashMap<>());
 Set<K> s = m.keySet(); // Needn't be in synchronized block
 ...
@@ -42,7 +42,7 @@ When a class commits to using a publicly accessible lock, it enables clients to 
 
 To prevent this denial-of-service attack, you can use a private lock object instead of using synchronized methods (which imply a publicly accessible lock):
 
-```java
+```
 // Private lock object idiom - thwarts denial-of-service attack
 private final Object lock = new Object();
 public void foo() {
