@@ -71,3 +71,8 @@ public class Test {
 In summary, interfaces should be used only to define types. They should not be used merely to export constants.
 
 总之，接口应该只用于定义类型。它们不应该用于导出常量。
+
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Introduction.md)**
+- **Previous Item（上一条目）：[Item 21: Design interfaces for posterity（为后代设计接口）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-21-Design-interfaces-for-posterity.md)**
+- **Next Item（下一条目）：[Item 23: Prefer class hierarchies to tagged classes（类层次结构优于带标签的类）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-23-Prefer-class-hierarchies-to-tagged-classes.md)**
