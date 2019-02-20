@@ -44,7 +44,7 @@ for (int i = 0; i < plantsByLifeCycle.length; i++) {
 }
 ```
 
-***译注：假设 Plant 数组如下：***
+**译注：假设 Plant 数组如下：**
 ```
 Plant[] garden = new Plant[]{
         new Plant("A", LifeCycle.ANNUAL),
@@ -96,7 +96,7 @@ The previous program can be further shortened by using a stream (Item 45) to man
 System.out.println(Arrays.stream(garden).collect(groupingBy(p -> p.lifeCycle)));
 ```
 
-***译注：以上代码需要引入 `java.util.stream.Collectors.groupingBy`，输出结果如下：***
+**译注：以上代码需要引入 `java.util.stream.Collectors.groupingBy`，输出结果如下：**
 ```
 {BIENNIAL=[B, D], ANNUAL=[A], PERENNIAL=[C, E]}
 ```
@@ -112,7 +112,7 @@ System.out.println(
 );
 ```
 
-***译注：以上代码需要引入 `java.util.stream.Collectors.toSet`***
+**译注：以上代码需要引入 `java.util.stream.Collectors.toSet`**
 
 This optimization would not be worth doing in a toy program like this one but could be critical in a program that made heavy use of the map.
 
@@ -149,7 +149,7 @@ public enum Phase {
 }
 ```
 
-***译注：固体、液体、气体三态，对应的三组变化：融化 MELT，冻结 FREEZE（固态与液态）；沸腾 BOIL，凝固 CONDENSE（液态与气态）；升华 SUBLIME，凝华 DEPOSIT（固态与气态）。***
+**译注：固体、液体、气体三态，对应的三组变化：融化 MELT，冻结 FREEZE（固态与液态）；沸腾 BOIL，凝固 CONDENSE（液态与气态）；升华 SUBLIME，凝华 DEPOSIT（固态与气态）。**
 
 This program works and may even appear elegant, but appearances can be deceiving. Like the simpler garden example shown earlier, the compiler has no way of knowing the relationship between ordinals and array indices. If you make a mistake in the transition table or forget to update it when you modify the Phase or Phase.Transition enum type, your program will fail at runtime. The failure may be an ArrayIndexOutOfBoundsException, a NullPointerException, or (worse) silent erroneous behavior. And the size of the table is quadratic in the number of phases, even if the number of non-null entries is smaller.
 
@@ -196,7 +196,7 @@ The code to initialize the phase transition map is a bit complicated. The type o
 
 初始化阶段变化 Map 的代码有点复杂。Map 的类型是 `Map<Phase, Map<Phase, Transition>>`，这意味着「从（源）阶段 Map 到（目标）阶段 Map 的转换过程」。这个 Map 嵌套是使用两个收集器的级联序列初始化的。第一个收集器按源阶段对转换进行分组，第二个收集器使用从目标阶段到转换的映射创建一个 EnumMap。第二个收集器 ((x, y) -> y) 中的 merge 函数未使用；之所以需要它，只是因为我们需要指定一个 Map 工厂来获得 EnumMap，而 Collector 提供了伸缩工厂。本书的上一个版本使用显式迭代来初始化阶段转换映射。代码更冗长，但也更容易理解。
 
-***译注：第二版中的实现代码如下：***
+**译注：第二版中的实现代码如下：**
 ```
 // Initialize the phase transition map
 private static final Map<Phase, Map<Phase,Transition> m =
@@ -243,3 +243,8 @@ In the interest of brevity, the above examples use null to indicate the absence 
 In summary, **it is rarely appropriate to use ordinals to index into arrays: use EnumMap instead.** If the relationship you are representing is multidimensional, use `EnumMap<..., EnumMap<...>>`. This is a special case of the general principle that application programmers should rarely, if ever, use Enum.ordinal (Item 35).
 
 总之，**用普通的序数索引数组是非常不合适的：应使用 EnumMap 代替。** 如果所表示的关系是多维的，则使用 `EnumMap<..., EnumMap<...>>`。这是一种特殊的基本原则，程序员很少（即使有的话）使用 `Enum.ordinal` （[Item-35](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-35-Use-instance-fields-instead-of-ordinals.md)）。
+
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Introduction.md)**
+- **Previous Item（上一条目）：[Item 36: Use EnumSet instead of bit fields（用 EnumSet 替代位字段）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)**
+- **Next Item（下一条目）：[Item 38: Emulate extensible enums with interfaces（使用接口模拟可扩展枚举）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-38-Emulate-extensible-enums-with-interfaces.md)**
