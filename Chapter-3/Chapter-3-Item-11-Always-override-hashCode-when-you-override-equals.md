@@ -169,3 +169,8 @@ This is not just a theoretical problem. Prior to Java 2, the String hash functio
 In summary, you must override hashCode every time you override equals,or your program will not run correctly. Your hashCode method must obey the general contract specified in Object and must do a reasonable job assigning unequal hash codes to unequal instances. This is easy to achieve, if slightly tedious, using the recipe on page 51. As mentioned in Item 10, the AutoValue framework provides a fine alternative to writing equals and hashCode methods manually, and IDEs also provide some of this functionality.
 
 总之，每次覆盖 equals 时都必须覆盖 hashCode，否则程序将无法正确运行。你的 hashCode 方法必须遵守 Object 中指定的通用约定，并且必须合理地将不相等的 hash 代码分配给不相等的实例。这很容易实现，如果有点乏味，可使用第 51 页的方法。如[Item-10](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)所述，AutoValue 框架提供了一种很好的替代手动编写 equals 和 hashCode 的方法，IDE 也提供了这种功能。
+
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Introduction.md)**
+- **Previous Item（上一条目）：[Item 10: Obey the general contract when overriding equals（覆盖 equals 方法时应遵守的约定）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)**
+- **Next Item（下一条目）：[Item 12: Always override toString（始终覆盖 toString 方法）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-12-Always-override-toString.md)**

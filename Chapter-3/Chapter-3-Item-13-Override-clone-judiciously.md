@@ -312,3 +312,8 @@ Furthermore, a copy constructor or factory can take an argument whose type is an
 Given all the problems associated（adj. 关联的；联合的） with Cloneable, new interfaces should not extend it, and new extendable classes should not implement it. While it’s less harmful for final classes to implement Cloneable, this should be viewed as a performance optimization, reserved for the rare cases where it is justified (Item 67). As a rule, copy functionality is best provided by constructors or factories. A notable exception to this rule is arrays, which are best copied with the clone method.
 
 考虑到与 Cloneable 相关的所有问题，新的接口不应该扩展它，新的可扩展类不应该实现它。虽然 final 类实现 Cloneable 的危害要小一些，但这应该被视为一种性能优化，仅在极少数情况下（[Item-67](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-67-Optimize-judiciously.md)）是合理的。通常，复制功能最好由构造函数或工厂提供。这个规则的一个明显的例外是数组，最好使用 clone 方法来复制数组。
+
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Introduction.md)**
+- **Previous Item（上一条目）：[Item 12: Always override toString（始终覆盖 toString 方法）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-12-Always-override-toString.md)**
+- **Next Item（下一条目）：[Item 14: Consider implementing Comparable（考虑实现 Comparable 接口）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-14-Consider-implementing-Comparable.md)**

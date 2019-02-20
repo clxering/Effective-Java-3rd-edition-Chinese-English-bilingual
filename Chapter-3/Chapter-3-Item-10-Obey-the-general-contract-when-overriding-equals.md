@@ -581,3 +581,7 @@ IDE 也有生成 equals 和 hashCode 方法的功能，但是生成的源代码�
 In summary, don’t override the equals method unless you have to: in many cases, the implementation inherited from Object does exactly what you want.If you do override equals, make sure to compare all of the class’s significant fields and to compare them in a manner that preserves all five provisions of the equals contract.
 
 总之，除非必须，否则不要覆盖 equals 方法：在许多情况下，从 Object 继承而来的实现正是你想要的。如果你确实覆盖了 equals，那么一定要比较类的所有重要字段，并以保留 equals 约定的所有 5 项规定的方式进行比较。
+
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Introduction.md)**
+- **Next Item（下一条目）：[Item 11: Always override hashCode when you override equals（当覆盖 equals 时，始终覆盖 hashCode）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)**

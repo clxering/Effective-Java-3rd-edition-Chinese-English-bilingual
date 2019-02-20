@@ -279,3 +279,8 @@ swapHelper 方法知道 list 是一个 `List<E>`。因此，它知道它从这�
 In summary, using wildcard types in your APIs, while tricky, makes the APIs far more flexible. If you write a library that will be widely used, the proper use of wildcard types should be considered mandatory. Remember the basic rule: producer-extends, consumer-super (PECS). Also remember that all comparables and comparators are consumers.
 
 总之，在 API 中使用通配符类型虽然很棘手，但可以使其更加灵活。如果你编写的库将被广泛使用，则必须考虑通配符类型的正确使用。记住基本规则：生产者使用 extends，消费者使用 super（PECS）。还要记住，所有的 comparable 和 comparator 都是消费者。
+
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Introduction.md)**
+- **Previous Item（上一条目）：[Item 30: Favor generic methods（优先使用泛型方法）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-30-Favor-generic-methods.md)**
+- **Next Item（下一条目）：[Item 32: Combine generics and varargs judiciously（明智地合用泛型和可变参数）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-32-Combine-generics-and-varargs-judiciously.md)**

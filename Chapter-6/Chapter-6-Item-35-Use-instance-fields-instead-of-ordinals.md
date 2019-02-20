@@ -40,3 +40,8 @@ public enum Ensemble {
 The Enum specification has this to say about ordinal: “Most programmers will have no use for this method. It is designed for use by general-purpose enumbased data structures such as EnumSet and EnumMap.” Unless you are writing code with this character, you are best off avoiding the ordinal method entirely.
 
 枚举规范对 ordinal 方法的评价是这样的：「大多数程序员都不会去使用这个方法。它是为基于枚举的通用数据结构（如 EnumSet 和 EnumMap）而设计的」。除非你使用这个数据结构编写代码，否则最好完全避免使用这个方法。
+
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Introduction.md)**
+- **Previous Item（上一条目）：[Item 34: Use enums instead of int constants（用枚举类型代替 int 常量）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)**
+- **Next Item（下一条目）：[Item 36: Use EnumSet instead of bit fields（用 EnumSet 替代位字段）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)**

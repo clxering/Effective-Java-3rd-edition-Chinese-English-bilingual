@@ -89,3 +89,8 @@ In summary, marker interfaces and marker annotations both have their uses. If yo
 In a sense, this item is the inverse of Item 22, which says, “If you don’t want to define a type, don’t use an interface.” To a first approximation, this item says, “If you do want to define a type, do use an interface.”
 
 从某种意义上说，本条目与 [Item-22](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-22-Use-interfaces-only-to-define-types.md) 的说法相反，也就是说，「如果不想定义类型，就不要使用接口。」，与本条目应用场景适应的说法是，「如果你确实想定义类型，那么就要使用接口。」
+
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Introduction.md)**
+- **Previous Item（上一条目）：[Item 40: Consistently use the Override annotation（坚持使用 @Override 注解）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-40-Consistently-use-the-Override-annotation.md)**
+- **Next Item（下一条目）：[Chapter 7 Introduction（章节介绍）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-7/Chapter-7-Introduction.md)**

@@ -154,3 +154,8 @@ The pattern described in this item is used in the Java libraries. For example, t
 In summary, **while you cannot write an extensible enum type, you can emulate it by writing an interface to accompany a basic enum type that implements the interface.** This allows clients to write their own enums (or other types) that implement the interface. Instances of these types can then be used wherever instances of the basic enum type can be used, assuming APIs are written in terms of the interface.
 
 总之，虽然你不能编写可扩展枚举类型，但是你可以通过编写接口来模拟它，以便与实现该接口的基本枚举类型一起使用。这允许客户端编写自己的枚举（或其他类型）来实现接口。假设 API 是根据接口编写的，那么这些类型的实例可以在任何可以使用基本枚举类型的实例的地方使用。
+
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Introduction.md)**
+- **Previous Item（上一条目）：[Item 37: Use EnumMap instead of ordinal indexing（使用 EnumMap 替换序数索引）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)**
+- **Next Item（下一条目）：[Item 39: Prefer annotations to naming patterns（注解优于命名模式）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-39-Prefer-annotations-to-naming-patterns.md)**

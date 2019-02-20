@@ -243,3 +243,8 @@ In the interest of brevity, the above examples use null to indicate the absence 
 In summary, **it is rarely appropriate to use ordinals to index into arrays: use EnumMap instead.** If the relationship you are representing is multidimensional, use `EnumMap<..., EnumMap<...>>`. This is a special case of the general principle that application programmers should rarely, if ever, use Enum.ordinal (Item 35).
 
 总之，**用普通的序数索引数组是非常不合适的：应使用 EnumMap 代替。** 如果所表示的关系是多维的，则使用 `EnumMap<..., EnumMap<...>>`。这是一种特殊的基本原则，程序员很少（即使有的话）使用 `Enum.ordinal` （[Item-35](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-35-Use-instance-fields-instead-of-ordinals.md)）。
+
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Introduction.md)**
+- **Previous Item（上一条目）：[Item 36: Use EnumSet instead of bit fields（用 EnumSet 替代位字段）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)**
+- **Next Item（下一条目）：[Item 38: Emulate extensible enums with interfaces（使用接口模拟可扩展枚举）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-38-Emulate-extensible-enums-with-interfaces.md)**

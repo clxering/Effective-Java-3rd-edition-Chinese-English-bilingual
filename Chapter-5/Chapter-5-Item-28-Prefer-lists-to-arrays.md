@@ -167,3 +167,8 @@ This version is a tad more verbose, and perhaps a tad slower, but it’s worth i
 In summary, arrays and generics have very different type rules. Arrays are covariant and reified; generics are invariant and erased. As a consequence, arrays provide runtime type safety but not compile-time type safety, and vice versa for generics. As a rule, arrays and generics don’t mix well. If you find yourself mixing them and getting compile-time errors or warnings, your first impulse should be to replace the arrays with lists.
 
 总之，数组和泛型有非常不同的类型规则。数组是协变的、具体化的；泛型是不变的和可被擦除的。因此，数组提供了运行时类型安全，而不是编译时类型安全，对于泛型反之亦然。一般来说，数组和泛型不能很好地混合。如果你发现将它们混合在一起并得到编译时错误或警告，那么你的第一个反应该是将数组替换为 list。
+
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Introduction.md)**
+- **Previous Item（上一条目）：[Item 27: Eliminate unchecked warnings（消除 unchecked 警告）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-27-Eliminate-unchecked-warnings.md)**
+- **Next Item（下一条目）：[Item 29: Favor generic types（优先使用泛型）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-29-Favor-generic-types.md)**

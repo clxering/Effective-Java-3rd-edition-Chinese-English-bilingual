@@ -103,3 +103,8 @@ More commonly, the useful lifetime of a cache entry is less well defined, with e
 Because memory leaks typically do not manifest themselves as obvious failures, they may remain present in a system for years. They are typically discovered only as a result of careful code inspection or with the aid of a debugging tool known as a heap profiler. Therefore, it is very desirable to learn to anticipate problems like this before they occur and prevent them from happening.
 
 由于内存泄漏通常不会表现为明显的故障，它们可能会在系统中存在多年。它们通常只能通过仔细的代码检查或借助一种称为堆分析器的调试工具来发现。因此，学会在这样的问题发生之前预测并防止它们发生是非常可取的。
+
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Introduction.md)**
+- **Previous Item（上一条目）：[Item 6: Avoid creating unnecessary objects（避免创建不必要的对象）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-6-Avoid-creating-unnecessary-objects.md)**
+- **Next Item（下一条目）：[Item 8: Avoid finalizers and cleaners（避免使用终结器和清除器）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-8-Avoid-finalizers-and-cleaners.md)**
