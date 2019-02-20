@@ -167,3 +167,6 @@ List<Complaint> litany = Collections.list(legacyLitany);
 In summary, static factory methods and public constructors both have their uses, and it pays to understand their relative merits. Often static factories are preferable, so avoid the reflex to provide public constructors without first considering static factories.
 
 总之，静态工厂方法和公共构造器都有各自的用途，理解它们的相对优点是值得的。通常静态工厂更可取，因此避免在没有考虑静态工厂的情况下提供公共构造函数。
+
+#### **[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Introduction.md)**
+**Next Item（下一条目）：[Item 2: Consider a builder when faced with many constructor parameters（在面对多个构造函数参数时，请考虑构建器）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-2-Consider-a-builder-when-faced-with-many-constructor-parameters.md)**
