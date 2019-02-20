@@ -14,6 +14,24 @@ Java’s serialization facility (Chapter 6) uses the Serializable marker interfa
 
 Java 的序列化工具（Chapter 6）使用 Serializable 标记接口来指示类是可序列化的。`ObjectOutputStream.writeObject` 方法序列化传递给它的对象，它要求其参数是可序列化的。如果该方法的参数类型是 Serializable，那么在编译时（通过类型检查）就会检测到对不合适的对象进行序列化的尝试。编译时错误检测是标记接口的目的，但不幸的是，`ObjectOutputStream.write` API 没有利用 Serializable 接口：它的参数被声明为 Object 类型，因此序列化一个不可序列化对象的尝试直到运行时才会失败。
 
+译注：原文 `ObjectOutputStream.write` 有误，该方法的每种重载仅支持 int 类型和 byte[]，应修改为 `ObjectOutputStream.writeObject`，其源码如下：
+```
+public final void writeObject(Object obj) throws IOException {
+    if (enableOverride) {
+        writeObjectOverride(obj);
+        return;
+    }
+    try {
+        writeObject0(obj, false);
+    } catch (IOException ex) {
+        if (depth == 0) {
+            writeFatalException(ex);
+        }
+        throw ex;
+    }
+}
+```
+
 **Another advantage of marker interfaces over marker annotations is that they can be targeted more precisely.** If an annotation type is declared with target ElementType.TYPE, it can be applied to any class or interface. Suppose you have a marker that is applicable only to implementations of a particular interface. If you define it as a marker interface, you can have it extend the sole interface to which it is applicable, guaranteeing that all marked types are also subtypes of the sole interface to which it is applicable.
 
 **标记接口相对于标记注解的另一个优点是可以更精确地定位它们。** 如果注解类型使用 `ElementType.TYPE` 声明，它可以应用于任何类或接口。假设你有一个只适用于特定接口实现的标记。如果将其定义为标记接口，则可以让它扩展其适用的惟一接口，确保所有标记的类型也是其适用的惟一接口的子类型。
