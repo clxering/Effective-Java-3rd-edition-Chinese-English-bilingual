@@ -48,7 +48,7 @@ As you would expect, this program prints Java cafebabe Favorites. Note, incident
 
 如你所料，这个程序打印 Java cafebabe Favorites。顺便提醒一下，Java 的 printf 方法与 C 的不同之处在于，你应该在 C 中使用 \n 的地方改用 %n。
 
-***译注：favoriteClass.getName() 的打印结果与 Favorites 类所在包名有关，结果应为：包名.Favorites***
+**译注：`favoriteClass.getName()` 的打印结果与 Favorites 类所在包名有关，结果应为：包名.Favorites**
 
 A Favorites instance is typesafe: it will never return an Integer when you ask it for a String. It is also heterogeneous: unlike an ordinary map, all the keys are of different types. Therefore, we call Favorites a typesafe heterogeneous container.
 
@@ -167,3 +167,8 @@ static Annotation getAnnotation(AnnotatedElement element,String annotationTypeNa
 In summary, the normal use of generics, exemplified by the collections APIs, restricts you to a fixed number of type parameters per container. You can get around this restriction by placing the type parameter on the key rather than the container. You can use Class objects as keys for such typesafe heterogeneous containers. A Class object used in this fashion is called a type token. You can also use a custom key type. For example, you could have a DatabaseRow type representing a database row (the container), and a generic type `Column<T>` as its key.
 
 总之，以集合的 API 为例的泛型在正常使用时将每个容器的类型参数限制为固定数量。你可以通过将类型参数放置在`键`上而不是容器上来绕过这个限制。你可以使用 Class 对象作为此类类型安全异构容器的`键`。以这种方式使用的 Class 对象称为类型标记。还可以使用自定义`键`类型。例如，可以使用 DatabaseRow 类型表示数据库行（容器），并使用泛型类型 `Column<T>` 作为它的`键`。
+
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Introduction.md)**
+- **Previous Item（上一条目）：[Item 32: Combine generics and varargs judiciously（明智地合用泛型和可变参数）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-32-Combine-generics-and-varargs-judiciously.md)**
+- **Next Item（下一条目）：[Chapter 6 Introduction（章节介绍）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Introduction.md)**
