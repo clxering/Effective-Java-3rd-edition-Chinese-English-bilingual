@@ -52,7 +52,7 @@ Effective Java（第 3 版）各章节的中英文学习参考，希望对 Java 
     - [Item 38: Emulate extensible enums with interfaces（使用接口模拟可扩展枚举）](Chapter-6/Chapter-6-Item-38-Emulate-extensible-enums-with-interfaces.md)
     - [Item 39: Prefer annotations to naming patterns（注解优于命名模式）](Chapter-6/Chapter-6-Item-39-Prefer-annotations-to-naming-patterns.md)
     - [Item 40: Consistently use the Override annotation（坚持使用 @Override 注解）](Chapter-6/Chapter-6-Item-40-Consistently-use-the-Override-annotation.md)
-    - [Item 41: Use marker interfaces to define types](Chapter-6/Chapter-6-Item-41-Use-marker-interfaces-to-define-types.md)
+    - [Item 41: Use marker interfaces to define types（使用标记接口定义类型）](Chapter-6/Chapter-6-Item-41-Use-marker-interfaces-to-define-types.md)
 - **Chapter 7. Lambdas and Streams（λ 表达式和流）**
     - [Chapter 7 Introduction（章节介绍）](Chapter-7/Chapter-7-Introduction.md)
     - [Item 42: Prefer lambdas to anonymous classes](Chapter-7/Chapter-7-Item-42-Prefer-lambdas-to-anonymous-classes.md)
