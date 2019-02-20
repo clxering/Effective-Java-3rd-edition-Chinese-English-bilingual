@@ -86,7 +86,7 @@ Therefore, you should **use the Override annotation on every method declaration 
 
 Most IDEs provide another reason to use the Override annotation consistently. If you enable the appropriate check, the IDE will generate a warning if you have a method that doesn’t have an Override annotation but does override a superclass method. If you use the Override annotation consistently, these warnings will alert you to unintentional overriding. They complement the compiler’s error messages, which alert you to unintentional failure to override. Between the IDE and the compiler, you can be sure that you’re overriding methods everywhere you want to and nowhere else.
 
-大多数 IDE 都提供了一致使用 Override 注解的另一个原因。如果启用适当的检查，如果你的方法没有 `@Override` 注解，但确实覆盖了超类方法，IDE 将生成警告。如果你一致地使用 `@Override` 注解，这些警告将提醒你防止意外覆盖。它们补充编译器的错误消息，这些错误消息会警告你无意的覆盖错误。在 IDE 和编译器的帮助下，你可以确保在任何你想要实施覆盖的地方都覆盖了，而没有遗漏。
+大多数 IDE 都提供了一致使用 `@Override` 注解的另一个原因。如果启用适当的检查，如果你的方法没有 `@Override` 注解，但确实覆盖了超类方法，IDE 将生成警告。如果你一致地使用 `@Override` 注解，这些警告将提醒你防止意外覆盖。它们补充编译器的错误消息，这些错误消息会警告你无意的覆盖错误。在 IDE 和编译器的帮助下，你可以确保在任何你想要实施覆盖的地方都覆盖了，而没有遗漏。
 
 The Override annotation may be used on method declarations that override declarations from interfaces as well as classes. With the advent of default methods, it is good practice to use Override on concrete implementations of interface methods to ensure that the signature is correct. If you know that an interface does not have default methods, you may choose to omit Override annotations on concrete implementations of interface methods to reduce clutter.
 

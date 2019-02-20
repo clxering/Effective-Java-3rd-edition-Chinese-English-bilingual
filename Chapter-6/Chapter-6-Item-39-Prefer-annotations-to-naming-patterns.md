@@ -37,6 +37,41 @@ The declaration for the Test annotation type is itself annotated with Retention 
 
 Test 注解类型的声明本身带有 Retention 注解和 Target 注解。这种注解类型声明上的注解称为元注解。`@Retention(RetentionPolicy.RUNTIME)` 元注解表明测试注解应该在运行时保留。没有它，测试工具将无法识别测试注解。`@Target.get(ElementType.METHOD)` 元注解表明测试注解仅对方法声明合法：它不能应用于类声明、字段声明或其他程序元素。
 
+**译注 1：注解的保留策略**
+
+保留策略决定了在什么位置丢弃注解。Java 定义了 3 种策略，它们被封装到 `java.lang.annotation.RetentionPolicy` 枚举中。这 3 种策略分别是 SOURCE、CLASS 和 RUNTIME。
+- 使用 SOURCE 保留策略的注解，只在源文件中保留，在编译期间会被抛弃。
+- 使用 CLASS 保留策略的注解，在编译时被存储到 `.class` 文件中。但是，在运行时不能通过 JVM 得到这些注解。
+- 使用 RUNTIME 保留策略的注解，在编译时被存储到 `.class` 文件中，并且在运行时可以通过 JVM 获取这些注解。因此，RUNTIME 保留策略提供了最永久的注解。
+
+**译注 2：ElementType 各常量定义的范围**
+
+- ElementType.TYPE
+  - Class, interface (including annotation type), or enum declaration（类、接口、注解、枚举）
+- ElementType.FIELD
+  - Field declaration (includes enum constants)（字段、枚举常量）
+- ElementType.METHOD
+  - Method declaration（方法）
+- ElementType.PARAMETER
+  - Formal parameter declaration（方法参数）
+- ElementType.CONSTRUCTOR
+  - Constructor declaration（构造）
+- ElementType.LOCAL_VARIABLE
+  - Local variable declaration（局部变量）
+- ElementType.ANNOTATION_TYPE
+  - Annotation type declaration（注解）
+- ElementType.PACKAGE
+  - Package declaration（包）
+- ElementType.TYPE_PARAMETER
+  - Type parameter declaration（泛型参数）
+  - Since: 1.8
+- ElementType.TYPE_USE
+  - Use of a type（任意类型，获取 class 对象和 import 两种情况除外）
+  - Since: 1.8
+- ElementType.MODULE
+  - Module declaration（[模块](https://docs.oracle.com/javase/9/whatsnew/toc.htm#JSNEW-GUID-C23AFD78-C777-460B-8ACE-58BE5EA681F6)）
+  - Since: 9
+
 The comment before the Test annotation declaration says, “Use only on parameterless static methods.” It would be nice if the compiler could enforce this, but it can’t, unless you write an annotation processor to do so. For more on this topic, see the documentation for javax.annotation.processing. In the absence of such an annotation processor, if you put a Test annotation on the declaration of an instance method or on a method with one or more parameters, the test program will still compile, leaving it to the testing tool to deal with the problem at runtime.
 
 Test 注解声明之前的代码注释是这么描述的:「Use only on parameterless static methods.（只对无参数的静态方法使用）」如果编译器能够强制执行这一点，那就太好了，但是它不能，除非你编写代码注释处理器来执行。有关此主题的更多信息，请参阅 `javax.annotation.processing` 的文档。在没有这样的代码注释处理程序的情况下，如果你将 Test 注解放在实例方法的声明上，或者放在带有一个或多个参数的方法上，测试程序仍然会编译，让测试工具在运行时处理。
@@ -112,7 +147,7 @@ public class RunTests {
 
 The test runner tool takes a fully qualified class name on the command line and runs all of the class’s Test-annotated methods reflectively, by calling Method.invoke. The isAnnotationPresent method tells the tool which methods to run. If a test method throws an exception, the reflection facility wraps it in an InvocationTargetException. The tool catches this exception and prints a failure report containing the original exception thrown by the test method, which is extracted from the InvocationTargetException with the getCause method.
 
-test runner 工具在命令行上接受一个完全限定的类名，并通过调用 `Method.invoke` 以反射方式运行类的所有带测试注解的方法。isAnnotationPresent 方法告诉工具要运行哪些方法。如果测试方法抛出异常，反射工具将其封装在 InvocationTargetException 中。该工具捕获这个异常并打印一个失败报告，其中包含测试方法抛出的原始异常，该异常是用 getCause 方法从 InvocationTargetException 提取的。
+test runner 工具以命令行方式接受一个完全限定的类名，并通过调用 `Method.invoke` 以反射方式运行类的所有带测试注解的方法。isAnnotationPresent 方法告诉工具要运行哪些方法。如果测试方法抛出异常，反射工具将其封装在 InvocationTargetException 中。该工具捕获这个异常并打印一个失败报告，其中包含测试方法抛出的原始异常，该异常是用 getCause 方法从 InvocationTargetException 提取的。
 
 If an attempt to invoke a test method by reflection throws any exception other than InvocationTargetException, it indicates an invalid use of the Test annotation that was not caught at compile time. Such uses include annotation of an instance method, of a method with one or more parameters, or of an inaccessible method. The second catch block in the test runner catches these Test usage errors and prints an appropriate error message. Here is the output that is printed if RunTests is run on Sample:
 
@@ -199,7 +234,7 @@ This code is similar to the code we used to process Test annotations, with one e
 
 Taking our exception testing example one step further, it is possible to envision a test that passes if it throws any one of several specified exceptions. The annotation mechanism has a facility that makes it easy to support this usage. Suppose we change the parameter type of the ExceptionTest annotation to be an array of Class objects:
 
-进一步来看我们的异常测试示例，如果它抛出几个指定异常中的任意一个，那么可以认为测试通过了。注解机制具有一种工具，可以轻松地支持这种用法。假设我们将 ExceptionTest 注解的参数类型更改为一个 Class 对象数组：
+进一步修改我们的异常测试示例，如果它抛出几个指定异常中的任意一个，那么可以认为测试通过了。注解机制具有一种工具，可以轻松地支持这种用法。假设我们将 ExceptionTest 注解的参数类型更改为一个 Class 对象数组：
 
 ```
 // Annotation type with an array parameter
@@ -284,7 +319,7 @@ public static void doublyBad() { ... }
 
 Processing repeatable annotations requires care. A repeated annotation generates a synthetic annotation of the containing annotation type. The getAnnotationsByType method glosses over this fact, and can be used to access both repeated and non-repeated annotations of a repeatable annotation type. But isAnnotationPresent makes it explicit that repeated annotations are not of the annotation type, but of the containing annotation type. If an element has a repeated annotation of some type and you use the isAnnotationPresent method to check if the element has an annotation of that type, you’ll find that it does not. Using this method to check for the presence of an annotation type will therefore cause your program to silently ignore repeated annotations. Similarly, using this method to check for the containing annotation type will cause the program to silently ignore non-repeated annotations. To detect repeated and non-repeated annotations with isAnnotationPresent, you much check for both the annotation type and its containing annotation type. Here’s how the relevant part of our RunTests program looks when modified to use the repeatable version of the ExceptionTest annotation:
 
-处理可重复注解需要小心。重复的注解生成包含注解类型的合成注解。getAnnotationsByType 方法掩盖了这一事实，可以用于访问可重复注解类型的重复和非重复注解。但是 isAnnotationPresent 明确指出，重复的注解不是注解类型，而是包含注解的类型。如果一个元素具有某种类型的重复注解，并且你使用 isAnnotationPresent 方法检查该元素是否具有该类型的注解，你将发现它没有。因此，使用此方法检查注解类型的存在将导致你的程序无声地忽略重复的注解。类似地，使用此方法检查包含的注解类型将导致程序无声地忽略不重复的注解。要使用 isAnnotationPresent 检测重复和非重复注解，需要同时检查注解类型及其包含的注解类型。下面是我们的 RunTests 程序的相关部分在修改为使用 ExceptionTest 注解的可重复版本时的样子：
+处理可重复注解需要小心。「重复状态」会生成名为「容器注解类型」的合成注解。getAnnotationsByType 方法可忽略这一区别，它可以用于访问可重复注解类型的「重复状态」和「非重复状态」。但是 isAnnotationPresent 明确指出，「重复状态」的情况不属于注解类型，而是「容器注解类型」。如果一个元素是某种类型的「重复状态」注解，并且你使用 isAnnotationPresent 方法检查该元素是否具有该类型的注解，你将发现它提示不存在。因此，使用此方法检查注解类型的存在与否，将导致你的程序忽略「重复状态」。类似地，使用此方法检查「容器注解类型」将导致程序忽略「非重复状态」。要使用 isAnnotationPresent 检测「重复状态」和「非重复状态」，需要同时检查注解类型及其「容器注解类型」。下面是我们的 RunTests 程序的相关部分修改为使用 ExceptionTest 注解的可重复版本时的样子：
 
 ```
 // Processing repeatable annotations
@@ -307,6 +342,54 @@ if (m.isAnnotationPresent(ExceptionTest.class)|| m.isAnnotationPresent(Exception
             System.out.printf("Test %s failed: %s %n", m, exc);
     }
 }
+```
+
+**译注：比较原文中提及的 getAnnotationsByType 与 isAnnotationPresent 在可重复注解的「重复状态」和「非重复状态」下的使用差别：**
+
+**原 doublyBad 方法不变，属于「重复状态」（重复注解大于等于两个的，都属于「重复状态」）；新增一个 doublyBad2 方法，仅使用一个重复注解，属于「非重复状态」**
+```
+class Simple4 {
+    // Code containing a repeated annotation
+    @ExceptionTest(IndexOutOfBoundsException.class)
+    @ExceptionTest(NullPointerException.class)
+    public static void doublyBad() {
+    }
+
+    @ExceptionTest(ArithmeticException.class)
+    public static void doublyBad2() {
+    }
+}
+```
+**测试代码**
+```
+public static void main(String[] args) throws NoSuchMethodException {
+    Class<?> testClass = Simple4.class;
+    for (int count = 1; count <= 2; count++) {
+        Method m = testClass.getMethod(count == 1 ? "doublyBad" : "doublyBad" + count);
+        System.out.println(m.getName() + "「重复状态」：" + m.isAnnotationPresent(ExceptionTest.class));
+        System.out.println(m.getName() + "「容器注解类型」：" + m.isAnnotationPresent(ExceptionTestContainer.class));
+        System.out.println(m.getName() + "「非重复状态」：" + m.isAnnotationPresent(ExceptionTest.class));
+        System.out.println(m.getName() + "「重复状态」：" + m.getAnnotationsByType(ExceptionTest.class));
+        System.out.println(m.getName() + "「容器注解类型」：" + m.getAnnotationsByType(ExceptionTestContainer.class));
+        System.out.println(m.getName() + "「非重复状态」：" + m.getAnnotationsByType(ExceptionTest.class));
+    }
+}
+```
+**结果**
+```
+doublyBad「重复状态」：false
+doublyBad「容器注解类型」：true
+doublyBad「非重复状态」：false
+doublyBad「重复状态」：[LItem_39.ExceptionTest;@1593948d
+doublyBad「容器注解类型」：[LItem_39.ExceptionTestContainer;@1b604f19
+doublyBad「非重复状态」：[LItem_39.ExceptionTest;@7823a2f9
+
+doublyBad2「重复状态」：true
+doublyBad2「容器注解类型」：false
+doublyBad2「非重复状态」：true
+doublyBad2「重复状态」：[LItem_39.ExceptionTest;@cb5822
+doublyBad2「容器注解类型」：[LItem_39.ExceptionTestContainer;@4b9e13df
+doublyBad2「非重复状态」：[LItem_39.ExceptionTest;@2b98378d
 ```
 
 Repeatable annotations were added to improve the readability of source code that logically applies multiple instances of the same annotation type to a given program element. If you feel they enhance the readability of your source code, use them, but remember that there is more boilerplate in declaring and processing repeatable annotations, and that processing repeatable annotations is error-prone.
