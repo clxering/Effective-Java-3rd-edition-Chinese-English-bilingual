@@ -32,6 +32,40 @@ public final void writeObject(Object obj) throws IOException {
 }
 ```
 
+***译注 2：使用 ObjectOutputStream.writeObject 的例子***
+```
+public class BaseClass implements Serializable {
+    private final int id;
+    private final String name;
+
+    public BaseClass(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "id=" + id + ", name='" + name + '\'';
+    }
+}
+
+public class Main {
+    private void Out() throws IOException {
+        BaseClass obj = new BaseClass(1, "Mark");
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(new File("out.txt")))) {
+            out.writeObject(obj);
+        }
+    }
+
+    private void In() throws IOException, ClassNotFoundException {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(new File("out.txt")))) {
+            BaseClass obj = (BaseClass) in.readObject();
+            System.out.println(obj);
+        }
+    }
+}
+```
+
 **Another advantage of marker interfaces over marker annotations is that they can be targeted more precisely.** If an annotation type is declared with target ElementType.TYPE, it can be applied to any class or interface. Suppose you have a marker that is applicable only to implementations of a particular interface. If you define it as a marker interface, you can have it extend the sole interface to which it is applicable, guaranteeing that all marked types are also subtypes of the sole interface to which it is applicable.
 
 **标记接口相对于标记注解的另一个优点是可以更精确地定位它们。** 如果注解类型使用 `ElementType.TYPE` 声明，它可以应用于任何类或接口。假设你有一个只适用于特定接口实现的标记。如果将其定义为标记接口，则可以让它扩展其适用的惟一接口，确保所有标记的类型也是其适用的惟一接口的子类型。
