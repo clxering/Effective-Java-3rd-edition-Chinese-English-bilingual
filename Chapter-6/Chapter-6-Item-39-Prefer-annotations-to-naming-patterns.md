@@ -37,6 +37,41 @@ The declaration for the Test annotation type is itself annotated with Retention 
 
 Test 注解类型的声明本身带有 Retention 注解和 Target 注解。这种注解类型声明上的注解称为元注解。`@Retention(RetentionPolicy.RUNTIME)` 元注解表明测试注解应该在运行时保留。没有它，测试工具将无法识别测试注解。`@Target.get(ElementType.METHOD)` 元注解表明测试注解仅对方法声明合法：它不能应用于类声明、字段声明或其他程序元素。
 
+**译注 1：注解的保留策略**
+
+保留策略决定了在什么位置丢弃注解。Java 定义了 3 种策略，它们被封装到 `java.lang.annotation.RetentionPolicy` 枚举中。这 3 种策略分别是 SOURCE、CLASS 和 RUNTIME。
+- 使用 SOURCE 保留策略的注解，只在源文件中保留，在编译期间会被抛弃。
+- 使用 CLASS 保留策略的注解，在编译时被存储到 `.class` 文件中。但是，在运行时不能通过 JVM 得到这些注解。
+- 使用 RUNTIME 保留策略的注解，在编译时被存储到 `.class` 文件中，并且在运行时可以通过 JVM 获取这些注解。因此，RUNTIME 保留策略提供了最永久的注解。
+
+**译注 2：ElementType 各常量定义的范围**
+
+- ElementType.TYPE
+  - Class, interface (including annotation type), or enum declaration（类、接口、注解、枚举）
+- ElementType.FIELD
+  - Field declaration (includes enum constants)（字段、枚举常量）
+- ElementType.METHOD
+  - Method declaration（方法）
+- ElementType.PARAMETER
+  - Formal parameter declaration（方法参数）
+- ElementType.CONSTRUCTOR
+  - Constructor declaration（构造）
+- ElementType.LOCAL_VARIABLE
+  - Local variable declaration（局部变量）
+- ElementType.ANNOTATION_TYPE
+  - Annotation type declaration（注解）
+- ElementType.PACKAGE
+  - Package declaration（包）
+- ElementType.TYPE_PARAMETER
+  - Type parameter declaration（泛型参数）
+  - Since: 1.8
+- ElementType.TYPE_USE
+  - Use of a type（任意类型，获取 class 对象和 import 两种情况除外）
+  - Since: 1.8
+- ElementType.MODULE
+  - Module declaration（[模块](https://docs.oracle.com/javase/9/whatsnew/toc.htm#JSNEW-GUID-C23AFD78-C777-460B-8ACE-58BE5EA681F6)）
+  - Since: 9
+
 The comment before the Test annotation declaration says, “Use only on parameterless static methods.” It would be nice if the compiler could enforce this, but it can’t, unless you write an annotation processor to do so. For more on this topic, see the documentation for javax.annotation.processing. In the absence of such an annotation processor, if you put a Test annotation on the declaration of an instance method or on a method with one or more parameters, the test program will still compile, leaving it to the testing tool to deal with the problem at runtime.
 
 Test 注解声明之前的代码注释是这么描述的:「Use only on parameterless static methods.（只对无参数的静态方法使用）」如果编译器能够强制执行这一点，那就太好了，但是它不能，除非你编写代码注释处理器来执行。有关此主题的更多信息，请参阅 `javax.annotation.processing` 的文档。在没有这样的代码注释处理程序的情况下，如果你将 Test 注解放在实例方法的声明上，或者放在带有一个或多个参数的方法上，测试程序仍然会编译，让测试工具在运行时处理。
