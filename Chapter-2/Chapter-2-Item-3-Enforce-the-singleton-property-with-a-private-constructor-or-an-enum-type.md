@@ -23,7 +23,7 @@ The private constructor is called only once, to initialize the public static fin
 
 私有构造函数只调用一次，用于初始化 public static final 修饰的 Elvis 类型字段 INSTANCE。不使用 public 或 protected 的构造函数保证了「独一无二」的空间：一旦初始化了 Elvis 类，就只会存在一个 Elvis 实例，不多也不少。客户端所做的任何事情都不能改变这一点，但有一点需要注意：拥有特殊权限的客户端可以借助 AccessibleObject.setAccessible 方法利用反射调用私有构造函数（[Item-65](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-65-Prefer-interfaces-to-reflection.md)）如果需要防范这种攻击，请修改构造函数，使其在请求创建第二个实例时抛出异常。
 
-***译注：使用 AccessibleObject.setAccessible 方法调用私有构造函数示例：***
+**译注：使用 `AccessibleObject.setAccessible` 方法调用私有构造函数示例：**
 ```
 Constructor<?>[] constructors = Elvis.class.getDeclaredConstructors();
 AccessibleObject.setAccessible(constructors, true);
@@ -54,7 +54,7 @@ All calls to Elvis.getInstance return the same object reference, and no other El
 
 所有对 `getInstance()` 方法的调用都返回相同的对象引用，并且不会创建其他 Elvis 实例（与前面提到的警告相同）。
 
-**译注：这里的警告指拥有特殊权限的客户端可以借助 AccessibleObject.setAccessible 方法利用反射调用私有构造函数**
+**译注：这里的警告指拥有特殊权限的客户端可以借助 `AccessibleObject.setAccessible` 方法利用反射调用私有构造函数**
 
 The main advantage of the public field approach is that the API makes it clear that the class is a singleton: the public static field is final, so it will always contain the same object reference. The second advantage is that it’s simpler.
 
@@ -62,13 +62,13 @@ The main advantage of the public field approach is that the API makes it clear t
 
 One advantage of the static factory approach is that it gives you the flexibility to change your mind about whether the class is a singleton without changing its API. The factory method returns the sole instance, but it could be modified to return, say, a separate instance for each thread that invokes it. A second advantage is that you can write a generic singleton factory if your application requires it (Item 30). A final advantage of using a static factory is that a method reference can be used as a supplier, for example `Elvis::instance` is a `Supplier<Elvis>`. Unless one of these advantages is relevant, the public field approach is preferable.
 
-***译注：static factory approach 等同于 static factory method***
+**译注：static factory approach 等同于 static factory method**
 
 静态工厂方法的一个优点是，它可以在不更改 API 的情况下决定类是否是单例。工厂方法返回唯一的实例，但是可以对其进行修改，为调用它的每个线程返回一个单独的实例。第二个优点是，如果应用程序需要的话，可以编写泛型的单例工厂（[Item-30](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-30-Favor-generic-methods.md)）。使用静态工厂的最后一个优点是方法引用能够作为一个提供者，例如 `Elvis::getInstance` 是 `Supplier<Elvis>` 的提供者。除非能够与这些优点沾边，否则使用 public 字段的方式更可取。
 
-***译注 1：原文方法引用可能是笔误，修改为 `Elvis::getInstance`***
+**译注 1：原文方法引用可能是笔误，修改为 `Elvis::getInstance`**
 
-***译注 2：方法引用作为提供者的例子：***
+**译注 2：方法引用作为提供者的例子：**
 ```
 Supplier<Elvis> sup = Elvis::getInstance;
 Elvis obj = sup.get();

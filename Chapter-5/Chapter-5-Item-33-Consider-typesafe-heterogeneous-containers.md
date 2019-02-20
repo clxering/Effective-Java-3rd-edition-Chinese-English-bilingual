@@ -48,7 +48,7 @@ As you would expect, this program prints Java cafebabe Favorites. Note, incident
 
 如你所料，这个程序打印 Java cafebabe Favorites。顺便提醒一下，Java 的 printf 方法与 C 的不同之处在于，你应该在 C 中使用 \n 的地方改用 %n。
 
-***译注：favoriteClass.getName() 的打印结果与 Favorites 类所在包名有关，结果应为：包名.Favorites***
+**译注：`favoriteClass.getName()` 的打印结果与 Favorites 类所在包名有关，结果应为：包名.Favorites**
 
 A Favorites instance is typesafe: it will never return an Integer when you ask it for a String. It is also heterogeneous: unlike an ordinary map, all the keys are of different types. Therefore, we call Favorites a typesafe heterogeneous container.
 

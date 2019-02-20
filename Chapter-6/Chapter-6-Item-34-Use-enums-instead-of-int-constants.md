@@ -152,9 +152,11 @@ Some behaviors associated with enum constants may need to be used only from with
 
 与枚举常量相关的一些行为可能只需要在定义枚举的类或包中使用。此类行为最好以私有或包私有方法来实现。然后，每个常量都带有一个隐藏的行为集合，允许包含枚举的类或包在使用该常量时做出适当的反应。与其他类一样，除非你有充分的理由向其客户端公开枚举方法，否则将其声明为私有的，或者在必要时声明为包私有（[Item-15](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-15-Minimize-the-accessibility-of-classes-and-members.md)）。
 
-***译注：Java 中访问级别规则如下：***
-- ***类访问级别：public（公共）、无修饰符（package-private，包私有）***
-- ***成员访问级别：public（公共）、protected（保护）、private（私有）、无修饰符（package-private，包私有）***
+**译注：Java 中访问级别规则如下：**
+
+**类访问级别：public（公共）、无修饰符（package-private，包私有）**
+
+**成员访问级别：public（公共）、protected（保护）、private（私有）、无修饰符（package-private，包私有）**
 
 If an enum is generally useful, it should be a top-level class; if its use is tied to a specific top-level class, it should be a member class of that top-level class (Item 24). For example, the java.math.RoundingMode enum represents a rounding mode for decimal fractions. These rounding modes are used by the BigDecimal class, but they provide a useful abstraction that is not fundamentally tied to BigDecimal. By making RoundingMode a top-level enum, the library designers encourage any programmer who needs rounding modes to reuse this enum, leading to increased consistency across APIs.
 
@@ -208,7 +210,7 @@ Constant-specific method implementations can be combined with constantspecific d
 
 特定常量方法实现可以与特定于常量的数据相结合。例如，下面是一个 Operation 枚举的版本，它重写 toString 方法来返回与操作相关的符号：
 
-***译注：原文 constantspecific data 修改为 constant-specific data ，译为「特定常量数据」***
+**译注：原文 constantspecific data 修改为 constant-specific data ，译为「特定常量数据」**
 
 ```
 // Enum type with constant-specific class bodies and data
@@ -310,9 +312,9 @@ enum PayrollDay {
 }
 ```
 
-***译注 1：该例子中，加班的每分钟工资为工作日每分钟工资（payRate）的一半***
+**译注 1：该例子中，加班的每分钟工资为工作日每分钟工资（payRate）的一半**
 
-***译注 2：原文中 pay 方法存在问题，说明如下：***
+**译注 2：原文中 pay 方法存在问题，说明如下：**
 ```
 // 基本工资 basePay 不应该直接将工作时间参与计算，如果工作日存在加班的情况，会将加班时间也计入基本工资计算。假设在周一工作 10 小时，假设每分钟 1 元：
 /*
@@ -396,7 +398,7 @@ enum PayrollDay {
 }
 ```
 
-***译注：上述代码 pay 方法也存将加班时间计入基本工资计算的问题，修改如下：***
+**译注：上述代码 pay 方法也存将加班时间计入基本工资计算的问题，修改如下：**
 ```
 int pay(int minsWorked, int payRate) {
     int basePay = minsWorked <= MINS_PER_SHIFT ? minsWorked * payRate : MINS_PER_SHIFT * payRate;

@@ -82,7 +82,7 @@ You can now use your new operations anywhere you could use the basic operations,
 
 现在可以在任何可以使用 Operation 的地方使用新 Operation，前提是编写的 API 采用接口类型（Operation），而不是实现（BasicOperation）。注意，不必像在具有特定于实例的方法实现的非可扩展枚举中那样在枚举中声明抽象 apply 方法（第 162 页）。这是因为抽象方法（apply）是接口（Operation）的成员。
 
-***译注：示例如下***
+**译注：示例如下**
 ```
 public static void main(String[] args) {
     Operation op = BasicOperation.DIVIDE;

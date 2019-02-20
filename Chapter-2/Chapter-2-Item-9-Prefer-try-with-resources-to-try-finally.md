@@ -51,7 +51,7 @@ It may be hard to believe, but even good programmers got this wrong most of the 
 
 这可能难以置信。在大多数情况下，即使是优秀的程序员也会犯这种错误。首先，我在 Java Puzzlers [Bloch05]的 88 页上做错了，多年来没有人注意到。事实上，2007 年发布的 Java 库中三分之二的 close 方法使用都是错误的。
 
-***译注：《Java Puzzlers》的中文译本为《Java 解惑》***
+**译注：《Java Puzzlers》的中文译本为《Java 解惑》**
 
 Even the correct code for closing resources with try-finally statements,as illustrated（v.阐明） in the previous two code examples, has a subtle deficiency. The code in both the try block and the finally block is capable of throwing exceptions. For example, in the firstLineOfFile method, the call to readLine could throw an exception due to a failure in the underlying physical device, and the call to close could then fail for the same reason. Under these circumstances, the second exception completely obliterates（vt.抹去） the first one. There is no record of the first exception in the exception stack trace, which can greatly complicate debugging in real systems—usually it’s the first exception that you want to see in order to diagnose the problem. While it is possible to write code to suppress the second exception in favor of the first, virtually no one did because it’s just too verbose.
 

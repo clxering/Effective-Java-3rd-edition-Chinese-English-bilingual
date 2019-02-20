@@ -143,9 +143,9 @@ public int compareTo(PhoneNumber pn) {
 }
 ```
 
-***译注 1：示例代码默认使用了静态导入：`import static java.util.Comparator.comparingInt;`***
+**译注 1：示例代码默认使用了静态导入：`import static java.util.Comparator.comparingInt;`**
 
-***译注 2：comparingInt 及 thenComparingInt 的文档描述***
+**译注 2：comparingInt 及 thenComparingInt 的文档描述**
 
 ```
 static <T> Comparator<T> comparingInt(ToIntFunction<? super T> keyExtractor)

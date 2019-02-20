@@ -63,7 +63,7 @@ The prohibition on generic array creation can be annoying. It means, for example
 
 禁止创建泛型数组可能很烦人。例如，这意味着泛型集合通常不可能返回其元素类型的数组（部分解决方案请参见 [Item-33](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-33-Consider-typesafe-heterogeneous-containers.md)）。这也意味着在使用 varargs 方法（[Item-53](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8/Chapter-8-Item-53-Use-varargs-judiciously.md)）与泛型组合时，你会得到令人困惑的警告。这是因为每次调用 varargs 方法时，都会创建一个数组来保存 varargs 参数。如果该数组的元素类型不可具体化，则会得到警告。SafeVarargs 注解可以用来解决这个问题（[Item-32](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-32-Combine-generics-and-varargs-judiciously.md)）。
 
-***译注：varargs 方法，指带有可变参数的方法。***
+**译注：varargs 方法，指带有可变参数的方法。**
 
 When you get a generic array creation error or an unchecked cast warning on a cast to an array type, the best solution is often to use the collection type `List<E>` in preference to the array type E[]. You might sacrifice some conciseness or performance, but in exchange you get better type safety and interoperability.
 
