@@ -111,6 +111,6 @@ The counterpoint to this item is Item 50 on defensive copying. The present item 
 
 与此项对应的条目是 [Item-50](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8/Chapter-8-Item-50-Make-defensive-copies-when-needed.md)（防御性复制）。当前项的描述是：「在应该重用现有对象时不要创建新对象」，而 Item 50 的描述则是：「在应该创建新对象时不要重用现有对象」。请注意，当需要进行防御性复制时，重用对象所受到的惩罚远远大于不必要地创建重复对象所受到的惩罚。在需要时不制作防御性副本可能导致潜在的 bug 和安全漏洞；不必要地创建对象只会影响样式和性能。
 
-##### **[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Introduction.md)**
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Introduction.md)**
 - **Previous Item（上一条目）：[Item 5: Prefer dependency injection to hardwiring resources（依赖注入优于硬连接资源）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-5-Prefer-dependency-injection-to-hardwiring-resources.md)**
 - **Next Item（下一条目）：[Item 7: Eliminate obsolete object references（排除过时的对象引用）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-7-Eliminate-obsolete-object-references.md)**
