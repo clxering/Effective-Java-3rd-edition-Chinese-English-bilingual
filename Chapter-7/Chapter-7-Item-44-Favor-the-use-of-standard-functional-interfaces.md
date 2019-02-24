@@ -4,11 +4,11 @@
 
 Now that Java has lambdas, best practices for writing APIs have changed considerably. For example, the Template Method pattern [Gamma95], wherein a subclass overrides a primitive method to specialize the behavior of its superclass, is far less attractive. The modern alternative is to provide a static factory or constructor that accepts a function object to achieve the same effect. More generally, you’ll be writing more constructors and methods that take function objects as parameters. Choosing the right functional parameter type demands care.
 
-现在Java已经有了lambdas，编写api的最佳实践已经发生了很大的变化。例如，模板方法模式[Gamma95]，其中子类覆盖基类方法以专门化其超类的行为，就没有那么有吸引力了。现代的替代方法是提供一个静态工厂或构造函数，它接受一个函数对象来实现相同的效果。更一般地，您将编写更多以函数对象为参数的构造函数和方法。选择正确的函数参数类型需要谨慎。
+现在 Java 已经有了 lambda 表达式，编写 API 的最佳实践已经发生了很大的变化。例如，模板方法模式 [Gamma95]，其中子类覆盖基类方法以专门化其超类的行为，就没有那么有吸引力了。现代的替代方法是提供一个静态工厂或构造函数，它接受一个函数对象来实现相同的效果。更一般地，您将编写更多以函数对象为参数的构造函数和方法。选择正确的函数参数类型需要谨慎。
 
 Consider LinkedHashMap. You can use this class as a cache by overriding its protected removeEldestEntry method, which is invoked by put each time a new key is added to the map. When this method returns true, the map removes its eldest entry, which is passed to the method. The following override allows the map to grow to one hundred entries and then deletes the eldest entry each time a new key is added, maintaining the hundred most recent entries:
 
-考虑LinkedHashMap。您可以通过覆盖受保护的removeEldestEntry方法将该类用作缓存，每当向映射添加新键时，put都会调用该方法。当该方法返回true时，映射将删除传递给该方法的最老条目。下面的覆盖允许映射增长到100个条目，然后在每次添加新键时删除最老的条目，维护100个最近的条目:
+考虑 LinkedHashMap。您可以通过覆盖受保护的 removeEldestEntry 方法将该类用作缓存，每当向映射添加新键时，put 都会调用该方法。当该方法返回 true 时，映射将删除传递给该方法的最老条目。下面的覆盖允许映射增长到 100 个条目，然后在每次添加新键时删除最老的条目，维护 100 个最近的条目：
 
 ```
 protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
@@ -16,9 +16,9 @@ protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
 }
 ```
 
-This technique works fine, but you can do much better with lambdas. If LinkedHashMap were written today, it would have a static factory or constructor that took a function object. Looking at the declaration for removeEldestEntry, you might think that the function object should take a Map.Entry<K,V> and return a boolean, but that wouldn’t quite do it: The removeEldestEntry method calls size() to get the number of entries in the map, which works because removeEldestEntry is an instance method on the map. The function object that you pass to the constructor is not an instance method on the map and can’t capture it because the map doesn’t exist yet when its factory or constructor is invoked. Thus, the map must pass itself to the function object, which must therefore take the map on input as well as its eldest entry. If you were to declare such a functional interface, it would look something like this:
+This technique works fine, but you can do much better with lambdas. If LinkedHashMap were written today, it would have a static factory or constructor that took a function object. Looking at the declaration for removeEldestEntry, you might think that the function object should take a `Map.Entry<K,V>` and return a boolean, but that wouldn’t quite do it: The removeEldestEntry method calls size() to get the number of entries in the map, which works because removeEldestEntry is an instance method on the map. The function object that you pass to the constructor is not an instance method on the map and can’t capture it because the map doesn’t exist yet when its factory or constructor is invoked. Thus, the map must pass itself to the function object, which must therefore take the map on input as well as its eldest entry. If you were to declare such a functional interface, it would look something like this:
 
-这种技术工作得很好，但是使用lambdas可以做得更好。如果LinkedHashMap是今天编写的，它将有一个静态工厂或构造函数，它接受一个函数对象。看着removeEldestEntry的定义,你可能会认为这个函数对象应该Map.Entry<K,V>和返回一个布尔值,但不会完全做到:removeEldestEntry方法调用大小()地图中的条目的数量,这工作,因为removeEldestEntry在地图上是一个实例方法。传递给构造函数的函数对象不是映射上的实例方法，无法捕获它，因为在调用映射的工厂或构造函数时，映射还不存在。因此，映射必须将自身传递给函数对象，函数对象因此必须在输入端及其最老的条目上接受映射。如果要声明这样一个函数式接口，它看起来是这样的:
+这种技术工作得很好，但是使用 lambda 表达式可以做得更好。如果 LinkedHashMap 是今天编写的，它将有一个静态工厂或构造函数，它接受一个函数对象。看着 removeEldestEntry 的定义,你可能会认为这个函数对象应该 `Map.Entry<K,V>` 和返回一个布尔值，但不会完全做到：removeEldestEntry 方法调用 size() 地图中的条目的数量，这工作，因为 removeEldestEntry 在地图上是一个实例方法。传递给构造函数的函数对象不是映射上的实例方法，无法捕获它，因为在调用映射的工厂或构造函数时，映射还不存在。因此，映射必须将自身传递给函数对象，函数对象因此必须在输入端及其最老的条目上接受映射。如果要声明这样一个函数式接口，它看起来是这样的:
 
 ```
 // Unnecessary functional interface; use a standard one instead.
@@ -73,4 +73,3 @@ Notice that the EldestEntryRemovalFunction interface (page 199) is labeled with 
 A final point should be made concerning the use of functional interfaces in APIs. Do not provide a method with multiple overloadings that take different functional interfaces in the same argument position if it could create a possible ambiguity in the client. This is not just a theoretical problem. The submit method of ExecutorService can take either a Callable<T> or a Runnable, and it is possible to write a client program that requires a cast to indicate the correct overloading (Item 52). The easiest way to avoid this problem is not to write overloadings that take different functional interfaces in the same argument position. This is a special case of the advice in Item 52, “use overloading judiciously.”
 
 In summary, now that Java has lambdas, it is imperative that you design your APIs with lambdas in mind. Accept functional interface types on input and return them on output. It is generally best to use the standard interfaces provided in java.util.function.Function, but keep your eyes open for the relatively rare cases where you would be better off writing your own functional interface.
-
