@@ -27,34 +27,48 @@ This technique works fine, but you can do much better with lambdas. If LinkedHas
 }
 ```
 
-This interface would work fine, but you shouldn’t use it, because you don’t need to declare a new interface for this purpose. The java.util.function package provides a large collection of standard functional interfaces for your use. **If one of the standard functional interfaces does the job, you should generally use it in preference to a purpose-built functional interface.** This will make your API easier to learn, by reducing its conceptual surface area, and will provide significant interoperability benefits, as many of the standard functional interfaces provide useful default methods. The Predicate interface, for instance, provides methods to combine predicates. In the case of our LinkedHashMap example, the standard BiPredicate<Map<K,V>, Map.Entry<K,V>> interface should be used in preference to a custom EldestEntryRemovalFunction interface.
+This interface would work fine, but you shouldn’t use it, because you don’t need to declare a new interface for this purpose. The java.util.function package provides a large collection of standard functional interfaces for your use. **If one of the standard functional interfaces does the job, you should generally use it in preference to a purpose-built functional interface.** This will make your API easier to learn, by reducing its conceptual surface area, and will provide significant interoperability benefits, as many of the standard functional interfaces provide useful default methods. The Predicate interface, for instance, provides methods to combine predicates. In the case of our LinkedHashMap example, the standard `BiPredicate<Map<K,V>`, `Map.Entry<K,V>>` interface should be used in preference to a custom EldestEntryRemovalFunction interface.
 
-这个接口可以很好地工作，但是您不应该使用它，因为您不需要为此声明一个新接口。java.util.function 包提供了大量的标准函数接口供您使用。如果一个标准的功能接口可以完成这项工作，那么您通常应该优先使用它，而不是使用专门构建的功能接口。通过减少API的概念表面积，这将使您的API更容易学习，并将提供显著的互操作性优势，因为许多标准功能接口提供了有用的默认方法。例如，Predicate 接口提供了组合谓词的方法。在我们的LinkedHashMap示例中，应该优先使用标准的 BiPredicate<Map<K,V>、Map.Entry<K,V>> 接口，而不是定制的EldestEntryRemovalFunction接口。
+这个接口可以很好地工作，但是您不应该使用它，因为您不需要为此声明一个新接口。java.util.function 包提供了大量的标准函数接口供您使用。如果一个标准的函数式接口可以完成这项工作，那么您通常应该优先使用它，而不是使用专门构建的函数式接口。通过减少 API 的概念表面积，这将使您的 API 更容易学习，并将提供显著的互操作性优势，因为许多标准函数式接口提供了有用的默认方法。例如，Predicate 接口提供了组合谓词的方法。在我们的 LinkedHashMap 示例中，应该优先使用标准的 `BiPredicate<Map<K,V>`、`Map.Entry<K,V>>` 接口，而不是定制的 EldestEntryRemovalFunction 接口。
 
 There are forty-three interfaces in java.util.Function. You can’t be expected to remember them all, but if you remember six basic interfaces, you can derive the rest when you need them. The basic interfaces operate on object reference types. The Operator interfaces represent functions whose result and argument types are the same. The Predicate interface represents a function that takes an argument and returns a boolean. The Function interface represents a function whose argument and return types differ. The Supplier interface represents a function that takes no arguments and returns (or “supplies”) a value. Finally, Consumer represents a function that takes an argument and returns nothing, essentially consuming its argument. The six basic functional interfaces are summarized below:
 
-function中有43个接口。不能期望您记住所有的接口，但是如果您记住了6个基本接口，那么您可以在需要时派生出其余的接口。基本接口操作对象引用类型。运算符接口表示结果和参数类型相同的函数。谓词接口表示接受参数并返回布尔值的函数。函数接口表示参数和返回类型不同的函数。Supplier接口表示一个不接受参数并返回(或“供应”)值的函数。最后，Consumer表示一个函数，该函数接受一个参数，但不返回任何内容，本质上是使用它的参数。六个基本的功能接口总结如下:
+**译注：原文笔误，应为 `java.util.function`**
+
+`java.util.function` 中有 43 个接口。不能期望您记住所有的接口，但是如果您记住了 6 个基本接口，那么您可以在需要时派生出其余的接口。基本接口操作对象引用类型。Operator 接口表示结果和参数类型相同的函数。Predicate 接口表示接受参数并返回布尔值的函数。Function 接口表示参数和返回类型不同的函数。Supplier 接口表示一个不接受参数并返回（或“供应”）值的函数。最后，Consumer 表示一个函数，该函数接受一个参数，但不返回任何内容，本质上是使用它的参数。六个基本的函数式接口总结如下：
 
 |    Interface    |       Function Signature       |      Example     |
 |:-------:|:-------:|:-------:|
-|   UnaryOperator<T>  |     T apply(T t)    |   String::toLowerCase   |
-|   BinaryOperator<T>  |     T apply(T t1, T t2)    |   BigInteger::add   |
-|   Predicate<T>  |     boolean test(T t)    |   Collection::isEmpty   |
-|   Function<T,R>  |     R apply(T t)    |   Arrays::asList   |
-|   Supplier<T>  |     T get()    |   Instant::now   |
-|   Consumer<T>  |     void accept(T t)    |   System.out::println   |
+|   `UnaryOperator<T>`  |     `T apply(T t)`    |   `String::toLowerCase`   |
+|   `BinaryOperator<T>`  |     `T apply(T t1, T t2)`    |   `BigInteger::add`   |
+|   `Predicate<T>`  |     `boolean test(T t)`    |   `Collection::isEmpty`   |
+|   `Function<T,R>`  |     `R apply(T t)`    |   `Arrays::asList`   |
+|   `Supplier<T>`  |     `T get()`    |   `Instant::now`   |
+|   `Consumer<T>`  |     `void accept(T t)`    |   `System.out::println`   |
 
-There are also three variants of each of the six basic interfaces to operate on the primitive types int, long, and double. Their names are derived from the basic interfaces by prefixing them with a primitive type. So, for example, a predicate that takes an int is an IntPredicate, and a binary operator that takes two long values and returns a long is a LongBinaryOperator. None of these variant types is parameterized except for the Function variants, which are parameterized by return type. For example, LongFunction<int[]> takes a long and returns an int[].
+There are also three variants of each of the six basic interfaces to operate on the primitive types int, long, and double. Their names are derived from the basic interfaces by prefixing them with a primitive type. So, for example, a predicate that takes an int is an IntPredicate, and a binary operator that takes two long values and returns a long is a LongBinaryOperator. None of these variant types is parameterized except for the Function variants, which are parameterized by return type. For example, `LongFunction<int[]>` takes a long and returns an int[].
 
-There are nine additional variants of the Function interface, for use when the result type is primitive. The source and result types always differ, because a function from a type to itself is a UnaryOperator. If both the source and result types are primitive, prefix Function with SrcToResult, for example LongToIntFunction (six variants). If the source is a primitive and the result is an object reference, prefix Function with <Src>ToObj, for example DoubleToObjFunction (three variants).
+还有 6 个基本接口的 3 个变体，用于操作基本类型 int、long 和 double。它们的名称是通过在基本接口前面加上基本类型前缀而派生出来的。例如，一个接受 int 的 Predicate 就是一个IntPredicate，一个接受两个 long 值并返回一个 long 的二元操作符就是一个 LongBinaryOperator。除了由返回类型参数化的函数变量外，这些变量类型都不是参数化的。例如，`LongFunction<int[]>` 使用 long 并返回一个 int[]。
 
-There are two-argument versions of the three basic functional interfaces for which it makes sense to have them: BiPredicate<T,U>, BiFunction<T,U,R>, and BiConsumer<T,U>. There are also BiFunction variants returning the three relevant primitive types: ToIntBiFunction<T,U>, ToLongBiFunction<T,U>, and ToDoubleBiFunction<T,U>. There are two-argument variants of Consumer that take one object reference and one primitive type: ObjDoubleConsumer<T>, ObjIntConsumer<T>, and ObjLongConsumer<T>. In total, there are nine two-argument versions of the basic interfaces.
+There are nine additional variants of the Function interface, for use when the result type is primitive. The source and result types always differ, because a function from a type to itself is a UnaryOperator. If both the source and result types are primitive, prefix Function with SrcToResult, for example LongToIntFunction (six variants). If the source is a primitive and the result is an object reference, prefix Function with `<Src>ToObj`, for example DoubleToObjFunction (three variants).
+
+Function 接口还有 9 个额外的变体，在结果类型为基本数据类型时使用。源类型和结果类型总是不同的，因为不同类型的函数本身都是 UnaryOperator。如果源类型和结果类型都是基本数据类型，则使用带有 SrcToResult 的前缀函数，例如 LongToIntFunction（六个变体）。如果源是一个基本数据类型，而结果是一个对象引用，则使用带前缀 `<Src>ToObj` 的 Function 接口，例如 DoubleToObjFunction（三个变体）。
+
+There are two-argument versions of the three basic functional interfaces for which it makes sense to have them: `BiPredicate<T,U>`, `BiFunction<T,U,R>`, and `BiConsumer<T,U>`. There are also BiFunction variants returning the three relevant primitive types: `ToIntBiFunction<T,U>`, `ToLongBiFunction<T,U>`, and `ToDoubleBiFunction<T,U>`. There are two-argument variants of Consumer that take one object reference and one primitive type: `ObjDoubleConsumer<T>`, `ObjIntConsumer<T>`, and `ObjLongConsumer<T>`. In total, there are nine two-argument versions of the basic interfaces.
+
+三个基本函数式接口有两个参数版本，使用它们是有意义的：`BiPredicate<T,U>`、`BiFunction<T,U,R>`、`BiConsumer<T,U>`。也有 BiFunction 变体返回三个相关的基本类型：`ToIntBiFunction<T,U>`、 `ToLongBiFunction<T,U>`、`ToDoubleBiFunction<T,U>`。Consumer 有两个参数变体，它们接受一个对象引用和一个基本类型：`ObjDoubleConsumer<T>`、`ObjIntConsumer<T>`、`ObjLongConsumer<T>`。总共有9个基本接口的双参数版本。
 
 Finally, there is the BooleanSupplier interface, a variant of Supplier that returns boolean values. This is the only explicit mention of the boolean type in any of the standard functional interface names, but boolean return values are supported via Predicate and its four variant forms. The BooleanSupplier interface and the forty-two interfaces described in the previous paragraphs account for all forty-three standard functional interfaces. Admittedly, this is a lot to swallow, and not terribly orthogonal. On the other hand, the bulk of the functional interfaces that you’ll need have been written for you and their names are regular enough that you shouldn’t have too much trouble coming up with one when you need it.
 
+最后是 BooleanSupplier 接口，它是 Supplier 的一个变体，返回布尔值。这是在任何标准函数接口名称中唯一显式提到布尔类型的地方，但是通过 Predicate 及其四种变体形式支持布尔返回值。前面描述的 BooleanSupplier 接口和 42 个接口占了全部 43 个标准函数式接口。不可否认，这有很多东西需要消化，而且不是非常直观。另一方面，您将需要的大部分函数式接口都是为您编写的，并且它们的名称足够常规，因此在需要时您应该不会遇到太多麻烦。
+
 Most of the standard functional interfaces exist only to provide support for primitive types. **Don’t be tempted to use basic functional interfaces with boxed primitives instead of primitive functional interfaces.** While it works, it violates the advice of Item 61, “prefer primitive types to boxed primitives.” The performance consequences of using boxed primitives for bulk operations can be deadly.
 
+大多数标准功能接口的存在只是为了提供对基本类型的支持。**不要尝试使用带有盒装原语的基本功能接口，而不是使用原语功能接口。**当它工作时，它违反了第61项的建议，“与盒装原语相比，更喜欢原语类型”。在批量操作中使用装箱原语的性能后果可能是致命的。
+
 Now you know that you should typically use standard functional interfaces in preference to writing your own. But when should you write your own? Of course you need to write your own if none of the standard ones does what you need, for example if you require a predicate that takes three parameters, or one that throws a checked exception. But there are times you should write your own functional interface even when one of the standard ones is structurally identical.
+
+现在您知道，与编写自己的接口相比，通常应该使用标准的功能接口。但是你应该什么时候写你自己的呢?当然，如果标准的谓词都不能满足您的需要，那么您需要编写自己的谓词，例如，如果您需要一个接受三个参数的谓词，或者一个抛出已检查异常的谓词。但是有时候您应该编写自己的函数接口，即使其中一个标准接口在结构上是相同的。
 
 Consider our old friend Comparator<T>, which is structurally identical to the ToIntBiFunction<T,T> interface. Even if the latter interface had existed when the former was added to the libraries, it would have been wrong to use it. There are several reasons that Comparator deserves its own interface. First, its name provides excellent documentation every time it is used in an API, and it’s used a lot. Second, the Comparator interface has strong requirements on what constitutes a valid instance, which comprise its general contract. By implementing the interface, you are pledging to adhere to its contract. Third, the interface is heavily outfitted with useful default methods to transform and combine comparators.
 
