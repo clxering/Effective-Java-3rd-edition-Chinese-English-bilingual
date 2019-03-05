@@ -1,12 +1,18 @@
 ## Chapter 7. Lambdas and Streams（λ 表达式和流）
 
-### Item 46: Prefer side-effect-free functions in streams
+### Item 46: Prefer side-effect-free functions in streams（在流中使用无副作用的函数）
 
 If you’re new to streams, it can be difficult to get the hang of them. Merely expressing your computation as a stream pipeline can be hard. When you succeed, your program will run, but you may realize little if any benefit. Streams isn’t just an API, it’s a paradigm based on functional programming. In order to obtain the expressiveness, speed, and in some cases parallelizability that streams have to offer, you have to adopt the paradigm as well as the API.
 
+如果您是流的新手，可能很难掌握它们。仅仅将计算表示为流管道是困难的。当你成功时，你的程序将运行，但你可能意识不到什么好处。流不仅仅是一个 API，它是一个基于函数式编程的范例。为了获得流必须提供的可表达性、速度以及在某些情况下的并行性，您必须采用范例和 API。
+
 The most important part of the streams paradigm is to structure your computation as a sequence of transformations where the result of each stage is as close as possible to a pure function of the result of the previous stage. A pure function is one whose result depends only on its input: it does not depend on any mutable state, nor does it update any state. In order to achieve this, any function objects that you pass into stream operations, both intermediate and terminal, should be free of side-effects.
 
+streams 范例中最重要的部分是将计算构造为一系列转换，其中每个阶段的结果都尽可能地接近上一阶段结果的纯函数。纯函数的结果只依赖于它的输入：它不依赖于任何可变状态，也不更新任何状态。为了实现这一点，您传递到流操作（包括中间操作和终端操作）中的任何函数对象都应该没有副作用。
+
 Occasionally, you may see streams code that looks like this snippet, which builds a frequency table of the words in a text file:
+
+偶尔，您可能会看到如下的 streams 代码片段，它用于构建文本文件中单词的频率表：
 
 ```
 // Uses the streams API but not the paradigm--Don't do this!
@@ -20,6 +26,8 @@ try (Stream<String> words = new Scanner(file).tokens()) {
 
 What’s wrong with this code? After all, it uses streams, lambdas, and method references, and gets the right answer. Simply put, it’s not streams code at all; it’s iterative code masquerading as streams code. It derives no benefits from the streams API, and it’s (a bit) longer, harder to read, and less maintainable than the corresponding iterative code. The problem stems from the fact that this code is doing all its work in a terminal forEach operation, using a lambda that mutates external state (the frequency table). A forEach operation that does anything more than present the result of the computation performed by a stream is a “bad smell in code,” as is a lambda that mutates state. So how should this code look?
 
+这段代码怎么了？毕竟，它使用了流、lambda 表达式和方法引用，并得到了正确的答案。简单地说，它根本不是流代码；它是伪装成流代码的迭代代码。它没有从 streams API 中获得任何好处，而且它（稍微）比相应的迭代代码更长、更难于阅读和更难以维护。这个问题源于这样一个事实：这段代码在一个终端 forEach 操作中执行它的所有工作，使用一个会改变外部状态的 lambda 表达式（频率表）。forEach 操作除了显示流执行的计算结果之外，还会执行其他操作，这是一种“代码中的异味”，就像 lambda 表达式会改变状态一样。那么这段代码应该是什么样的呢？
+
 ```
 // Proper use of streams to initialize a frequency table
 Map<String, Long> freq;
@@ -30,9 +38,15 @@ try (Stream<String> words = new Scanner(file).tokens()) {
 
 This snippet does the same thing as the previous one but makes proper use of the streams API. It’s shorter and clearer. So why would anyone write it the other way? Because it uses tools they’re already familiar with. Java programmers know how to use for-each loops, and the forEach terminal operation is similar. But the forEach operation is among the least powerful of the terminal operations and the least stream-friendly. It’s explicitly iterative, and hence not amenable to parallelization. **The forEach operation should be used only to report the result of a stream computation, not to perform the computation.** Occasionally, it makes sense to use forEach for some other purpose, such as adding the results of a stream computation to a preexisting collection.
 
+这个代码片段与前面的代码片段做了相同的事情，但是正确地使用了 streams API。它更短更清晰。为什么有人会用另一种方式写呢？因为它使用了他们已经熟悉的工具。Java 程序员知道如何使用 for-each 循环，并且 forEach 终端操作是类似的。但是 forEach 操作是终端操作中功能最弱的操作之一，对流最不友好。它是显式迭代的，因此不适合并行化。forEach 操作应该只用于报告流计算的结果，而不是执行计算。有时候，将 forEach 用于其他目的是有意义的，例如将流计算的结果添加到现有集合中。
+
 The improved code uses a collector, which is a new concept that you have to learn in order to use streams. The Collectors API is intimidating: it has thirty-nine methods, some of which have as many as five type parameters. The good news is that you can derive most of the benefit from this API without delving into its full complexity. For starters, you can ignore the Collector interface and think of a collector as an opaque object that encapsulates a reduction strategy. In this context, reduction means combining the elements of a stream into a single object. The object produced by a collector is typically a collection (which accounts for the name collector).
 
+改进后的代码使用了 collector，这是使用流必须学习的新概念。collector 的 API 令人生畏：它有 39 个方法，其中一些方法有多达 5 个类型参数。好消息是，您可以从这个 API 中获得大部分好处，而不必深入研究它的全部复杂性。对于初学者，可以忽略 Collector 接口，将 collector 视为封装了缩减策略的不透明对象。在这种情况下，缩减意味着将流的元素组合成单个对象。collector 生成的对象通常是一个集合（它解释了名称 collector）。
+
 The collectors for gathering the elements of a stream into a true Collection are straightforward. There are three such collectors: toList(), toSet(), and toCollection(collectionFactory). They return, respectively, a set, a list, and a programmer-specified collection type. Armed with this knowledge, we can write a stream pipeline to extract a top-ten list from our frequency table.
+
+将流的元素收集到一个真正的集合中的收集器非常简单。这样的收集器有三种：toList()、toSet() 和 toCollection(collectionFactory)。它们分别返回集合、列表和程序员指定的集合类型。有了这些知识，我们就可以编写一个流管道来从频率表中提取前 10 个列表。
 
 ```
 // Pipeline to get a top-ten list of words from a frequency table
