@@ -8,7 +8,7 @@ Many methods return sequences of elements. Prior to Java 8, the obvious return t
 
 You may hear it said that streams are now the obvious choice to return a sequence of elements, but as discussed in Item 45, streams do not make iteration obsolete: writing good code requires combining streams and iteration judiciously. If an API returns only a stream and some users want to iterate over the returned sequence with a for-each loop, those users will be justifiably upset. It is especially frustrating because the Stream interface contains the sole abstract method in the Iterable interface, and Stream’s specification for this method is compatible with Iterable’s. The only thing preventing programmers from using a for-each loop to iterate over a stream is Stream’s failure to extend Iterable.
 
-您可能听说现在流是返回元素序列的明显选择，但是正如第45项中所讨论的，流不会使迭代过时：编写好的代码需要明智地将流和迭代结合起来。如果一个 API 只返回一个流，而一些用户希望使用 for-each 循环遍历返回的序列，那么这些用户将会感到不安。这尤其令人沮丧，因为流接口包含 Iterable 接口中惟一的抽象方法，而且流对该方法的规范与 Iterable 的规范兼容。唯一阻止程序员使用 for-each 循环在流上迭代的是流不能扩展 Iterable。
+你可能听说现在流是返回元素序列的明显选择，但是正如第45项中所讨论的，流不会使迭代过时：编写好的代码需要明智地将流和迭代结合起来。如果一个 API 只返回一个流，而一些用户希望使用 for-each 循环遍历返回的序列，那么这些用户将会感到不安。这尤其令人沮丧，因为流接口包含 Iterable 接口中惟一的抽象方法，而且流对该方法的规范与 Iterable 的规范兼容。唯一阻止程序员使用 for-each 循环在流上迭代的是流不能扩展 Iterable。
 
 Sadly, there is no good workaround for this problem. At first glance, it might appear that passing a method reference to Stream’s iterator method would work. The resulting code is perhaps a bit noisy and opaque, but not unreasonable:
 
@@ -33,7 +33,7 @@ for (ProcessHandle ph : ProcessHandle.allProcesses()::iterator) {
 
 In order to make the code compile, you have to cast the method reference to an appropriately parameterized Iterable:
 
-为了编译代码，您必须将方法引用转换为适当参数化的 Iterable：
+为了编译代码，你必须将方法引用转换为适当参数化的 Iterable：
 
 ```
 // Hideous workaround to iterate over a stream
@@ -53,7 +53,7 @@ public static <E> Iterable<E> iterableOf(Stream<E> stream) {
 
 With this adapter, you can iterate over any stream with a for-each statement:
 
-使用此适配器，您可以使用 for-each 语句遍历任何流：
+使用此适配器，你可以使用 for-each 语句遍历任何流：
 
 ```
 for (ProcessHandle p : iterableOf(ProcessHandle.allProcesses())) {
@@ -78,7 +78,7 @@ public static <E> Stream<E> streamOf(Iterable<E> iterable) {
 
 If you’re writing a method that returns a sequence of objects and you know that it will only be used in a stream pipeline, then of course you should feel free to return a stream. Similarly, a method returning a sequence that will only be used for iteration should return an Iterable. But if you’re writing a public API that returns a sequence, you should provide for users who want to write stream pipelines as well as those who want to write for-each statements, unless you have a good reason to believe that most of your users will want to use the same mechanism.
 
-如果您正在编写一个返回对象序列的方法，并且您知道它只会在流管道中使用，那么您当然应该可以随意返回流。类似地，返回仅用于迭代的序列的方法应该返回一个 Iterable。但是如果你写一个公共 API,它返回一个序列,你应该提供用户想写流管道以及那些想写 for-each 语句,除非你有充分的理由相信大多数用户想要使用相同的机制。
+如果你正在编写一个返回对象序列的方法，并且你知道它只会在流管道中使用，那么你当然应该可以随意返回流。类似地，返回仅用于迭代的序列的方法应该返回一个 Iterable。但是如果你写一个公共 API,它返回一个序列,你应该提供用户想写流管道以及那些想写 for-each 语句,除非你有充分的理由相信大多数用户想要使用相同的机制。
 
 The Collection interface is a subtype of Iterable and has a stream method, so it provides for both iteration and stream access. Therefore, **Collection or an appropriate subtype is generally the best return type for a public, sequence-returning method.** Arrays also provide for easy iteration and stream access with the Arrays.asList and Stream.of methods. If the sequence you’re returning is small enough to fit easily in memory, you’re probably best off returning one of the standard collection implementations, such as ArrayList or HashSet. But **do not store a large sequence in memory just to return it as a collection.**
 
@@ -86,7 +86,7 @@ Collection 接口是 Iterable 的一个子类型，有一个流方法，因此�
 
 If the sequence you’re returning is large but can be represented concisely, consider implementing a special-purpose collection. For example, suppose you want to return the power set of a given set, which consists of all of its subsets. The power set of {a, b, c} is {{}, {a}, {b}, {c}, {a, b}, {a, c}, {b, c}, {a, b, c}}. If a set has n elements, its power set has 2n. Therefore, you shouldn’t even consider storing the power set in a standard collection implementation. It is, however, easy to implement a custom collection for the job with the help of AbstractList.
 
-如果返回的序列比较大，但是可以简单地表示，那么可以考虑实现一个特殊用途的集合。例如，假设您想要返回给定集合的幂集，该集合由它的所有子集组成。`{a, b, c}` 的功率集是 `{{}, {a}, {b}, {c}, {a, b}, {a, c}, {b, c}, {a, b, c}}`。如果一个集合有 n 个元素，它的幂集有 2n。因此，您甚至不应该考虑在标准集合实现中存储功率集。然而，在 AbstractList 的帮助下，很容易实现作业的自定义集合。
+如果返回的序列比较大，但是可以简单地表示，那么可以考虑实现一个特殊用途的集合。例如，假设你想要返回给定集合的幂集，该集合由它的所有子集组成。`{a, b, c}` 的功率集是 `{{}, {a}, {b}, {c}, {a, b}, {a, c}, {b, c}, {a, b, c}}`。如果一个集合有 n 个元素，它的幂集有 2n。因此，你甚至不应该考虑在标准集合实现中存储功率集。然而，在 AbstractList 的帮助下，很容易实现作业的自定义集合。
 
 The trick is to use the index of each element in the power set as a bit vector, where the nth bit in the index indicates the presence or absence of the nth element from the source set. In essence, there is a natural mapping between the binary numbers from 0 to 2n − 1 and the power set of an n-element set. Here’s the code:
 
@@ -130,11 +130,11 @@ Note that PowerSet.of throws an exception if the input set has more than 30 elem
 
 In order to write a Collection implementation atop AbstractCollection, you need implement only two methods beyond the one required for Iterable: contains and size. Often it’s easy to write efficient implementations of these methods. If it isn’t feasible, perhaps because the contents of the sequence aren’t predetermined before iteration takes place, return a stream or iterable, whichever feels more natural. If you choose, you can return both using two separate methods.
 
-为了在 AbstractCollection 之上编写 Collection 实现，除了 Iterable 所需的方法外，只需要实现两个方法：contains 和 size。通常很容易编写这些方法的有效实现。如果它是不可行的，可能是因为序列的内容在迭代发生之前没有预先确定，那么返回一个流或 iterable，以感觉更自然的方式返回。如果您选择，您可以使用两个不同的方法返回这两个值。
+为了在 AbstractCollection 之上编写 Collection 实现，除了 Iterable 所需的方法外，只需要实现两个方法：contains 和 size。通常很容易编写这些方法的有效实现。如果它是不可行的，可能是因为序列的内容在迭代发生之前没有预先确定，那么返回一个流或 iterable，以感觉更自然的方式返回。如果你选择，你可以使用两个不同的方法返回这两个值。
 
 There are times when you’ll choose the return type based solely on ease of implementation. For example, suppose you want to write a method that returns all of the (contiguous) sublists of an input list. It takes only three lines of code to generate these sublists and put them in a standard collection, but the memory required to hold this collection is quadratic in the size of the source list. While this is not as bad as the power set, which is exponential, it is clearly unacceptable. Implementing a custom collection, as we did for the power set, would be tedious, more so because the JDK lacks a skeletal Iterator implementation to help us.
 
-有时，您将仅根据实现的易用性来选择返回类型。例如，假设您想编写一个返回输入列表的所有（连续的）子列表的方法。生成这些子列表并将它们放入标准集合中只需要三行代码，但是保存该集合所需的内存是源列表大小的二次型。虽然这没有幂集那么糟糕，幂集是指数的，但显然是不可接受的。实现自定义集合（就像我们为 power 集所做的那样）将会非常繁琐，因为 JDK 缺少一个框架迭代器实现来帮助我们。
+有时，你将仅根据实现的易用性来选择返回类型。例如，假设你想编写一个返回输入列表的所有（连续的）子列表的方法。生成这些子列表并将它们放入标准集合中只需要三行代码，但是保存该集合所需的内存是源列表大小的二次型。虽然这没有幂集那么糟糕，幂集是指数的，但显然是不可接受的。实现自定义集合（就像我们为 power 集所做的那样）将会非常繁琐，因为 JDK 缺少一个框架迭代器实现来帮助我们。
 
 It is, however, straightforward to implement a stream of all the sublists of an input list, though it does require a minor insight. Let’s call a sublist that contains the first element of a list a prefix of the list. For example, the prefixes of (a, b, c) are (a), (a, b), and (a, b, c). Similarly, let’s call a sublist that contains the last element a suffix, so the suffixes of (a, b, c) are (a, b, c), (b, c), and (c). The insight is that the sublists of a list are simply the suffixes of the prefixes (or identically, the prefixes of the suffixes) and the empty list. This observation leads directly to a clear, reasonably concise implementation:
 
@@ -184,7 +184,7 @@ public static <E> Stream<List<E>> of(List<E> list) {
 
 Like the for-loop that precedes it, this code does not emit the empty list. In order to fix this deficiency, you could either use concat, as we did in the previous version, or replace 1 by (int) Math.signum(start) in the rangeClosed call.
 
-与前面的 for 循环一样，该代码不发出空列表。为了修复这个缺陷，您可以使用 concat，就像我们在上一个版本中所做的那样，或者在 rangeClosed 调用中将 1 替换为 `(int) Math.signum(start)`。
+与前面的 for 循环一样，该代码不发出空列表。为了修复这个缺陷，你可以使用 concat，就像我们在上一个版本中所做的那样，或者在 rangeClosed 调用中将 1 替换为 `(int) Math.signum(start)`。
 
 Either of these stream implementations of sublists is fine, but both will require some users to employ a Stream-to-Iterable adapter or to use a stream in places where iteration would be more natural. Not only does the Stream-to- Iterable adapter clutter up client code, but it slows down the loop by a factor of 2.3 on my machine. A purpose-built Collection implementation (not shown here) is considerably more verbose but runs about 1.4 times as fast as our stream-based implementation on my machine.
 
@@ -192,4 +192,4 @@ Either of these stream implementations of sublists is fine, but both will requir
 
 In summary, when writing a method that returns a sequence of elements, remember that some of your users may want to process them as a stream while others may want to iterate over them. Try to accommodate both groups. If it’s feasible to return a collection, do so. If you already have the elements in a collection or the number of elements in the sequence is small enough to justify creating a new one, return a standard collection such as ArrayList. Otherwise, consider implementing a custom collection as we did for the power set. If it isn’t feasible to return a collection, return a stream or iterable, whichever seems more natural. If, in a future Java release, the Stream interface declaration is modified to extend Iterable, then you should feel free to return streams because they will allow for both stream processing and iteration.
 
-总之，在编写返回元素序列的方法时，请记住，有些用户可能希望将它们作为流处理，而有些用户可能希望对它们进行迭代。试着适应这两个群体。如果可以返回集合，那么就这样做。如果您已经在一个集合中拥有了元素，或者序列中的元素数量足够小，可以创建一个新的元素，那么返回一个标准集合，例如 ArrayList 。否则，请考虑像对 power 集那样实现自定义集合。如果返回集合不可行，则返回流或 iterable，以看起来更自然的方式返回。如果在未来的 Java 版本中，流接口声明被修改为可迭代的，那么您应该可以随意返回流，因为它们将允许流处理和迭代。
+总之，在编写返回元素序列的方法时，请记住，有些用户可能希望将它们作为流处理，而有些用户可能希望对它们进行迭代。试着适应这两个群体。如果可以返回集合，那么就这样做。如果你已经在一个集合中拥有了元素，或者序列中的元素数量足够小，可以创建一个新的元素，那么返回一个标准集合，例如 ArrayList 。否则，请考虑像对 power 集那样实现自定义集合。如果返回集合不可行，则返回流或 iterable，以看起来更自然的方式返回。如果在未来的 Java 版本中，流接口声明被修改为可迭代的，那么你应该可以随意返回流，因为它们将允许流处理和迭代。

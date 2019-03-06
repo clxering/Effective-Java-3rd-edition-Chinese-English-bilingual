@@ -26,7 +26,7 @@ try (Stream<String> words = new Scanner(file).tokens()) {
 
 What’s wrong with this code? After all, it uses streams, lambdas, and method references, and gets the right answer. Simply put, it’s not streams code at all; it’s iterative code masquerading as streams code. It derives no benefits from the streams API, and it’s (a bit) longer, harder to read, and less maintainable than the corresponding iterative code. The problem stems from the fact that this code is doing all its work in a terminal forEach operation, using a lambda that mutates external state (the frequency table). A forEach operation that does anything more than present the result of the computation performed by a stream is a “bad smell in code,” as is a lambda that mutates state. So how should this code look?
 
-这段代码怎么了？毕竟，它使用了流、lambda 表达式和方法引用，并得到了正确的答案。简单地说，它根本不是流代码；它是伪装成流代码的迭代代码。它没有从 streams API 中获得任何好处，而且它（稍微）比相应的迭代代码更长、更难于阅读和更难以维护。这个问题源于这样一个事实：这段代码在一个终端 forEach 操作中执行它的所有工作，使用一个会改变外部状态的 lambda 表达式（频率表）。forEach 操作除了显示流执行的计算结果之外，还会执行其他操作，这是一种“代码中的异味”，就像 lambda 表达式会改变状态一样。那么这段代码应该是什么样的呢？
+这段代码怎么了？毕竟，它使用了流、lambda 表达式和方法引用，并得到了正确的答案。简单地说，它根本不是流代码；它是伪装成流代码的迭代代码。它没有从 streams API 中获得任何好处，而且它（稍微）比相应的迭代代码更长、更难于阅读和更难以维护。这个问题源于这样一个事实：这段代码在一个终端 forEach 操作中执行它的所有工作，使用一个会改变外部状态的 lambda 表达式（频率表）。forEach 操作除了显示流执行的计算结果之外，还会执行其他操作，这是一种「代码中的异味」，就像 lambda 表达式会改变状态一样。那么这段代码应该是什么样的呢？
 
 ```
 // Proper use of streams to initialize a frequency table
@@ -51,14 +51,18 @@ The collectors for gathering the elements of a stream into a true Collection are
 ```
 // Pipeline to get a top-ten list of words from a frequency table
 List<String> topTen = freq.keySet().stream()
-.sorted(comparing(freq::get).reversed())
-.limit(10)
-.collect(toList());
+    .sorted(comparing(freq::get).reversed())
+    .limit(10)
+    .collect(toList());
 ```
 
 Note that we haven’t qualified the toList method with its class, Collectors. **It is customary and wise to statically import all members of Collectors because it makes stream pipelines more readable.**
 
+注意，我们还没有用它的类 Collectors 对 toList 方法进行限定。静态导入收集器的所有成员是习惯和明智的，因为它使流管道更具可读性。
+
 The only tricky part of this code is the comparator that we pass to sorted, comparing(freq::get).reversed(). The comparing method is a comparator construction method (Item 14) that takes a key extraction function. The function takes a word, and the “extraction” is actually a table lookup: the bound method reference freq::get looks up the word in the frequency table and returns the number of times the word appears in the file. Finally, we call reversed on the comparator, so we’re sorting the words from most frequent to least frequent. Then it’s a simple matter to limit the stream to ten words and collect them into a list.
+
+这段代码中唯一棘手的部分是我们传递给ordered的comparator, compare (freq::get).reverse()。比较方法是一种比较器构造方法(第14项)，它具有键提取功能。函数接受一个单词，而“提取”实际上是一个表查找:绑定方法引用freq::get在频率表中查找该单词，并返回该单词在文件中出现的次数。最后，我们在比较器上调用reverse函数，我们将单词从最频繁排序到最不频繁排序。然后，将流限制为10个单词并将它们收集到一个列表中就很简单了。
 
 The previous code snippets use Scanner’s stream method to get a stream over the scanner. This method was added in Java 9. If you’re using an earlier release, you can translate the scanner, which implements Iterator, into a stream using an adapter similar to the one in Item 47 (streamOf(Iterable<E>)).
 
@@ -123,4 +127,3 @@ There are three Collectors methods we have yet to mention. Though they are in Co
 The final Collectors method is joining, which operates only on streams of CharSequence instances such as strings. In its parameterless form, it returns a collector that simply concatenates the elements. Its one argument form takes a single CharSequence parameter named delimiter and returns a collector that joins the stream elements, inserting the delimiter between adjacent elements. If you pass in a comma as the delimiter, the collector returns a comma-separated values string (but beware that the string will be ambiguous if any of the elements in the stream contain commas). The three argument form takes a prefix and suffix in addition to the delimiter. The resulting collector generates strings like the ones that you get when you print a collection, for example [came, saw, conquered].
 
 In summary, the essence of programming stream pipelines is side-effect-free function objects. This applies to all of the many function objects passed to streams and related objects. The terminal operation forEach should only be used to report the result of a computation performed by a stream, not to perform the computation. In order to use streams properly, you have to know about collectors. The most important collector factories are toList, toSet, toMap, groupingBy, and joining.
-
