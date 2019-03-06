@@ -65,3 +65,8 @@ Many method references refer to static methods, but there are four kinds that do
 In summary, method references often provide a more succinct alternative to lambdas. **Where method references are shorter and clearer, use them; where they aren’t, stick with lambdas.**  
 
 总之，方法引用通常为 lambda 表达式提供了一种更简洁的选择。如果方法引用更短、更清晰，则使用它们；如果没有，仍然使用 lambda 表达式。
+
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-7/Chapter-7-Introduction.md)**
+- **Previous Item（上一条目）：[Item 42: Prefer lambdas to anonymous classes（λ 表达式优于匿名类）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-7/Chapter-7-Item-42-Prefer-lambdas-to-anonymous-classes.md)**
+- **Next Item（下一条目）：[Item 44: Favor the use of standard functional interfaces（优先使用标准函数式接口）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-7/Chapter-7-Item-44-Favor-the-use-of-standard-functional-interfaces.md)**
