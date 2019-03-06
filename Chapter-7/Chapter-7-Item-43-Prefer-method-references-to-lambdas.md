@@ -1,6 +1,6 @@
 ## Chapter 7. Lambdas and Streams（λ 表达式和流）
 
-### Item 43: Prefer method references to lambdas
+### Item 43: Prefer method references to lambdas（方法引用优于 λ 表达式）
 
 The primary advantage of lambdas over anonymous classes is that they are more succinct. Java provides a way to generate function objects even more succinct than lambdas: method references. Here is a code snippet from a program that maintains a map from arbitrary keys to Integer values. If the value is interpreted as a count of the number of instances of the key, then the program is a multiset implementation. The function of the code snippet is to associate the number 1 with the key if it is not in the map and to increment the associated value if the key is already present:
 

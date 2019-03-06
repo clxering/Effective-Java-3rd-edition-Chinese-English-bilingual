@@ -1,6 +1,6 @@
 ## Chapter 7. Lambdas and Streams（λ 表达式和流）
 
-### Item 47: Prefer Collection to Stream as a return type（选择 Collection 而不是流作为返回类型）
+### Item 47: Prefer Collection to Stream as a return type（优先选择 Collection 而不是流作为返回类型）
 
 Many methods return sequences of elements. Prior to Java 8, the obvious return types for such methods were the collection interfaces Collection, Set, and List; Iterable; and the array types. Usually, it was easy to decide which of these types to return. The norm was a collection interface. If the method existed solely to enable for-each loops or the returned sequence couldn’t be made to implement some Collection method (typically, contains(Object)), the Iterable interface was used. If the returned elements were primitive values or there were stringent performance requirements, arrays were used. In Java 8, streams were added to the platform, substantially complicating the task of choosing the appropriate return type for a sequence-returning method.
 

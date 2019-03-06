@@ -62,7 +62,7 @@ Note that we haven’t qualified the toList method with its class, Collectors. *
 
 The only tricky part of this code is the comparator that we pass to sorted, comparing(freq::get).reversed(). The comparing method is a comparator construction method (Item 14) that takes a key extraction function. The function takes a word, and the “extraction” is actually a table lookup: the bound method reference freq::get looks up the word in the frequency table and returns the number of times the word appears in the file. Finally, we call reversed on the comparator, so we’re sorting the words from most frequent to least frequent. Then it’s a simple matter to limit the stream to ten words and collect them into a list.
 
-这段代码中唯一棘手的部分是我们传递给ordered的comparator, compare (freq::get).reverse()。比较方法是一种比较器构造方法(第14项)，它具有键提取功能。函数接受一个单词，而“提取”实际上是一个表查找:绑定方法引用freq::get在频率表中查找该单词，并返回该单词在文件中出现的次数。最后，我们在比较器上调用reverse函数，我们将单词从最频繁排序到最不频繁排序。然后，将流限制为10个单词并将它们收集到一个列表中就很简单了。
+这段代码中唯一棘手的部分是我们传递给ordered的comparator, compare (freq::get).reverse()。比较方法是一种比较器构造方法（[Item-14](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-14-Consider-implementing-Comparable.md)），它具有键提取功能。函数接受一个单词，而“提取”实际上是一个表查找:绑定方法引用freq::get在频率表中查找该单词，并返回该单词在文件中出现的次数。最后，我们在比较器上调用reverse函数，我们将单词从最频繁排序到最不频繁排序。然后，将流限制为10个单词并将它们收集到一个列表中就很简单了。
 
 The previous code snippets use Scanner’s stream method to get a stream over the scanner. This method was added in Java 9. If you’re using an earlier release, you can translate the scanner, which implements Iterator, into a stream using an adapter similar to the one in Item 47 (streamOf(Iterable<E>)).
 

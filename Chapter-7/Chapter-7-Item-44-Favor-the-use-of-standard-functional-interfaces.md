@@ -1,6 +1,6 @@
 ## Chapter 7. Lambdas and Streams（λ 表达式和流）
 
-### Item 44: Favor the use of standard functional interfaces
+### Item 44: Favor the use of standard functional interfaces（优先使用标准函数式接口）
 
 Now that Java has lambdas, best practices for writing APIs have changed considerably. For example, the Template Method pattern [Gamma95], wherein a subclass overrides a primitive method to specialize the behavior of its superclass, is far less attractive. The modern alternative is to provide a static factory or constructor that accepts a function object to achieve the same effect. More generally, you’ll be writing more constructors and methods that take function objects as parameters. Choosing the right functional parameter type demands care.
 
@@ -64,7 +64,7 @@ Finally, there is the BooleanSupplier interface, a variant of Supplier that retu
 
 Most of the standard functional interfaces exist only to provide support for primitive types. **Don’t be tempted to use basic functional interfaces with boxed primitives instead of primitive functional interfaces.** While it works, it violates the advice of Item 61, “prefer primitive types to boxed primitives.” The performance consequences of using boxed primitives for bulk operations can be deadly.
 
-大多数标准函数式接口的存在只是为了提供对基本类型的支持。**不要尝试使用带有包装类的基本函数式接口，而不是使用基本类型函数式接口。**当它工作时，它违反了第61项的建议，“与盒装原语相比，更喜欢原语类型”。在批量操作中使用装箱原语的性能后果可能是致命的。
+大多数标准函数式接口的存在只是为了提供对基本类型的支持。**不要尝试使用带有包装类的基本函数式接口，而不是使用基本类型函数式接口。**当它工作时，它违反了 [Item-61](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-61-Prefer-primitive-types-to-boxed-primitives.md) 的建议，“与盒装原语相比，更喜欢原语类型”。在批量操作中使用装箱原语的性能后果可能是致命的。
 
 Now you know that you should typically use standard functional interfaces in preference to writing your own. But when should you write your own? Of course you need to write your own if none of the standard ones does what you need, for example if you require a predicate that takes three parameters, or one that throws a checked exception. But there are times you should write your own functional interface even when one of the standard ones is structurally identical.
 
@@ -92,7 +92,7 @@ You should seriously consider writing a purpose-built functional interface in pr
 
 If you elect to write your own functional interface, remember that it’s an interface and hence should be designed with great care (Item 21).
 
-如果你选择编写自己的函数式接口，请记住这是一个接口，因此应该非常小心地设计它(第21项)。
+如果你选择编写自己的函数式接口，请记住这是一个接口，因此应该非常小心地设计它（[Item-21](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-21-Design-interfaces-for-posterity.md)）。
 
 Notice that the EldestEntryRemovalFunction interface (page 199) is labeled with the @FunctionalInterface annotation. This annotation type is similar in spirit to @Override. It is a statement of programmer intent that serves three purposes: it tells readers of the class and its documentation that the interface was designed to enable lambdas; it keeps you honest because the interface won’t compile unless it has exactly one abstract method; and it prevents maintainers from accidentally adding abstract methods to the interface as it evolves. **Always annotate your functional interfaces with the @FunctionalInterface annotation.**
 
@@ -100,7 +100,7 @@ Notice that the EldestEntryRemovalFunction interface (page 199) is labeled with 
 
 A final point should be made concerning the use of functional interfaces in APIs. Do not provide a method with multiple overloadings that take different functional interfaces in the same argument position if it could create a possible ambiguity in the client. This is not just a theoretical problem. The submit method of ExecutorService can take either a `Callable<T>` or a Runnable, and it is possible to write a client program that requires a cast to indicate the correct overloading (Item 52). The easiest way to avoid this problem is not to write overloadings that take different functional interfaces in the same argument position. This is a special case of the advice in Item 52, “use overloading judiciously.”
 
-最后一点应该是关于 API 中函数式接口的使用。不要提供具有多个重载的方法，这些方法采用相同参数位置的不同函数式接口，否则会在客户机中造成可能的歧义。这不仅仅是一个理论问题。ExecutorService 的 submit 方法可以是 `Callable<T>` 级的，也可以是 Runnable 的，并且可以编写一个客户端程序，它需要一个类型转换来指示正确的重载(Item 52)。避免此问题的最简单方法是不要编写将不同函数式接口放在相同参数位置的重载。这是第52项「明智地使用过载」建议的一个特例。
+最后一点应该是关于 API 中函数式接口的使用。不要提供具有多个重载的方法，这些方法采用相同参数位置的不同函数式接口，否则会在客户机中造成可能的歧义。这不仅仅是一个理论问题。ExecutorService 的 submit 方法可以是 `Callable<T>` 级的，也可以是 Runnable 的，并且可以编写一个客户端程序，它需要一个类型转换来指示正确的重载(Item 52)。避免此问题的最简单方法是不要编写将不同函数式接口放在相同参数位置的重载。这是 [Item-52](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8/Chapter-8-Item-52-Use-overloading-judiciously.md) 「明智地使用过载」建议的一个特例。
 
 In summary, now that Java has lambdas, it is imperative that you design your APIs with lambdas in mind. Accept functional interface types on input and return them on output. It is generally best to use the standard interfaces provided in java.util.function.Function, but keep your eyes open for the relatively rare cases where you would be better off writing your own functional interface.
 
