@@ -82,7 +82,7 @@ If you’re writing a method that returns a sequence of objects and you know tha
 
 The Collection interface is a subtype of Iterable and has a stream method, so it provides for both iteration and stream access. Therefore, **Collection or an appropriate subtype is generally the best return type for a public, sequence-returning method.** Arrays also provide for easy iteration and stream access with the Arrays.asList and Stream.of methods. If the sequence you’re returning is small enough to fit easily in memory, you’re probably best off returning one of the standard collection implementations, such as ArrayList or HashSet. But **do not store a large sequence in memory just to return it as a collection.**
 
-Collection 接口是 Iterable 的一个子类型，有一个流方法，因此它提供了迭代和流访问。因此，**Collection 或适当的子类型通常是公共序列返回方法的最佳返回类型。**数组还提供了使用 `Arrays.asList` 和 `Stream.of` 方法的简单迭代和流访问。如果返回的序列足够小，可以轻松地装入内存，那么最好返回标准集合实现之一，例如 ArrayList 或 HashSet。但是**不要将一个大的序列存储在内存中，只是为了将它作为一个集合返回。**
+Collection 接口是 Iterable 的一个子类型，有一个流方法，因此它提供了迭代和流访问。因此，**Collection 或适当的子类型通常是公共序列返回方法的最佳返回类型。** 数组还提供了使用 `Arrays.asList` 和 `Stream.of` 方法的简单迭代和流访问。如果返回的序列足够小，可以轻松地装入内存，那么最好返回标准集合实现之一，例如 ArrayList 或 HashSet。但是**不要将一个大的序列存储在内存中，只是为了将它作为一个集合返回。**
 
 If the sequence you’re returning is large but can be represented concisely, consider implementing a special-purpose collection. For example, suppose you want to return the power set of a given set, which consists of all of its subsets. The power set of {a, b, c} is {{}, {a}, {b}, {c}, {a, b}, {a, c}, {b, c}, {a, b, c}}. If a set has n elements, its power set has 2n. Therefore, you shouldn’t even consider storing the power set in a standard collection implementation. It is, however, easy to implement a custom collection for the job with the help of AbstractList.
 

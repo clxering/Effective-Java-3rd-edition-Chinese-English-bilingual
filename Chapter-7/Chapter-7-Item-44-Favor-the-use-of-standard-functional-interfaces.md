@@ -64,7 +64,7 @@ Finally, there is the BooleanSupplier interface, a variant of Supplier that retu
 
 Most of the standard functional interfaces exist only to provide support for primitive types. **Don’t be tempted to use basic functional interfaces with boxed primitives instead of primitive functional interfaces.** While it works, it violates the advice of Item 61, “prefer primitive types to boxed primitives.” The performance consequences of using boxed primitives for bulk operations can be deadly.
 
-大多数标准函数式接口的存在只是为了提供对基本类型的支持。**不要尝试使用带有包装类的基本函数式接口，而不是使用基本类型函数式接口。**当它工作时，它违反了 [Item-61](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-61-Prefer-primitive-types-to-boxed-primitives.md) 的建议，“与盒装原语相比，更喜欢原语类型”。在批量操作中使用装箱原语的性能后果可能是致命的。
+大多数标准函数式接口的存在只是为了提供对基本类型的支持。**不要尝试使用带有包装类的基本函数式接口，而不是使用基本类型函数式接口。** 当它工作时，它违反了 [Item-61](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-61-Prefer-primitive-types-to-boxed-primitives.md) 的建议，“与盒装原语相比，更喜欢原语类型”。在批量操作中使用装箱原语的性能后果可能是致命的。
 
 Now you know that you should typically use standard functional interfaces in preference to writing your own. But when should you write your own? Of course you need to write your own if none of the standard ones does what you need, for example if you require a predicate that takes three parameters, or one that throws a checked exception. But there are times you should write your own functional interface even when one of the standard ones is structurally identical.
 
