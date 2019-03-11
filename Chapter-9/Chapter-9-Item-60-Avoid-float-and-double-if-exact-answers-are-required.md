@@ -28,13 +28,13 @@ public static void main(String[] args) {
     for (double price = 0.10; funds >= price; price += 0.10) {
         funds -= price;
         itemsBought++;
-    } 
+    }
     System.out.println(itemsBought +"items bought.");
     System.out.println("Change: $" + funds);
 }
 ```
 
-If you run the program, you’ll find that you can afford three pieces of candy, and you have $0.3999999999999999 left. This is the wrong answer! The right way to solve this problem is to **use BigDecimal, int, or long for monetary calculations.** 
+If you run the program, you’ll find that you can afford three pieces of candy, and you have $0.3999999999999999 left. This is the wrong answer! The right way to solve this problem is to **use BigDecimal, int, or long for monetary calculations.**
 
 Here’s a straightforward transformation of the previous program to use the BigDecimal type in place of double. Note that BigDecimal’s String constructor is used rather than its double constructor. This is required in order to avoid introducing inaccurate values into the computation [Bloch05, Puzzle 2]:
 
@@ -46,7 +46,7 @@ public static void main(String[] args) {
     for (BigDecimal price = TEN_CENTS;funds.compareTo(price) >= 0;price = price.add(TEN_CENTS)) {
         funds = funds.subtract(price);
     itemsBought++;
-    } 
+    }
     System.out.println(itemsBought +"items bought.");
     System.out.println("Money left over: $" + funds);
 }
@@ -65,7 +65,7 @@ public static void main(String[] args) {
     for (int price = 10; funds >= price; price += 10) {
         funds -= price;
         itemsBought++;
-    } 
+    }
     System.out.println(itemsBought +"items bought.");
     System.out.println("Cash left over: " + funds + " cents");
 }
@@ -73,3 +73,7 @@ public static void main(String[] args) {
 
 In summary, don’t use float or double for any calculations that require an exact answer. Use BigDecimal if you want the system to keep track of the decimal point and you don’t mind the inconvenience and cost of not using a primitive type. Using BigDecimal has the added advantage that it gives you full control over rounding, letting you select from eight rounding modes whenever an operation that entails rounding is performed. This comes in handy if you’re performing business calculations with legally mandated rounding behavior. If performance is of the essence, you don’t mind keeping track of the decimal point yourself, and the quantities aren’t too big, use int or long. If the quantities don’t exceed nine decimal digits, you can use int; if they don’t exceed eighteen digits, you can use long. If the quantities might exceed eighteen digits, use BigDecimal.
 
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Introduction.md)**
+- **Previous Item（上一条目）：[Item 59: Know and use the libraries](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-59-Know-and-use-the-libraries.md)**
+- **Next Item（下一条目）：[Item 61: Prefer primitive types to boxed primitives](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-61-Prefer-primitive-types-to-boxed-primitives.md)**

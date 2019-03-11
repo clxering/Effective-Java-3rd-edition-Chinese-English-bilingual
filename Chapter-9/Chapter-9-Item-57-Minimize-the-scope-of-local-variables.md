@@ -39,7 +39,7 @@ To see why these for loops are preferable to a while loop, consider the followin
 Iterator<Element> i = c.iterator();
 while (i.hasNext()) {
     doSomething(i.next());
-} 
+}
 ...
 Iterator<Element> i2 = c2.iterator();
 while (i.hasNext()) { // BUG!
@@ -55,7 +55,7 @@ If a similar copy-and-paste error were made in conjunction with either of the fo
 for (Iterator<Element> i = c.iterator(); i.hasNext(); ) {
 Element e = i.next();
 ... // Do something with e and i
-} 
+}
 ...
 // Compile-time error - cannot find symbol i
 for (Iterator<Element> i2 = c2.iterator(); i.hasNext(); ) {
@@ -76,3 +76,6 @@ The important thing to notice about this idiom is that it has two loop variables
 
 A final technique to minimize the scope of local variables is to keep methods small and focused. If you combine two activities in the same method, local variables relevant to one activity may be in the scope of the code performing the other activity. To prevent this from happening, simply separate the method into two: one for each activity.
 
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Introduction.md)**
+- **Next Item（下一条目）：[Item 58: Prefer for each loops to traditional for loops](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-58-Prefer-for-each-loops-to-traditional-for-loops.md)**

@@ -23,10 +23,10 @@ This approach has many disadvantages. If the character used to separate fields o
 // Broken - inappropriate use of string as capability!
 public class ThreadLocal {
     private ThreadLocal() { } // Noninstantiable
-    
+
     // Sets the current thread's value for the named variable.
     public static void set(String key, Object value);
-    
+
     // Returns the current thread's value for the named variable.
     public static Object get(String key);
 }
@@ -39,7 +39,7 @@ This API can be fixed by replacing the string with an unforgeable key (sometimes
 ```
 public class ThreadLocal {
     private ThreadLocal() { } // Noninstantiable
-    
+
     public static class Key { // (Capability)
         Key() { }
 }
@@ -79,4 +79,7 @@ This is, roughly speaking, the API that java.lang.ThreadLocal provides. In addit
 
 To summarize, avoid the natural tendency to represent objects as strings when better data types exist or can be written. Used inappropriately, strings are more cumbersome, less flexible, slower, and more error-prone than other types. Types for which strings are commonly misused include primitive types, enums, and aggregate types.
 
-
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Introduction.md)**
+- **Previous Item（上一条目）：[Item 61: Prefer primitive types to boxed primitives](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-61-Prefer-primitive-types-to-boxed-primitives.md)**
+- **Next Item（下一条目）：[Item 63: Beware the performance of string concatenation](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-63-Beware-the-performance-of-string-concatenation.md)**

@@ -14,7 +14,7 @@ Moreover, Constructor, Method, and Field instances let you manipulate their unde
 
 There are a few sophisticated applications that require reflection. Examples include code analysis tools and dependency injection frameworks. Even such tools have been moving away from reflection of late, as its disadvantages become clearer. If you have any doubts as to whether your application requires reflection, it probably doesn’t.
 
-**You can obtain many of the benefits of reflection while incurring few of its costs by using it only in a very limited form.** For many programs that must use a class that is unavailable at compile time, there exists at compile time an appropriate interface or superclass by which to refer to the class (Item 64). If this is the case, you can **create instances reflectively and access them normally via their interface or superclass.** 
+**You can obtain many of the benefits of reflection while incurring few of its costs by using it only in a very limited form.** For many programs that must use a class that is unavailable at compile time, there exists at compile time an appropriate interface or superclass by which to refer to the class (Item 64). If this is the case, you can **create instances reflectively and access them normally via their interface or superclass.**
 
 For example, here is a program that creates a Set<String> instance whose class is specified by the first command line argument. The program inserts the remaining command line arguments into the set and prints it. Regardless of the first argument, the program prints the remaining arguments with duplicates eliminated. The order in which these arguments are printed, however, depends on the class specified in the first argument. If you specify java.util.HashSet, they’re printed in apparently random order; if you specify java.util.TreeSet, they’re printed in alphabetical order because the elements in a TreeSet are sorted:
 
@@ -29,16 +29,16 @@ public static void main(String[] args) {
         Class.forName(args[0]);
     } catch (ClassNotFoundException e) {
         fatalError("Class not found.");
-    } 
-    
+    }
+
     // Get the constructor
     Constructor<? extends Set<String>> cons = null;
     try {
         cons = cl.getDeclaredConstructor();
     } catch (NoSuchMethodException e) {
         fatalError("No parameterless constructor");
-    } 
-    
+    }
+
     // Instantiate the set
     Set<String> s = null;
     try {
@@ -51,13 +51,13 @@ public static void main(String[] args) {
         fatalError("Constructor threw " + e.getCause());
     } catch (ClassCastException e) {
         fatalError("Class doesn't implement Set");
-    } 
-    
+    }
+
     // Exercise the set
     s.addAll(Arrays.asList(args).subList(1, args.length));
     System.out.println(s);
-} 
-    
+}
+
 private static void fatalError(String msg) {
     System.err.println(msg);
     System.exit(1);
@@ -74,4 +74,7 @@ A legitimate, if rare, use of reflection is to manage a class’s dependencies o
 
 In summary, reflection is a powerful facility that is required for certain sophisticated system programming tasks, but it has many disadvantages. If you are writing a program that has to work with classes unknown at compile time, you should, if at all possible, use reflection only to instantiate objects, and access the objects using some interface or superclass that is known at compile time.
 
-
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Introduction.md)**
+- **Previous Item（上一条目）：[Item 64: Refer to objects by their interfaces](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-64-Refer-to-objects-by-their-interfaces.md)**
+- **Next Item（下一条目）：[Item 66: Use native methods judiciously](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-66-Use-native-methods-judiciously.md)**
