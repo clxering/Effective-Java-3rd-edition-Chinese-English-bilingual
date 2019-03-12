@@ -1,6 +1,6 @@
 ## Chapter 9. General Programming（通用程序设计）
 
-### Item 57: Minimize the scope of local variables
+### Item 57: Minimize the scope of local variables（将局部变量的作用域最小化）
 
 This item is similar in nature to Item 15, “Minimize the accessibility of classes and members.” By minimizing the scope of local variables, you increase the readability and maintainability of your code and reduce the likelihood of error.
 
@@ -106,4 +106,4 @@ A final technique to minimize the scope of local variables is to keep methods sm
 
 ---
 **[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Introduction.md)**
-- **Next Item（下一条目）：[Item 58: Prefer for each loops to traditional for loops](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-58-Prefer-for-each-loops-to-traditional-for-loops.md)**
+- **Next Item（下一条目）：[Item 58: Prefer for-each loops to traditional for loops（for-each 循环优于传统的 for 循环）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-58-Prefer-for-each-loops-to-traditional-for-loops.md)**

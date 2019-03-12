@@ -1,6 +1,6 @@
 ## Chapter 9. General Programming（通用程序设计）
 
-### Item 68: Adhere to generally accepted naming conventions
+### Item 68: Adhere to generally accepted naming conventions（遵守被广泛认可的命名约定）
 
 The Java platform has a well-established set of naming conventions, many of which are contained in The Java Language Specification [JLS, 6.1]. Loosely speaking, naming conventions fall into two categories: typographical and grammatical.
 
@@ -54,5 +54,5 @@ To summarize, internalize the standard naming conventions and learn to use them 
 
 ---
 **[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Introduction.md)**
-- **Previous Item（上一条目）：[Item 67: Optimize judiciously](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-67-Optimize-judiciously.md)**
+- **Previous Item（上一条目）：[Item 67: Optimize judiciously（明智地进行优化）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-67-Optimize-judiciously.md)**
 - **Next Item（下一条目）：[Chapter 10 Introduction（章节介绍）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Introduction.md)**

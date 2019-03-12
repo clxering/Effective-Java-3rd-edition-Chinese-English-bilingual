@@ -1,6 +1,6 @@
 ## Chapter 9. General Programming（通用程序设计）
 
-### Item 63: Beware the performance of string concatenation
+### Item 63: Beware the performance of string concatenation（当心字符串连接引起的性能问题）
 
 The string concatenation operator (+) is a convenient way to combine a few strings into one. It is fine for generating a single line of output or constructing the string representation of a small, fixed-size object, but it does not scale. Using **the string concatenation operator repeatedly to concatenate n strings requires time quadratic in n.** This is an unfortunate consequence of the fact that strings are immutable (Item 17). When two strings are concatenated, the contents of both are copied.
 
@@ -33,5 +33,5 @@ The moral is simple: **Don’t use the string concatenation operator to combine 
 
 ---
 **[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Introduction.md)**
-- **Previous Item（上一条目）：[Item 62: Avoid strings where other types are more appropriate](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-62-Avoid-strings-where-other-types-are-more-appropriate.md)**
-- **Next Item（下一条目）：[Item 64: Refer to objects by their interfaces](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-64-Refer-to-objects-by-their-interfaces.md)**
+- **Previous Item（上一条目）：[Item 62: Avoid strings where other types are more appropriate（其他类型更合适时应避免使用字符串）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-62-Avoid-strings-where-other-types-are-more-appropriate.md)**
+- **Next Item（下一条目）：[Item 64: Refer to objects by their interfaces（通过接口引用对象）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-64-Refer-to-objects-by-their-interfaces.md)**

@@ -1,6 +1,6 @@
 ## Chapter 9. General Programming（通用程序设计）
 
-### Item 58: Prefer for-each loops to traditional for loops
+### Item 58: Prefer for-each loops to traditional for loops（for-each 循环优于传统的 for 循环）
 
 As discussed in Item 45, some tasks are best accomplished with streams, others with iteration. Here is a traditional for loop to iterate over a collection:
 
@@ -144,5 +144,5 @@ In summary, the for-each loop provides compelling advantages over the traditiona
 
 ---
 **[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Introduction.md)**
-- **Previous Item（上一条目）：[Item 57: Minimize the scope of local variables](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-57-Minimize-the-scope-of-local-variables.md)**
-- **Next Item（下一条目）：[Item 59: Know and use the libraries](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-59-Know-and-use-the-libraries.md)**
+- **Previous Item（上一条目）：[Item 57: Minimize the scope of local variables（将局部变量的作用域最小化）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-57-Minimize-the-scope-of-local-variables.md)**
+- **Next Item（下一条目）：[Item 59: Know and use the libraries（了解并使用库）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-59-Know-and-use-the-libraries.md)**

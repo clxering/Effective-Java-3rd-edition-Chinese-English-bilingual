@@ -1,6 +1,6 @@
 ## Chapter 9. General Programming（通用程序设计）
 
-### Item 59: Know and use the libraries
+### Item 59: Know and use the libraries（了解并使用库）
 
 Suppose you want to generate random integers between zero and some upper bound. Faced with this common task, many programmers would write a little method that looks something like this:
 
@@ -88,5 +88,5 @@ To summarize, don’t reinvent the wheel. If you need to do something that seems
 
 ---
 **[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Introduction.md)**
-- **Previous Item（上一条目）：[Item 58: Prefer for each loops to traditional for loops](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-58-Prefer-for-each-loops-to-traditional-for-loops.md)**
-- **Next Item（下一条目）：[Item 60: Avoid float and double if exact answers are required](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-60-Avoid-float-and-double-if-exact-answers-are-required.md)**
+- **Previous Item（上一条目）：[Item 58: Prefer for-each loops to traditional for loops（for-each 循环优于传统的 for 循环）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-58-Prefer-for-each-loops-to-traditional-for-loops.md)**
+- **Next Item（下一条目）：[Item 60: Avoid float and double if exact answers are required（若需要精确答案就应避免使用 float 和 double 类型）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-60-Avoid-float-and-double-if-exact-answers-are-required.md)**

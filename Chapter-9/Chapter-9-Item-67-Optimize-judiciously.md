@@ -1,6 +1,6 @@
 ## Chapter 9. General Programming（通用程序设计）
 
-### Item 67: Optimize judiciously
+### Item 67: Optimize judiciously（明智地进行优化）
 
 There are three aphorisms concerning optimization that everyone should know:
 
@@ -50,5 +50,5 @@ To summarize, do not strive to write fast programs—strive to write good ones; 
 
 ---
 **[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Introduction.md)**
-- **Previous Item（上一条目）：[Item 66: Use native methods judiciously](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-66-Use-native-methods-judiciously.md)**
-- **Next Item（下一条目）：[Item 68: Adhere to generally accepted naming conventions](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-68-Adhere-to-generally-accepted-naming-conventions.md)**
+- **Previous Item（上一条目）：[Item 66: Use native methods judiciously（明智地使用本地方法）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-66-Use-native-methods-judiciously.md)**
+- **Next Item（下一条目）：[Item 68: Adhere to generally accepted naming conventions（遵守被广泛认可的命名约定）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-68-Adhere-to-generally-accepted-naming-conventions.md)**
