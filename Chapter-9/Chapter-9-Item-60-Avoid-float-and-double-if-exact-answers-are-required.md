@@ -1,6 +1,6 @@
 ## Chapter 9. General Programming（通用程序设计）
 
-### Item 60: Avoid float and double if exact answers are required
+### Item 60: Avoid float and double if exact answers are required（若需要精确答案就应避免使用 float 和 double 类型）
 
 The float and double types are designed primarily for scientific and engineering calculations. They perform binary floating-point arithmetic, which was carefully designed to furnish accurate approximations quickly over a broad range of magnitudes. They do not, however, provide exact results and should not be used where exact results are required. **The float and double types are particularly ill-suited for monetary calculations** because it is impossible to represent 0.1 (or any other negative power of ten) as a float or double exactly.
 
@@ -75,5 +75,5 @@ In summary, don’t use float or double for any calculations that require an exa
 
 ---
 **[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Introduction.md)**
-- **Previous Item（上一条目）：[Item 59: Know and use the libraries](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-59-Know-and-use-the-libraries.md)**
-- **Next Item（下一条目）：[Item 61: Prefer primitive types to boxed primitives](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-61-Prefer-primitive-types-to-boxed-primitives.md)**
+- **Previous Item（上一条目）：[Item 59: Know and use the libraries（了解并使用库）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-59-Know-and-use-the-libraries.md)**
+- **Next Item（下一条目）：[Item 61: Prefer primitive types to boxed primitives（基本数据类型优于包装类）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-61-Prefer-primitive-types-to-boxed-primitives.md)**

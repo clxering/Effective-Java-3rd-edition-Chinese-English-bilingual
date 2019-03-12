@@ -1,6 +1,6 @@
 ## Chapter 9. General Programming（通用程序设计）
 
-### Item 66: Use native methods judiciously
+### Item 66: Use native methods judiciously（明智地使用本地方法）
 
 The Java Native Interface (JNI) allows Java programs to call native methods, which are methods written in native programming languages such as C or C++. Historically, native methods have had three main uses. They provide access to platform-specific facilities such as registries. They provide access to existing libraries of native code, including legacy libraries that provide access to legacy data. Finally, native methods are used to write performance-critical parts of applications in native languages for improved performance.
 
@@ -16,5 +16,5 @@ In summary, think twice before using native methods. It is rare that you need to
 
 ---
 **[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Introduction.md)**
-- **Previous Item（上一条目）：[Item 65: Prefer interfaces to reflection](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-65-Prefer-interfaces-to-reflection.md)**
-- **Next Item（下一条目）：[Item 67: Optimize judiciously](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-67-Optimize-judiciously.md)**
+- **Previous Item（上一条目）：[Item 65: Prefer interfaces to reflection（接口优于反射）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-65-Prefer-interfaces-to-reflection.md)**
+- **Next Item（下一条目）：[Item 67: Optimize judiciously（明智地进行优化）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-67-Optimize-judiciously.md)**

@@ -1,6 +1,6 @@
 ## Chapter 9. General Programming（通用程序设计）
 
-### Item 61: Prefer primitive types to boxed primitives
+### Item 61: Prefer primitive types to boxed primitives（基本数据类型优于包装类）
 
 Java has a two-part type system, consisting of primitives, such as int, double, and boolean, and reference types, such as String and List. Every primitive type has a corresponding reference type, called a boxed primitive. The boxed primitives corresponding to int, double, and boolean are Integer, Double, and Boolean.
 
@@ -65,5 +65,5 @@ In summary, use primitives in preference to boxed primitives whenever you have t
 
 ---
 **[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Introduction.md)**
-- **Previous Item（上一条目）：[Item 60: Avoid float and double if exact answers are required](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-60-Avoid-float-and-double-if-exact-answers-are-required.md)**
-- **Next Item（下一条目）：[Item 62: Avoid strings where other types are more appropriate](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-62-Avoid-strings-where-other-types-are-more-appropriate.md)**
+- **Previous Item（上一条目）：[Item 60: Avoid float and double if exact answers are required（若需要精确答案就应避免使用 float 和 double 类型）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-60-Avoid-float-and-double-if-exact-answers-are-required.md)**
+- **Next Item（下一条目）：[Item 62: Avoid strings where other types are more appropriate（其他类型更合适时应避免使用字符串）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-62-Avoid-strings-where-other-types-are-more-appropriate.md)**

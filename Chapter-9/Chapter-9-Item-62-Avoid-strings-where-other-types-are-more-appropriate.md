@@ -1,6 +1,6 @@
 ## Chapter 9. General Programming（通用程序设计）
 
-### Item 62: Avoid strings where other types are more appropriate
+### Item 62: Avoid strings where other types are more appropriate（其他类型更合适时应避免使用字符串）
 
 Strings are designed to represent text, and they do a fine job of it. Because strings are so common and so well supported by the language, there is a natural tendency to use strings for purposes other than those for which they were designed. This item discusses a few things that you shouldn’t do with strings.
 
@@ -81,5 +81,5 @@ To summarize, avoid the natural tendency to represent objects as strings when be
 
 ---
 **[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Introduction.md)**
-- **Previous Item（上一条目）：[Item 61: Prefer primitive types to boxed primitives](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-61-Prefer-primitive-types-to-boxed-primitives.md)**
-- **Next Item（下一条目）：[Item 63: Beware the performance of string concatenation](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-63-Beware-the-performance-of-string-concatenation.md)**
+- **Previous Item（上一条目）：[Item 61: Prefer primitive types to boxed primitives（基本数据类型优于包装类）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-61-Prefer-primitive-types-to-boxed-primitives.md)**
+- **Next Item（下一条目）：[Item 63: Beware the performance of string concatenation（当心字符串连接引起的性能问题）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-63-Beware-the-performance-of-string-concatenation.md)**

@@ -1,6 +1,6 @@
 ## Chapter 9. General Programming（通用程序设计）
 
-### Item 64: Refer to objects by their interfaces
+### Item 64: Refer to objects by their interfaces（通过接口引用对象）
 
 Item 51 says that you should use interfaces rather than classes as parameter types. More generally, you should favor the use of interfaces over classes to refer to objects. **If appropriate interface types exist, then parameters, return values, variables, and fields should all be declared using interface types.** The only time you really need to refer to an object’s class is when you’re creating it with a constructor. To make this concrete, consider the case of LinkedHashSet, which is an implementation of the Set interface. Get in the habit of typing this:
 
@@ -40,5 +40,5 @@ These three cases are not meant to be exhaustive but merely to convey the flavor
 
 ---
 **[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Introduction.md)**
-- **Previous Item（上一条目）：[Item 63: Beware the performance of string concatenation](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-63-Beware-the-performance-of-string-concatenation.md)**
-- **Next Item（下一条目）：[Item 65: Prefer interfaces to reflection](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-65-Prefer-interfaces-to-reflection.md)**
+- **Previous Item（上一条目）：[Item 63: Beware the performance of string concatenation（当心字符串连接引起的性能问题）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-63-Beware-the-performance-of-string-concatenation.md)**
+- **Next Item（下一条目）：[Item 65: Prefer interfaces to reflection（接口优于反射）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-65-Prefer-interfaces-to-reflection.md)**

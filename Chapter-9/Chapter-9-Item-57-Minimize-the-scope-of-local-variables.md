@@ -1,6 +1,6 @@
 ## Chapter 9. General Programming（通用程序设计）
 
-### Item 57: Minimize the scope of local variables
+### Item 57: Minimize the scope of local variables（将局部变量的作用域最小化）
 
 This item is similar in nature to Item 15, “Minimize the accessibility of classes and members.” By minimizing the scope of local variables, you increase the readability and maintainability of your code and reduce the likelihood of error.
 
@@ -74,8 +74,8 @@ for (int i = 0, n = expensiveComputation(); i < n; i++) {
 
 The important thing to notice about this idiom is that it has two loop variables, i and n, both of which have exactly the right scope. The second variable, n, is used to store the limit of the first, thus avoiding the cost of a redundant computation in every iteration. As a rule, you should use this idiom if the loop test involves a method invocation that is guaranteed to return the same result on each iteration.
 
-A final technique to minimize the scope of local variables is to keep methods small and focused. If you combine two activities in the same method, local variables relevant to one activity may be in the scope of the code performing the other activity. To prevent this from happening, simply separate the method into two: one for each activity.
+A final technique to Minimize the scope of local variables（将局部变量的作用域最小化） is to keep methods small and focused. If you combine two activities in the same method, local variables relevant to one activity may be in the scope of the code performing the other activity. To prevent this from happening, simply separate the method into two: one for each activity.
 
 ---
 **[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Introduction.md)**
-- **Next Item（下一条目）：[Item 58: Prefer for each loops to traditional for loops](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-58-Prefer-for-each-loops-to-traditional-for-loops.md)**
+- **Next Item（下一条目）：[Item 58: Prefer for-each loops to traditional for loops（for-each 循环优于传统的 for 循环）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-58-Prefer-for-each-loops-to-traditional-for-loops.md)**

@@ -1,6 +1,6 @@
 ## Chapter 9. General Programming（通用程序设计）
 
-### Item 65: Prefer interfaces to reflection
+### Item 65: Prefer interfaces to reflection（接口优于反射）
 
 The core reflection facility, java.lang.reflect, offers programmatic access to arbitrary classes. Given a Class object, you can obtain Constructor, Method, and Field instances representing the constructors, methods, and fields of the class represented by the Class instance. These objects provide programmatic access to the class’s member names, field types, method signatures, and so on.
 
@@ -76,5 +76,5 @@ In summary, reflection is a powerful facility that is required for certain sophi
 
 ---
 **[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Introduction.md)**
-- **Previous Item（上一条目）：[Item 64: Refer to objects by their interfaces](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-64-Refer-to-objects-by-their-interfaces.md)**
-- **Next Item（下一条目）：[Item 66: Use native methods judiciously](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-66-Use-native-methods-judiciously.md)**
+- **Previous Item（上一条目）：[Item 64: Refer to objects by their interfaces（通过接口引用对象）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-64-Refer-to-objects-by-their-interfaces.md)**
+- **Next Item（下一条目）：[Item 66: Use native methods judiciously（明智地使用本地方法）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-66-Use-native-methods-judiciously.md)**
