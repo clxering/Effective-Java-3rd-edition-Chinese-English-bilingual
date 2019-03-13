@@ -1,6 +1,6 @@
 ## Chapter 10. Exceptions（异常）
 
-### Item 69: Use exceptions only for exceptional conditions （只在一些特殊情况下使用异常）
+### Item 69: Use exceptions only for exceptional conditions （只在异常的情况下才使用异常）
 
 Someday, if you are unlucky, you may stumble across a piece of code that looks something like this:
 
