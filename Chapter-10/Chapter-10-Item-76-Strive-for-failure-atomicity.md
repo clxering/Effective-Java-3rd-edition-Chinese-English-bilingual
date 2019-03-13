@@ -32,4 +32,7 @@ Even where failure atomicity is possible, it is not always desirable. For some o
 
 In summary, as a rule, any generated exception that is part of a method’s specification should leave the object in the same state it was in prior to the method invocation. Where this rule is violated, the API documentation should clearly indicate what state the object will be left in. Unfortunately, plenty of existing API documentation fails to live up to this ideal.
 
-
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Introduction.md)**
+- **Previous Item（上一条目）：[Item 75: Include failure capture information in detail messages](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-75-Include-failure-capture-information-in-detail-messages.md)**
+- **Next Item（下一条目）：[Item 77: Don’t ignore exceptions](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-77-Don’t-ignore-exceptions.md)**

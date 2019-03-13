@@ -64,3 +64,8 @@ Most standard exceptions have chaining-aware constructors. For exceptions that d
 If it is impossible to prevent exceptions from lower layers, the next best thing is to have the higher layer silently work around these exceptions, insulating the caller of the higher-level method from lower-level problems. Under these circumstances, it may be appropriate to log the exception using some appropriate logging facility such as java.util.logging. This allows programmers to investigate the problem, while insulating client code and the users from it.
 
 In summary, if it isn’t feasible to prevent or to handle exceptions from lower layers, use exception translation, unless the lower-level method happens to guarantee that all of its exceptions are appropriate to the higher level. Chaining provides the best of both worlds: it allows you to throw an appropriate higherlevel exception, while capturing the underlying cause for failure analysis (Item 75).
+
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Introduction.md)**
+- **Previous Item（上一条目）：[Item 72: Favor the use of standard exceptions](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-72-Favor-the-use-of-standard-exceptions.md)**
+- **Next Item（下一条目）：[Item 74: Document all exceptions thrown by each method](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-74-Document-all-exceptions-thrown-by-each-method.md)**

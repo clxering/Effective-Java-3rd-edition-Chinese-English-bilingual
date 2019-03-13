@@ -33,7 +33,7 @@ You can also turn a checked exception into an unchecked exception by breaking th
 // Invocation with checked exception
 try {
     obj.action(args);
-} 
+}
 catch (TheCheckedException e) {
     ... // Handle exceptional condition
 }
@@ -45,7 +45,7 @@ into this:
 // Invocation with state-testing method and unchecked exception
 if (obj.actionPermitted(args)) {
     obj.action(args);
-} 
+}
 else {
     ... // Handle exceptional condition
 }
@@ -61,3 +61,7 @@ If you suspect that the trivial calling sequence will be the norm, then the API 
 
 In summary, when used sparingly, checked exceptions can increase the reliability of programs; when overused, they make APIs painful to use. If callers won’t be able to recover from failures, throw unchecked exceptions. If recovery may be possible and you want to force callers to handle exceptional conditions, first consider returning an optional. Only if this would provide insufficient information in the case of failure should you throw a checked exception.
 
+---
+**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Introduction.md)**
+- **Previous Item（上一条目）：[Item 70: Use checked exceptions for recoverable conditions and runtime exceptions for programming errors](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-70-Use-checked-exceptions-for-recoverable-conditions-and-runtime-exceptions-for-programming-errors.md)**
+- **Next Item（下一条目）：[Item 72: Favor the use of standard exceptions](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-72-Favor-the-use-of-standard-exceptions.md)**
