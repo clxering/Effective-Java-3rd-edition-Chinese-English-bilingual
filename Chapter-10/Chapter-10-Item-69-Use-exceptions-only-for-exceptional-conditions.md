@@ -4,7 +4,7 @@
 
 Someday, if you are unlucky, you may stumble across a piece of code that looks something like this:
 
-某一天，假如你可能很不幸地碰到下面这样的代码：
+某一天，假如你很不幸地碰到下面这样的代码：
 
 ```
 // Horrible abuse of exceptions. Don't ever do this!
