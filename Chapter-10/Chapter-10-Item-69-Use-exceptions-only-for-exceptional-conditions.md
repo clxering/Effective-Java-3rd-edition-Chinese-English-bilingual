@@ -30,13 +30,23 @@ So why would anyone use the exception-based loop in preference to the tried and 
 
 那么，为什么会有人使用基于异常的循环而不使用习惯的循环模式呢？由于 VM 检查所有数组访问的边界，所以编译器隐藏但仍然存在于 for-each 循环中的常规循环终止测试是冗余的，应该避免，因此基于错误的推理来提高性能是错误的尝试。这种思路有三个错误：
 
+那么，为什么有人会优先使用基于异常的模式，而不是用行之有效的模式呢?这是被误导了，他们企图利用Java的错误判断机制来提高性能，因为VM对每次数组访问都要检查越界情况，所以他们认为正常的循环终止测试被编译器隐藏了，但在for-each循环中仍然可见，这无疑是多余的，应该避免。这种想法有三个错误:
+
 - Because exceptions are designed for exceptional circumstances, there is little incentive for JVM implementors to make them as fast as explicit tests.
+
+因为异常是为特殊情况设计的，所以 JVM 实现几乎不会让它们像显式测试一样快。
 
 - Placing code inside a try-catch block inhibits certain optimizations that JVM implementations might otherwise perform.
 
+将代码放在 try-catch 块中会抑制 JVM 可能执行的某些优化。
+
 - The standard idiom for looping through an array doesn’t necessarily result in redundant checks. Many JVM implementations optimize them away.
 
+遍历数组的标准习惯用法不一定会导致冗余检查。许多 JVM 实现对它们进行了优化。
+
 In fact, the exception-based idiom is far slower than the standard one. On my machine, the exception-based idiom is about twice as slow as the standard one for arrays of one hundred elements.
+
+事实上，基于异常的用法比标准用法慢得多。在我的机器上，用 100 个元素的数组测试，基于异常的用法与标准用法相比速度大约慢了两倍。
 
 Not only does the exception-based loop obfuscate the purpose of the code and reduce its performance, but it’s not guaranteed to work. If there is a bug in the loop, the use of exceptions for flow control can mask the bug, greatly complicating the debugging process. Suppose the computation in the body of the loop invokes a method that performs an out-of-bounds access to some unrelated array. If a reasonable loop idiom were used, the bug would generate an uncaught exception, resulting in immediate thread termination with a full stack trace. If the misguided exception-based loop were used, the bug-related exception would be caught and misinterpreted as a normal loop termination.
 
