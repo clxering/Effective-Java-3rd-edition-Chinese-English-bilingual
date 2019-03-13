@@ -27,7 +27,7 @@ for (int i = 0; i < a.length; i++) {
 
 These idioms are better than while loops (Item 57), but they aren’t perfect. The iterator and the index variables are both just clutter—all you need are the elements. Furthermore, they represent opportunities for error. The iterator occurs three times in each loop and the index variable four, which gives you many chances to use the wrong variable. If you do, there is no guarantee that the compiler will catch the problem. Finally, the two loops are quite different, drawing unnecessary attention to the type of the container and adding a (minor) hassle to changing that type.
 
-这些习惯用法比 while 循环更好（[Item-57](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-57-Minimize-the-scope-of-local-variables.md)），但是它们并不完美。迭代器和索引变量都很混乱（您只需要元素）。此外，它们有出错的可能。迭代器在每个循环中出现三次，索引变量出现四次，这使得有很多机会使用到错误的变量。如果这样做，就不能保证编译器会捕捉到问题。Finally, the two loops are quite different, drawing unnecessary attention to the type of the container and adding a (minor) hassle to changing that type.
+这些习惯用法比 while 循环更好（[Item-57](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-57-Minimize-the-scope-of-local-variables.md)），但是它们并不完美。迭代器和索引变量都很混乱（你只需要元素）。此外，它们有出错的可能。迭代器在每个循环中出现三次，索引变量出现四次，这使得有很多机会使用到错误的变量。如果这样做，就不能保证编译器会捕捉到问题。Finally, the two loops are quite different, drawing unnecessary attention to the type of the container and adding a (minor) hassle to changing that type.
 
 The for-each loop (officially known as the “enhanced for statement”) solves all of these problems. It gets rid of the clutter and the opportunity for error by hiding the iterator or index variable. The resulting idiom applies equally to collections and arrays, easing the process of switching the implementation type of a container from one to the other:
 
@@ -42,7 +42,7 @@ for (Element e : elements) {
 
 When you see the colon (:), read it as “in.” Thus, the loop above reads as “for each element e in elements.” There is no performance penalty for using for-each loops, even for arrays: the code they generate is essentially identical to the code you would write by hand.
 
-当您看到冒号 `(:)` 时，请将其读作「in」。因此，上面的循环读作「对元素集的每个元素 e」。使用 for-each 循环不会降低性能，对于数组也是如此：它们生成的代码本质上与您手工编写的代码相同。
+当你看到冒号 `(:)` 时，请将其读作「in」。因此，上面的循环读作「对元素集的每个元素 e 进行操作」。使用 for-each 循环不会降低性能，对于数组也是如此：它们生成的代码本质上与你手工编写的 for 循环代码相同。
 
 The advantages of the for-each loop over the traditional for loop are even greater when it comes to nested iteration. Here is a common mistake that people make when doing nested iteration:
 
@@ -67,7 +67,7 @@ Don’t feel bad if you didn’t spot the bug. Many expert programmers have made
 
 If you’re really unlucky and the size of the outer collection is a multiple of the size of the inner collection—perhaps because they’re the same collection—the loop will terminate normally, but it won’t do what you want. For example, consider this ill-conceived attempt to print all the possible rolls of a pair of dice:
 
-如果真的很不幸，外部集合的大小是内部集合大小的几倍（可能因为它们是相同的集合），循环将正常终止，但是它不会执行您想要的操作。例如，考虑一下打印一对骰子的所有可能卷的错误尝试：
+如果真的很不幸，外部集合的大小是内部集合大小的几倍（可能因为它们是相同的集合），循环将正常终止，但是它不会执行你想要的操作。例如，考虑一个打印一对骰子所有可能的组合值的错误尝试：
 
 ```
 // Same bug, different symptom!
@@ -113,7 +113,7 @@ Unfortunately, there are three common situations where you can’t use foreach:
 
 - **Destructive filtering** —If you need to traverse a collection removing selected elements, then you need to use an explicit iterator so that you can call its remove method. You can often avoid explicit traversal by using Collection’s removeIf method, added in Java 8.
 
-**破坏性过滤**，如果需要遍历一个集合并删除选定元素，则需要使用显式的迭代器，以便调用其 remove 方法。通过使用 Collection 在 Java 8 中添加的 removeIf 方法，您通常可以避免显式遍历。
+**破坏性过滤**，如果需要遍历一个集合并删除选定元素，则需要使用显式的迭代器，以便调用其 remove 方法。通过使用 Collection 在 Java 8 中添加的 removeIf 方法，通常可以避免显式遍历。
 
 - **Transforming** —If you need to traverse a list or array and replace some or all of the values of its elements, then you need the list iterator or array index in order to replace the value of an element.
 
@@ -121,11 +121,11 @@ Unfortunately, there are three common situations where you can’t use foreach:
 
 - **Parallel iteration** —If you need to traverse multiple collections in parallel, then you need explicit control over the iterator or index variable so that all iterators or index variables can be advanced in lockstep (as demonstrated unintentionally in the buggy card and dice examples above). If you find yourself in any of these situations, use an ordinary for loop and be wary of the traps mentioned in this item.
 
-**并行迭代**，如果您需要并行遍历多个集合，那么您需要显式地控制迭代器或索引变量，以便所有迭代器或索引变量都可以同步执行（如上述牌和骰子示例中无意中演示的错误那样）。如果您发现自己处于这些情况中的任何一种，请使用普通的 for 循环，并警惕本条目中提到的陷阱。
+**并行迭代**，如果需要并行遍历多个集合，那么需要显式地控制迭代器或索引变量，以便所有迭代器或索引变量都可以同步执行（如上述牌和骰子示例中无意中演示的错误那样）。如果发现自己处于这些情况中的任何一种，请使用普通的 for 循环，并警惕本条目中提到的陷阱。
 
 Not only does the for-each loop let you iterate over collections and arrays, it lets you iterate over any object that implements the Iterable interface, which consists of a single method. Here is how the interface looks:
 
-for-each 循环不仅允许您遍历集合和数组，还允许您遍历实现 Iterable 接口的任何对象，该接口由一个方法组成。界面如下：
+for-each 循环不仅允许遍历集合和数组，还允许遍历实现 Iterable 接口的任何对象，该接口由一个方法组成。如下所示：
 
 ```
 public interface Iterable<E> {
@@ -136,7 +136,7 @@ public interface Iterable<E> {
 
 It is a bit tricky to implement Iterable if you have to write your own Iterator implementation from scratch, but if you are writing a type that represents a group of elements, you should strongly consider having it implement Iterable, even if you choose not to have it implement Collection. This will allow your users to iterate over your type using the foreach loop, and they will be forever grateful.
 
-如果您必须从头开始编写自己的 Iterator 实现，确实有点棘手，但是如果您正在编写的类型表示一组元素，即使您选择不让它实现 Collection，那么也应该强烈考虑让它实现 Iterable。这将允许用户使用 foreach 循环遍历类型，他们将永远感激不尽。
+如果必须从头开始编写自己的 Iterator 实现，确实有点棘手，但是如果正在编写的类型表示一组元素，即使选择不让它实现 Collection，那么也应该强烈考虑让它实现 Iterable。这将允许用户使用 foreach 循环遍历类型，他们将永远感激不尽。
 
 In summary, the for-each loop provides compelling advantages over the traditional for loop in clarity, flexibility, and bug prevention, with no performance penalty. Use for-each loops in preference to for loops wherever you can.
 
