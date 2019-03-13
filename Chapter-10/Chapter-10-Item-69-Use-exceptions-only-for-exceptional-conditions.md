@@ -29,7 +29,7 @@ for (Mountain m : range)
 
 So why would anyone use the exception-based loop in preference to the tried and true? It’s a misguided attempt to improve performance based on the faulty reasoning that, since the VM checks the bounds of all array accesses, the normal loop termination test—hidden by the compiler but still present in the for-each loop—is redundant and should be avoided. There are three things wrong with this reasoning:
 
-那么为什么有人会使用基于异常的循环而不是使用上面这种行之有效的方案呢？ 他们企图使用错误判断机制可以提高性能，因为VM对每次数组访问都会检查是否越界，他们就认为正常的循环终止测试被编译器隐藏了，但在for-each循环着仍然可见，这显然是多余的，应该避免。 这个想法有以下三个错误：
+那么为什么有人会使用基于异常的循环而不是使用上面这种行之有效的方案呢？ 他们企图使用错误判断机制来提高性能，因为VM对每次数组访问都会检查是否越界，他们就认为正常的循环终止测试被编译器给隐藏了，但在for-each循环内仍然可见，这显然是多余的，应该避免。 这个想法有以下三个错误：
 
 - Because exceptions are designed for exceptional circumstances, there is little incentive for JVM implementors to make them as fast as explicit tests.
 
@@ -84,7 +84,7 @@ catch (NoSuchElementException e) {
 
 This should look very familiar after the array iteration example that began this item. In addition to being wordy and misleading, the exception-based loop is likely to perform poorly and can mask bugs in unrelated parts of the system.
 
-这看起来应该非常像本条目刚开始时的数组迭代示例。除了冗长和误导之外，基于异常的循环模式可能执行起来性能不佳并且还可能会掩盖系统中其他不相关部分中的错误。
+这看起来应该非常像本条目刚开始时的数组迭代示例。除了冗长和误导之外，基于异常的循环模式可能执行起来性能不佳并且还可能会掩盖系统中其他无关部分中的错误。
 
 An alternative to providing a separate state-testing method is to have the statedependent method return an empty optional (Item 55) or a distinguished value such as null if it cannot perform the desired computation.
 
