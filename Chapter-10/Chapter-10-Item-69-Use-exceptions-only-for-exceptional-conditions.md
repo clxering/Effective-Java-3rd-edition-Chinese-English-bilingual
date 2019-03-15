@@ -19,7 +19,7 @@ try {
 
 What does this code do? It’s not at all obvious from inspection, and that’s reason enough not to use it (Item 67). It turns out to be a horribly ill-conceived idiom for looping through the elements of an array. The infinite loop terminates by throwing, catching, and ignoring an ArrayIndexOutOfBoundsException when it attempts to access the first array element outside the bounds of the array. It’s supposed to be equivalent to the standard idiom for looping through an array, which is instantly recognizable to any Java programmer:
 
-这段代码有什么作用？ 看起来很不明显，这就是他不真正被使用的原因（见第67条）。 事实证明，作为一种循环遍历数组元素的实现方式，这是一种很糟糕的构想。 当这个无限循环在尝试访问数组边界外的第一个数组元素时，使用抛出，捕获和忽略ArrayIndexOutOfBoundsException的的方式从而使循环中止。其实任何Java程序员都可以很快意识到，它等价于下面的标准循环用法：
+这段代码有什么作用？ 看起来很不明显，这就是他不被真正使用的原因（见第67条）。 事实证明，作为一种循环遍历数组元素的实现方式，这是一种很糟糕的构想。 当这个无限循环在尝试访问数组边界外的第一个数组元素时，使用抛出，捕获和忽略ArrayIndexOutOfBoundsException的的方式从而使循环中止。其实任何Java程序员都可以很快意识到，它等价于下面的标准循环用法：
 
 
 ```
@@ -53,11 +53,11 @@ Not only does the exception-based loop obfuscate the purpose of the code and red
 
 The moral of this story is simple: **Exceptions are, as their name implies, to be used only for exceptional conditions; they should never be used for ordinary control flow.** More generally, use standard, easily recognizable idioms in preference to overly clever techniques that purport to offer better performance. Even if the performance advantage is real, it may not remain in the face of steadily improving platform implementations. The subtle bugs and maintenance headaches that come from overly clever techniques, however, are sure to remain.
 
-这个例子的教训很简单：**顾名思义，异常仅用于异常情况;它们永远不应该用于普通的控制流程。**更一般地说，使用标准的，易于识别的模式，而不是声称能提供更好的性能实际上回弄巧成拙的模式。即使性能提升是真的，面对平台实现的不断改进，这种提升也不可能会一直继续保持下去。然而，这种过度聪明的模式所带来的微妙Bug和难以维护的问题反而会一直存在。
+这个例子的教训很简单：**顾名思义，异常仅用于异常情况;它们永远不应该用于普通的控制流程**。更一般地说，使用标准的，易于识别的模式，而不是声称能提供更好的性能实际上回弄巧成拙的模式。即使性能提升是真的，面对平台实现的不断改进，这种提升也不可能会一直继续保持下去。然而，这种过度聪明的模式所带来的微妙Bug和难以维护的问题反而会一直存在。
 
 This principle also has implications for API design. **A well-designed API must not force its clients to use exceptions for ordinary control flow.** A class with a “state-dependent” method that can be invoked only under certain unpredictable conditions should generally have a separate “state-testing” method indicating whether it is appropriate to invoke the state-dependent method. For example, the Iterator interface has the state-dependent method next and the corresponding state-testing method hasNext. This enables the standard idiom for iterating over a collection with a traditional for loop (as well as the for-each loop, where the hasNext method is used internally):
 
-这个原则对API设计也有影响。 **精心设计的API不得强制其客户端为了实现正常的控制流而使用异常。**如果类具有“状态依赖”方法，也就是只能在某些不可预测的条件下调用的方法，那它通常应该有一个单独的“状态测试”来指示是否适合调用依赖于此状态的方法。例如，Iterator有一个状态依赖方法next，和相应的状态测试方法hasNext。这使得利用传统的for循环来遍历集合的标准模式成为可能（以及for-each循环，在这里是指在内部使用hasNext方法）：
+这个原则对API设计也有影响。 **精心设计的API不得强制其客户端为了实现正常的控制流而使用异常**。如果类具有“状态依赖”方法，也就是只能在某些不可预测的条件下调用的方法，那它通常应该有一个单独的“状态测试”来指示是否适合调用依赖于此状态的方法。例如，Iterator有一个状态依赖方法next，和相应的状态测试方法hasNext。这使得利用传统的for循环来遍历集合的标准模式成为可能（以及for-each循环，在这里是指在内部使用hasNext方法）：
 
 ```
 for (Iterator<Foo> i = collection.iterator(); i.hasNext(); ) {
