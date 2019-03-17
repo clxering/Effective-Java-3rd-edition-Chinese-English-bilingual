@@ -112,5 +112,5 @@ Effective Java（第 3 版）各章节的中英文学习参考，希望对 Java 
     - [Item 86: Implement Serializable with great caution（非常谨慎地实现 Serializable）](Chapter-12/Chapter-12-Item-86-Implement-Serializable-with-great-caution.md)
     - [Item 87: Consider using a custom serialized form（考虑使用自定义序列化形式）](Chapter-12/Chapter-12-Item-87-Consider-using-a-custom-serialized-form.md)
     - [Item 88: Write readObject methods defensively（防御性地编写 readObject 方法）](Chapter-12/Chapter-12-Item-88-Write-readObject-methods-defensively.md)
-    - [Item 89: For instance control prefer enum types to readResolve（对于实例控制，枚举类型优于 readResolve）](Chapter-12/Chapter-12-Item-89-For-instance-control-prefer-enum-types-to-readResolve.md)
+    - [Item 89: For instance control, prefer enum types to readResolve（对于实例控制，枚举类型优于 readResolve）](Chapter-12/Chapter-12-Item-89-For-instance-control-prefer-enum-types-to-readResolve.md)
     - [Item 90: Consider serialization proxies instead of serialized instances（考虑以序列化代理代替序列化实例）](Chapter-12/Chapter-12-Item-90-Consider-serialization-proxies-instead-of-serialized-instances.md)

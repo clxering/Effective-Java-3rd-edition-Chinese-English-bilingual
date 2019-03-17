@@ -1,6 +1,6 @@
 ## Chapter 12. Serialization（序列化）
 
-### Item 89: For instance control prefer enum types to readResolve（对于实例控制，枚举类型优于 readResolve）
+### Item 89: For instance control, prefer enum types to readResolve（对于实例控制，枚举类型优于 readResolve）
 
 Item 3 describes the Singleton pattern and gives the following example of a singleton class. This class restricts access to its constructor to ensure that only a single instance is ever created:
 
