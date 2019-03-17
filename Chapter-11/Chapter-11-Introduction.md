@@ -4,7 +4,7 @@
 
 THREADS allow multiple activities to proceed concurrently. Concurrent programming is harder than single-threaded programming, because more things can go wrong, and failures can be hard to reproduce. You can’t avoid concurrency. It is inherent in the platform and a requirement if you are to obtain good performance from multicore processors, which are now ubiquitous. This chapter contains advice to help you write clear, correct, well-documented concurrent programs.
 
-线程允许多个活动并发进行。并发编程比单线程编程更困难，因为出错的地方更多，而且失败很难重现。你无法避开并发。它是平台中固有的，多核处理器现在也是无处不在，而你会有从多核处理器获得良好的性能的需求。本章包含一些建议，帮助你编写清晰、正确、文档良好的并发程序。
+线程允许多个活动并发进行。并发编程比单线程编程更困难，容易出错的地方更多，而且失败很难重现。你无法避开并发。它是平台中固有的，并且多核处理器现在也是无处不在，而你会有从多核处理器获得良好的性能的需求。本章包含一些建议，帮助你编写清晰、正确、文档良好的并发程序。
 
 ### Contents of the chapter（章节目录）
 - [Item 78: Synchronize access to shared mutable data（对共享可变数据的同步访问）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-78-Synchronize-access-to-shared-mutable-data.md)
