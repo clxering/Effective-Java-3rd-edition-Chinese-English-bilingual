@@ -68,7 +68,7 @@ c.add(new Coin());
 ^
 ```
 
-The compiler inserts invisible casts for you when retrieving（v. [计] 检索；恢复；取回；补偿） elements from collections and guarantees that they won’t fail (assuming, again, that all of your code did not generate or suppress any compiler warnings). While the prospect of accidentally inserting a coin into a stamp collection may appear far-fetched, the problem is real. For example, it is easy to imagine putting a BigInteger into a collection that is supposed to contain only BigDecimal instances.
+The compiler inserts invisible casts for you when retrieving elements from collections and guarantees that they won’t fail (assuming, again, that all of your code did not generate or suppress any compiler warnings). While the prospect of accidentally inserting a coin into a stamp collection may appear far-fetched, the problem is real. For example, it is easy to imagine putting a BigInteger into a collection that is supposed to contain only BigDecimal instances.
 
 当从集合中检索元素时，编译器会为你执行不可见的强制类型转换，并确保它们不会失败（再次假设你的所有代码没有产生或抑制任何编译器警告）。虽然不小心将 coin 插入 stamps 集合看起来有些牵强，但这类问题是真实存在的。例如，很容易想象将一个 BigInteger 放入一个只包含 BigDecimal 实例的集合中。
 
@@ -111,7 +111,7 @@ list.add(o);
 
 And indeed, if you run the program, you get a ClassCastException when the program tries to cast the result of the invocation strings.get(0), which is an Integer, to a String. This is a compiler-generated cast, so it’s normally guaranteed to succeed, but in this case we ignored a compiler warning and paid the price.
 
-实际上，如果你运行程序，当程序试图将调用 strings.get(0) 的结果强制转换为字符串时，你会得到一个 ClassCastException。这是一个由编译器生成的强制类型转换，它通常都能成功，但在本例中，我们忽略了编译器的警告，并为此付出了代价。
+实际上，如果你运行程序，当程序试图将调用 `strings.get(0)` 的结果强制转换为字符串时，你会得到一个 ClassCastException。这是一个由编译器生成的强制类型转换，它通常都能成功，但在本例中，我们忽略了编译器的警告，并为此付出了代价。
 
 If you replace the raw type List with the parameterized type `List<Object>` in the unsafeAdd declaration and try to recompile the program, you’ll find that it no longer compiles but emits the error message:
 
@@ -160,13 +160,13 @@ is a fresh type-variable:
 CAP#1 extends Object from capture of ?
 ```
 
-Admittedly this error message leaves something to be desired, but the compiler has done its job, preventing you from corrupting（vt. 使腐烂；使堕落，使恶化） the collection’s type invariant（n. [数] 不变量；[计] 不变式）, whatever its element type may be. Not only can’t you put any element (other than null) into a `Collection<?>`, but you can’t assume anything about the type of the objects that you get out. If these restrictions are unacceptable, you can use generic methods (Item 30) or bounded wildcard types (Item 31).
+Admittedly this error message leaves something to be desired, but the compiler has done its job, preventing you from corrupting the collection’s type invariant, whatever its element type may be. Not only can’t you put any element (other than null) into a `Collection<?>`, but you can’t assume anything about the type of the objects that you get out. If these restrictions are unacceptable, you can use generic methods (Item 30) or bounded wildcard types (Item 31).
 
 无可否认，这个错误消息让人不满意，但是编译器已经完成了它的工作，防止你无视它的元素类型而破坏集合的类型一致性。你不仅不能将任何元素（除 null 之外）放入 `Collection<?>`，而且不能臆想你得到的对象的类型。如果这些限制是不可接受的，你可以使用泛型方法（[Item-30](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-30-Favor-generic-methods.md)）或有界通配符类型（[Item-31](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)）。
 
 There are a few minor exceptions to the rule that you should not use raw types. **You must use raw types in class literals.** The specification does not permit the use of parameterized types (though it does permit array types and primitive types) [JLS, 15.8.2]. In other words, List.class, String[].class, and int.class are all legal, but `List<String>.class` and `List<?>.class` are not.
 
-对于不应该使用原始类型的规则，有一些小的例外。**必须在类字面量中使用原始类型。** 该规范不允许使用参数化类型（尽管它允许数组类型和基本类型）[JLS, 15.8.2]。换句话说，List.class，String[].class 和 int.class 都是合法的，但是 `List<String>.class` 和 `List<?>.class` 不是。
+对于不应该使用原始类型的规则，有一些小的例外。**必须在类字面量中使用原始类型。** 该规范不允许使用参数化类型（尽管它允许数组类型和基本类型）[JLS, 15.8.2]。换句话说，`List.class`，`String[].class` 和 `int.class` 都是合法的，但是 `List<String>.class` 和 `List<?>.class` 不是。
 
 A second exception to the rule concerns the instanceof operator. Because generic type information is erased at runtime, it is illegal to use the instanceof operator on parameterized types other than unbounded wildcard types. The use of unbounded wildcard types in place of raw types does not affect the behavior of the instanceof operator in any way. In this case, the angle brackets and question marks are just noise. **This is the preferred way to use the instanceof operator with generic types:**
 
