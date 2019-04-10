@@ -2,6 +2,7 @@
 Effective Java（第 3 版）各章节的中英文学习参考，希望对 Java 技术的提高有所帮助，欢迎通过 issue 或 pr 提出建议和修改意见。
 
 ## 目录（Contents）
+- **[Chapter 1. Introduction（本书介绍）](Chapter-1/Chapter-1-Introduction.md)**
 - **Chapter 2. Creating and Destroying Objects（创建和销毁对象）**
     - [Chapter 2 Introduction（章节介绍）](Chapter-2/Chapter-2-Introduction.md)
     - [Item 1: Consider static factory methods instead of constructors（考虑以静态工厂方法代替构造函数）](Chapter-2/Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)
