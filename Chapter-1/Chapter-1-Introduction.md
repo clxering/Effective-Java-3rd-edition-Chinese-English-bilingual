@@ -8,7 +8,7 @@ Many new features were added to the platform since the last edition of this book
 
 | Feature                       | Items       | Release |
 |-------------------------------|-------------|---------|
-| Lambdas                       | Items [42](Chapter-7/Chapter-7-Item-42-Prefer-lambdas-to-anonymous-classes.md)-[44](Chapter-7/Chapter-7-Item-44-Favor-the-use-of-standard-functional-interfaces.md) | Java 8  |
+| Lambdas                       | Items [42](../Chapter-7/Chapter-7-Item-42-Prefer-lambdas-to-anonymous-classes.md)-[44](Chapter-7/Chapter-7-Item-44-Favor-the-use-of-standard-functional-interfaces.md) | Java 8  |
 | Streams                       | Items 45-48 | Java 8  |
 | Optionals                     | Item 55     | Java 8  |
 | Default methods in interfaces | Item 21     | Java 8  |
