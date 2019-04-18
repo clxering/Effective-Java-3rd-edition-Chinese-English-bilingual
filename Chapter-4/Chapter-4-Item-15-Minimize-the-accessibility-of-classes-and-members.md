@@ -2,13 +2,13 @@
 
 #### Item 15: Minimize the accessibility of classes and members（尽量减少类和成员的可访问性）
 
-The single most important factor that distinguishes（vt/vi. 区别，区分；辨别） a well-designed component from a poorly designed one is the degree to which the component hides its internal data and other implementation details from other components. A welldesigned component hides all its implementation details, cleanly separating its API from its implementation. Components then communicate only through their APIs and are oblivious to each others’ inner workings. This concept, known as information hiding or encapsulation, is a fundamental tenet of software design [Parnas72].
+The single most important factor that distinguishes a well-designed component from a poorly designed one is the degree to which the component hides its internal data and other implementation details from other components. A welldesigned component hides all its implementation details, cleanly separating its API from its implementation. Components then communicate only through their APIs and are oblivious to each others’ inner workings. This concept, known as information hiding or encapsulation, is a fundamental tenet of software design [Parnas72].
 
-将设计良好的组件与设计糟糕的组件区别开来的最重要的因素是组件对其他组件隐藏内部数据和其他实现细节的程度。设计良好的组件隐藏了所有实现细节，干净地将 API 与实现分离。然后组件只通过它们的 api 进行通信，而不知道彼此的内部工作方式。这个概念被称为信息隐藏或封装，是软件设计的基本原则 [Parnas72]。
+要将设计良好的组件与设计糟糕的组件区别开来，最重要的因素是：隐藏内部数据和其他实现细节的程度。设计良好的组件隐藏了所有实现细节，将 API 与实现完全分离。组件之间只通过它们的 API 进行通信，而不知道彼此的内部工作方式。这个概念被称为信息隐藏或封装，是软件设计的基本原则 [Parnas72]。
 
-Information hiding is important for many reasons, most of which stem from the fact that it decouples（解耦） the components that comprise a system, allowing them to be developed, tested, optimized, used, understood, and modified in isolation（n. 隔离；孤立）.This speeds up system development because components can be developed in parallel（n. 平行线；对比 adj. 平行的；类似的，相同的 vt. 使…与…平行）. It eases（简化了） the burden（n. 负担；责任；vt. 使负担；烦扰） of maintenance（n. 维护，维修；保持） because components can be understood more quickly and debugged or replaced with little fear of harming other components. While information hiding does not, in and of itself, cause good performance, it enables effective performance tuning: once a system is complete and profiling（剖析） has determined which components are causing performance problems (Item 67), those components can be optimized without affecting the correctness of others. Information hiding increases software reuse because components that aren’t tightly coupled often prove useful in other contexts besides the ones for which they were developed. Finally, information hiding decreases the risk in building large systems because individual components may prove successful even if the system does not.
+Information hiding is important for many reasons, most of which stem from the fact that it decouples（解耦） the components that comprise a system, allowing them to be developed, tested, optimized, used, understood, and modified in isolation（n. 隔离；孤立）.This speeds up system development because components can be developed in parallel. It eases（简化了） the burden of maintenance because components can be understood more quickly and debugged or replaced with little fear of harming other components. While information hiding does not, in and of itself, cause good performance, it enables effective performance tuning: once a system is complete and profiling（剖析） has determined which components are causing performance problems (Item 67), those components can be optimized without affecting the correctness of others. Information hiding increases software reuse because components that aren’t tightly coupled often prove useful in other contexts besides the ones for which they were developed. Finally, information hiding decreases the risk in building large systems because individual components may prove successful even if the system does not.
 
-由于许多原因，信息隐藏是重要的，其中大部分原因源于这样一个事实：它解耦了组成系统的组件，允许它们被单独开发、测试、优化、使用、理解和修改。这加速了系统开发，因为组件可以并行开发。它减轻了维护的负担，因为组件可以被更快地理解、调试或替换，而不必担心会损害其他组件。虽然信息隐藏本身不会导致良好的性能，但它能够进行有效的性能调优：一旦系统完成，概要分析确定了哪些组件会导致性能问题（[Item-67](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-67-Optimize-judiciously.md)），就可以在不影响其他组件正确性的情况下对这些组件进行优化。信息隐藏增加了软件的重用性，因为没有紧密耦合的组件通常在其他上下文中被证明是有用的，除了开发它们的上下文。最后，信息隐藏降低了构建大型系统的风险，因为即使系统没有成功，单个组件也可能被证明是成功的。
+由于许多原因，信息隐藏是重要的，其中大部分原因源于这样一个事实：它解耦了组成系统的组件，允许它们被独立开发、测试、优化、使用、理解和修改。这加快了系统开发进度，因为组件可以并行开发。也减轻了维护的负担，因为组件可以被更快地理解、调试或替换，而不必担心会损害其他组件。虽然信息隐藏本身不会获得良好的性能，但它能够进行有效的性能调优：一旦系统完成，概要分析确定了哪些组件会导致性能问题（[Item-67](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-67-Optimize-judiciously.md)），就可以在不影响其他组件正确性的情况下对这些组件进行优化。信息隐藏增加了软件的复用性，因为没有紧密耦合的组件在其他场景中通常被证明是有用的，除了开发它们时所在的场景之外。最后，信息隐藏降低了构建大型系统的风险，因为即使系统没有成功，单个组件也可能被证明是成功的。
 
 Java has many facilities to aid in information hiding. The access control mechanism [JLS, 6.6] specifies the accessibility of classes, interfaces, and members. The accessibility of an entity is determined by the location of its declaration and by which, if any, of the access modifiers (private,protected, and public) is present on the declaration. Proper use of these modifiers is essential to information hiding.
 
@@ -16,19 +16,19 @@ Java 有许多工具来帮助隐藏信息。访问控制机制 [JLS, 6.6] 指定
 
 The rule of thumb is simple: make each class or member as inaccessible as possible. In other words, use the lowest possible access level consistent with the proper functioning of the software that you are writing.
 
-经验法则很简单：让每个类或成员尽可能不可访问。换句话说，使用与你正在编写的软件的适当功能一致的尽可能低的访问级别。
+经验法则很简单：让每个类或成员尽可能不可访问。换句话说，在不影响软件正常功能时，使用尽可能低的访问级别。
 
 For top-level (non-nested) classes and interfaces, there are only two possible access levels: package-private and public. If you declare a top-level class or interface with the public modifier, it will be public; otherwise, it will be package-private. If a top-level class or interface can be made package-private, it should be. By making it package-private, you make it part of the implementation rather than the exported API, and you can modify it, replace it, or eliminate it in a subsequent release without fear of harming existing clients. If you make it public, you are obligated to support it forever to maintain compatibility.
 
-对于顶级（非嵌套）类和接口，只有两个可能的访问级别：包私有和公共。如果声明一个顶级类或与公共修饰符的接口，它将是公共的；否则，它将是包私有的。如果顶级类或接口可以使包私有，那么它应该是私有的。通过使其包私有，你使其成为实现的一部分，而不是导出的 API，你可以在后续版本中修改、替换或消除它，而不必担心损害现有客户端。如果你将其公开，你有义务永远支持它以保持兼容性。
+对于顶级（非嵌套）类和接口，只有两个可能的访问级别：包私有和公共。如果用 public 修饰符声明一个顶级类或接口，它将是公共的；否则，它将是包私有的。如果顶级类或接口可以设置为包私有，那么就应该这么做。通过使其包私有，成为实现的一部分，而不是导出的 API，可以在后续版本中修改、替换或移除它，而不必担心损害现有客户端。如果将其公开，就有义务永远提供支持，以保持兼容性。
 
 If a package-private top-level class or interface is used by only one class,consider making the top-level class a private static nested class of the sole class that uses it (Item 24). This reduces its accessibility from all the classes in its package to the one class that uses it. But it is far more important to reduce the accessibility of a gratuitously public class than of a package-private top-level class: the public class is part of the package’s API, while the package-private top-level class is already part of its implementation.
 
-如果包私有顶级类或接口只被一个类使用，那么考虑将顶级类设置为使用它的唯一类的私有静态嵌套类（[Item-24](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-24-Favor-static-member-classes-over-nonstatic.md)）。这降低了它从包中的所有类到使用它的类的可访问性。但是，减少免费公共类的可访问性比减少包-私有顶级类的可访问性重要得多：公共类是包的 API 的一部分，而包-私有顶级类已经是包的实现的一部分。
+如果包级私有顶级类或接口只被一个类使用，那么可以考虑：在使用它的这个类中，将顶级类设置为私有静态嵌套类（[Item-24](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-24-Favor-static-member-classes-over-nonstatic.md)）。对于从包中的所有类以及使用它的类来说，这降低了它的可访问性。但是，降低公共类的可访问性比减少包级私有顶级类的可访问性重要得多：公共类是包的 API 的一部分，而包级私有顶级类已经是包实现的一部分。
 
 For members (fields, methods, nested classes, and nested interfaces), there are four possible access levels, listed here in order of increasing accessibility:
 
-对于成员（字段、方法、嵌套类和嵌套接口），有四个可能的访问级别，这里列出了增加可访问性的顺序：
+对于成员（字段、方法、嵌套类和嵌套接口），有四个可能的访问级别，这里列出了按可访问性依次递增的顺序：
 
 - **private** —The member is accessible only from the top-level class where it is declared.
 
@@ -36,7 +36,7 @@ For members (fields, methods, nested classes, and nested interfaces), there are 
 
 - **package-private** —The member is accessible from any class in the package where it is declared. Technically known as default access, this is the access level you get if no access modifier is specified (except for interface members,which are public by default).
 
-包级私有，成员可以从包中声明它的任何类访问。技术上称为默认访问，如果没有指定访问修饰符（接口成员除外，默认情况下，接口成员是公共的），就会得到这个访问级别。
+包级私有，成员可以从包中声明它的任何类访问。技术上称为默认访问，即如果没有指定访问修饰符（接口成员除外，默认情况下，接口成员是公共的），就会得到这个访问级别。
 
 - **protected** —The member is accessible from subclasses of the class where it is declared (subject to a few restrictions [JLS, 6.6.2]) and from any class in the package where it is declared.
 
