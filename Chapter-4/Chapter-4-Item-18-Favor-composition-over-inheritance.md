@@ -6,7 +6,7 @@ Inheritance is a powerful way to achieve code reuse, but it is not always the be
 
 继承是实现代码复用的一种强大方法，但它并不总是最佳的工具。使用不当会导致软件变得脆弱。在包中使用继承是安全的，其中子类和超类实现由相同的程序员控制。在对专为扩展而设计和文档化的类时使用继承也是安全的（[Item-19](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-19-Design-and-document-for-inheritance-or-else-prohibit-it.md)）。然而，对普通的具体类进行跨包边界的继承是危险的。作为提醒，本书使用「继承」一词来表示实现继承（当一个类扩展另一个类时）。本条目中讨论的问题不适用于接口继承（当类实现接口或一个接口扩展另一个接口时）。
 
-Unlike method invocation, inheritance violates encapsulation [Snyder86].In other words, a subclass depends on the implementation details of its superclass for its proper function. The superclass’s implementation may change from release to release, and if it does, the subclass may break, even though its code has not been touched. As a consequence, a subclass must evolve in tandem with its superclass, unless the superclass’s authors have designed and documented it specifically for the purpose of being extended.
+Unlike method invocation, inheritance violates encapsulation [Snyder86]. In other words, a subclass depends on the implementation details of its superclass for its proper function. The superclass’s implementation may change from release to release, and if it does, the subclass may break, even though its code has not been touched. As a consequence, a subclass must evolve in tandem with its superclass, unless the superclass’s authors have designed and documented it specifically for the purpose of being extended.
 
 与方法调用不同，继承破坏了封装 [Snyder86]。换句话说，子类的功能正确与否依赖于它的超类的实现细节。超类的实现可能在版本之间发生变化，如果发生了变化，子类可能会崩溃，即使子类的代码没有被修改过。因此，子类必须与其超类同步发展，除非超类是专门为扩展的目的而设计的，并具有很明确的文档说明。
 
@@ -20,26 +20,26 @@ public class InstrumentedHashSet<E> extends HashSet<E> {
 
     // The number of attempted element insertions
     private int addCount = 0;
-    
+
     public InstrumentedHashSet() {
     }
-    
+
     public InstrumentedHashSet(int initCap, float loadFactor) {
         super(initCap, loadFactor);
     }
-    
+
     @Override
     public boolean add(E e) {
         addCount++;
         return super.add(e);
     }
-    
+
     @Override
     public boolean addAll(Collection<? extends E> c) {
         addCount += c.size();
         return super.addAll(c);
     }
-    
+
     public int getAddCount() {
         return addCount;
     }
@@ -84,7 +84,7 @@ Luckily, there is a way to avoid all of the problems described above. Instead of
 public class InstrumentedSet<E> extends ForwardingSet<E> {
 
     private int addCount = 0;
-    
+
     public InstrumentedSet(Set<E> s) {
         super(s);
     }
