@@ -12,7 +12,7 @@ The declaration for a default method includes a default implementation that is u
 
 Many new default methods were added to the core collection interfaces in Java 8, primarily to facilitate the use of lambdas (Chapter 6). The Java libraries’ default methods are high-quality general-purpose implementations, and in most cases, they work fine. **But it is not always possible to write a default method that maintains all invariants of every conceivable implementation.**
 
-Java 8 的核心集合接口增加了许多新的默认方法，主要是为了方便 lambdas 的使用（Chapter 6）。**但是，并不总是能够编写一个默认方法来维护每个实现所有不变性**
+Java 8 的核心集合接口增加了许多新的默认方法，主要是为了方便 lambda 表达式的使用（Chapter 6）。**但是，并不总是能够编写一个默认方法来维护每个实现所有不变性**
 
 For example, consider the removeIf method, which was added to the Collection interface in Java 8. This method removes all elements for which a given boolean function (or predicate) returns true. The default implementation is specified to traverse the collection using its iterator, invoking the predicate on each element, and using the iterator’s remove method to remove the elements for which the predicate returns true. Presumably the declaration looks something like this:
 
