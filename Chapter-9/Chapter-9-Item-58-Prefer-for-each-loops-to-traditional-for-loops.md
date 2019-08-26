@@ -27,7 +27,7 @@ for (int i = 0; i < a.length; i++) {
 
 These idioms are better than while loops (Item 57), but they aren’t perfect. The iterator and the index variables are both just clutter—all you need are the elements. Furthermore, they represent opportunities for error. The iterator occurs three times in each loop and the index variable four, which gives you many chances to use the wrong variable. If you do, there is no guarantee that the compiler will catch the problem. Finally, the two loops are quite different, drawing unnecessary attention to the type of the container and adding a (minor) hassle to changing that type.
 
-这些习惯用法比 while 循环更好（[Item-57](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-57-Minimize-the-scope-of-local-variables.md)），但是它们并不完美。迭代器和索引变量都很混乱（你只需要元素）。此外，它们有出错的可能。迭代器在每个循环中出现三次，索引变量出现四次，这使得有很多机会使用到错误的变量。如果这样做，就不能保证编译器会捕捉到问题。Finally, the two loops are quite different, drawing unnecessary attention to the type of the container and adding a (minor) hassle to changing that type.
+这些习惯用法比 while 循环更好（[Item-57](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-57-Minimize-the-scope-of-local-variables.md)），但是它们并不完美。迭代器和索引变量都很混乱（你只需要元素）。此外，它们有出错的可能。迭代器在每个循环中出现三次，索引变量出现四次，这使得有很多机会使用到错误的变量。如果这样做，就不能保证编译器会捕捉到问题。最后，这两个循环区别很大，还需要额外注意内部的参数类型，更改类型也更麻烦。
 
 The for-each loop (officially known as the “enhanced for statement”) solves all of these problems. It gets rid of the clutter and the opportunity for error by hiding the iterator or index variable. The resulting idiom applies equally to collections and arrays, easing the process of switching the implementation type of a container from one to the other:
 
