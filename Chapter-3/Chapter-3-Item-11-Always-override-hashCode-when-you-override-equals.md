@@ -156,7 +156,7 @@ public int hashCode() {
 
 **Do not be tempted to exclude significant fields from the hash code computation to improve performance.** While the resulting hash function may run faster, its poor quality may degrade hash tables’ performance to the point where they become unusable. In particular, the hash function may be confronted with a large collection of instances that differ mainly in regions you’ve chosen to ignore. If this happens, the hash function will map all these instances to a few hash codes, and programs that should run in linear time will instead run in quadratic time.
 
-**不要试图从 hash 代码计算中排除重要字段，以提高性能。** 虽然得到的 hash 函数可能运行得更快，但其糟糕的质量可能会将 hash 表的性能降低到无法使用的程度。特别是， hash 函数可能会遇到大量实例，这些实例主要在你选择忽略的区域不同。如果发生这种情况， hash 函数将把所有这些实例映射到一些 hash 代码，应该在线性时间内运行的程序将在平方时间内运行。
+**不要试图从 hash 代码计算中排除重要字段，以提高性能。** 虽然得到的 hash 函数可能运行得更快，但其糟糕的质量可能会将 hash 表的性能降低到无法使用的程度。特别是，hash 函数可能会遇到大量实例，这些实例主要在你选择忽略的区域不同。如果发生这种情况，hash 函数将把所有这些实例映射到一些 hash 代码，应该在线性阶运行的程序将在平方阶运行。
 
 This is not just a theoretical problem. Prior to Java 2, the String hash function used at most sixteen characters evenly（adv.均匀地） spaced throughout the string,starting with the first character. For large collections of hierarchical names, such as URLs, this function displayed exactly the pathological（adj.病态的） behavior described earlier.
 
