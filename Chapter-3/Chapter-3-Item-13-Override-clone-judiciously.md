@@ -150,7 +150,7 @@ Note that we do not have to cast the result of elements.clone to Object[]. Calli
 
 Note also that the earlier solution would not work if the elements field were final because clone would be prohibited from assigning a new value to the field. This is a fundamental problem: like serialization, the Cloneable architecture is incompatible with normal use of final fields referring to mutable objects, except in cases where the mutable objects may be safely shared between an object and its clone. In order to make a class cloneable, it may be necessary to remove final modifiers from some fields.
 
-还要注意，如果元素字段是 final 的，早期的解决方案就无法工作，因为克隆将被禁止为字段分配新值。这是一个基本问题：与序列化一样，可克隆体系结构与正常使用引用可变对象的 final 字段不兼容，除非在对象与其克隆对象之间可以安全地共享可变对象。为了使类可克隆，可能需要从某些字段中删除最终修饰符。
+还要注意，如果元素字段是 final 的，早期的解决方案就无法工作，因为克隆将被禁止为字段分配新值。这是一个基本问题：与序列化一样，可克隆体系结构与使用final修饰可变对象引用的常用方式不兼容，除非在对象与其克隆对象之间可以安全地共享可变对象。为了使类可克隆，可能需要从某些字段中删除最终修饰符。
 
 It is not always sufficient（adj. 足够的；充分的） merely to call clone recursively. For example,suppose you are writing a clone method for a hash table whose internals consist of an array of buckets, each of which references the first entry in a linked list of key-value pairs. For performance, the class implements its own lightweight singly linked list instead of using java.util.LinkedList internally:
 
