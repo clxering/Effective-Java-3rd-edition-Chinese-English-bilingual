@@ -124,11 +124,11 @@ public class Stack {
 
 Suppose you want to make this class cloneable. If the clone method merely（adv. 仅仅，只不过；只是） returns super.clone(), the resulting Stack instance will have the correct value in its size field, but its elements field will refer to the same array as the original Stack instance. Modifying the original will destroy the invariants in the clone and vice versa. You will quickly find that your program produces nonsensical results or throws a NullPointerException.
 
-假设你想让这个类是可克隆的。如果克隆方法只返回 super.clone()，则结果堆栈实例在其大小字段中将有正确的值，但其元素字段将引用与原始堆栈实例相同的数组。修改初始值将破坏克隆中的不变量，反之亦然。你将很快发现你的程序产生了无意义的结果或抛出 NullPointerException。
+假设你想让这个类是可克隆的。如果克隆方法只返回 super.clone()，则结果堆栈实例在其大小字段中将有正确的值，但其元素字段将引用与原始堆栈实例相同的数组。修改初始值将破坏克隆的不变性，反之亦然。你将很快发现你的程序产生了无意义的结果或抛出 NullPointerException。
 
 This situation could never occur as a result of calling the sole constructor in the Stack class. In effect, the clone method functions as a constructor;you must ensure that it does no harm to the original object and that it properly establishes invariants on the clone. In order for the clone method on Stack to work properly, it must copy the internals of the stack. The easiest way to do this is to call clone recursively on the elements array:
 
-由于调用堆栈类中的唯一构造函数，这种情况永远不会发生。实际上，clone 方法充当构造函数;你必须确保它不会对原始对象造成伤害，并且在克隆上正确地建立不变量。为了使堆栈上的克隆方法正常工作，它必须复制堆栈的内部。最简单的方法是在元素数组上递归地调用 clone：
+由于调用堆栈类中的唯一构造函数，这种情况永远不会发生。实际上，clone 方法充当构造函数;你必须确保它不会对原始对象造成伤害，并且在克隆上正确地实现不变性。为了使堆栈上的克隆方法正常工作，它必须复制堆栈的内部。最简单的方法是在元素数组上递归地调用 clone：
 
 ```
 // Clone method for class with references to mutable state
