@@ -58,7 +58,7 @@ x.clone().getClass() == x.getClass().
 
 By convention, the returned object should be independent of the object being cloned. To achieve this independence, it may be necessary to modify one or more fields of the object returned by super.clone before returning it.
 
-按照惯例，返回的对象应该独立于被克隆的对象。为了实现这种独立性，可能需要修改 super 返回的对象的一个或多个字段。在返回之前克隆。
+按照惯例，返回的对象应该独立于被克隆的对象。为了实现这种独立性，可能需要在 super.clone 返回对象前修改其一个或多个字段。
 
 This mechanism is vaguely similar to constructor chaining, except that it isn’t enforced: if a class’s clone method returns an instance that is not obtained by calling super.clone but by calling a constructor, the compiler won’t complain, but if a subclass of that class calls super.clone, the resulting object will have the wrong class, preventing the subclass from clone method from working properly. If a class that overrides clone is final, this convention may be safely ignored, as there are no subclasses to worry about. But if a final class has a clone method that does not invoke super.clone, there is no reason for the class to implement Cloneable, as it doesn’t rely on the behavior of Object’s clone implementation.
 
