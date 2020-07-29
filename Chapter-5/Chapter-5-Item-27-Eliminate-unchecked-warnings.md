@@ -25,7 +25,7 @@ Set<Lark> exaltation = new HashSet();
 found: HashSet
 ```
 
-You can then make the indicated（v. 表明；指出；显示；adj. 表明的；指示的） correction, causing the warning to disappear. Note that you don’t actually have to specify the type parameter, merely（adv. 仅仅，只不过；只是） to indicate（vt. 表明；指出；预示；象征） that it’s present with the diamond operator (<>), introduced in Java 7. The compiler will then infer the correct actual type parameter (in this case, Lark):
+You can then make the indicated correction, causing the warning to disappear. Note that you don’t actually have to specify the type parameter, merely to indicate（vt. 表明；指出；预示；象征） that it’s present with the diamond operator (<>), introduced in Java 7. The compiler will then infer the correct actual type parameter (in this case, Lark):
 
 你可以在指定位置进行更正，使警告消失。注意，你实际上不必指定类型参数，只需给出由 Java 7 中引入的 diamond 操作符（<>）。然后编译器将推断出正确的实际类型参数（在本例中为 Lark）：
 

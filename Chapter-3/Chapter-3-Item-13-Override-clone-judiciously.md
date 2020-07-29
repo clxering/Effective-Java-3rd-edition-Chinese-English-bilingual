@@ -63,11 +63,13 @@ By convention, the returned object should be independent of the object being clo
 This mechanism is vaguely similar to constructor chaining, except that it isn’t enforced: if a class’s clone method returns an instance that is not obtained by calling super.clone but by calling a constructor, the compiler won’t complain, but if a subclass of that class calls super.clone, the resulting object will have the wrong class, preventing the subclass from clone method from working properly. If a class that overrides clone is final, this convention may be safely ignored, as there are no subclasses to worry about. But if a final class has a clone method that does not invoke super.clone, there is no reason for the class to implement Cloneable, as it doesn’t rely on the behavior of Object’s clone implementation.
 
 这种机制有点类似于构造方法链，只是没有强制执行：
+
 - （1）如果一个类的 clone 方法返回的实例不是通过调用 super.clone() 而是通过调用构造函数获得的，编译器不会报错，但是如果这个类的一个子类调用 super.clone()，由此产生的对象类型将是错误的，影响子类 clone 方法正常工作。
 - （2）如果覆盖 clone 方法的类是 final 修饰的，那么可以安全地忽略这个约定，因为没有子类需要担心。
 - （3）如果一个 final 修饰的类不调用 super.clone() 的 clone 方法。类没有理由实现 Cloneable 接口，因为它不依赖于 Object 类的 clone 实现的行为。
 
-译注：本段描述（1）的例子如下，表达式 `x.clone().getClass() == x.getClass()` 值为 false
+**译注：本段描述（1）的例子如下，表达式 `x.clone().getClass() == x.getClass()` 值为 false**
+
 ```
 class Base {
     @Override protected Object clone() throws CloneNotSupportedException {
@@ -87,7 +89,9 @@ class BasePro extends Base implements Cloneable {
     }
 }
 ```
+
 可采用两种方式修复
+
 - ① 处改用 super.clone()
 - 移除 Base 类整个 clone() 实现
 

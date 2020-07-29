@@ -34,7 +34,7 @@ You can often avoid creating unnecessary objects by using static factory methods
 
 你通常可以通过使用静态工厂方法（[Item-1](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)）来避免创建不必要的对象，而不是在提供这两种方法的不可变类上使用构造函数。例如，工厂方法 `Boolean.valueOf(String)` 比构造函数 ~~Boolean(String)~~ 更可取，后者在 Java 9 中被弃用了。构造函数每次调用时都必须创建一个新对象，而工厂方法从来不需要这样做，在实际应用中也不会这样做。除了复用不可变对象之外，如果知道可变对象不会被修改，也可以复用它们。
 
-Some object creations are much more expensive than others. If you’re going to need such an “expensive object” repeatedly, it may be advisable（adj.明智的，适当的） to cache it for reuse. Unfortunately, it’s not always obvious when you’re creating such an object. Suppose you want to write a method to determine（v.下决心；vt.确定） whether a string is a valid Roman numeral. Here’s the easiest way to do this using a regular expression:
+Some object creations are much more expensive than others. If you’re going to need such an “expensive object” repeatedly, it may be advisable to cache it for reuse. Unfortunately, it’s not always obvious when you’re creating such an object. Suppose you want to write a method to determine whether a string is a valid Roman numeral. Here’s the easiest way to do this using a regular expression:
 
 有些对象的创建的代价相比而言要昂贵得多。如果你需要重复地使用这样一个「昂贵的对象」，那么最好将其缓存以供复用。不幸的是，当你创建这样一个对象时，这一点并不总是很明显。假设你要编写一个方法来确定字符串是否为有效的罗马数字。下面是使用正则表达式最简单的方法：
 
