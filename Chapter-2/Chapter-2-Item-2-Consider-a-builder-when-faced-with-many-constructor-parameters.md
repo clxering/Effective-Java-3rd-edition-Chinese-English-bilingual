@@ -248,7 +248,7 @@ public class NutritionFacts {
 使用案例改为：
 
 ```
-NutritionFacts cocaCola = new EntityCreator.Init(Food.class)
+NutritionFacts cocaCola = new EntityCreator.Init(NutritionFacts.class)
     .setValue("servingSize",240)
     .setValue("servings",8)
     .setValue("calories",100)

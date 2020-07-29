@@ -76,7 +76,7 @@ An added benefit of nulling out obsolete references is that if they are subseque
 
 用 null 处理过时引用的另一个好处是，如果它们随后被错误地关联引用，程序将立即失败，出现 NullPointerException，而不是悄悄地做错误的事情。尽可能快地检测编程错误总是有益的。
 
-When programmers are first stung by this problem, they may overcompensate（vt.给予…过度补偿） by nulling out every object reference as soon as the program is finished using it.This is neither necessary nor desirable; it clutters up the program unnecessarily.Nulling out object references should be the exception rather than the norm.The best way to eliminate an obsolete reference is to let the variable that contained the reference fall out of scope. This occurs naturally if you define each variable in the narrowest possible scope (Item 57).
+When programmers are first stung by this problem, they may overcompensate by nulling out every object reference as soon as the program is finished using it.This is neither necessary nor desirable; it clutters up the program unnecessarily.Nulling out object references should be the exception rather than the norm.The best way to eliminate an obsolete reference is to let the variable that contained the reference fall out of scope. This occurs naturally if you define each variable in the narrowest possible scope (Item 57).
 
 当程序员第一次被这个问题困扰时，他们可能会过度担心，一旦程序使用完它，他们就会取消所有对象引用。这既无必要也不可取；它不必要地搞乱了程序。清除对象引用应该是例外，而不是规范。消除过时引用的最佳方法是让包含引用的变量脱离作用域。如果你在最狭窄的范围内定义每个变量（[Item-57](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-57-Minimize-the-scope-of-local-variables.md)），那么这种情况自然会发生。
 

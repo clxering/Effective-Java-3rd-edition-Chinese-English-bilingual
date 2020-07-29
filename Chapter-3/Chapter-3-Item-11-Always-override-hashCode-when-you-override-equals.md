@@ -2,7 +2,7 @@
 
 ### Item 11: Always override hashCode when you override equals（当覆盖 equals 时，始终覆盖 hashCode）
 
-**You must override hashCode in every class that overrides equals.** If you fail to do so, your class will violate（vt.违反） the general contract for hashCode, which will prevent it from functioning properly in collections such as HashMap and HashSet. Here is the contract, adapted from the Object specification :
+**You must override hashCode in every class that overrides equals.** If you fail to do so, your class will violate the general contract for hashCode, which will prevent it from functioning properly in collections such as HashMap and HashSet. Here is the contract, adapted from the Object specification :
 
 **在覆盖 equals 的类中，必须覆盖 hashCode。** 如果你没有这样做，你的类将违反 hashCode 的一般约定，这将阻止该类在 HashMap 和 HashSet 等集合中正常运行。以下是根据目标规范修改的约定：
 
@@ -45,7 +45,7 @@ It’s legal because it ensures that equal objects have the same hash code. It�
 
 它是合法的，因为它确保了相等的对象具有相同的 hash 代码。同时它也很糟糕，因为它使每个对象都有相同的 hash 代码。因此，每个对象都 hash 到同一个桶中， hash 表退化为链表。应以线性时间替代运行的程序。对于大型 hash 表，这是工作和不工作的区别。
 
-A good hash function tends to produce unequal hash codes for unequal instances. This is exactly what is meant by the third part of the hashCode contract. Ideally, a hash function should distribute（vt.分配） any reasonable collection of unequal instances uniformly across all int values. Achieving this ideal can be difficult. Luckily it’s not too hard to achieve a fair approximation. Here is a simple recipe:
+A good hash function tends to produce unequal hash codes for unequal instances. This is exactly what is meant by the third part of the hashCode contract. Ideally, a hash function should distribute any reasonable collection of unequal instances uniformly across all int values. Achieving this ideal can be difficult. Luckily it’s not too hard to achieve a fair approximation. Here is a simple recipe:
 
 一个好的 hash 函数倾向于为不相等的实例生成不相等的 hash 代码。这正是 hashCode 约定的第三部分的含义。理想情况下， hash 函数应该在所有 int 值之间均匀分布所有不相等实例的合理集合。实现这个理想是很困难的。幸运的是，实现一个类似的并不太难。这里有一个简单的方式：
 
@@ -89,7 +89,7 @@ When you are finished writing the hashCode method, ask yourself whether equal in
 
 当你完成了 hashCode 方法的编写之后，问问自己相同的实例是否具有相同的 hash 代码。编写单元测试来验证你的直觉（除非你使用 AutoValue 生成你的 equals 和 hashCode 方法，在这种情况下你可以安全地省略这些测试）。如果相同的实例有不相等的 hash 码，找出原因并修复问题。
 
-You may exclude（vt.排除） derived fields from the hash code computation. In other words, you may ignore any field whose value can be computed from fields included in the computation. You must exclude any fields that are not used in equals comparisons, or you risk violating the second provision of the hashCode contract.
+You may exclude derived fields from the hash code computation. In other words, you may ignore any field whose value can be computed from fields included in the computation. You must exclude any fields that are not used in equals comparisons, or you risk violating the second provision of the hashCode contract.
 
 可以从 hash 代码计算中排除派生字段。换句话说，你可以忽略任何可以从计算中包含的字段计算其值的字段。你必须排除不用于对等比较的任何字段，否则你可能会违反 hashCode 约定的第二个条款。
 
@@ -162,7 +162,7 @@ This is not just a theoretical problem. Prior to Java 2, the String hash functio
 
 这不仅仅是一个理论问题。在 Java 2 之前，字符串 hash 函数在字符串中，以第一个字符开始，最多使用 16 个字符。对于大量的分级名称集合（如 url），该函数完全显示了前面描述的病态行为。
 
-**Don’t provide a detailed specification for the value returned by hashCode, so clients can’t reasonably depend on it; this gives you the flexibility to change it.** Many classes in the Java libraries, such as String and Integer, specify（vt.指定，详细说明） the exact value returned by their hashCode method as a function of the instance value. This is not a good idea but a mistake that we’re forced to live with: It impedes the ability to improve the hash function in future releases. If you leave the details unspecified and a flaw is found in the hash function or a better hash function is discovered, you can change it in a subsequent release.
+**Don’t provide a detailed specification for the value returned by hashCode, so clients can’t reasonably depend on it; this gives you the flexibility to change it.** Many classes in the Java libraries, such as String and Integer, specify the exact value returned by their hashCode method as a function of the instance value. This is not a good idea but a mistake that we’re forced to live with: It impedes the ability to improve the hash function in future releases. If you leave the details unspecified and a flaw is found in the hash function or a better hash function is discovered, you can change it in a subsequent release.
 
 **不要为 hashCode 返回的值提供详细的规范，这样客户端就不能合理地依赖它。这（也）给了你更改它的灵活性。** Java 库中的许多类，例如 String 和 Integer，都将 hashCode 方法返回的确切值指定为实例值的函数。这不是一个好主意，而是一个我们不得不面对的错误：它阻碍了在未来版本中改进 hash 函数的能力。如果你保留了未指定的细节，并且在 hash 函数中发现了缺陷，或者发现了更好的 hash 函数，那么你可以在后续版本中更改它。
 
