@@ -189,17 +189,17 @@ This client code is easy to write and, more importantly, easy to read. The Build
 
 Validity checks were omitted for brevity. To detect invalid parameters as soon as possible, check parameter validity in the builder’s constructor and methods.Check invariants involving multiple parameters in the constructor invoked by the build method. To ensure these invariants against attack, do the checks on object fields after copying parameters from the builder (Item 50). If a check fails, throw an IllegalArgumentException (Item 72) whose detail message indicates which parameters are invalid (Item 75).
 
-**译注：若实体类数量较多，内嵌静态类的方式还是略冗长。或可将「建造者」独立出来，广泛适应多个实体类。以下案例仅供参考：**
+**译注：若实体类数量较多，内嵌静态类的方式还是略冗长。或可将「构建器」独立出来，广泛适应多个实体类。以下案例仅供参考：**
 
 ```
 class EntityCreator {
 
-    public static class Init {
+    public static class Init<T> {
         private Field[] fieldArray;
-        private Class<?> className;
-        private Object entityObj;
+        private Class<T> className;
+        private T entityObj;
 
-        public <T> Init(Class<T> className) throws Exception {
+        public Init(Class<T> className) throws Exception {
             this.fieldArray = className.getDeclaredFields();
             this.className = className;
             Constructor<T> constructor = className.getDeclaredConstructor();
@@ -207,7 +207,7 @@ class EntityCreator {
             this.entityObj = constructor.newInstance();
         }
 
-        public Init setValue(String paramName, Object paramValue) throws Exception {
+        public Init<T> setValue(String paramName, Object paramValue) throws Exception {
             for (Field field : fieldArray) {
                 if (field.getName().equals(paramName)) {
                     PropertyDescriptor descriptor = new PropertyDescriptor(field.getName(), className);
@@ -218,8 +218,8 @@ class EntityCreator {
             return this;
         }
 
-        public <T> T build() {
-            return (T) entityObj;
+        public T build() {
+            return entityObj;
         }
     }
 }
@@ -248,7 +248,7 @@ public class NutritionFacts {
 使用案例改为：
 
 ```
-NutritionFacts cocaCola = new EntityCreator.Init(NutritionFacts.class)
+NutritionFacts cocaCola = new EntityCreator.Init<>(NutritionFacts.class)
     .setValue("servingSize",240)
     .setValue("servings",8)
     .setValue("calories",100)
