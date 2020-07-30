@@ -189,43 +189,41 @@ This client code is easy to write and, more importantly, easy to read. The Build
 
 Validity checks were omitted for brevity. To detect invalid parameters as soon as possible, check parameter validity in the builder’s constructor and methods.Check invariants involving multiple parameters in the constructor invoked by the build method. To ensure these invariants against attack, do the checks on object fields after copying parameters from the builder (Item 50). If a check fails, throw an IllegalArgumentException (Item 72) whose detail message indicates which parameters are invalid (Item 75).
 
-**译注：若实体类数量较多，内嵌静态类的方式还是略冗长。或可将「构建器」独立出来，广泛适应多个实体类。以下案例仅供参考：**
+**译注：若实体类数量较多时，内嵌静态类的方式还是比较冗长。或可将「构建器」独立出来，广泛适应多个实体类。以下案例仅供参考：**
 
 ```
-class EntityCreator {
+class EntityCreator<T> {
 
-    public static class Init<T> {
-        private Field[] fieldArray;
-        private Class<T> className;
-        private T entityObj;
+    private Field[] fieldArray;
+    private Class<T> className;
+    private T entityObj;
 
-        public Init(Class<T> className) throws Exception {
-            this.fieldArray = className.getDeclaredFields();
-            this.className = className;
-            Constructor<T> constructor = className.getDeclaredConstructor();
-            constructor.setAccessible(true);
-            this.entityObj = constructor.newInstance();
-        }
+    public EntityCreator(Class<T> className) throws Exception {
+        this.fieldArray = className.getDeclaredFields();
+        this.className = className;
+        Constructor<T> constructor = className.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        this.entityObj = constructor.newInstance();
+    }
 
-        public Init<T> setValue(String paramName, Object paramValue) throws Exception {
-            for (Field field : fieldArray) {
-                if (field.getName().equals(paramName)) {
-                    PropertyDescriptor descriptor = new PropertyDescriptor(field.getName(), className);
-                    Method method = descriptor.getWriteMethod();
-                    method.invoke(entityObj, paramValue);
-                }
+    public EntityCreator<T> setValue(String paramName, Object paramValue) throws Exception {
+        for (Field field : fieldArray) {
+            if (field.getName().equals(paramName)) {
+                PropertyDescriptor descriptor = new PropertyDescriptor(field.getName(), className);
+                Method method = descriptor.getWriteMethod();
+                method.invoke(entityObj, paramValue);
             }
-            return this;
         }
+        return this;
+    }
 
-        public T build() {
-            return entityObj;
-        }
+    public T build() {
+        return entityObj;
     }
 }
 ```
 
-如此，可移除整个 Builder 类；NutritionFacts 类保留无参无方法体的私有构造；类成员必须实现 setter 和 getter：
+如此，可移除整个 Builder 类，NutritionFacts 类保留无参无方法体的私有构造；类成员必须实现 setter 和 getter：
 
 ```
 import lombok.Getter;
@@ -248,7 +246,7 @@ public class NutritionFacts {
 使用案例改为：
 
 ```
-NutritionFacts cocaCola = new EntityCreator.Init<>(NutritionFacts.class)
+NutritionFacts cocaCola = new EntityCreator<>(NutritionFacts.class)
     .setValue("servingSize",240)
     .setValue("servings",8)
     .setValue("calories",100)
