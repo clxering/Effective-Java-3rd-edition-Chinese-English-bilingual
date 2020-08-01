@@ -6,7 +6,7 @@ Just as classes can be generic, so can methods. Static utility methods that oper
 
 类可以是泛型的，方法也可以是泛型的。操作参数化类型的静态实用程序方法通常是泛型的。Collections 类中的所有「算法」方法（如 binarySearch 和 sort）都是泛型的。
 
-Writing generic methods is similar to writing generic types. Consider this deficient（adj. 不足的；有缺陷的；不充分的） method, which returns the union of two sets:
+Writing generic methods is similar to writing generic types. Consider this deficient method, which returns the union of two sets:
 
 编写泛型方法类似于编写泛型类型。考虑这个有缺陷的方法，它返回两个集合的并集：
 

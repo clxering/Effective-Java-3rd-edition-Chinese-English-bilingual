@@ -73,7 +73,7 @@ One kind of value class that does not require the equals method to be overridden
 
 不需要覆盖 equals 方法的一种值类是使用实例控件（[Item-1](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)）来确保每个值最多只存在一个对象的类。枚举类型（[Item-34](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)）属于这一类。对于这些类，逻辑相等与对象标识相同，因此对象的 equals 方法函数与逻辑 equals 方法相同。
 
-When you override the equals method, you must adhere to its general contract. Here is the contract, from the specification（n.规范，说明书） for Object :
+When you override the equals method, you must adhere to its general contract. Here is the contract, from the specification for Object :
 
 当你覆盖 equals 方法时，你必须遵守它的通用约定。以下是具体内容，来自 Object 规范：
 
@@ -101,7 +101,7 @@ equals 方法实现了等价关系。它应有这些属性：
 
 对于任何非空引用值 x，`x.equals(null)` 必须返回 false。
 
-Unless you are mathematically inclined（v.使…倾向；adj.趋向于…的）, this might look a bit scary, but do not ignore it! If you violate it, you may well find that your program behaves erratically or crashes, and it can be very difficult to pin down the source of the failure. To paraphrase John Donne, no class is an island. Instances of one class are frequently passed to another. Many classes, including all collections classes,depend on the objects passed to them obeying the equals contract.
+Unless you are mathematically inclined, this might look a bit scary, but do not ignore it! If you violate it, you may well find that your program behaves erratically or crashes, and it can be very difficult to pin down the source of the failure. To paraphrase John Donne, no class is an island. Instances of one class are frequently passed to another. Many classes, including all collections classes,depend on the objects passed to them obeying the equals contract.
 
 除非你有数学方面的倾向，否则这些起来有点可怕，但不要忽略它！如果你违反了它，你的程序很可能会出现行为异常或崩溃，并且很难确定失败的根源。用 John Donne 的话来说，没有一个类是孤立的。一个类的实例经常被传递给另一个类。许多类（包括所有集合类）依赖于传递给它们的对象遵守 equals 约定。
 
@@ -497,7 +497,7 @@ equals 方法的性能可能会受到字段比较顺序的影响。为了获得�
 
 **写完 equals 方法后，问自己三个问题：它具备对称性吗？具备传递性吗？具备一致性吗？** 不要只问自己，要编写单元测试来检查，除非使用 AutoValue（第 49 页）来生成 equals 方法，在这种情况下，你可以安全地省略测试。如果属性不能保持，请找出原因，并相应地修改 equals 方法。当然，equals 方法还必须满足其他两个属性（反身性和非无效性），但这两个通常会自己处理。
 
-An equals method constructed according to the previous recipe（n.食谱，配方） is shown in this simplistic PhoneNumber class:
+An equals method constructed according to the previous recipe is shown in this simplistic PhoneNumber class:
 
 在这个简单的 PhoneNumber 类中，根据前面的方法构造了一个 equals 方法：
 
@@ -584,4 +584,4 @@ In summary, don’t override the equals method unless you have to: in many cases
 
 ---
 **[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Introduction.md)**
-- **Next Item（下一条目）：[Item 11: Always override hashCode when you override equals（当覆盖 equals 时，始终覆盖 hashCode）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)**
+- **Next Item（下一条目）：[Item 11: Always override hashCode when you override equals（当覆盖 equals 方法时，总要覆盖 hashCode 方法）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)**
