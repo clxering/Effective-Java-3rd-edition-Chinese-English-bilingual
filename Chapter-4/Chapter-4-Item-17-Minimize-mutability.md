@@ -4,7 +4,7 @@
 
 An immutable class is simply a class whose instances cannot be modified. All of the information contained in each instance is fixed for the lifetime of the object,so no changes can ever be observed. The Java platform libraries contain many immutable classes, including String, the boxed primitive classes, and BigInteger and BigDecimal. There are many good reasons for this:Immutable classes are easier to design, implement, and use than mutable classes.They are less prone to error and are more secure.
 
-不可变类就是一个实例不能被修改的类。每个实例中包含的所有信息在对象的生命周期内都是固定的，因此永远不会观察到任何更改。Java 库包含许多不可变的类，包括 String、基本类型的包装类、BigInteger 和 BigDecimal。这么做有很好的理由：不可变类比可变类更容易设计、实现和使用。它们不太容易出错，而且更安全。
+不可变类是实例不能被修改的类。每个实例中包含的所有信息在对象的生命周期内都是固定的，因此永远不会观察到任何更改。Java 库包含许多不可变的类，包括 String、基本类型的包装类、BigInteger 和 BigDecimal。这么做有很好的理由：不可变类比可变类更容易设计、实现和使用。它们不太容易出错，而且更安全。
 
 To make a class immutable, follow these five rules:
 
@@ -12,11 +12,11 @@ To make a class immutable, follow these five rules:
 
 1. **Don’t provide methods that modify the object’s state** (known as mutators).
 
-**不要提供修改对象状态的方法**（也被称为调整器）
+**不要提供修改对象状态的方法**（也被称为修改器）
 
 2. **Ensure that the class can’t be extended.** This prevents careless or malicious subclasses from compromising the immutable behavior of the class by behaving as if the object’s state has changed. Preventing subclassing is generally accomplished by making the class final, but there is an alternative that we’ll discuss later.
 
-**确保类不能被扩展。** 这可以防止无意或恶意的子类以其对象状态可改变的方式，而损害超类的不可变行为。防止子类化通常可使类成为 final 来完成，但是还有一种替代方法，我们将在后面讨论。
+**确保类不能被继承。** 这可以防止粗心或恶意的将子类以其对象状态可改变的方式，而损害父类的不可变行为。防止子类化通常以 final 修饰父类来达到目的，但是还有一种替代方法，我们将在后面讨论。
 
 3. **Make all fields final.** This clearly expresses your intent in a manner that is enforced by the system. Also, it is necessary to ensure correct behavior if a reference to a newly created instance is passed from one thread to another without synchronization, as spelled out in the memory model [JLS, 17.5;Goetz06, 16].
 
@@ -87,7 +87,7 @@ This class represents a complex number (a number with both real and imaginary pa
 
 The functional approach may appear unnatural if you’re not familiar with it,but it enables immutability, which has many advantages. **Immutable objects are simple.** An immutable object can be in exactly one state, the state in which it was created. If you make sure that all constructors establish class invariants, then it is guaranteed that these invariants will remain true for all time, with no further effort on your part or on the part of the programmer who uses the class. Mutable objects, on the other hand, can have arbitrarily complex state spaces. If the documentation does not provide a precise description of the state transitions performed by mutator methods, it can be difficult or impossible to use a mutable class reliably.
 
-如果你不熟悉函数方法，那么它可能看起来不自然，但是它支持不变性，这有很多优点。**不可变对象很简单。** 一个不可变的对象可以恰好处于一种状态，即创建时的状态。如果你确保所有构造函数都建立了类不变量，那么就可以保证这些不变量将一直保持，而你和使用该类的程序员无需再做任何努力。另一方面，可变对象可以具有任意复杂的状态空间。如果文档没有提供调整器方法执行的状态转换的精确描述，那么可能很难或不可能可靠地使用可变类。
+如果你不熟悉函数方法，那么它可能看起来不自然，但是它支持不变性，这有很多优点。**不可变对象很简单。** 一个不可变的对象可以恰好处于一种状态，即创建时的状态。如果你确保所有构造函数都建立了类不变量，那么就可以保证这些不变量将一直保持，而你和使用该类的程序员无需再做任何努力。另一方面，可变对象可以具有任意复杂的状态空间。如果文档没有提供修改器方法执行的状态转换的精确描述，那么可能很难或不可能可靠地使用可变类。
 
 **Immutable objects are inherently thread-safe; they require no synchronization.** They cannot be corrupted by multiple threads accessing them concurrently. This is far and away the easiest approach to achieve thread safety.Since no thread can ever observe any effect of another thread on an immutable object, **immutable objects can be shared freely.** Immutable classes should therefore encourage clients to reuse existing instances wherever possible. One easy way to do this is to provide public static final constants for commonly used values. For example, the Complex class might provide these constants:
 
@@ -147,7 +147,7 @@ The package-private mutable companion class approach works fine if you can accur
 
 Now that you know how to make an immutable class and you understand the pros and cons of immutability, let’s discuss a few design alternatives. Recall that to guarantee immutability, a class must not permit itself to be subclassed. This can be done by making the class final, but there is another, more flexible alternative. Instead of making an immutable class final, you can make all of its constructors private or package-private and add public static factories in place of the public constructors (Item 1). To make this concrete, here’s how Complex would look if you took this approach:
 
-既然你已经知道了如何创建不可变类，并且了解了不可变性的优缺点，那么让我们来讨论一些设计方案。回想一下，为了保证不变性，类不允许自己被子类化。这可以通过期末考试来完成，但是还有另外一个更灵活的选择。与使不可变类成为 final 不同，你可以将其所有构造函数变为私有或包-私有，并在公共构造函数的位置添加公共静态工厂（[Item-1](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)）。
+既然你已经知道了如何创建不可变类，并且了解了不可变性的优缺点，那么让我们来讨论一些设计方案。回想一下，为了保证不变性，类不允许自己被子类化。可以使类成为 final 来达到目的，但是还有另外一个更灵活的选择，你可以将其所有构造函数变为私有或包私有，并在公共构造函数的位置添加公共静态工厂（[Item-1](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)）。
 
 ```
 // Immutable class with static factories instead of constructors
@@ -198,11 +198,11 @@ To summarize, resist the urge to write a setter for every getter. **Classes shou
 
 There are some classes for which immutability is impractical. **If a class cannot be made immutable, limit its mutability as much as possible.** Reducing the number of states in which an object can exist makes it easier to reason about the object and reduces the likelihood of errors. Therefore, make every field final unless there is a compelling reason to make it nonfinal. Combining the advice of this item with that of Item 15, your natural inclination should be to **declare every field private final unless there’s a good reason to do otherwise.**
 
-有些类的不变性是不切实际的。**如果一个类不能成为不可变的，那么就尽可能地限制它的可变性。** 减少对象可能存在的状态数可以使对对象进行推理更容易，并减少出错的可能性。因此，除非有令人信服的理由使每个字段成为 final。将此项目的建议与项目 15 的建议结合起来，你的自然倾向应该是 **声明每个字段为私有 final，除非有很好的理由这样做。**
+有些类的不变性是不切实际的。**如果一个类不能成为不可变的，那么就尽可能地限制它的可变性。** 减少对象可能存在的状态数可以使对对象进行推理更容易，并减少出错的可能性。因此，除非有令人信服的理由，否则每个字段都应该用 final 修饰。将此条目的建议与 Item-15 的建议结合起来，你的自然倾向应该是 **声明每个字段为私有 final，除非有很好的理由不这样做。**
 
 **Constructors should create fully initialized objects with all of their invariants established.** Don’t provide a public initialization method separate from the constructor or static factory unless there is a compelling reason to do so. Similarly, don’t provide a “reinitialize” method that enables an object to be reused as if it had been constructed with a different initial state. Such methods generally provide little if any performance benefit at the expense of increased complexity.
 
-**构造函数应该创建完全初始化的对象，并建立所有的不变量。** 不要提供与构造函数或静态工厂分离的公共初始化方法，除非有充分的理由这样做。类似地，不要提供「重新初始化」的方法，该方法允许重用对象，就好像它是用不同的初始状态构造的一样。这些方法通常只提供很少的性能收益，而代价是增加了复杂性。
+**构造函数应该创建完全初始化的对象，并建立所有的不变量。** 除非有充分的理由，否则不要提供与构造函数或静态工厂分离的公共初始化方法。类似地，不要提供「重新初始化」的方法，该方法允许重用对象，就好像它是用不同的初始状态构造的一样。这些方法通常只提供很少的性能收益，而代价是增加了复杂性。
 
 The CountDownLatch class exemplifies these principles. It is mutable, but its state space is kept intentionally small. You create an instance, use it once, and it’s done: once the countdown latch’s count has reached zero, you may not reuse it.
 
@@ -210,9 +210,11 @@ CountDownLatch 类演示了这些原理。它是可变的，但它的状态空�
 
 A final note should be added concerning the Complex class in this item. This example was meant only to illustrate immutability. It is not an industrial-strength complex number implementation. It uses the standard formulas for complex multiplication and division, which are not correctly rounded and provide poor semantics for complex NaNs and infinities [Kahan91, Smith62, Thomas94].
 
-关于这个项目中的复杂类，应该添加最后一个注意事项。这个例子只是为了说明不变性。它不是一个工业强度的复数实现。它使用了复杂乘法和除法的标准公式，这些公式没有被正确地四舍五入，并且为复杂的 NaNs 和 infinities 提供了糟糕的语义 [Kahan91, Smith62, Thomas94]。
+关于这个条目中的 Complex 类，应该添加最后一个注意事项。这个例子只是为了说明不变性。它不是一个工业强度的复数实现。它使用了复杂乘法和除法的标准公式，这些公式没有被正确地四舍五入，并且为复杂的 NaNs 和 infinities 提供了糟糕的语义 [Kahan91, Smith62, Thomas94]。
 
 ---
+
 **[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Introduction.md)**
+
 - **Previous Item（上一条目）：[Item 16: In public classes use accessor methods not public fields（在公共类中，使用访问器方法，而不是公共字段）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-16-In-public-classes-use-accessor-methods-not-public-fields.md)**
 - **Next Item（下一条目）：[Item 18: Favor composition over inheritance（优先选择复合而不是继承）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md)**
