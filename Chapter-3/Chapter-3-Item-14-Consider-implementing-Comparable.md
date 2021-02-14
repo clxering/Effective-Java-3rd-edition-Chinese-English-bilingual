@@ -46,9 +46,9 @@ In the following description, the notation sgn(expression) designates the mathem
 
 在下面的描述中，`sgn(expression)` 表示数学中的符号函数，它被定义为：根据传入表达式的值是负数、零或正数，对应返回 -1、0 或 1。
 
-- The implementor must ensure that sgn(x.compareTo(y)) == -sgn(y. compareTo(x)) for all x and y. (This implies that x.compareTo(y) must throw an exception if and only if y.compareTo(x) throws an exception.)
+- The implementor must ensure that sgn(x.compareTo(y)) == -sgn(y.compareTo(x)) for all x and y. (This implies that x.compareTo(y) must throw an exception if and only if y.compareTo(x) throws an exception.)
 
-实现者必须确保所有 x 和 y 满足 `sgn(x.compareTo(y)) == -sgn(y)`（这意味着 `x.compareTo(y)` 当且仅当 `y.compareTo(x)` 抛出异常时才抛出异常）。
+实现者必须确保所有 x 和 y 满足 `sgn(x.compareTo(y)) == -sgn(y.compareTo(x))`（这意味着 `x.compareTo(y)` 当且仅当 `y.compareTo(x)` 抛出异常时才抛出异常）。
 
 - The implementor must also ensure that the relation is transitive: (x.compareTo(y) > 0 && y.compareTo(z) > 0) implies x.compareTo(z) > 0.
 
