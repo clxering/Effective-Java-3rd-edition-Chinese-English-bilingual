@@ -60,7 +60,7 @@ There is a key rule that restricts your ability to reduce the accessibility of m
 
 To facilitate testing your code, you may be tempted to make a class, interface,or member more accessible than otherwise necessary. This is fine up to a point. It is acceptable to make a private member of a public class package-private in order to test it, but it is not acceptable to raise the accessibility any higher. In other words, it is not acceptable to make a class, interface, or member a part of a package’s exported API to facilitate testing. Luckily, it isn’t necessary either because tests can be made to run as part of the package being tested, thus gaining access to its package-private elements.
 
-为了便于测试代码，你可能会试图使类、接口或成员更容易访问。这在一定程度上是好的。为了测试，将公共类成员由包私有变为私有是可以接受的，但是提高可访问性是不可接受的。换句话说，将类、接口或成员作为包导出 API 的一部分以方便测试是不可接受的。幸运的是，也没有必要这样做，因为测试可以作为包的一部分运行，从而获得对包私有元素的访问权。
+为了便于测试代码，你可能会试图使类、接口或成员更容易访问。这在一定程度上是好的。为了测试，将公共类成员由私有变为包私有是可以接受的，但是提高可访问性是不可接受的。换句话说，将类、接口或成员作为包导出 API 的一部分以方便测试是不可接受的。幸运的是，也没有必要这样做，因为测试可以作为包的一部分运行，从而获得对包私有元素的访问权。
 
 **Instance fields of public classes should rarely be public** (Item 16). If an instance field is nonfinal or is a reference to a mutable object, then by making it public, you give up the ability to limit the values that can be stored in the field. This means you give up the ability to enforce invariants involving the field. Also, you give up the ability to take any action when the field is modified, so **classes with public mutable fields are not generally thread-safe.** Even if a field is final and refers to an immutable object, by making it public you give up the flexibility to switch to a new internal data representation in which the field does not exist.
 
