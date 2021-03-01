@@ -4,7 +4,7 @@
 
 As mentioned in Items 85 and 86 and discussed throughout this chapter, the decision to implement Serializable increases the likelihood of bugs and security problems as it allows instances to be created using an extralinguistic mechanism in place of ordinary constructors. There is, however, a technique that greatly reduces these risks. This technique is known as the serialization proxy pattern.
 
-正如在 [Item-85](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-85-Prefer-alternatives-to-Java-serialization.md) 和 [Item-86](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-86-Implement-Serializable-with-great-caution.md) 中提到的贯穿本章的问题：实现 Serializable 接口的决定增加了出现 bug 和安全问题的可能性，因为它允许使用一种超语言机制来创建实例，而不是使用普通的构造函数。然而，有一种技术可以大大降低这些风险。这种技术称为序列化代理模式。
+正如在 [Item-85](/Chapter-12/Chapter-12-Item-85-Prefer-alternatives-to-Java-serialization.md) 和 [Item-86](/Chapter-12/Chapter-12-Item-86-Implement-Serializable-with-great-caution.md) 中提到的贯穿本章的问题：实现 Serializable 接口的决定增加了出现 bug 和安全问题的可能性，因为它允许使用一种超语言机制来创建实例，而不是使用普通的构造函数。然而，有一种技术可以大大降低这些风险。这种技术称为序列化代理模式。
 
 The serialization proxy pattern is reasonably straightforward. First, design a private static nested class that concisely represents the logical state of an instance of the enclosing class. This nested class is known as the serialization proxy of the enclosing class. It should have a single constructor, whose parameter type is the enclosing class. This constructor merely copies the data from its argument: it need not do any consistency checking or defensive copying. By design, the default serialized form of the serialization proxy is the perfect serialized form of the enclosing class. Both the enclosing class and its serialization proxy must be declared to implement Serializable.
 
@@ -12,7 +12,7 @@ The serialization proxy pattern is reasonably straightforward. First, design a p
 
 For example, consider the immutable Period class written in Item 50 and made serializable in Item 88. Here is a serialization proxy for this class. Period is so simple that its serialization proxy has exactly the same fields as the class:
 
-例如，考虑 [Item-50](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8/Chapter-8-Item-50-Make-defensive-copies-when-needed.md) 中编写的不可变 Period 类，并在 [Item-88](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-88-Write-readObject-methods-defensively.md) 中使其可序列化。这是该类的序列化代理。Period 非常简单，它的序列化代理具有与类完全相同的字段：
+例如，考虑 [Item-50](/Chapter-8/Chapter-8-Item-50-Make-defensive-copies-when-needed.md) 中编写的不可变 Period 类，并在 [Item-88](/Chapter-12/Chapter-12-Item-88-Write-readObject-methods-defensively.md) 中使其可序列化。这是该类的序列化代理。Period 非常简单，它的序列化代理具有与类完全相同的字段：
 
 ```
 // Serialization proxy for Period class
@@ -74,7 +74,7 @@ private Object readResolve() {
 
 Like the defensive copying approach (page 357), the serialization proxy approach stops the bogus byte-stream attack (page 354) and the internal field theft attack (page 356) dead in their tracks. Unlike the two previous approaches, this one allows the fields of Period to be final, which is required in order for the Period class to be truly immutable (Item 17). And unlike the two previous approaches, this one doesn’t involve a great deal of thought. You don’t have to figure out which fields might be compromised by devious serialization attacks, nor do you have to explicitly perform validity checking as part of deserialization.
 
-与防御性复制方法（第 357 页）类似，序列化代理方法阻止伪字节流攻击（第 354 页）和内部字段盗窃攻击（第 356 页）。与前两种方法不同，这种方法允许 Period 的字段为 final，这是 Period 类真正不可变所必需的（[Item-17](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)）。与前两种方法不同，这一种方法不需要太多的思考。你不必指出哪些字段可能会受到狡猾的序列化攻击的危害，也不必显式地执行有效性检查作为反序列化的一部分。
+与防御性复制方法（第 357 页）类似，序列化代理方法阻止伪字节流攻击（第 354 页）和内部字段盗窃攻击（第 356 页）。与前两种方法不同，这种方法允许 Period 的字段为 final，这是 Period 类真正不可变所必需的（[Item-17](/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)）。与前两种方法不同，这一种方法不需要太多的思考。你不必指出哪些字段可能会受到狡猾的序列化攻击的危害，也不必显式地执行有效性检查作为反序列化的一部分。
 
 There is another way in which the serialization proxy pattern is more powerful than defensive copying in readObject. The serialization proxy pattern allows the deserialized instance to have a different class from the originally serialized instance. You might not think that this would be useful in practice, but it is.
 
@@ -82,7 +82,7 @@ There is another way in which the serialization proxy pattern is more powerful t
 
 Consider the case of EnumSet (Item 36). This class has no public constructors, only static factories. From the client’s perspective, they return EnumSet instances, but in the current OpenJDK implementation, they return one of two subclasses, depending on the size of the underlying enum type. If the underlying enum type has sixty-four or fewer elements, the static factories return a RegularEnumSet; otherwise, they return a JumboEnumSet.
 
-考虑 EnumSet 的情况（[Item-36](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)）。该类没有公共构造函数，只有静态工厂。从客户端的角度来看，它们返回 EnumSet 实例，但是在当前 OpenJDK 实现中，它们返回两个子类中的一个，具体取决于底层枚举类型的大小。如果底层枚举类型有 64 个或更少的元素，则静态工厂返回一个 RegularEnumSet；否则，它们返回一个 JumboEnumSet。
+考虑 EnumSet 的情况（[Item-36](/Chapter-6/Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)）。该类没有公共构造函数，只有静态工厂。从客户端的角度来看，它们返回 EnumSet 实例，但是在当前 OpenJDK 实现中，它们返回两个子类中的一个，具体取决于底层枚举类型的大小。如果底层枚举类型有 64 个或更少的元素，则静态工厂返回一个 RegularEnumSet；否则，它们返回一个 JumboEnumSet。
 
 Now consider what happens if you serialize an enum set whose enum type has sixty elements, then add five more elements to the enum type, and then deserialize the enum set. It was a RegularEnumSet instance when it was serialized, but it had better be a JumboEnumSet instance once it is deserialized. In fact that’s exactly what happens, because EnumSet uses the serialization proxy pattern. In case you’re curious, here is EnumSet’s serialization proxy. It really is this simple:
 
@@ -115,7 +115,7 @@ private static class SerializationProxy <E extends Enum<E>> implements Serializa
 
 The serialization proxy pattern has two limitations. It is not compatible with classes that are extendable by their users (Item 19). Also, it is not compatible with some classes whose object graphs contain circularities: if you attempt to invoke a method on such an object from within its serialization proxy’s readResolve method, you’ll get a ClassCastException because you don’t have the object yet, only its serialization proxy.
 
-序列化代理模式有两个限制。它与客户端可扩展的类不兼容（[Item-19](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-19-Design-and-document-for-inheritance-or-else-prohibit-it.md)）。而且，它也不能与对象图中包含循环的某些类兼容：如果你试图从对象的序列化代理的 readResolve 方法中调用对象上的方法，你将得到一个 ClassCastException，因为你还没有对象，只有对象的序列化代理。
+序列化代理模式有两个限制。它与客户端可扩展的类不兼容（[Item-19](/Chapter-4/Chapter-4-Item-19-Design-and-document-for-inheritance-or-else-prohibit-it.md)）。而且，它也不能与对象图中包含循环的某些类兼容：如果你试图从对象的序列化代理的 readResolve 方法中调用对象上的方法，你将得到一个 ClassCastException，因为你还没有对象，只有对象的序列化代理。
 
 Finally, the added power and safety of the serialization proxy pattern are not free. On my machine, it is 14 percent more expensive to serialize and deserialize Period instances with serialization proxies than it is with defensive copying.
 
@@ -126,5 +126,5 @@ In summary, consider the serialization proxy pattern whenever you find yourself 
 总之，当你发现必须在客户端不可扩展的类上编写 readObject 或 writeObject 方法时，请考虑序列化代理模式。要想稳健地将带有重要约束条件的对象序列化时，这种模式可能是最容易的方法。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Introduction.md)**
-- **Previous Item（上一条目）：[Item 89: For instance control prefer enum types to readResolve（对于实例控制，枚举类型优于 readResolve）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-89-For-instance-control-prefer-enum-types-to-readResolve.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-12/Chapter-12-Introduction.md)**
+- **Previous Item（上一条目）：[Item 89: For instance control prefer enum types to readResolve（对于实例控制，枚举类型优于 readResolve）](/Chapter-12/Chapter-12-Item-89-For-instance-control-prefer-enum-types-to-readResolve.md)**

@@ -48,7 +48,7 @@ Logically speaking, a name consists of three strings that represent a last name,
 
 **Even if you decide that the default serialized form is appropriate, you often must provide a readObject method to ensure invariants and security.** In the case of Name, the readObject method must ensure that the fields lastName and firstName are non-null. This issue is discussed at length in Items 88 and 90.
 
-**即使你认为默认的序列化形式是合适的，你通常也必须提供 readObject 方法来确保不变性和安全性。** 对于 Name 类而言, readObject 方法必须确保字段 lastName 和 firstName 是非空的。[Item-88](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-88-Write-readObject-methods-defensively.md) 和 [Item-90](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-90-Consider-serialization-proxies-instead-of-serialized-instances.md) 详细讨论了这个问题。
+**即使你认为默认的序列化形式是合适的，你通常也必须提供 readObject 方法来确保不变性和安全性。** 对于 Name 类而言, readObject 方法必须确保字段 lastName 和 firstName 是非空的。[Item-88](/Chapter-12/Chapter-12-Item-88-Write-readObject-methods-defensively.md) 和 [Item-90](/Chapter-12/Chapter-12-Item-90-Consider-serialization-proxies-instead-of-serialized-instances.md) 详细讨论了这个问题。
 
 Note that there are documentation comments on the lastName, firstName, and middleName fields, even though they are private. That is because these private fields define a public API, which is the serialized form of the class, and this public API must be documented. The presence of the @serial tag tells Javadoc to place this documentation on a special page that documents serialized forms.
 
@@ -169,11 +169,11 @@ Whether or not you accept the default serialized form, every instance field that
 
 If you are using the default serialized form and you have labeled one or more fields transient, remember that these fields will be initialized to their default values when an instance is deserialized: null for object reference fields, zero for numeric primitive fields, and false for boolean fields [JLS, 4.12.5]. If these values are unacceptable for any transient fields, you must provide a readObject method that invokes the defaultReadObject method and then restores transient fields to acceptable values (Item 88). Alternatively, these fields can be lazily initialized the first time they are used (Item 83).
 
-如果使用默认的序列化形式，并且标记了一个或多个字段为 transient，请记住，当反序列化实例时，这些字段将初始化为默认值：对象引用字段为 null，数字基本类型字段为 0，布尔字段为 false [JLS, 4.12.5]。如果这些值对于任何 transient 字段都是不可接受的，则必须提供一个 readObject 方法，该方法调用 defaultReadObject 方法，然后将 transient 字段恢复为可接受的值（[Item-88](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-88-Write-readObject-methods-defensively.md)）。或者，可以采用延迟初始化（[Item-83](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-83-Use-lazy-initialization-judiciously.md)），在第一次使用这些字段时初始化它们。
+如果使用默认的序列化形式，并且标记了一个或多个字段为 transient，请记住，当反序列化实例时，这些字段将初始化为默认值：对象引用字段为 null，数字基本类型字段为 0，布尔字段为 false [JLS, 4.12.5]。如果这些值对于任何 transient 字段都是不可接受的，则必须提供一个 readObject 方法，该方法调用 defaultReadObject 方法，然后将 transient 字段恢复为可接受的值（[Item-88](/Chapter-12/Chapter-12-Item-88-Write-readObject-methods-defensively.md)）。或者，可以采用延迟初始化（[Item-83](/Chapter-11/Chapter-11-Item-83-Use-lazy-initialization-judiciously.md)），在第一次使用这些字段时初始化它们。
 
 Whether or not you use the default serialized form, **you must impose any synchronization on object serialization that you would impose on any other method that reads the entire state of the object.** So, for example, if you have a thread-safe object (Item 82) that achieves its thread safety by synchronizing every method and you elect to use the default serialized form, use the following write-Object method:
 
-无论你是否使用默认的序列化形式，**必须对对象序列化强制执行任何同步操作，就像对读取对象的整个状态的任何其他方法强制执行的那样。** 例如，如果你有一个线程安全的对象（[Item-82](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-82-Document-thread-safety.md)），它通过同步每个方法来实现线程安全，并且你选择使用默认的序列化形式，那么使用以下 write-Object 方法：
+无论你是否使用默认的序列化形式，**必须对对象序列化强制执行任何同步操作，就像对读取对象的整个状态的任何其他方法强制执行的那样。** 例如，如果你有一个线程安全的对象（[Item-82](/Chapter-11/Chapter-11-Item-82-Document-thread-safety.md)），它通过同步每个方法来实现线程安全，并且你选择使用默认的序列化形式，那么使用以下 write-Object 方法：
 
 ```
 // writeObject for synchronized class with default serialized form
@@ -188,7 +188,7 @@ If you put synchronization in the writeObject method, you must ensure that it ad
 
 **Regardless of what serialized form you choose, declare an explicit serial version UID in every serializable class you write.** This eliminates the serial version UID as a potential source of incompatibility (Item 86). There is also a small performance benefit. If no serial version UID is provided, an expensive computation is performed to generate one at runtime.
 
-**无论选择哪种序列化形式，都要在编写的每个可序列化类中声明显式的序列版本 UID。** 这消除了序列版本 UID 成为不兼容性的潜在来源（[Item-86](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-86-Implement-Serializable-with-great-caution.md)）。这么做还能获得一个小的性能优势。如果没有提供序列版本 UID，则需要执行高开销的计算在运行时生成一个 UID。
+**无论选择哪种序列化形式，都要在编写的每个可序列化类中声明显式的序列版本 UID。** 这消除了序列版本 UID 成为不兼容性的潜在来源（[Item-86](/Chapter-12/Chapter-12-Item-86-Implement-Serializable-with-great-caution.md)）。这么做还能获得一个小的性能优势。如果没有提供序列版本 UID，则需要执行高开销的计算在运行时生成一个 UID。
 
 Declaring a serial version UID is simple. Just add this line to your class:
 
@@ -208,9 +208,9 @@ If you ever want to make a new version of a class that is incompatible with exis
 
 To summarize, if you have decided that a class should be serializable (Item 86), think hard about what the serialized form should be. Use the default serialized form only if it is a reasonable description of the logical state of the object; otherwise design a custom serialized form that aptly describes the object. You should allocate as much time to designing the serialized form of a class as you allocate to designing an exported method (Item 51). Just as you can’t eliminate exported methods from future versions, you can’t eliminate fields from the serialized form; they must be preserved forever to ensure serialization compatibility. Choosing the wrong serialized form can have a permanent, negative impact on the complexity and performance of a class.
 
-总而言之，如果你已经决定一个类应该是可序列化的（[Item-86](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-86-Implement-Serializable-with-great-caution.md)），那么请仔细考虑一下序列化的形式应该是什么。只有在合理描述对象的逻辑状态时，才使用默认的序列化形式；否则，设计一个适合描述对象的自定义序列化形式。设计类的序列化形式应该和设计导出方法花的时间应该一样多，都应该严谨对待（[Item-51](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8/Chapter-8-Item-51-Design-method-signatures-carefully.md)）。正如不能从未来版本中删除导出的方法一样，也不能从序列化形式中删除字段；必须永远保存它们，以确保序列化兼容性。选择错误的序列化形式可能会对类的复杂性和性能产生永久性的负面影响。
+总而言之，如果你已经决定一个类应该是可序列化的（[Item-86](/Chapter-12/Chapter-12-Item-86-Implement-Serializable-with-great-caution.md)），那么请仔细考虑一下序列化的形式应该是什么。只有在合理描述对象的逻辑状态时，才使用默认的序列化形式；否则，设计一个适合描述对象的自定义序列化形式。设计类的序列化形式应该和设计导出方法花的时间应该一样多，都应该严谨对待（[Item-51](/Chapter-8/Chapter-8-Item-51-Design-method-signatures-carefully.md)）。正如不能从未来版本中删除导出的方法一样，也不能从序列化形式中删除字段；必须永远保存它们，以确保序列化兼容性。选择错误的序列化形式可能会对类的复杂性和性能产生永久性的负面影响。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Introduction.md)**
-- **Previous Item（上一条目）：[Item 86: Implement Serializable with great caution（非常谨慎地实现 Serializable）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-86-Implement-Serializable-with-great-caution.md)**
-- **Next Item（下一条目）：[Item 88: Write readObject methods defensively（防御性地编写 readObject 方法）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-88-Write-readObject-methods-defensively.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-12/Chapter-12-Introduction.md)**
+- **Previous Item（上一条目）：[Item 86: Implement Serializable with great caution（非常谨慎地实现 Serializable）](/Chapter-12/Chapter-12-Item-86-Implement-Serializable-with-great-caution.md)**
+- **Next Item（下一条目）：[Item 88: Write readObject methods defensively（防御性地编写 readObject 方法）](/Chapter-12/Chapter-12-Item-88-Write-readObject-methods-defensively.md)**

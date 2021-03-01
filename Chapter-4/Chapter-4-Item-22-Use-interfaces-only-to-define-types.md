@@ -34,7 +34,7 @@ Java 库中有几个常量接口，例如 `java.io.ObjectStreamConstants`。这�
 
 If you want to export constants, there are several reasonable choices. If the constants are strongly tied to an existing class or interface, you should add them to the class or interface. For example, all of the boxed numerical primitive classes, such as Integer and Double, export MIN_VALUE and MAX_VALUE constants. If the constants are best viewed as members of an enumerated type, you should export them with an enum type (Item 34). Otherwise, you should export the constants with a noninstantiable utility class (Item 4). Here is a utility class version of the PhysicalConstants example shown earlier:
 
-如果你想导出常量，有几个合理的选择。如果这些常量与现有的类或接口紧密绑定，则应该将它们添加到类或接口。例如，所有数值包装类，比如 Integer 和 Double，都导出 MIN_VALUE 和 MAX_VALUE 常量。如果将这些常量看作枚举类型的成员，那么应该使用 enum 类型导出它们（[Item-34](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)）。否则，你应该使用不可实例化的工具类（[Item-4](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-4-Enforce-noninstantiability-with-a-private-constructor.md)）导出常量。下面是一个之前的 PhysicalConstants 例子的工具类另一个版本：
+如果你想导出常量，有几个合理的选择。如果这些常量与现有的类或接口紧密绑定，则应该将它们添加到类或接口。例如，所有数值包装类，比如 Integer 和 Double，都导出 MIN_VALUE 和 MAX_VALUE 常量。如果将这些常量看作枚举类型的成员，那么应该使用 enum 类型导出它们（[Item-34](/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)）。否则，你应该使用不可实例化的工具类（[Item-4](/Chapter-2/Chapter-2-Item-4-Enforce-noninstantiability-with-a-private-constructor.md)）导出常量。下面是一个之前的 PhysicalConstants 例子的工具类另一个版本：
 
 ```
 // Constant utility class
@@ -73,6 +73,6 @@ In summary, interfaces should be used only to define types. They should not be u
 总之，接口应该只用于定义类型。它们不应该用于导出常量。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Introduction.md)**
-- **Previous Item（上一条目）：[Item 21: Design interfaces for posterity（为后代设计接口）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-21-Design-interfaces-for-posterity.md)**
-- **Next Item（下一条目）：[Item 23: Prefer class hierarchies to tagged classes（类层次结构优于带标签的类）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-23-Prefer-class-hierarchies-to-tagged-classes.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-4/Chapter-4-Introduction.md)**
+- **Previous Item（上一条目）：[Item 21: Design interfaces for posterity（为后代设计接口）](/Chapter-4/Chapter-4-Item-21-Design-interfaces-for-posterity.md)**
+- **Next Item（下一条目）：[Item 23: Prefer class hierarchies to tagged classes（类层次结构优于带标签的类）](/Chapter-4/Chapter-4-Item-23-Prefer-class-hierarchies-to-tagged-classes.md)**

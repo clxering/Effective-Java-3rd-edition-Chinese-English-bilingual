@@ -54,7 +54,7 @@ If you compile the program with the command javac Main.java or javac Main.java U
 
 Fixing the problem is as simple as splitting the top-level classes (Utensil and Dessert, in the case of our example) into separate source files. If you are tempted to put multiple top-level classes into a single source file, consider using static member classes (Item 24) as an alternative to splitting the classes into separate source files. If the classes are subservient to another class, making them into static member classes is generally the better alternative because it enhances readability and makes it possible to reduce the accessibility of the classes by declaring them private (Item 15). Here is how our example looks with static member classes:
 
-修复这个问题非常简单，只需将顶层类（在我们的示例中是 Utensil 和 Dessert）分割为单独的源文件即可。如果你想将多个顶层类放到一个源文件中，请考虑使用静态成员类（[Item-24](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-24-Favor-static-member-classes-over-nonstatic.md)）作为将类分割为单独的源文件的替代方法。如果（多个顶层类）隶属于另一个类，那么将它们转换成静态成员类通常是更好的选择，因为它增强了可读性，并通过声明它们为私有（[Item-15](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-15-Minimize-the-accessibility-of-classes-and-members.md)），降低了类的可访问性。下面是我们的静态成员类示例的样子：
+修复这个问题非常简单，只需将顶层类（在我们的示例中是 Utensil 和 Dessert）分割为单独的源文件即可。如果你想将多个顶层类放到一个源文件中，请考虑使用静态成员类（[Item-24](/Chapter-4/Chapter-4-Item-24-Favor-static-member-classes-over-nonstatic.md)）作为将类分割为单独的源文件的替代方法。如果（多个顶层类）隶属于另一个类，那么将它们转换成静态成员类通常是更好的选择，因为它增强了可读性，并通过声明它们为私有（[Item-15](/Chapter-4/Chapter-4-Item-15-Minimize-the-accessibility-of-classes-and-members.md)），降低了类的可访问性。下面是我们的静态成员类示例的样子：
 
 ```
 // Static member classes instead of multiple top-level classes
@@ -79,6 +79,6 @@ The lesson is clear: Never put multiple top-level classes or interfaces in a sin
 教训很清楚：永远不要将多个顶层类或接口放在一个源文件中。遵循此规则可以确保在编译时单个类不会拥有多个定义。这反过来保证了编译所生成的类文件，以及程序的行为，与源代码文件传递给编译器的顺序无关。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Introduction.md)**
-- **Previous Item（上一条目）：[Item 24: Favor static member classes over nonstatic（静态成员类优于非静态成员类）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-24-Favor-static-member-classes-over-nonstatic.md)**
-- **Next Item（下一条目）：[Chapter 5 Introduction（章节介绍）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Introduction.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-4/Chapter-4-Introduction.md)**
+- **Previous Item（上一条目）：[Item 24: Favor static member classes over nonstatic（静态成员类优于非静态成员类）](/Chapter-4/Chapter-4-Item-24-Favor-static-member-classes-over-nonstatic.md)**
+- **Next Item（下一条目）：[Chapter 5 Introduction（章节介绍）](/Chapter-5/Chapter-5-Introduction.md)**

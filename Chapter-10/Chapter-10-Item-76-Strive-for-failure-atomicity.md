@@ -8,11 +8,11 @@ After an object throws an exception, it is generally desirable that the object s
 
 There are several ways to achieve this effect. The simplest is to design immutable objects (Item 17). If an object is immutable, failure atomicity is free. If an operation fails, it may prevent a new object from getting created, but it will never leave an existing object in an inconsistent state, because the state of each object is consistent when it is created and can’t be modified thereafter.
 
-有几种方式可以达到这种效果。最简单的方法是设计不可变对象（[Item-17](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)）。如果对象是不可变的，则故障原子性是必然的。如果一个操作失败，它可能会阻止创建一个新对象，但是它不会让一个现有对象处于不一致的状态，因为每个对象的状态在创建时是一致的，并且在创建后不能修改。
+有几种方式可以达到这种效果。最简单的方法是设计不可变对象（[Item-17](/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)）。如果对象是不可变的，则故障原子性是必然的。如果一个操作失败，它可能会阻止创建一个新对象，但是它不会让一个现有对象处于不一致的状态，因为每个对象的状态在创建时是一致的，并且在创建后不能修改。
 
 For methods that operate on mutable objects, the most common way to achieve failure atomicity is to check parameters for validity before performing the operation (Item 49). This causes most exceptions to get thrown before object modification commences. For example, consider the Stack.pop method in Item 7:
 
-对于操作可变对象的方法，实现故障原子性的最常见方法是在执行操作之前检查参数的有效性（[Item-49](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8/Chapter-8-Item-49-Check-parameters-for-validity.md)）。这使得大多数异常在对象修改开始之前被抛出。例如，考虑 `Stack.pop` 方法（[Item-7](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-7-Eliminate-obsolete-object-references.md)）：
+对于操作可变对象的方法，实现故障原子性的最常见方法是在执行操作之前检查参数的有效性（[Item-49](/Chapter-8/Chapter-8-Item-49-Check-parameters-for-validity.md)）。这使得大多数异常在对象修改开始之前被抛出。例如，考虑 `Stack.pop` 方法（[Item-7](/Chapter-2/Chapter-2-Item-7-Eliminate-obsolete-object-references.md)）：
 
 ```
 public Object pop() {
@@ -26,7 +26,7 @@ public Object pop() {
 
 If the initial size check were eliminated, the method would still throw an exception when it attempted to pop an element from an empty stack. It would, however, leave the size field in an inconsistent (negative) state, causing any future method invocations on the object to fail. Additionally, the ArrayIndexOutOfBoundsException thrown by the pop method would be inappropriate to the abstraction (Item 73).
 
-如果取消了初始大小检查，当该方法试图从空堆栈中弹出元素时，仍然会抛出异常。但是，这会使 size 字段处于不一致的（负值）状态，导致以后该对象的任何方法调用都会失败。此外，pop 方法抛出的 ArrayIndexOutOfBoundsException 也不适于高层抽象解释（[Item-73](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-73-Throw-exceptions-appropriate-to-the-abstraction.md)）。
+如果取消了初始大小检查，当该方法试图从空堆栈中弹出元素时，仍然会抛出异常。但是，这会使 size 字段处于不一致的（负值）状态，导致以后该对象的任何方法调用都会失败。此外，pop 方法抛出的 ArrayIndexOutOfBoundsException 也不适于高层抽象解释（[Item-73](/Chapter-10/Chapter-10-Item-73-Throw-exceptions-appropriate-to-the-abstraction.md)）。
 
 A closely related approach to achieving failure atomicity is to order the computation so that any part that may fail takes place before any part that modifies the object. This approach is a natural extension of the previous one when arguments cannot be checked without performing a part of the computation. For example, consider the case of TreeMap, whose elements are sorted according to some ordering. In order to add an element to a TreeMap, the element must be of a type that can be compared using the TreeMap’s ordering. Attempting to add an incorrectly typed element will naturally fail with a ClassCastException as a result of searching for the element in the tree, before the tree has been modified in any way.
 
@@ -53,6 +53,6 @@ In summary, as a rule, any generated exception that is part of a method’s spec
 总之，作为规则，也作为方法规范的一部分，生成的任何异常都应该使对象保持在方法调用之前的状态。如果违反了这条规则，API 文档应该清楚地指出对象将处于什么状态。不幸的是，许多现有的 API 文档都没有做到。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Introduction.md)**
-- **Previous Item（上一条目）：[Item 75: Include failure capture information in detail messages（异常详细消息中应包含捕获失败的信息）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-75-Include-failure-capture-information-in-detail-messages.md)**
-- **Next Item（下一条目）：[Item 77: Don’t ignore exceptions（不要忽略异常）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-77-Don’t-ignore-exceptions.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-10/Chapter-10-Introduction.md)**
+- **Previous Item（上一条目）：[Item 75: Include failure capture information in detail messages（异常详细消息中应包含捕获失败的信息）](/Chapter-10/Chapter-10-Item-75-Include-failure-capture-information-in-detail-messages.md)**
+- **Next Item（下一条目）：[Item 77: Don’t ignore exceptions（不要忽略异常）](/Chapter-10/Chapter-10-Item-77-Don’t-ignore-exceptions.md)**

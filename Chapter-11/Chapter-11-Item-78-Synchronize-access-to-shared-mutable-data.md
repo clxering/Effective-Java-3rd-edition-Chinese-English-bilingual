@@ -4,7 +4,7 @@
 
 The synchronized keyword ensures that only a single thread can execute a method or block at one time. Many programmers think of synchronization solely as a means of mutual exclusion, to prevent an object from being seen in an inconsistent state by one thread while it’s being modified by another. In this view, an object is created in a consistent state (Item 17) and locked by the methods that access it. These methods observe the state and optionally cause a state transition, transforming the object from one consistent state to another. Proper use of synchronization guarantees that no method will ever observe the object in an inconsistent state.
 
-synchronized 关键字确保一次只有一个线程可以执行一个方法或块。许多程序员认为同步只是一种互斥的方法，是为防止一个线程在另一个线程修改对象时使对象处于不一致的状态。这样看来，对象以一致的状态创建（[Item-17](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)），并由访问它的方法锁定。这些方法可以察觉当前状态，并引起状态转换，将对象从一致的状态转换为另一个一致的状态。正确使用同步可以保证没有方法会让对象处于不一致状态。
+synchronized 关键字确保一次只有一个线程可以执行一个方法或块。许多程序员认为同步只是一种互斥的方法，是为防止一个线程在另一个线程修改对象时使对象处于不一致的状态。这样看来，对象以一致的状态创建（[Item-17](/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)），并由访问它的方法锁定。这些方法可以察觉当前状态，并引起状态转换，将对象从一致的状态转换为另一个一致的状态。正确使用同步可以保证没有方法会让对象处于不一致状态。
 
 This view is correct, but it’s only half the story. Without synchronization, one thread’s changes might not be visible to other threads. Not only does synchronization prevent threads from observing an object in an inconsistent state, but it ensures that each thread entering a synchronized method or block sees the effects of all previous modifications that were guarded by the same lock.
 
@@ -143,7 +143,7 @@ One way to fix generateSerialNumber is to add the synchronized modifier to its d
 
 Better still, follow the advice in Item 59 and use the class AtomicLong, which is part of java.util.concurrent.atomic. This package provides primitives for lock-free, thread-safe programming on single variables. While volatile provides only the communication effects of synchronization, this package also provides atomicity. This is exactly what we want for generateSerialNumber, and it is likely to outperform the synchronized version:
 
-更好的方法是，遵循 [Item-59](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-59-Know-and-use-the-libraries.md) 中的建议并使用 AtomicLong 类，它是 `java.util.concurrent.atomic` 的一部分。这个包为单变量的无锁、线程安全编程提供了基本类型。虽然 volatile 只提供同步的通信效果，但是这个包提供原子性。这正是我们想要的 generateSerialNumber，它很可能优于同步版本：
+更好的方法是，遵循 [Item-59](/Chapter-9/Chapter-9-Item-59-Know-and-use-the-libraries.md) 中的建议并使用 AtomicLong 类，它是 `java.util.concurrent.atomic` 的一部分。这个包为单变量的无锁、线程安全编程提供了基本类型。虽然 volatile 只提供同步的通信效果，但是这个包提供原子性。这正是我们想要的 generateSerialNumber，它很可能优于同步版本：
 
 ```
 // Lock-free synchronization with java.util.concurrent.atomic
@@ -156,17 +156,17 @@ public static long generateSerialNumber() {
 
 The best way to avoid the problems discussed in this item is not to share mutable data. Either share immutable data (Item 17) or don’t share at all. In other words, **confine mutable data to a single thread.** If you adopt this policy, it is important to document it so that the policy is maintained as your program evolves. It is also important to have a deep understanding of the frameworks and libraries you’re using because they may introduce threads that you are unaware of.
 
-为避免出现本条目中讨论的问题，最佳方法是不共享可变数据。要么共享不可变数据（[Item-17](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)），要么完全不共享。换句话说，**应当将可变数据限制在一个线程中。** 如果采用此策略，重要的是对其进行文档化，以便随着程序的发展维护该策略。深入了解你正在使用的框架和库也很重要，因为它们可能会引入你不知道的线程。
+为避免出现本条目中讨论的问题，最佳方法是不共享可变数据。要么共享不可变数据（[Item-17](/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)），要么完全不共享。换句话说，**应当将可变数据限制在一个线程中。** 如果采用此策略，重要的是对其进行文档化，以便随着程序的发展维护该策略。深入了解你正在使用的框架和库也很重要，因为它们可能会引入你不知道的线程。
 
 It is acceptable for one thread to modify a data object for a while and then to share it with other threads, synchronizing only the act of sharing the object reference. Other threads can then read the object without further synchronization, so long as it isn’t modified again. Such objects are said to be effectively immutable [Goetz06, 3.5.4]. Transferring such an object reference from one thread to others is called safe publication [Goetz06, 3.5.3]. There are many ways to safely publish an object reference: you can store it in a static field as part of class initialization; you can store it in a volatile field, a final field, or a field that is accessed with normal locking; or you can put it into a concurrent collection (Item 81).
 
-一个线程可以暂时修改一个数据对象，然后与其他线程共享，并且只同步共享对象引用的操作。然后，其他线程可以在没有进一步同步的情况下读取对象，只要不再次修改该对象。这些对象被认为是有效不可变的 [Goetz06, 3.5.4]。将这样的对象引用从一个线程转移到其他线程称为安全发布 [Goetz06, 3.5.3]。安全地发布对象引用的方法有很多：可以将它存储在静态字段中，作为类初始化的一部分；你可以将其存储在易失性字段、final 字段或使用普通锁定访问的字段中；或者你可以将其放入并发集合中（[Item-81](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-81-Prefer-concurrency-utilities-to-wait-and-notify.md)）。
+一个线程可以暂时修改一个数据对象，然后与其他线程共享，并且只同步共享对象引用的操作。然后，其他线程可以在没有进一步同步的情况下读取对象，只要不再次修改该对象。这些对象被认为是有效不可变的 [Goetz06, 3.5.4]。将这样的对象引用从一个线程转移到其他线程称为安全发布 [Goetz06, 3.5.3]。安全地发布对象引用的方法有很多：可以将它存储在静态字段中，作为类初始化的一部分；你可以将其存储在易失性字段、final 字段或使用普通锁定访问的字段中；或者你可以将其放入并发集合中（[Item-81](/Chapter-11/Chapter-11-Item-81-Prefer-concurrency-utilities-to-wait-and-notify.md)）。
 
 In summary, **when multiple threads share mutable data, each thread that reads or writes the data must perform synchronization.** In the absence of synchronization, there is no guarantee that one thread’s changes will be visible to another thread. The penalties for failing to synchronize shared mutable data are liveness and safety failures. These failures are among the most difficult to debug. They can be intermittent and timing-dependent, and program behavior can vary radically from one VM to another. If you need only inter-thread communication, and not mutual exclusion, the volatile modifier is an acceptable form of synchronization, but it can be tricky to use correctly.
 
 总之，**当多个线程共享可变数据时，每个读取或写入数据的线程都必须执行同步。** 在缺乏同步的情况下，不能保证一个线程的更改对另一个线程可见。同步共享可变数据失败的代价是活性失败和安全失败。这些故障是最难调试的故障之一。它们可能是间歇性的，并与时间相关，而且程序行为可能在不同 VM 之间发生根本的变化。如果只需要线程间通信，而不需要互斥，那么 volatile 修饰符是一种可接受的同步形式，但是要想正确使用它可能会比较棘手。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Introduction.md)**
-- **Previous Item（上一条目）：[Item 77: Don’t ignore exceptions（不要忽略异常）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-77-Don’t-ignore-exceptions.md)**
-- **Next Item（下一条目）：[Item 79: Avoid excessive synchronization（避免过度同步）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-79-Avoid-excessive-synchronization.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-11/Chapter-11-Introduction.md)**
+- **Previous Item（上一条目）：[Item 77: Don’t ignore exceptions（不要忽略异常）](/Chapter-10/Chapter-10-Item-77-Don’t-ignore-exceptions.md)**
+- **Next Item（下一条目）：[Item 79: Avoid excessive synchronization（避免过度同步）](/Chapter-11/Chapter-11-Item-79-Avoid-excessive-synchronization.md)**

@@ -83,7 +83,7 @@ Because overriding is the norm and overloading is the exception, overriding sets
 
 Exactly what constitutes a confusing use of overloading is open to some debate. **A safe, conservative policy is never to export two overloadings with the same number of parameters.** If a method uses varargs, a conservative policy is not to overload it at all, except as described in Item 53. If you adhere to these restrictions, programmers will never be in doubt as to which overloading applies to any set of actual parameters. These restrictions are not terribly onerous because **you can always give methods different names instead of overloading them.**
 
-究竟是什么构成了混淆重载的用法还有待商榷。**安全、保守的策略是永远不导出具有相同数量参数的两个重载。** 如果一个方法使用了可变参数，保守策略是根本不重载它，除非如 [Item-53](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8/Chapter-8-Item-53-Use-varargs-judiciously.md) 所述。如果遵守这些限制，程序员就不会怀疑一组参数应该调用哪一种方法重载。这些限制并不十分繁琐，因为 **你总是可以为方法提供不同的名称，而不是重载它们。**
+究竟是什么构成了混淆重载的用法还有待商榷。**安全、保守的策略是永远不导出具有相同数量参数的两个重载。** 如果一个方法使用了可变参数，保守策略是根本不重载它，除非如 [Item-53](/Chapter-8/Chapter-8-Item-53-Use-varargs-judiciously.md) 所述。如果遵守这些限制，程序员就不会怀疑一组参数应该调用哪一种方法重载。这些限制并不十分繁琐，因为 **你总是可以为方法提供不同的名称，而不是重载它们。**
 
 For example, consider the ObjectOutputStream class. It has a variant of its write method for every primitive type and for several reference types. Rather than overloading the write method, these variants all have different names, such as writeBoolean(boolean), writeInt(int), and writeLong(long). An added benefit of this naming pattern, when compared to overloading, is that it is possible to provide read methods with corresponding names, for example, readBoolean(), readInt(), and readLong(). The ObjectInputStream class does, in fact, provide such read methods.
 
@@ -91,7 +91,7 @@ For example, consider the ObjectOutputStream class. It has a variant of its writ
 
 For constructors, you don’t have the option of using different names: multiple constructors for a class are always overloaded. You do, in many cases, have the option of exporting static factories instead of constructors (Item 1). Also, with constructors you don’t have to worry about interactions between overloading and overriding, because constructors can’t be overridden. You will probably have occasion to export multiple constructors with the same number of parameters, so it pays to know how to do it safely.
 
-对于构造函数，你没有使用不同名称的机会：一个类的多个构造函数只能重载。在很多情况下，你可以选择导出静态工厂而不是构造函数（[Item-1](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)）。你可能会有机会导出具有相同数量参数的多个构造函数，因此知道如何安全地执行是有必要的。
+对于构造函数，你没有使用不同名称的机会：一个类的多个构造函数只能重载。在很多情况下，你可以选择导出静态工厂而不是构造函数（[Item-1](/Chapter-2/Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)）。你可能会有机会导出具有相同数量参数的多个构造函数，因此知道如何安全地执行是有必要的。
 
 Exporting multiple overloadings with the same number of parameters is unlikely to confuse programmers if it is always clear which overloading will apply to any given set of actual parameters. This is the case when at least one corresponding formal parameter in each pair of overloadings has a “radically different” type in the two overloadings. Two types are radically different if it is clearly impossible to cast any non-null expression to both types. Under these circumstances, which overloading applies to a given set of actual parameters is fully determined by the runtime types of the parameters and cannot be affected by their compile-time types, so a major source of confusion goes away. For example, ArrayList has one constructor that takes an int and a second constructor that takes a Collection. It is hard to imagine any confusion over which of these two constructors will be invoked under any circumstances.
 
@@ -184,6 +184,6 @@ To summarize, just because you can overload methods doesn’t mean you should. I
 总而言之，方法可以重载，但并不意味着就应该这样做。通常，最好避免重载具有相同数量参数的多个签名的方法。在某些情况下，特别是涉及构造函数的情况下，可能难以遵循这个建议。在这些情况下，你至少应该避免同一组参数只需经过类型转换就可以被传递给不同的重载方法。如果这是无法避免的，例如，因为要对现有类进行改造以实现新接口，那么应该确保在传递相同的参数时，所有重载的行为都是相同的。如果你做不到这一点，程序员将很难有效地使用重载方法或构造函数，他们将无法理解为什么它不能工作。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8/Chapter-8-Introduction.md)**
-- **Previous Item（上一条目）：[Item 51: Design method signatures carefully（仔细设计方法签名）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8/Chapter-8-Item-51-Design-method-signatures-carefully.md)**
-- **Next Item（下一条目）：[Item 53: Use varargs judiciously（明智地使用可变参数）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8/Chapter-8-Item-53-Use-varargs-judiciously.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-8/Chapter-8-Introduction.md)**
+- **Previous Item（上一条目）：[Item 51: Design method signatures carefully（仔细设计方法签名）](/Chapter-8/Chapter-8-Item-51-Design-method-signatures-carefully.md)**
+- **Next Item（下一条目）：[Item 53: Use varargs judiciously（明智地使用可变参数）](/Chapter-8/Chapter-8-Item-53-Use-varargs-judiciously.md)**

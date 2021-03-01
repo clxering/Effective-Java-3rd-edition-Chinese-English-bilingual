@@ -8,15 +8,15 @@ The first edition of this book devoted an item to the correct use of wait and no
 
 The higher-level utilities in java.util.concurrent fall into three categories: the Executor Framework, which was covered briefly in Item 80; concurrent collections; and synchronizers. Concurrent collections and synchronizers are covered briefly in this item.
 
-`java.util.concurrent` 中级别较高的实用工具可分为三类：Executor 框架，[Item-80](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-80-Prefer-executors,-tasks,-and-streams-to-threads.md) 简要介绍了该框架；并发集合；同步器。本条目简要介绍并发集合和同步器。
+`java.util.concurrent` 中级别较高的实用工具可分为三类：Executor 框架，[Item-80](/Chapter-11/Chapter-11-Item-80-Prefer-executors,-tasks,-and-streams-to-threads.md) 简要介绍了该框架；并发集合；同步器。本条目简要介绍并发集合和同步器。
 
 The concurrent collections are high-performance concurrent implementations of standard collection interfaces such as List, Queue, and Map. To provide high concurrency, these implementations manage their own synchronization internally (Item 79). Therefore, **it is impossible to exclude concurrent activity from a concurrent collection; locking it will only slow the program.**
 
-并发集合是标准集合接口，如 List、Queue 和 Map 的高性能并发实现。为了提供高并发性，这些实现在内部管理它们自己的同步（[Item-79](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-79-Avoid-excessive-synchronization.md)）。因此，**不可能从并发集合中排除并发活动；锁定它只会使程序变慢。**
+并发集合是标准集合接口，如 List、Queue 和 Map 的高性能并发实现。为了提供高并发性，这些实现在内部管理它们自己的同步（[Item-79](/Chapter-11/Chapter-11-Item-79-Avoid-excessive-synchronization.md)）。因此，**不可能从并发集合中排除并发活动；锁定它只会使程序变慢。**
 
 Because you can’t exclude concurrent activity on concurrent collections, you can’t atomically compose method invocations on them either. Therefore, concurrent collection interfaces were outfitted with state-dependent modify operations, which combine several primitives into a single atomic operation. These operations proved sufficiently useful on concurrent collections that they were added to the corresponding collection interfaces in Java 8, using default methods (Item 21).
 
-因为不能排除并发集合上的并发活动，所以也不能原子地组合对它们的方法调用。因此，并发集合接口配备了依赖于状态的修改操作，这些操作将多个基本操作组合成单个原子操作。这些操作在并发集合上非常有用，因此使用默认方法（[Item-21](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-21-Design-interfaces-for-posterity.md)）将它们添加到 Java 8 中相应的集合接口。
+因为不能排除并发集合上的并发活动，所以也不能原子地组合对它们的方法调用。因此，并发集合接口配备了依赖于状态的修改操作，这些操作将多个基本操作组合成单个原子操作。这些操作在并发集合上非常有用，因此使用默认方法（[Item-21](/Chapter-4/Chapter-4-Item-21-Design-interfaces-for-posterity.md)）将它们添加到 Java 8 中相应的集合接口。
 
 For example, Map’s putIfAbsent(key, value) method inserts a mapping for a key if none was present and returns the previous value associated with the key, or null if there was none. This makes it easy to implement thread-safe canonicalizing maps. This method simulates the behavior of String.intern:
 
@@ -54,7 +54,7 @@ Besides offering excellent concurrency, ConcurrentHashMap is very fast. On my ma
 
 Some of the collection interfaces were extended with blocking operations, which wait (or block) until they can be successfully performed. For example, BlockingQueue extends Queue and adds several methods, including take, which removes and returns the head element from the queue, waiting if the queue is empty. This allows blocking queues to be used for work queues (also known as producer-consumer queues), to which one or more producer threads enqueue work items and from which one or more consumer threads dequeue and process items as they become available. As you’d expect, most ExecutorService implementations, including ThreadPoolExecutor, use a BlockingQueue (Item 80).
 
-一些集合接口使用阻塞操作进行了扩展，这些操作将等待（或阻塞）成功执行。例如，BlockingQueue 扩展了 Queue 并添加了几个方法，包括 take，它从队列中删除并返回首个元素，如果队列为空，则等待。这允许将阻塞队列用于工作队列（也称为生产者-消费者队列），一个或多个生产者线程将工作项添加到该工作队列中，一个或多个消费者线程将工作项从该工作队列中取出并在这些工作项可用时处理它们。正如你所期望的，大多数 ExecutorService 实现，包括 ThreadPoolExecutor，都使用 BlockingQueue（[Item-80](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-80-Prefer-executors,-tasks,-and-streams-to-threads.md)）。
+一些集合接口使用阻塞操作进行了扩展，这些操作将等待（或阻塞）成功执行。例如，BlockingQueue 扩展了 Queue 并添加了几个方法，包括 take，它从队列中删除并返回首个元素，如果队列为空，则等待。这允许将阻塞队列用于工作队列（也称为生产者-消费者队列），一个或多个生产者线程将工作项添加到该工作队列中，一个或多个消费者线程将工作项从该工作队列中取出并在这些工作项可用时处理它们。正如你所期望的，大多数 ExecutorService 实现，包括 ThreadPoolExecutor，都使用 BlockingQueue（[Item-80](/Chapter-11/Chapter-11-Item-80-Prefer-executors,-tasks,-and-streams-to-threads.md)）。
 
 Synchronizers are objects that enable threads to wait for one another, allowing them to coordinate their activities. The most commonly used synchronizers are CountDownLatch and Semaphore. Less commonly used are CyclicBarrier and Exchanger. The most powerful synchronizer is Phaser.
 
@@ -167,6 +167,6 @@ In summary, using wait and notify directly is like programming in “concurrency
 总之，与 `java.util.concurrent` 提供的高级语言相比，直接使用 wait 和 notify 就像使用「并发汇编语言」编程一样原始。**在新代码中很少有理由使用 wait 和 notify。** 如果维护使用 wait 和 notify 的代码，请确保它始终使用标准的习惯用法，即在 while 循环中调用 wait。另外，notifyAll 方法通常应该优先于 notify。如果使用 notify，则必须非常小心以确保其活性。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Introduction.md)**
-- **Previous Item（上一条目）：[Item 80: Prefer executors, tasks, and streams to threads（Executor、task、流优于直接使用线程）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-80-Prefer-executors,-tasks,-and-streams-to-threads.md)**
-- **Next Item（下一条目）：[Item 82: Document thread safety（文档应包含线程安全属性）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-82-Document-thread-safety.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-11/Chapter-11-Introduction.md)**
+- **Previous Item（上一条目）：[Item 80: Prefer executors, tasks, and streams to threads（Executor、task、流优于直接使用线程）](/Chapter-11/Chapter-11-Item-80-Prefer-executors,-tasks,-and-streams-to-threads.md)**
+- **Next Item（下一条目）：[Item 82: Document thread safety（文档应包含线程安全属性）](/Chapter-11/Chapter-11-Item-82-Document-thread-safety.md)**
