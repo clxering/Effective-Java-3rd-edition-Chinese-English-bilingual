@@ -8,11 +8,11 @@ ALTHOUGH Object is a concrete class, it is designed primarily for extension. All
 
 This chapter tells you when and how to override the nonfinal Object methods. The finalize method is omitted from this chapter because it was discussed in Item 8. While not an Object method,Comparable.compareTo is discussed in this chapter because it has a similar character.
 
-本章将告诉你何时以及如何覆盖 Object 类的非 final 方法。finalize 方法在本章中被省略，因为它在 [Item-8](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-8-Avoid-finalizers-and-cleaners.md) 中讨论过。虽然 Comparable.compareTo 不是 Object 类的方法，但是由于具有相似的特性，所以本章也对它进行讨论。
+本章将告诉你何时以及如何覆盖 Object 类的非 final 方法。finalize 方法在本章中被省略，因为它在 [Item-8](/Chapter-2/Chapter-2-Item-8-Avoid-finalizers-and-cleaners.md) 中讨论过。虽然 Comparable.compareTo 不是 Object 类的方法，但是由于具有相似的特性，所以本章也对它进行讨论。
 
 ### Contents of the chapter（章节目录）
-- [Item 10: Obey the general contract when overriding equals（覆盖 equals 方法时应遵守的约定）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)
-- [Item 11: Always override hashCode when you override equals（当覆盖 equals 方法时，总要覆盖 hashCode 方法）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)
-- [Item 12: Always override toString（始终覆盖 toString 方法）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-12-Always-override-toString.md)
-- [Item 13: Override clone judiciously（明智地覆盖 clone 方法）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-13-Override-clone-judiciously.md)
-- [Item 14: Consider implementing Comparable（考虑实现 Comparable 接口）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-14-Consider-implementing-Comparable.md)
+- [Item 10: Obey the general contract when overriding equals（覆盖 equals 方法时应遵守的约定）](/Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)
+- [Item 11: Always override hashCode when you override equals（当覆盖 equals 方法时，总要覆盖 hashCode 方法）](/Chapter-3/Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)
+- [Item 12: Always override toString（始终覆盖 toString 方法）](/Chapter-3/Chapter-3-Item-12-Always-override-toString.md)
+- [Item 13: Override clone judiciously（明智地覆盖 clone 方法）](/Chapter-3/Chapter-3-Item-13-Override-clone-judiciously.md)
+- [Item 14: Consider implementing Comparable（考虑实现 Comparable 接口）](/Chapter-3/Chapter-3-Item-14-Consider-implementing-Comparable.md)

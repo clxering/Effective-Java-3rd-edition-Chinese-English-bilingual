@@ -4,7 +4,7 @@
 
 Item 51 says that you should use interfaces rather than classes as parameter types. More generally, you should favor the use of interfaces over classes to refer to objects. **If appropriate interface types exist, then parameters, return values, variables, and fields should all be declared using interface types.** The only time you really need to refer to an object’s class is when you’re creating it with a constructor. To make this concrete, consider the case of LinkedHashSet, which is an implementation of the Set interface. Get in the habit of typing this:
 
-[Item-51](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8/Chapter-8-Item-51-Design-method-signatures-carefully.md) 指出，应该使用接口而不是类作为参数类型。更一般地说，你应该优先使用接口而不是类来引用对象。**如果存在合适的接口类型，那么应该使用接口类型声明参数、返回值、变量和字段。** 惟一真正需要引用对象的类的时候是使用构造函数创建它的时候。为了具体说明这一点，考虑 LinkedHashSet 的情况，它是 Set 接口的一个实现。声明时应养成这样的习惯：
+[Item-51](/Chapter-8/Chapter-8-Item-51-Design-method-signatures-carefully.md) 指出，应该使用接口而不是类作为参数类型。更一般地说，你应该优先使用接口而不是类来引用对象。**如果存在合适的接口类型，那么应该使用接口类型声明参数、返回值、变量和字段。** 惟一真正需要引用对象的类的时候是使用构造函数创建它的时候。为了具体说明这一点，考虑 LinkedHashSet 的情况，它是 Set 接口的一个实现。声明时应养成这样的习惯：
 
 ```
 // Good - uses interface as type
@@ -61,6 +61,6 @@ These three cases are not meant to be exhaustive but merely to convey the flavor
 这三种情况并不是面面俱到的，而仅仅是为了传达适合通过类引用对象的情况。在实际应用中，给定对象是否具有适当的接口应该是显而易见的。如果是这样，如果使用接口引用对象，程序将更加灵活和流行。**如果没有合适的接口，就使用类层次结构中提供所需功能的最底层的类**
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Introduction.md)**
-- **Previous Item（上一条目）：[Item 63: Beware the performance of string concatenation（当心字符串连接引起的性能问题）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-63-Beware-the-performance-of-string-concatenation.md)**
-- **Next Item（下一条目）：[Item 65: Prefer interfaces to reflection（接口优于反射）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-65-Prefer-interfaces-to-reflection.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-9/Chapter-9-Introduction.md)**
+- **Previous Item（上一条目）：[Item 63: Beware the performance of string concatenation（当心字符串连接引起的性能问题）](/Chapter-9/Chapter-9-Item-63-Beware-the-performance-of-string-concatenation.md)**
+- **Next Item（下一条目）：[Item 65: Prefer interfaces to reflection（接口优于反射）](/Chapter-9/Chapter-9-Item-65-Prefer-interfaces-to-reflection.md)**

@@ -12,7 +12,7 @@ A static member class is the simplest kind of nested class. It is best thought o
 
 One common use of a static member class is as a public helper class, useful only in conjunction with its outer class. For example, consider an enum describing the operations supported by a calculator (Item 34). The Operation enum should be a public static member class of the Calculator class. Clients of Calculator could then refer to operations using names like Calculator.Operation.PLUS and Calculator.Operation.MINUS.
 
-静态成员类的一个常见用法是作为公有的辅助类，只有与它的外部类一起使用时才有意义。例如，考虑一个描述了计算器支持的各种操作的枚举（[Item-34](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)）。Operation 枚举应该是 Calculator 类的公有静态成员类，Calculator 类的客户端就可以用 `Calculator.Operation.PLUS` 和 `Calculator.Operation.MINUS` 等名称来引用这些操作。
+静态成员类的一个常见用法是作为公有的辅助类，只有与它的外部类一起使用时才有意义。例如，考虑一个描述了计算器支持的各种操作的枚举（[Item-34](/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)）。Operation 枚举应该是 Calculator 类的公有静态成员类，Calculator 类的客户端就可以用 `Calculator.Operation.PLUS` 和 `Calculator.Operation.MINUS` 等名称来引用这些操作。
 
 Syntactically, the only difference between static and nonstatic member classes is that static member classes have the modifier static in their declarations. Despite the syntactic similarity, these two kinds of nested classes are very different. Each instance of a nonstatic member class is implicitly associated with an enclosing instance of its containing class. Within instance methods of a nonstatic member class, you can invoke methods on the enclosing instance or obtain a reference to the enclosing instance using the qualified this construct [JLS, 15.8.4]. If an instance of a nested class can exist in isolation from an instance of its enclosing class, then the nested class must be a static member class: it is impossible to create an instance of a nonstatic member class without an enclosing instance.
 
@@ -42,7 +42,7 @@ public class MySet<E> extends AbstractSet<E> {
 
 **If you declare a member class that does not require access to an enclosing instance, always put the static modifier in its declaration,** making it a static rather than a nonstatic member class. If you omit this modifier, each instance will have a hidden extraneous reference to its enclosing instance. As previously mentioned, storing this reference takes time and space. More seriously, it can result in the enclosing instance being retained when it would otherwise be eligible for garbage collection (Item 7). The resulting memory leak can be catastrophic. It is often difficult to detect because the reference is invisible.
 
-**如果声明的成员类不需要访问外部的实例，那么应始终在声明中添加 static 修饰符，使其成为静态的而不是非静态的成员类。** 如果省略这个修饰符，每个实例都有一个隐藏的对其外部实例的额外引用。如前所述，存储此引用需要时间和空间。更糟糕的是，它可能会在满足进行垃圾收集条件时仍保留外部类的实例（[Item-7](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-7-Eliminate-obsolete-object-references.md)）。由于引用是不可见的，因此通常很难检测到。
+**如果声明的成员类不需要访问外部的实例，那么应始终在声明中添加 static 修饰符，使其成为静态的而不是非静态的成员类。** 如果省略这个修饰符，每个实例都有一个隐藏的对其外部实例的额外引用。如前所述，存储此引用需要时间和空间。更糟糕的是，它可能会在满足进行垃圾收集条件时仍保留外部类的实例（[Item-7](/Chapter-2/Chapter-2-Item-7-Eliminate-obsolete-object-references.md)）。由于引用是不可见的，因此通常很难检测到。
 
 A common use of private static member classes is to represent components of the object represented by their enclosing class. For example, consider a Map instance, which associates keys with values. Many Map implementations have an internal Entry object for each key-value pair in the map. While each entry is associated with a map, the methods on an entry (getKey, getValue, and setValue) do not need access to the map. Therefore, it would be wasteful to use a nonstatic member class to represent entries: a private static member class is best. If you accidentally omit the static modifier in the entry declaration, the map will still work, but each entry will contain a superfluous reference to the map, which wastes space and time.
 
@@ -62,7 +62,7 @@ There are many limitations on the applicability of anonymous classes. You can’
 
 Before lambdas were added to Java (Chapter 6), anonymous classes were the preferred means of creating small function objects and process objects on the fly, but lambdas are now preferred (Item 42). Another common use of anonymous classes is in the implementation of static factory methods (see intArrayAsList in Item 20).
 
-在 lambda 表达式被添加到 Java（Chapter 6）之前，匿名类是动态创建小型函数对象和进程对象的首选方法，但 lambda 表达式现在是首选方法（[Item-42](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-7/Chapter-7-Item-42-Prefer-lambdas-to-anonymous-classes.md)）。匿名类的另一个常见用法是实现静态工厂方法（参见 [Item-20](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md) 中的 intArrayAsList 类）。
+在 lambda 表达式被添加到 Java（Chapter 6）之前，匿名类是动态创建小型函数对象和进程对象的首选方法，但 lambda 表达式现在是首选方法（[Item-42](/Chapter-7/Chapter-7-Item-42-Prefer-lambdas-to-anonymous-classes.md)）。匿名类的另一个常见用法是实现静态工厂方法（参见 [Item-20](/Chapter-4/Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md) 中的 intArrayAsList 类）。
 
 Local classes are the least frequently used of the four kinds of nested classes. A local class can be declared practically anywhere a local variable can be declared and obeys the same scoping rules. Local classes have attributes in common with each of the other kinds of nested classes. Like member classes, they have names and can be used repeatedly. Like anonymous classes, they have enclosing instances only if they are defined in a nonstatic context, and they cannot contain static members. And like anonymous classes, they should be kept short so as not to harm readability.
 
@@ -73,6 +73,6 @@ To recap, there are four different kinds of nested classes, and each has its pla
 简单回顾一下，有四种不同类型的嵌套类，每一种都有自己的用途。如果嵌套的类需要在单个方法之外可见，或者太长，不适合放入方法中，则使用成员类。除非成员类的每个实例都需要引用其外部类实例，让它保持静态。假设嵌套类属于方法内部，如果你只需要从一个位置创建实例，并且存在一个能够描述类的现有类型，那么将其设置为匿名类；否则，将其设置为局部类。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Introduction.md)**
-- **Previous Item（上一条目）：[Item 23: Prefer class hierarchies to tagged classes（类层次结构优于带标签的类）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-23-Prefer-class-hierarchies-to-tagged-classes.md)**
-- **Next Item（下一条目）：[Item 25: Limit source files to a single top level class（源文件仅限有单个顶层类）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-25-Limit-source-files-to-a-single-top-level-class.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-4/Chapter-4-Introduction.md)**
+- **Previous Item（上一条目）：[Item 23: Prefer class hierarchies to tagged classes（类层次结构优于带标签的类）](/Chapter-4/Chapter-4-Item-23-Prefer-class-hierarchies-to-tagged-classes.md)**
+- **Next Item（下一条目）：[Item 25: Limit source files to a single top level class（源文件仅限有单个顶层类）](/Chapter-4/Chapter-4-Item-25-Limit-source-files-to-a-single-top-level-class.md)**

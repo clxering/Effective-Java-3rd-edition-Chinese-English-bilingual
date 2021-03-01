@@ -4,7 +4,7 @@
 
 The Cloneable interface was intended as a mixin interface (Item 20) for classes to advertise that they permit cloning. Unfortunately, it fails to serve this purpose. Its primary flaw is that it lacks a clone method, and Object’s clone method is protected. You cannot, without resorting to reflection (Item 65), invoke clone on an object merely because it implements Cloneable. Even a reflective invocation may fail, because there is no guarantee that the object has an accessible clone method. Despite this flaw and many others, the facility is in reasonably wide use, so it pays to understand it. This item tells you how to implement a well-behaved clone method, discusses when it is appropriate to do so, and presents alternatives.
 
-Cloneable 接口的目的是作为 mixin 接口（[Item-20](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md)），用于让类来宣称它们允许克隆。不幸的是，它没有达到这个目的。它的主要缺点是缺少 clone 方法，并且 Object 类的 clone 方法是受保护的。如果不求助于反射（[Item-65](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-65-Prefer-interfaces-to-reflection.md)），就不能仅仅因为对象实现了 Cloneable 接口就能调用 clone 方法。即使反射调用也可能失败，因为不能保证对象具有可访问的 clone 方法。尽管存在多种缺陷，但该机制的使用范围相当广泛，因此理解它是值得的。本条目将告诉你如何实现行为良好的 clone 方法，讨论什么时候应该这样做，并提供替代方案。
+Cloneable 接口的目的是作为 mixin 接口（[Item-20](/Chapter-4/Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md)），用于让类来宣称它们允许克隆。不幸的是，它没有达到这个目的。它的主要缺点是缺少 clone 方法，并且 Object 类的 clone 方法是受保护的。如果不求助于反射（[Item-65](/Chapter-9/Chapter-9-Item-65-Prefer-interfaces-to-reflection.md)），就不能仅仅因为对象实现了 Cloneable 接口就能调用 clone 方法。即使反射调用也可能失败，因为不能保证对象具有可访问的 clone 方法。尽管存在多种缺陷，但该机制的使用范围相当广泛，因此理解它是值得的。本条目将告诉你如何实现行为良好的 clone 方法，讨论什么时候应该这样做，并提供替代方案。
 
 **译注：mixin 接口很可能是指一种带有全部实现或者部分实现的接口，其主要作用是：（1）更好的进行代码复用；（2）间接实现多重继承；（3）扩展功能。与传统接口相比，传统接口中不带实现，而 mixin 接口带有实现。**
 
@@ -97,7 +97,7 @@ class BasePro extends Base implements Cloneable {
 
 Suppose you want to implement Cloneable in a class whose superclass provides a well-behaved clone method. First call super.clone. The object you get back will be a fully functional replica of the original. Any fields declared in your class will have values identical to those of the original. If every field contains a primitive value or a reference to an immutable object, the returned object may be exactly what you need, in which case no further processing is necessary. This is the case, for example, for the PhoneNumber class in Item 11, but note that **immutable classes should never provide a clone method** because it would merely encourage wasteful copying. With that caveat, here’s how a clone method for PhoneNumber would look:
 
-假设你希望在一个类中实现 Cloneable 接口，该类的超类提供了一个表现良好的 clone 方法。首先调用 super.clone()。返回的对象将是原始对象的完整功能副本。类中声明的任何字段都具有与原始字段相同的值。如果每个字段都包含一个基本类型或对不可变对象的引用，那么返回的对象可能正是你所需要的，在这种情况下不需要进一步的处理。例如，对于[Item-11](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)中的 PhoneNumber 类就是这样，但是要注意，**不可变类永远不应该提供 clone 方法**，because it would merely encourage wasteful copying. 有了这个警告，以下是 PhoneNumber 类的 clone 方法概貌：
+假设你希望在一个类中实现 Cloneable 接口，该类的超类提供了一个表现良好的 clone 方法。首先调用 super.clone()。返回的对象将是原始对象的完整功能副本。类中声明的任何字段都具有与原始字段相同的值。如果每个字段都包含一个基本类型或对不可变对象的引用，那么返回的对象可能正是你所需要的，在这种情况下不需要进一步的处理。例如，对于[Item-11](/Chapter-3/Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)中的 PhoneNumber 类就是这样，但是要注意，**不可变类永远不应该提供 clone 方法**，because it would merely encourage wasteful copying. 有了这个警告，以下是 PhoneNumber 类的 clone 方法概貌：
 
 ```
 // Clone method for class with no references to mutable state
@@ -116,11 +116,11 @@ In order for this method to work, the class declaration for PhoneNumber would ha
 
 The call to super.clone is contained in a try-catch block. This is because Object declares its clone method to throw CloneNotSupportedException, which is a checked exception. Because PhoneNumber implements Cloneable, we know the call to super.clone will succeed. The need for this boilerplate indicates that CloneNotSupportedException should have been unchecked (Item 71).
 
-将 super.clone() 包含在 try-catch 块中。这是因为 Object 类声明的 clone 方法会抛出 CloneNotSupportedException，这是一种 checked exception。因为 PhoneNumber 类实现了 Cloneable 接口，所以我们知道对 super.clone() 的调用将会成功。这个样板文件的需求表明 CloneNotSupportedException 应该是 unchecked exception（[Item-71](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-71-Avoid-unnecessary-use-of-checked-exceptions.md)）。
+将 super.clone() 包含在 try-catch 块中。这是因为 Object 类声明的 clone 方法会抛出 CloneNotSupportedException，这是一种 checked exception。因为 PhoneNumber 类实现了 Cloneable 接口，所以我们知道对 super.clone() 的调用将会成功。这个样板文件的需求表明 CloneNotSupportedException 应该是 unchecked exception（[Item-71](/Chapter-10/Chapter-10-Item-71-Avoid-unnecessary-use-of-checked-exceptions.md)）。
 
 If an object contains fields that refer to mutable objects, the simple clone implementation shown earlier can be disastrous. For example, consider the Stack class in Item 7:
 
-如果对象的字段包含可变对象的引用，前面所示 clone 方法的这种简易实现可能引发灾难。例如，考虑 [Item-7](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-7-Eliminate-obsolete-object-references.md) 中的 Stack 类：
+如果对象的字段包含可变对象的引用，前面所示 clone 方法的这种简易实现可能引发灾难。例如，考虑 [Item-7](/Chapter-2/Chapter-2-Item-7-Eliminate-obsolete-object-references.md) 中的 Stack 类：
 
 ```
 public class Stack {
@@ -287,15 +287,15 @@ A final approach to cloning complex mutable objects is to call super.clone, set 
 
 Like a constructor, a clone method must never invoke an overridable method on the clone under construction (Item 19). If clone invokes a method that is overridden in a subclass, this method will execute before the subclass has had a chance to fix its state in the clone, quite possibly leading to corruption in the clone and the original. Therefore, the put(key, value) method discussed in the previous paragraph should be either final or private. (If it is private, it is presumably the “helper method” for a nonfinal public method.)
 
-与构造函数一样，clone 方法决不能在正在构建的克隆上调用可覆盖方法（[Item-19](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-19-Design-and-document-for-inheritance-or-else-prohibit-it.md)）。如果 clone 调用一个在子类中被重写的方法，这个方法将在子类有机会修复其在克隆中的状态之前执行，很可能导致克隆和原始的破坏。因此，前一段中讨论的 put(key, value) 方法应该是 final 修饰或 private 修饰的方法。（如果它是私有的，那么它可能是没有 final 修饰的公共「助手方法」。)
+与构造函数一样，clone 方法决不能在正在构建的克隆上调用可覆盖方法（[Item-19](/Chapter-4/Chapter-4-Item-19-Design-and-document-for-inheritance-or-else-prohibit-it.md)）。如果 clone 调用一个在子类中被重写的方法，这个方法将在子类有机会修复其在克隆中的状态之前执行，很可能导致克隆和原始的破坏。因此，前一段中讨论的 put(key, value) 方法应该是 final 修饰或 private 修饰的方法。（如果它是私有的，那么它可能是没有 final 修饰的公共「助手方法」。)
 
 Object’s clone method is declared to throw CloneNotSupportedException, but overriding methods need not. **Public clone methods should omit the throws clause,** as methods that don’t throw checked exceptions are easier to use (Item 71).
 
-对象的 clone 方法被声明为抛出 CloneNotSupportedException，但是重写方法不需要。**公共克隆方法应该省略 throw 子句，** 作为不抛出受控异常的方法更容易使用（[Item-71](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-71-Avoid-unnecessary-use-of-checked-exceptions.md)）。
+对象的 clone 方法被声明为抛出 CloneNotSupportedException，但是重写方法不需要。**公共克隆方法应该省略 throw 子句，** 作为不抛出受控异常的方法更容易使用（[Item-71](/Chapter-10/Chapter-10-Item-71-Avoid-unnecessary-use-of-checked-exceptions.md)）。
 
 You have two choices when designing a class for inheritance (Item 19), but whichever one you choose, the class should not implement Cloneable. You may choose to mimic the behavior of Object by implementing a properly functioning protected clone method that is declared to throw CloneNotSupportedException. This gives subclasses the freedom to implement Cloneable or not, just as if they extended Object directly.Alternatively, you may choose not to implement a working clone method, and to prevent subclasses from implementing one, by providing the following degenerate clone implementation:
 
-用继承（[Item-19](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-19-Design-and-document-for-inheritance-or-else-prohibit-it.md)）方式设计一个类时，你有两种选择，但是无论你选择哪一种，都不应该实现 Cloneable 接口。你可以选择通过实现一个功能正常的受保护克隆方法来模拟 Object 的行为，该方法声明为抛出 CloneNotSupportedException。这给子类实现 Cloneable 或不实现 Cloneable 的自由，就像它们直接扩展对象一样。或者，你可以选择不实现一个有效的克隆方法，并通过提供以下退化的克隆实现来防止子类实现它：
+用继承（[Item-19](/Chapter-4/Chapter-4-Item-19-Design-and-document-for-inheritance-or-else-prohibit-it.md)）方式设计一个类时，你有两种选择，但是无论你选择哪一种，都不应该实现 Cloneable 接口。你可以选择通过实现一个功能正常的受保护克隆方法来模拟 Object 的行为，该方法声明为抛出 CloneNotSupportedException。这给子类实现 Cloneable 或不实现 Cloneable 的自由，就像它们直接扩展对象一样。或者，你可以选择不实现一个有效的克隆方法，并通过提供以下退化的克隆实现来防止子类实现它：
 
 ```
 // clone method for extendable class not supporting Cloneable
@@ -307,7 +307,7 @@ protected final Object clone() throws CloneNotSupportedException {
 
 There is one more detail that bears noting. If you write a thread-safe class that implements Cloneable, remember that its clone method must be properly synchronized, just like any other method (Item 78). Object’s clone method is not synchronized, so even if its implementation is otherwise satisfactory, you may have to write a synchronized clone method that returns super.clone().
 
-还有一个细节需要注意。如果你编写了一个实现了 Cloneable 接口的线程安全类，请记住它的 clone 方法必须正确同步，就像其他任何方法一样（[Item-78](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-78-Synchronize-access-to-shared-mutable-data.md)）。Object 类的 clone 方法不是同步的，因此即使它的实现在其他方面是令人满意的，你也可能需要编写一个返回 super.clone() 的同步 clone 方法。
+还有一个细节需要注意。如果你编写了一个实现了 Cloneable 接口的线程安全类，请记住它的 clone 方法必须正确同步，就像其他任何方法一样（[Item-78](/Chapter-11/Chapter-11-Item-78-Synchronize-access-to-shared-mutable-data.md)）。Object 类的 clone 方法不是同步的，因此即使它的实现在其他方面是令人满意的，你也可能需要编写一个返回 super.clone() 的同步 clone 方法。
 
 To recap, all classes that implement Cloneable should override clone with a public method whose return type is the class itself. This method should first call super.clone, then fix any fields that need fixing. Typically, this means copying any mutable objects that comprise the internal “deep structure” of the object and replacing the clone’s references to these objects with references to their copies. While these internal copies can usually be made by calling clone recursively, this is not always the best approach. If the class contains only primitive fields or references to immutable objects, then it is likely the case that no fields need to be fixed. There are exceptions to this rule. For example, a field representing a serial number or other unique ID will need to be fixed even if it is primitive or immutable.
 
@@ -324,7 +324,7 @@ public Yum(Yum yum) { ... };
 
 A copy factory is the static factory (Item 1) analogue of a copy constructor:
 
-复制工厂与复制构造函数的静态工厂（[Item-1](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)）类似：
+复制工厂与复制构造函数的静态工厂（[Item-1](/Chapter-2/Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)）类似：
 
 ```
 // Copy factory
@@ -341,11 +341,11 @@ Furthermore, a copy constructor or factory can take an argument whose type is an
 
 Given all the problems associated with Cloneable, new interfaces should not extend it, and new extendable classes should not implement it. While it’s less harmful for final classes to implement Cloneable, this should be viewed as a performance optimization, reserved for the rare cases where it is justified (Item 67). As a rule, copy functionality is best provided by constructors or factories. A notable exception to this rule is arrays, which are best copied with the clone method.
 
-考虑到与 Cloneable 相关的所有问题，新的接口不应该扩展它，新的可扩展类不应该实现它。虽然 final 类实现 Cloneable 接口的危害要小一些，但这应该被视为一种性能优化，仅在极少数情况下（[Item-67](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-67-Optimize-judiciously.md)）是合理的。通常，复制功能最好由构造函数或工厂提供。这个规则的一个明显的例外是数组，最好使用 clone 方法来复制数组。
+考虑到与 Cloneable 相关的所有问题，新的接口不应该扩展它，新的可扩展类不应该实现它。虽然 final 类实现 Cloneable 接口的危害要小一些，但这应该被视为一种性能优化，仅在极少数情况下（[Item-67](/Chapter-9/Chapter-9-Item-67-Optimize-judiciously.md)）是合理的。通常，复制功能最好由构造函数或工厂提供。这个规则的一个明显的例外是数组，最好使用 clone 方法来复制数组。
 
 ---
 
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Introduction.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-3/Chapter-3-Introduction.md)**
 
-- **Previous Item（上一条目）：[Item 12: Always override toString（始终覆盖 toString 方法）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-12-Always-override-toString.md)**
-- **Next Item（下一条目）：[Item 14: Consider implementing Comparable（考虑实现 Comparable 接口）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-14-Consider-implementing-Comparable.md)**
+- **Previous Item（上一条目）：[Item 12: Always override toString（始终覆盖 toString 方法）](/Chapter-3/Chapter-3-Item-12-Always-override-toString.md)**
+- **Next Item（下一条目）：[Item 14: Consider implementing Comparable（考虑实现 Comparable 接口）](/Chapter-3/Chapter-3-Item-14-Consider-implementing-Comparable.md)**

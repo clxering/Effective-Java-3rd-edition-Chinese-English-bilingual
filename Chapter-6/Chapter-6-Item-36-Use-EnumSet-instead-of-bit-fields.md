@@ -4,7 +4,7 @@
 
 If the elements of an enumerated type are used primarily in sets, it is traditional to use the int enum pattern (Item 34), assigning a different power of 2 to each constant:
 
-如果枚举类型的元素主要在 Set 中使用，传统上使用 int 枚举模式（[Item-34](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)），通过不同的 2 平方数为每个常量赋值：
+如果枚举类型的元素主要在 Set 中使用，传统上使用 int 枚举模式（[Item-34](/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)），通过不同的 2 平方数为每个常量赋值：
 
 ```
 // Bit field enumeration constants - OBSOLETE!
@@ -57,13 +57,13 @@ text.applyStyles(EnumSet.of(Style.BOLD, Style.ITALIC));
 
 Note that the applyStyles method takes a `Set<Style>` rather than an `EnumSet<Style>`. While it seems likely that all clients would pass an EnumSet to the method, it is generally good practice to accept the interface type rather than the implementation type (Item 64). This allows for the possibility of an unusual client to pass in some other Set implementation.
 
-请注意，applyStyles 方法采用 `Set<Style>` 而不是 `EnumSet<Style>`。虽然似乎所有客户端都可能将 EnumSet 传递给该方法，但通常较好的做法是接受接口类型而不是实现类型（[Item-64](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-64-Refer-to-objects-by-their-interfaces.md)）。这允许特殊的客户端传入其他 Set 实现的可能性。
+请注意，applyStyles 方法采用 `Set<Style>` 而不是 `EnumSet<Style>`。虽然似乎所有客户端都可能将 EnumSet 传递给该方法，但通常较好的做法是接受接口类型而不是实现类型（[Item-64](/Chapter-9/Chapter-9-Item-64-Refer-to-objects-by-their-interfaces.md)）。这允许特殊的客户端传入其他 Set 实现的可能性。
 
 In summary, **just because an enumerated type will be used in sets, there is no reason to represent it with bit fields.** The EnumSet class combines the conciseness and performance of bit fields with all the many advantages of enum types described in Item 34. The one real disadvantage of EnumSet is that it is not, as of Java 9, possible to create an immutable EnumSet, but this will likely be remedied in an upcoming release. In the meantime, you can wrap an EnumSet with Collections.unmodifiableSet, but conciseness and performance will suffer.
 
-总之，**因为枚举类型将在 Set 中使用，没有理由用位字段表示它。** EnumSet 类结合了位字段的简洁性和性能，以及 [Item-34](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md) 中描述的枚举类型的许多优点。EnumSet 的一个真正的缺点是，从 Java 9 开始，它不能创建不可变的 EnumSet，在未来发布的版本中可能会纠正这一点。同时，可以用 `Collections.unmodifiableSet` 包装 EnumSet，但简洁性和性能将受到影响。
+总之，**因为枚举类型将在 Set 中使用，没有理由用位字段表示它。** EnumSet 类结合了位字段的简洁性和性能，以及 [Item-34](/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md) 中描述的枚举类型的许多优点。EnumSet 的一个真正的缺点是，从 Java 9 开始，它不能创建不可变的 EnumSet，在未来发布的版本中可能会纠正这一点。同时，可以用 `Collections.unmodifiableSet` 包装 EnumSet，但简洁性和性能将受到影响。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Introduction.md)**
-- **Previous Item（上一条目）：[Item 35: Use instance fields instead of ordinals（使用实例字段替代序数）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-35-Use-instance-fields-instead-of-ordinals.md)**
-- **Next Item（下一条目）：[Item 37: Use EnumMap instead of ordinal indexing（使用 EnumMap 替换序数索引）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-37-Use-EnumMap-instead-of-ordinal-indexing.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-6/Chapter-6-Introduction.md)**
+- **Previous Item（上一条目）：[Item 35: Use instance fields instead of ordinals（使用实例字段替代序数）](/Chapter-6/Chapter-6-Item-35-Use-instance-fields-instead-of-ordinals.md)**
+- **Next Item（下一条目）：[Item 37: Use EnumMap instead of ordinal indexing（使用 EnumMap 替换序数索引）](/Chapter-6/Chapter-6-Item-37-Use-EnumMap-instead-of-ordinal-indexing.md)**

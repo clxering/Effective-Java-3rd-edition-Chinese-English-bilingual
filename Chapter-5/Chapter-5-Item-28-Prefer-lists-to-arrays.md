@@ -28,7 +28,7 @@ Either way you can’t put a String into a Long container, but with an array you
 
 The second major difference between arrays and generics is that arrays are reified [JLS, 4.7]. This means that arrays know and enforce their element type at runtime. As noted earlier, if you try to put a String into an array of Long, you’ll get an ArrayStoreException. Generics, by contrast, are implemented by erasure [JLS, 4.6]. This means that they enforce their type constraints only at compile time and discard (or erase) their element type information at runtime. Erasure is what allowed generic types to interoperate freely with legacy code that didn’t use generics (Item 26), ensuring a smooth transition to generics in Java 5.
 
-数组和泛型之间的第二个主要区别：数组是具体化的 [JLS, 4.7]。这意味着数组在运行时知道并强制执行他们的元素类型。如前所述，如果试图将 String 元素放入一个 Long 类型的数组中，就会得到 ArrayStoreException。相比之下，泛型是通过擦除来实现的 [JLS, 4.6]。这意味着它们只在编译时执行类型约束，并在运行时丢弃（或擦除）元素类型信息。擦除允许泛型与不使用泛型的遗留代码自由交互操作（[Item-26](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-26-Do-not-use-raw-types.md)），确保在 Java 5 中平稳地过渡。
+数组和泛型之间的第二个主要区别：数组是具体化的 [JLS, 4.7]。这意味着数组在运行时知道并强制执行他们的元素类型。如前所述，如果试图将 String 元素放入一个 Long 类型的数组中，就会得到 ArrayStoreException。相比之下，泛型是通过擦除来实现的 [JLS, 4.6]。这意味着它们只在编译时执行类型约束，并在运行时丢弃（或擦除）元素类型信息。擦除允许泛型与不使用泛型的遗留代码自由交互操作（[Item-26](/Chapter-5/Chapter-5-Item-26-Do-not-use-raw-types.md)），确保在 Java 5 中平稳地过渡。
 
 Because of these fundamental differences, arrays and generics do not mix well. For example, it is illegal to create an array of a generic type, a parameterized type, or a type parameter. Therefore, none of these array creation expressions are legal: `new List<E>[]`, `new List<String>[]`, `new E[]`. All will result in generic array creation errors at compile time.
 
@@ -57,11 +57,11 @@ Let’s pretend that line 1, which creates a generic array, is legal. Line 2 cre
 
 Types such as E, `List<E>`, and `List<String>` are technically known as nonreifiable types [JLS, 4.7]. Intuitively speaking, a non-reifiable type is one whose runtime representation contains less information than its compile-time representation. Because of erasure, the only parameterized types that are reifiable are unbounded wildcard types such as `List<?>` and `Map<?,?>` (Item 26). It is legal, though rarely useful, to create arrays of unbounded wildcard types.
 
-E、`List<E>` 和 `List<string>` 等类型在技术上称为不可具体化类型 [JLS, 4.7]。直观地说，非具体化类型的运行时表示包含的信息少于其编译时表示。由于擦除，唯一可具体化的参数化类型是无限制通配符类型，如 `List<?>` 和 `Map<?,?>`（[Item-26](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-26-Do-not-use-raw-types.md)）。创建无边界通配符类型数组是合法的，但不怎么有用。
+E、`List<E>` 和 `List<string>` 等类型在技术上称为不可具体化类型 [JLS, 4.7]。直观地说，非具体化类型的运行时表示包含的信息少于其编译时表示。由于擦除，唯一可具体化的参数化类型是无限制通配符类型，如 `List<?>` 和 `Map<?,?>`（[Item-26](/Chapter-5/Chapter-5-Item-26-Do-not-use-raw-types.md)）。创建无边界通配符类型数组是合法的，但不怎么有用。
 
 The prohibition on generic array creation can be annoying. It means, for example, that it’s not generally possible for a generic collection to return an array of its element type (but see Item 33 for a partial solution). It also means that you get confusing warnings when using varargs methods (Item 53) in combination with generic types. This is because every time you invoke a varargs method, an array is created to hold the varargs parameters. If the element type of this array is not reifiable, you get a warning. The SafeVarargs annotation can be used to address this issue (Item 32).
 
-禁止创建泛型数组可能很烦人。例如，这意味着泛型集合通常不可能返回其元素类型的数组（部分解决方案请参见 [Item-33](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-33-Consider-typesafe-heterogeneous-containers.md)）。这也意味着在使用 varargs 方法（[Item-53](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8/Chapter-8-Item-53-Use-varargs-judiciously.md)）与泛型组合时，你会得到令人困惑的警告。这是因为每次调用 varargs 方法时，都会创建一个数组来保存 varargs 参数。如果该数组的元素类型不可具体化，则会得到警告。SafeVarargs 注解可以用来解决这个问题（[Item-32](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-32-Combine-generics-and-varargs-judiciously.md)）。
+禁止创建泛型数组可能很烦人。例如，这意味着泛型集合通常不可能返回其元素类型的数组（部分解决方案请参见 [Item-33](/Chapter-5/Chapter-5-Item-33-Consider-typesafe-heterogeneous-containers.md)）。这也意味着在使用 varargs 方法（[Item-53](/Chapter-8/Chapter-8-Item-53-Use-varargs-judiciously.md)）与泛型组合时，你会得到令人困惑的警告。这是因为每次调用 varargs 方法时，都会创建一个数组来保存 varargs 参数。如果该数组的元素类型不可具体化，则会得到警告。SafeVarargs 注解可以用来解决这个问题（[Item-32](/Chapter-5/Chapter-5-Item-32-Combine-generics-and-varargs-judiciously.md)）。
 
 **译注：varargs 方法，指带有可变参数的方法。**
 
@@ -91,7 +91,7 @@ public class Chooser {
 
 To use this class, you have to cast the choose method’s return value from Object to the desired type every time you use invoke the method, and the cast will fail at runtime if you get the type wrong. Taking the advice of Item 29 to heart, we attempt to modify Chooser to make it generic. Changes are shown in boldface:
 
-要使用这个类，每次使用方法调用时，必须将 choose 方法的返回值从对象转换为所需的类型，如果类型错误，转换将在运行时失败。我们认真考虑了 [Item-29](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-29-Favor-generic-types.md) 的建议，试图对 Chooser 进行修改，使其具有通用性。变化以粗体显示：
+要使用这个类，每次使用方法调用时，必须将 choose 方法的返回值从对象转换为所需的类型，如果类型错误，转换将在运行时失败。我们认真考虑了 [Item-29](/Chapter-5/Chapter-5-Item-29-Favor-generic-types.md) 的建议，试图对 Chooser 进行修改，使其具有通用性。变化以粗体显示：
 
 ```
 // A first cut at making Chooser generic - won't compile
@@ -138,7 +138,7 @@ T extends Object declared in class Chooser
 
 The compiler is telling you that it can’t vouch for the safety of the cast at runtime because the program won’t know what type T represents—remember, element type information is erased from generics at runtime. Will the program work? Yes, but the compiler can’t prove it. You could prove it to yourself, put the proof in a comment and suppress the warning with an annotation, but you’re better off eliminating the cause of warning (Item 27).
 
-编译器告诉你，它不能保证在运行时转换的安全性，因为程序不知道类型 T 代表什么。记住，元素类型信息在运行时从泛型中删除。这个计划会奏效吗？是的，但是编译器不能证明它。你可以向自己证明这一点，但是你最好将证据放在注释中，指出消除警告的原因（[Item-27](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-27-Eliminate-unchecked-warnings.md)），并使用注解隐藏警告。
+编译器告诉你，它不能保证在运行时转换的安全性，因为程序不知道类型 T 代表什么。记住，元素类型信息在运行时从泛型中删除。这个计划会奏效吗？是的，但是编译器不能证明它。你可以向自己证明这一点，但是你最好将证据放在注释中，指出消除警告的原因（[Item-27](/Chapter-5/Chapter-5-Item-27-Eliminate-unchecked-warnings.md)），并使用注解隐藏警告。
 
 To eliminate the unchecked cast warning, use a list instead of an array. Here is a version of the Chooser class that compiles without error or warning:
 
@@ -169,6 +169,6 @@ In summary, arrays and generics have very different type rules. Arrays are covar
 总之，数组和泛型有非常不同的类型规则。数组是协变的、具体化的；泛型是不变的和可被擦除的。因此，数组提供了运行时类型安全，而不是编译时类型安全，对于泛型反之亦然。一般来说，数组和泛型不能很好地混合。如果你发现将它们混合在一起并得到编译时错误或警告，那么你的第一个反应该是将数组替换为 list。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Introduction.md)**
-- **Previous Item（上一条目）：[Item 27: Eliminate unchecked warnings（消除 unchecked 警告）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-27-Eliminate-unchecked-warnings.md)**
-- **Next Item（下一条目）：[Item 29: Favor generic types（优先使用泛型）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-29-Favor-generic-types.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-5/Chapter-5-Introduction.md)**
+- **Previous Item（上一条目）：[Item 27: Eliminate unchecked warnings（消除 unchecked 警告）](/Chapter-5/Chapter-5-Item-27-Eliminate-unchecked-warnings.md)**
+- **Next Item（下一条目）：[Item 29: Favor generic types（优先使用泛型）](/Chapter-5/Chapter-5-Item-29-Favor-generic-types.md)**

@@ -104,6 +104,6 @@ In summary, unchecked warnings are important. Don’t ignore them. Every uncheck
 总之，unchecked 警告很重要。不要忽视他们。每个 unchecked 警告都代表了在运行时发生 ClassCastException 的可能性。尽最大努力消除这些警告。如果不能消除 unchecked 警告，并且可以证明引发该警告的代码是类型安全的，那么可以在尽可能狭窄的范围内使用 @SuppressWarnings("unchecked") 注释来禁止警告。在注释中记录你决定隐藏警告的理由。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Introduction.md)**
-- **Previous Item（上一条目）：[Item 26: Do not use raw types（不要使用原始类型）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-26-Do-not-use-raw-types.md)**
-- **Next Item（下一条目）：[Item 28: Prefer lists to arrays（list 优于数组）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-28-Prefer-lists-to-arrays.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-5/Chapter-5-Introduction.md)**
+- **Previous Item（上一条目）：[Item 26: Do not use raw types（不要使用原始类型）](/Chapter-5/Chapter-5-Item-26-Do-not-use-raw-types.md)**
+- **Next Item（下一条目）：[Item 28: Prefer lists to arrays（list 优于数组）](/Chapter-5/Chapter-5-Item-28-Prefer-lists-to-arrays.md)**

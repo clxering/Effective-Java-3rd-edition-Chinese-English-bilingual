@@ -20,7 +20,7 @@
 
 **The key provision that is violated when you fail to override hashCode is the second one: equal objects must have equal hash codes.** Two distinct instances may be logically equal according to a class’s equals method, but to Object’s hashCode method, they’re just two objects with nothing much in common. Therefore, Object’s hashCode method returns two seemingly random numbers instead of two equal numbers as required by the contract.For example, suppose you attempt to use instances of the PhoneNumber class from Item 10 as keys in a HashMap:
 
-**当你无法覆盖 hashCode 方法时，将违反第二个关键条款：相等的对象必须具有相等的散列码。** 根据类的 equals 方法，两个不同的实例在逻辑上可能是相等的，但是对于对象的 hashCode 方法来说，它们只是两个没有共同之处的对象。因此，Object 的 hashCode 方法返回两个看似随机的数字，而不是约定要求的两个相等的数字。例如，假设你尝试使用[Item-10](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)中的 PhoneNumber 类实例作为 HashMap 中的键：
+**当你无法覆盖 hashCode 方法时，将违反第二个关键条款：相等的对象必须具有相等的散列码。** 根据类的 equals 方法，两个不同的实例在逻辑上可能是相等的，但是对于对象的 hashCode 方法来说，它们只是两个没有共同之处的对象。因此，Object 的 hashCode 方法返回两个看似随机的数字，而不是约定要求的两个相等的数字。例如，假设你尝试使用[Item-10](/Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)中的 PhoneNumber 类实例作为 HashMap 中的键：
 
 ```
 Map<PhoneNumber, String> m = new HashMap<>();
@@ -51,7 +51,7 @@ A good hash function tends to produce unequal hash codes for unequal instances. 
 
 1、Declare an int variable named result, and initialize it to the hash code c for the first significant field in your object, as computed in step 2.a. (Recall from Item 10 that a significant field is a field that affects equals comparisons.)
 
-声明一个名为 result 的 int 变量，并将其初始化为对象中第一个重要字段的散列码 c，如步骤 2.a 中计算的那样。（回想一下 [Item-10](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md) 中的重要字段会对比较产生影响）
+声明一个名为 result 的 int 变量，并将其初始化为对象中第一个重要字段的散列码 c，如步骤 2.a 中计算的那样。（回想一下 [Item-10](/Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md) 中的重要字段会对比较产生影响）
 
 2、For every remaining significant field f in your object, do the following:
 
@@ -134,7 +134,7 @@ public int hashCode() {
 
 If a class is immutable and the cost of computing the hash code is significant,you might consider caching the hash code in the object rather than recalculating it each time it is requested. If you believe that most objects of this type will be used as hash keys, then you should calculate the hash code when the instance is created. Otherwise, you might choose to lazily initialize the hash code the first time hash-Code is invoked. Some care is required to ensure that the class remains thread-safe in the presence of a lazily initialized field (Item 83). Our PhoneNumber class does not merit this treatment, but just to show you how it’s done, here it is. Note that the initial value for the hashCode field (in this case, 0) should not be the hash code of a commonly created instance:
 
-如果一个类是不可变的，并且计算散列码的成本非常高，那么你可以考虑在对象中缓存散列码，而不是在每次请求时重新计算它。如果你认为这种类型的大多数对象都将用作散列键，那么你应该在创建实例时计算散列码。否则，你可以选择在第一次调用 hashCode 方法时延迟初始化散列码。在一个延迟初始化的字段（[Item-83](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-83-Use-lazy-initialization-judiciously.md)）的情况下，需要注意以确保该类仍然是线程安全的。我们的 PhoneNumber 类不值得进行这种处理，但只是为了向你展示它是如何实现的，如下所示。注意，散列字段的初始值（在本例中为 0）不应该是通常创建的实例的散列码：
+如果一个类是不可变的，并且计算散列码的成本非常高，那么你可以考虑在对象中缓存散列码，而不是在每次请求时重新计算它。如果你认为这种类型的大多数对象都将用作散列键，那么你应该在创建实例时计算散列码。否则，你可以选择在第一次调用 hashCode 方法时延迟初始化散列码。在一个延迟初始化的字段（[Item-83](/Chapter-11/Chapter-11-Item-83-Use-lazy-initialization-judiciously.md)）的情况下，需要注意以确保该类仍然是线程安全的。我们的 PhoneNumber 类不值得进行这种处理，但只是为了向你展示它是如何实现的，如下所示。注意，散列字段的初始值（在本例中为 0）不应该是通常创建的实例的散列码：
 
 ```
 // hashCode method with lazily initialized cached hash code
@@ -168,11 +168,11 @@ This is not just a theoretical problem. Prior to Java 2, the String hash functio
 
 In summary, you must override hashCode every time you override equals,or your program will not run correctly. Your hashCode method must obey the general contract specified in Object and must do a reasonable job assigning unequal hash codes to unequal instances. This is easy to achieve, if slightly tedious, using the recipe on page 51. As mentioned in Item 10, the AutoValue framework provides a fine alternative to writing equals and hashCode methods manually, and IDEs also provide some of this functionality.
 
-总之，每次覆盖 equals 方法时都必须覆盖 hashCode 方法，否则程序将无法正确运行。你的 hashCode 方法必须遵守 Object 中指定的通用约定，并且必须合理地将不相等的散列码分配给不相等的实例。这很容易实现，如果有点枯燥，可使用第 51 页的方法。如 [Item-10](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md) 所述，AutoValue 框架提供了一种能很好的替代手动编写 equals 方法和 hashCode 方法的功能，IDE 也提供了这种功能。
+总之，每次覆盖 equals 方法时都必须覆盖 hashCode 方法，否则程序将无法正确运行。你的 hashCode 方法必须遵守 Object 中指定的通用约定，并且必须合理地将不相等的散列码分配给不相等的实例。这很容易实现，如果有点枯燥，可使用第 51 页的方法。如 [Item-10](/Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md) 所述，AutoValue 框架提供了一种能很好的替代手动编写 equals 方法和 hashCode 方法的功能，IDE 也提供了这种功能。
 
 ---
 
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Introduction.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-3/Chapter-3-Introduction.md)**
 
-- **Previous Item（上一条目）：[Item 10: Obey the general contract when overriding equals（覆盖 equals 方法时应遵守的约定）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)**
-- **Next Item（下一条目）：[Item 12: Always override toString（始终覆盖 toString 方法）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-12-Always-override-toString.md)**
+- **Previous Item（上一条目）：[Item 10: Obey the general contract when overriding equals（覆盖 equals 方法时应遵守的约定）](/Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)**
+- **Next Item（下一条目）：[Item 12: Always override toString（始终覆盖 toString 方法）](/Chapter-3/Chapter-3-Item-12-Always-override-toString.md)**

@@ -12,7 +12,7 @@ Reusing standard exceptions has several benefits. Chief among them is that it ma
 
 The most commonly reused exception type is IllegalArgumentException (Item 49). This is generally the exception to throw when the caller passes in an argument whose value is inappropriate. For example, this would be the exception to throw if the caller passed a negative number in a parameter representing the number of times some action was to be repeated.
 
-最常见的复用异常类型是 IllegalArgumentException（[Item-49](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8/Chapter-8-Item-49-Check-parameters-for-validity.md)）。这通常是调用者传入不合适的参数时抛出的异常。例如，如果调用者在表示某个操作要重复多少次的参数中传递了一个负数，则抛出这个异常。
+最常见的复用异常类型是 IllegalArgumentException（[Item-49](/Chapter-8/Chapter-8-Item-49-Check-parameters-for-validity.md)）。这通常是调用者传入不合适的参数时抛出的异常。例如，如果调用者在表示某个操作要重复多少次的参数中传递了一个负数，则抛出这个异常。
 
 Another commonly reused exception is IllegalStateException. This is generally the exception to throw if the invocation is illegal because of the state of the receiving object. For example, this would be the exception to throw if the caller attempted to use some object before it had been properly initialized.
 
@@ -57,6 +57,6 @@ Choosing which exception to reuse can be tricky because the “occasions for use
 选择复用哪个异常可能比较棘手，因为上表中的「使用场合」似乎并不相互排斥。考虑一个对象，表示一副牌，假设有一个方法代表发牌操作，该方法将手牌多少作为参数。如果调用者传递的值大于牌堆中剩余的牌的数量，则可以将其解释为 IllegalArgumentException （handSize 参数值太大）或 IllegalStateException（牌堆中包含的牌太少）。在这种情况下，规则是：如果没有参数值，抛出 IllegalStateException，否则抛出 IllegalArgumentException。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Introduction.md)**
-- **Previous Item（上一条目）：[Item 71: Avoid unnecessary use of checked exceptions（避免不必要地使用 checked 异常）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-71-Avoid-unnecessary-use-of-checked-exceptions.md)**
-- **Next Item（下一条目）：[Item 73: Throw exceptions appropriate to the abstraction（抛出能用抽象解释的异常）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-73-Throw-exceptions-appropriate-to-the-abstraction.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-10/Chapter-10-Introduction.md)**
+- **Previous Item（上一条目）：[Item 71: Avoid unnecessary use of checked exceptions（避免不必要地使用 checked 异常）](/Chapter-10/Chapter-10-Item-71-Avoid-unnecessary-use-of-checked-exceptions.md)**
+- **Next Item（下一条目）：[Item 73: Throw exceptions appropriate to the abstraction（抛出能用抽象解释的异常）](/Chapter-10/Chapter-10-Item-73-Throw-exceptions-appropriate-to-the-abstraction.md)**

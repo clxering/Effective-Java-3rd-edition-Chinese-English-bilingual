@@ -4,7 +4,7 @@
 
 Item 18 alerted you to the dangers of subclassing a “foreign” class that was not designed and documented for inheritance. So what does it mean for a class to be designed and documented for inheritance?
 
-[Item-18](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md) 提醒你注意：将不是为继承设计并且缺少文档的「外部」类进行子类化的危险。那么，为继承而设计并且具备文档的类意味着什么呢？
+[Item-18](/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md) 提醒你注意：将不是为继承设计并且缺少文档的「外部」类进行子类化的危险。那么，为继承而设计并且具备文档的类意味着什么呢？
 
 First, the class must document precisely the effects of overriding any method.In other words, **the class must document its self-use of overridable methods.** For each public or protected method, the documentation must indicate which overridable methods the method invokes, in what sequence, and how the results of each invocation affect subsequent processing. (By overridable, we mean nonfinal and either public or protected.) More generally, a class must document any circumstances under which it might invoke an overridable method. For example, invocations might come from background threads or static initializers.
 
@@ -26,7 +26,7 @@ A method that invokes overridable methods contains a description of these invoca
 
 This documentation leaves no doubt that overriding the iterator method will affect the behavior of the remove method. It also describes exactly how the behavior of the Iterator returned by the iterator method will affect the behavior of the remove method. Contrast this to the situation in Item 18, where the programmer subclassing HashSet simply could not say whether overriding the add method would affect the behavior of the addAll method.
 
-这篇文档无疑说明了重写迭代器方法将影响 remove 方法的行为。它还准确地描述了迭代器方法返回的迭代器的行为将如何影响 remove 方法的行为。与 [Item-18](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md) 中的情况相反，在 [Item-18](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md) 中，程序员子类化 HashSet 不能简单地说覆盖 add 方法是否会影响 addAll 方法的行为。
+这篇文档无疑说明了重写迭代器方法将影响 remove 方法的行为。它还准确地描述了迭代器方法返回的迭代器的行为将如何影响 remove 方法的行为。与 [Item-18](/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md) 中的情况相反，在 [Item-18](/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md) 中，程序员子类化 HashSet 不能简单地说覆盖 add 方法是否会影响 addAll 方法的行为。
 
 But doesn’t this violate the dictum that good API documentation should describe what a given method does and not how it does it? Yes, it does! This is an unfortunate consequence of the fact that inheritance violates encapsulation. To document a class so that it can be safely subclassed, you must describe implementation details that should otherwise be left unspecified.
 
@@ -134,7 +134,7 @@ Note that it is safe to invoke private methods, final methods, and static method
 
 The Cloneable and Serializable interfaces present special difficulties when designing for inheritance. It is generally not a good idea for a class designed for inheritance to implement either of these interfaces because they place a substantial burden on programmers who extend the class. There are,however, special actions that you can take to allow subclasses to implement these interfaces without mandating that they do so. These actions are described in Item 13 and Item 86.
 
-可克隆和可序列化的接口在设计继承时存在特殊的困难。对于为继承而设计的类来说，实现这两种接口都不是一个好主意，因为它们给扩展类的程序员带来了沉重的负担。但是，你可以采取一些特殊的操作来允许子类实现这些接口，而无需强制它们这样做。[Item-13](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-13-Override-clone-judiciously.md) 和 [Item-86](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-86-Implement-Serializable-with-great-caution.md) 叙述了这些行动。
+可克隆和可序列化的接口在设计继承时存在特殊的困难。对于为继承而设计的类来说，实现这两种接口都不是一个好主意，因为它们给扩展类的程序员带来了沉重的负担。但是，你可以采取一些特殊的操作来允许子类实现这些接口，而无需强制它们这样做。[Item-13](/Chapter-3/Chapter-3-Item-13-Override-clone-judiciously.md) 和 [Item-86](/Chapter-12/Chapter-12-Item-86-Implement-Serializable-with-great-caution.md) 叙述了这些行动。
 
 If you do decide to implement either Cloneable or Serializable in a class that is designed for inheritance, you should be aware that because the clone and readObject methods behave a lot like constructors, a similar restriction applies: neither clone nor readObject may invoke an overridable method, directly or indirectly. In the case of readObject, the overriding method will run before the subclass’s state has been deserialized. In the case of clone, the overriding method will run before the subclass’s clone method has a chance to fix the clone’s state. In either case, a program failure is likely to follow. In the case of clone, the failure can damage the original object as well as the clone. This can happen, for example, if the overriding method assumes it is modifying the clone’s copy of the object’s deep structure, but the copy hasn’t been made yet.
 
@@ -146,7 +146,7 @@ Finally, if you decide to implement Serializable in a class designed for inherit
 
 By now it should be apparent that designing a class for inheritance requires great effort and places substantial limitations on the class. This is not a decision to be undertaken lightly. There are some situations where it is clearly the right thing to do, such as abstract classes, including skeletal implementations of interfaces (Item 20). There are other situations where it is clearly the wrong thing to do, such as immutable classes (Item 17).
 
-到目前为止，显然为继承而设计一个类需要付出很大的努力，并且对类有很大的限制。这不是一个可以轻易作出的决定。在某些情况下，这样做显然是正确的，例如抽象类，包括接口的骨架实现（[Item-20](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md)）。还有一些情况显然是错误的，比如不可变类（[Item-17](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)）。
+到目前为止，显然为继承而设计一个类需要付出很大的努力，并且对类有很大的限制。这不是一个可以轻易作出的决定。在某些情况下，这样做显然是正确的，例如抽象类，包括接口的骨架实现（[Item-20](/Chapter-4/Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md)）。还有一些情况显然是错误的，比如不可变类（[Item-17](/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)）。
 
 But what about ordinary concrete classes? Traditionally, they are neither final nor designed and documented for subclassing, but this state of affairs is dangerous. Each time a change is made in such a class, there is a chance that subclasses extending the class will break. This is not just a theoretical problem.It is not uncommon to receive subclassing-related bug reports after modifying the internals of a nonfinal concrete class that was not designed and documented for inheritance.
 
@@ -154,11 +154,11 @@ But what about ordinary concrete classes? Traditionally, they are neither final 
 
 The best solution to this problem is to prohibit subclassing in classes that are not designed and documented to be safely subclassed. There are two ways to prohibit subclassing. The easier of the two is to declare the class final. The alternative is to make all the constructors private or package-private and to add public static factories in place of the constructors. This alternative, which provides the flexibility to use subclasses internally, is discussed in Item 17. Either approach is acceptable.
 
-这个问题的最佳解决方案是禁止在没有设计和文档记录的类中进行子类化。有两种方法可以禁止子类化。两者中比较容易的是声明类 final。另一种方法是将所有构造函数变为私有或包私有，并在构造函数的位置添加公共静态工厂。这个替代方案提供了内部使用子类的灵活性，在 [Item-17](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md) 中进行了讨论。两种方法都可以接受。
+这个问题的最佳解决方案是禁止在没有设计和文档记录的类中进行子类化。有两种方法可以禁止子类化。两者中比较容易的是声明类 final。另一种方法是将所有构造函数变为私有或包私有，并在构造函数的位置添加公共静态工厂。这个替代方案提供了内部使用子类的灵活性，在 [Item-17](/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md) 中进行了讨论。两种方法都可以接受。
 
 This advice may be somewhat controversial because many programmers have grown accustomed to subclassing ordinary concrete classes to add facilities such as instrumentation, notification, and synchronization or to limit functionality. If a class implements some interface that captures its essence, such as Set, List, or Map, then you should feel no compunction about prohibiting subclassing. The wrapper class pattern, described in Item 18, provides a superior alternative to inheritance for augmenting the functionality.
 
-这个建议可能有点争议，因为许多程序员已经习惯了子类化普通的具体类，以添加工具、通知和同步等功能或限制功能。如果一个类实现了某个接口，该接口捕获了它的本质，例如 Set、List 或 Map，那么你不应该对禁止子类化感到内疚。在 [Item-18](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md) 中描述的包装器类模式提供了一种优于继承的方法来增强功能。
+这个建议可能有点争议，因为许多程序员已经习惯了子类化普通的具体类，以添加工具、通知和同步等功能或限制功能。如果一个类实现了某个接口，该接口捕获了它的本质，例如 Set、List 或 Map，那么你不应该对禁止子类化感到内疚。在 [Item-18](/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md) 中描述的包装器类模式提供了一种优于继承的方法来增强功能。
 
 If a concrete class does not implement a standard interface, then you may inconvenience some programmers by prohibiting inheritance. If you feel that you must allow inheritance from such a class, one reasonable approach is to ensure that the class never invokes any of its overridable methods and to document this fact. In other words, eliminate the class’s self-use of overridable
 methods entirely. In doing so, you’ll create a class that is reasonably safe to subclass. Overriding a method will never affect the behavior of any other method.
@@ -174,6 +174,6 @@ In summary, designing a class for inheritance is hard work. You must document al
 总之，为继承设计一个类是一项艰苦的工作。你必须记录所有的自用模式，并且一旦你记录了它们，你就必须在整个类的生命周期中都遵守它们。如果没有这样做，子类可能会依赖于超类的实现细节，如果超类的实现发生变化，子类可能会崩溃。为了允许其他人编写高效的子类，你可能还需要导出一个或多个受保护的方法。除非你知道确实需要子类，否则最好通过声明类为 final 或确保没有可访问的构造函数的方式来禁止继承。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Introduction.md)**
-- **Previous Item（上一条目）：[Item 18: Favor composition over inheritance（优先选择复合而不是继承）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md)**
-- **Next Item（下一条目）：[Item 20: Prefer interfaces to abstract classes（接口优于抽象类）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-4/Chapter-4-Introduction.md)**
+- **Previous Item（上一条目）：[Item 18: Favor composition over inheritance（优先选择复合而不是继承）](/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md)**
+- **Next Item（下一条目）：[Item 20: Prefer interfaces to abstract classes（接口优于抽象类）](/Chapter-4/Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md)**

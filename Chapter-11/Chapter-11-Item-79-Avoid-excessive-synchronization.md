@@ -4,15 +4,15 @@
 
 Item 78 warns of the dangers of insufficient synchronization. This item concerns the opposite problem. Depending on the situation, excessive synchronization can cause reduced performance, deadlock, or even nondeterministic behavior.
 
-[Item-78](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-78-Synchronize-access-to-shared-mutable-data.md) 警告我们同步不到位的危险。本条目涉及相反的问题。根据不同的情况，过度的同步可能导致性能下降、死锁甚至不确定行为。
+[Item-78](/Chapter-11/Chapter-11-Item-78-Synchronize-access-to-shared-mutable-data.md) 警告我们同步不到位的危险。本条目涉及相反的问题。根据不同的情况，过度的同步可能导致性能下降、死锁甚至不确定行为。
 
 **To avoid liveness and safety failures, never cede control to the client within a synchronized method or block.** In other words, inside a synchronized region, do not invoke a method that is designed to be overridden, or one provided by a client in the form of a function object (Item 24). From the perspective of the class with the synchronized region, such methods are alien. The class has no knowledge of what the method does and has no control over it. Depending on what an alien method does, calling it from a synchronized region can cause exceptions, deadlocks, or data corruption.
 
-**为避免活性失败和安全故障，永远不要在同步方法或块中将控制权交给客户端。** 换句话说，在同步区域内，不要调用一个设计为被覆盖的方法，或者一个由客户端以函数对象的形式提供的方法（[Item-24](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-24-Favor-static-member-classes-over-nonstatic.md)）。从具有同步区域的类的角度来看，这种方法是不一样的。类不知道该方法做什么，也无法控制它。Depending on what an alien method does，从同步区域调用它可能会导致异常、死锁或数据损坏。
+**为避免活性失败和安全故障，永远不要在同步方法或块中将控制权交给客户端。** 换句话说，在同步区域内，不要调用一个设计为被覆盖的方法，或者一个由客户端以函数对象的形式提供的方法（[Item-24](/Chapter-4/Chapter-4-Item-24-Favor-static-member-classes-over-nonstatic.md)）。从具有同步区域的类的角度来看，这种方法是不一样的。类不知道该方法做什么，也无法控制它。Depending on what an alien method does，从同步区域调用它可能会导致异常、死锁或数据损坏。
 
 To make this concrete, consider the following class, which implements an observable set wrapper. It allows clients to subscribe to notifications when elements are added to the set. This is the Observer pattern [Gamma95]. For brevity’s sake, the class does not provide notifications when elements are removed from the set, but it would be a simple matter to provide them. This class is implemented atop the reusable ForwardingSet from Item 18 (page 90):
 
-要使这个问题具体化，请考虑下面的类，它实现了一个可视 Set 包装器。当元素被添加到集合中时，它允许客户端订阅通知。这是观察者模式 [Gamma95]。为了简单起见，当元素从集合中删除时，该类不提供通知，即使要提供通知也很简单。这个类是在 [Item-18](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md)（第 90 页）的可复用 ForwardingSet 上实现的：
+要使这个问题具体化，请考虑下面的类，它实现了一个可视 Set 包装器。当元素被添加到集合中时，它允许客户端订阅通知。这是观察者模式 [Gamma95]。为了简单起见，当元素从集合中删除时，该类不提供通知，即使要提供通知也很简单。这个类是在 [Item-18](/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md)（第 90 页）的可复用 ForwardingSet 上实现的：
 
 ```
 // Broken - invokes alien method from synchronized block!
@@ -72,7 +72,7 @@ public interface SetObserver<E> {
 
 This interface is structurally identical to `BiConsumer<ObservableSet<E>,E>`. We chose to define a custom functional interface because the interface and method names make the code more readable and because the interface could evolve to incorporate multiple callbacks. That said, a reasonable argument could also be made for using BiConsumer (Item 44).
 
-这个接口在结构上与 `BiConsumer<ObservableSet<E>,E>` 相同。我们选择定义一个自定义函数式接口，因为接口和方法名称使代码更具可读性，而且接口可以演化为包含多个回调。也就是说，使用 BiConsumer 也是合理的（[Item-44](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-7/Chapter-7-Item-44-Favor-the-use-of-standard-functional-interfaces.md)）。
+这个接口在结构上与 `BiConsumer<ObservableSet<E>,E>` 相同。我们选择定义一个自定义函数式接口，因为接口和方法名称使代码更具可读性，而且接口可以演化为包含多个回调。也就是说，使用 BiConsumer 也是合理的（[Item-44](/Chapter-7/Chapter-7-Item-44-Favor-the-use-of-standard-functional-interfaces.md)）。
 
 On cursory inspection, ObservableSet appears to work fine. For example, the following program prints the numbers from 0 through 99:
 
@@ -103,7 +103,7 @@ set.addObserver(new SetObserver<>() {
 
 Note that this call uses an anonymous class instance in place of the lambda used in the previous call. That is because the function object needs to pass itself to s.removeObserver, and lambdas cannot access themselves (Item 42).
 
-注意，这个调用使用一个匿名类实例来代替前面调用中使用的 lambda 表达式。这是因为函数对象需要将自己传递给 `s.removeObserver`，而 lambda 表达式不能访问自身（[Item-42](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-7/Chapter-7-Item-42-Prefer-lambdas-to-anonymous-classes.md)）。
+注意，这个调用使用一个匿名类实例来代替前面调用中使用的 lambda 表达式。这是因为函数对象需要将自己传递给 `s.removeObserver`，而 lambda 表达式不能访问自身（[Item-42](/Chapter-7/Chapter-7-Item-42-Prefer-lambdas-to-anonymous-classes.md)）。
 
 You might expect the program to print the numbers 0 through 23, after which the observer would unsubscribe and the program would terminate silently. In fact, it prints these numbers and then throws a ConcurrentModificationException. The problem is that notifyElementAdded is in the process of iterating over the observers list when it invokes the observer’s added method. The added method calls the observable set’s removeObserver method, which in turn calls the method observers.remove. Now we’re in trouble. We are trying to remove an element from a list in the midst of iterating over it, which is illegal. The iteration in the notifyElementAdded method is in a synchronized block to prevent concurrent modification, but it doesn’t prevent the iterating thread itself from calling back into the observable set and modifying its observers list.
 
@@ -111,7 +111,7 @@ You might expect the program to print the numbers 0 through 23, after which the 
 
 Now let’s try something odd: let’s write an observer that tries to unsubscribe, but instead of calling removeObserver directly, it engages the services of another thread to do the deed. This observer uses an executor service (Item 80):
 
-现在让我们尝试一些奇怪的事情：让我们编写一个观察者来尝试取消订阅，但是它没有直接调用 removeObserver，而是使用另一个线程的服务来执行这个操作。该观察者使用 executor 服务（[Item-80](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-80-Prefer-executors,-tasks,-and-streams-to-threads.md)）：
+现在让我们尝试一些奇怪的事情：让我们编写一个观察者来尝试取消订阅，但是它没有直接调用 removeObserver，而是使用另一个线程的服务来执行这个操作。该观察者使用 executor 服务（[Item-80](/Chapter-11/Chapter-11-Item-80-Prefer-executors,-tasks,-and-streams-to-threads.md)）：
 
 ```
 // Observer that uses a background thread needlessly
@@ -166,7 +166,7 @@ private void notifyElementAdded(E element) {
 
 In fact, there’s a better way to move the alien method invocations out of the synchronized block. The libraries provide a concurrent collection (Item 81) known as CopyOnWriteArrayList that is tailor-made for this purpose. This List implementation is a variant of ArrayList in which all modification operations are implemented by making a fresh copy of the entire underlying array. Because the internal array is never modified, iteration requires no locking and is very fast. For most uses, the performance of CopyOnWriteArrayList would be atrocious, but it’s perfect for observer lists, which are rarely modified and often traversed.
 
-实际上，有一种更好的方法可以将外来方法调用移出同步块。库提供了一个名为 CopyOnWriteArrayList 的并发集合（[Item-81](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-81-Prefer-concurrency-utilities-to-wait-and-notify.md)），该集合是为此目的量身定制的。此列表实现是 ArrayList 的变体，其中所有修改操作都是通过复制整个底层数组来实现的。因为从不修改内部数组，所以迭代不需要锁定，而且速度非常快。如果大量使用，CopyOnWriteArrayList 的性能会很差，但是对于很少修改和经常遍历的观察者列表来说，它是完美的。
+实际上，有一种更好的方法可以将外来方法调用移出同步块。库提供了一个名为 CopyOnWriteArrayList 的并发集合（[Item-81](/Chapter-11/Chapter-11-Item-81-Prefer-concurrency-utilities-to-wait-and-notify.md)），该集合是为此目的量身定制的。此列表实现是 ArrayList 的变体，其中所有修改操作都是通过复制整个底层数组来实现的。因为从不修改内部数组，所以迭代不需要锁定，而且速度非常快。如果大量使用，CopyOnWriteArrayList 的性能会很差，但是对于很少修改和经常遍历的观察者列表来说，它是完美的。
 
 The add and addAll methods of ObservableSet need not be changed if the list is modified to use CopyOnWriteArrayList. Here is how the remainder of the class looks. Notice that there is no explicit synchronization whatsoever:
 
@@ -196,7 +196,7 @@ An alien method invoked outside of a synchronized region is known as an open cal
 
 **As a rule, you should do as little work as possible inside synchronized regions.** Obtain the lock, examine the shared data, transform it as necessary, and drop the lock. If you must perform some time-consuming activity, find a way to move it out of the synchronized region without violating the guidelines in Item 78.
 
-**作为规则，你应该在同步区域内做尽可能少的工作。** 获取锁，检查共享数据，根据需要进行转换，然后删除锁。如果你必须执行一些耗时的活动，请设法将其移出同步区域，而不违反 [Item-78](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-78-Synchronize-access-to-shared-mutable-data.md) 中的指导原则。
+**作为规则，你应该在同步区域内做尽可能少的工作。** 获取锁，检查共享数据，根据需要进行转换，然后删除锁。如果你必须执行一些耗时的活动，请设法将其移出同步区域，而不违反 [Item-78](/Chapter-11/Chapter-11-Item-78-Synchronize-access-to-shared-mutable-data.md) 中的指导原则。
 
 The first part of this item was about correctness. Now let’s take a brief look at performance. While the cost of synchronization has plummeted since the early days of Java, it is more important than ever not to oversynchronize. In a multicore world, the real cost of excessive synchronization is not the CPU time spent getting locks; it is contention: the lost opportunities for parallelism and the delays imposed by the need to ensure that every core has a consistent view of memory. Another hidden cost of oversynchronization is that it can limit the VM’s ability to optimize code execution.
 
@@ -204,7 +204,7 @@ The first part of this item was about correctness. Now let’s take a brief look
 
 If you are writing a mutable class, you have two options: you can omit all synchronization and allow the client to synchronize externally if concurrent use is desired, or you can synchronize internally, making the class thread-safe (Item 82). You should choose the latter option only if you can achieve significantly higher concurrency with internal synchronization than you could by having the client lock the entire object externally. The collections in java.util (with the exception of the obsolete Vector and Hashtable) take the former approach, while those in java.util.concurrent take the latter (Item 81).
 
-如果你正在编写一个可变的类，你有两个选择：你可以省略所有同步并允许客户端在需要并发使用时在外部进行同步，或者你可以在内部进行同步，从而使类是线程安全的（[Item-82](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-82-Document-thread-safety.md)）。只有当你能够通过内部同步实现比通过让客户端在外部锁定整个对象获得高得多的并发性时，才应该选择后者。`java.util` 中的集合（废弃的 Vector 和 Hashtable 除外）采用前一种方法，而 `java.util.concurrent` 中的方法则采用后者（[Item-81](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-81-Prefer-concurrency-utilities-to-wait-and-notify.md)）。
+如果你正在编写一个可变的类，你有两个选择：你可以省略所有同步并允许客户端在需要并发使用时在外部进行同步，或者你可以在内部进行同步，从而使类是线程安全的（[Item-82](/Chapter-11/Chapter-11-Item-82-Document-thread-safety.md)）。只有当你能够通过内部同步实现比通过让客户端在外部锁定整个对象获得高得多的并发性时，才应该选择后者。`java.util` 中的集合（废弃的 Vector 和 Hashtable 除外）采用前一种方法，而 `java.util.concurrent` 中的方法则采用后者（[Item-81](/Chapter-11/Chapter-11-Item-81-Prefer-concurrency-utilities-to-wait-and-notify.md)）。
 
 In the early days of Java, many classes violated these guidelines. For example, StringBuffer instances are almost always used by a single thread, yet they perform internal synchronization. It is for this reason that StringBuffer was supplanted by StringBuilder, which is just an unsynchronized StringBuffer. Similarly, it’s a large part of the reason that the thread-safe pseudorandom number generator in java.util.Random was supplanted by the unsynchronized implementation in java.util.concurrent.ThreadLocalRandom. When in doubt, do not synchronize your class, but document that it is not thread-safe.
 
@@ -216,13 +216,13 @@ If you do synchronize your class internally, you can use various techniques to a
 
 If a method modifies a static field and there is any possibility that the method will be called from multiple threads, you must synchronize access to the field internally (unless the class can tolerate nondeterministic behavior). It is not possible for a multithreaded client to perform external synchronization on such a method, because unrelated clients can invoke the method without synchronization. The field is essentially a global variable even if it is private because it can be read and modified by unrelated clients. The nextSerialNumber field used by the method generateSerialNumber in Item 78 exemplifies this situation.
 
-如果一个方法修改了一个静态字段，并且有可能从多个线程调用该方法，则必须在内部同步对该字段的访问（除非该类能够容忍不确定性行为）。多线程客户端不可能对这样的方法执行外部同步，因为不相关的客户端可以在不同步的情况下调用该方法。字段本质上是一个全局变量，即使它是私有的，因为它可以被不相关的客户端读取和修改。[Item-78](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-78-Synchronize-access-to-shared-mutable-data.md) 中的 generateSerialNumber 方法使用的 nextSerialNumber 字段演示了这种情况。
+如果一个方法修改了一个静态字段，并且有可能从多个线程调用该方法，则必须在内部同步对该字段的访问（除非该类能够容忍不确定性行为）。多线程客户端不可能对这样的方法执行外部同步，因为不相关的客户端可以在不同步的情况下调用该方法。字段本质上是一个全局变量，即使它是私有的，因为它可以被不相关的客户端读取和修改。[Item-78](/Chapter-11/Chapter-11-Item-78-Synchronize-access-to-shared-mutable-data.md) 中的 generateSerialNumber 方法使用的 nextSerialNumber 字段演示了这种情况。
 
 In summary, to avoid deadlock and data corruption, never call an alien method from within a synchronized region. More generally, keep the amount of work that you do from within synchronized regions to a minimum. When you are designing a mutable class, think about whether it should do its own synchronization. In the multicore era, it is more important than ever not to oversynchronize. Synchronize your class internally only if there is a good reason to do so, and document your decision clearly (Item 82).
 
-总之，为了避免死锁和数据损坏，永远不要从同步区域内调用外来方法。更一般地说，将你在同步区域内所做的工作量保持在最小。在设计可变类时，请考虑它是否应该执行自己的同步。在多核时代，比以往任何时候都更重要的是不要过度同步。只有在有充分理由时，才在内部同步类，并清楚地记录你的决定（[Item-82](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-82-Document-thread-safety.md)）。
+总之，为了避免死锁和数据损坏，永远不要从同步区域内调用外来方法。更一般地说，将你在同步区域内所做的工作量保持在最小。在设计可变类时，请考虑它是否应该执行自己的同步。在多核时代，比以往任何时候都更重要的是不要过度同步。只有在有充分理由时，才在内部同步类，并清楚地记录你的决定（[Item-82](/Chapter-11/Chapter-11-Item-82-Document-thread-safety.md)）。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Introduction.md)**
-- **Previous Item（上一条目）：[Item 78: Synchronize access to shared mutable data（对共享可变数据的同步访问）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-78-Synchronize-access-to-shared-mutable-data.md)**
-- **Next Item（下一条目）：[Item 80: Prefer executors, tasks, and streams to threads（Executor、task、流优于直接使用线程）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-80-Prefer-executors,-tasks,-and-streams-to-threads.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-11/Chapter-11-Introduction.md)**
+- **Previous Item（上一条目）：[Item 78: Synchronize access to shared mutable data（对共享可变数据的同步访问）](/Chapter-11/Chapter-11-Item-78-Synchronize-access-to-shared-mutable-data.md)**
+- **Next Item（下一条目）：[Item 80: Prefer executors, tasks, and streams to threads（Executor、task、流优于直接使用线程）](/Chapter-11/Chapter-11-Item-80-Prefer-executors,-tasks,-and-streams-to-threads.md)**

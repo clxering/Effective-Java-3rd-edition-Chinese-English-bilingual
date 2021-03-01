@@ -16,7 +16,7 @@ class Point {
 
 Because the data fields of such classes are accessed directly, these classes do not offer the benefits of encapsulation (Item 15). You can’t change the representation without changing the API, you can’t enforce invariants, and you can’t take auxiliary action when a field is accessed. Hard-line object-oriented programmers feel that such classes are anathema and should always be replaced by classes with private fields and public accessor methods (getters) and, for mutable classes, mutators (setters):
 
-因为这些类的数据字段是直接访问的，所以这些类没有提供封装的好处（[Item-15](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-15-Minimize-the-accessibility-of-classes-and-members.md)）。不改变 API 就不能改变表现形式，不能实现不变量，也不能在访问字段时采取辅助操作。坚持面向对象思维的程序员会认为这样的类是令人厌恶的，应该被使用私有字段和公共访问方法 getter 的类所取代，对于可变类，则是赋值方法 setter：
+因为这些类的数据字段是直接访问的，所以这些类没有提供封装的好处（[Item-15](/Chapter-4/Chapter-4-Item-15-Minimize-the-accessibility-of-classes-and-members.md)）。不改变 API 就不能改变表现形式，不能实现不变量，也不能在访问字段时采取辅助操作。坚持面向对象思维的程序员会认为这样的类是令人厌恶的，应该被使用私有字段和公共访问方法 getter 的类所取代，对于可变类，则是赋值方法 setter：
 
 ```
 // Encapsulation of data by accessor methods and mutators
@@ -44,7 +44,7 @@ However, if a class is package-private or is a private nested class, there is no
 
 Several classes in the Java platform libraries violate the advice that public classes should not expose fields directly. Prominent examples include the Point and Dimension classes in the java.awt package. Rather than examples to be emulated, these classes should be regarded as cautionary tales.As described in Item 67, the decision to expose the internals of the Dimension class resulted in a serious performance problem that is still with us today.
 
-Java 库中的几个类违反了公共类不应该直接公开字段的建议。突出的例子包括 `java.awt` 包中的 Point 和 Dimension。这些类不应被效仿，而应被视为警示。正如 [Item-67](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-67-Optimize-judiciously.md) 所述，公开 Dimension 类的内部结构导致了严重的性能问题，这种问题至今仍存在。
+Java 库中的几个类违反了公共类不应该直接公开字段的建议。突出的例子包括 `java.awt` 包中的 Point 和 Dimension。这些类不应被效仿，而应被视为警示。正如 [Item-67](/Chapter-9/Chapter-9-Item-67-Optimize-judiciously.md) 所述，公开 Dimension 类的内部结构导致了严重的性能问题，这种问题至今仍存在。
 
 While it’s never a good idea for a public class to expose fields directly, it is less harmful if the fields are immutable. You can’t change the representation of such a class without changing its API, and you can’t take auxiliary actions when a field is read, but you can enforce invariants. For example, this class guarantees that each instance represents a valid time:
 
@@ -74,6 +74,6 @@ In summary, public classes should never expose mutable fields. It is less harmfu
 总之，公共类不应该公开可变字段。对于公共类来说，公开不可变字段的危害要小一些，但仍然存在潜在的问题。然而，有时候包级私有或私有嵌套类需要公开字段，无论这个类是可变的还是不可变的。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Introduction.md)**
-- **Previous Item（上一条目）：[Item 15: Minimize the accessibility of classes and members（尽量减少类和成员的可访问性）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-15-Minimize-the-accessibility-of-classes-and-members.md)**
-- **Next Item（下一条目）：[Item 17: Minimize mutability（减少可变性）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-4/Chapter-4-Introduction.md)**
+- **Previous Item（上一条目）：[Item 15: Minimize the accessibility of classes and members（尽量减少类和成员的可访问性）](/Chapter-4/Chapter-4-Item-15-Minimize-the-accessibility-of-classes-and-members.md)**
+- **Next Item（下一条目）：[Item 17: Minimize mutability（减少可变性）](/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)**

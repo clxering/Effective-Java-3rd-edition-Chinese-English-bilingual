@@ -21,7 +21,7 @@ try {
 
 Here is an example of exception translation taken from the AbstractSequentialList class, which is a skeletal implementation (Item 20) of the List interface. In this example, exception translation is mandated by the specification of the get method in the `List<E>` interface:
 
-下面是来自 AbstractSequentialList 类的异常转换示例，该类是 List 接口的一个框架实现（[Item-20](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md)）。在本例中，异常转换是由 `List<E>` 接口中的 get 方法规范强制执行的：
+下面是来自 AbstractSequentialList 类的异常转换示例，该类是 List 接口的一个框架实现（[Item-20](/Chapter-4/Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md)）。在本例中，异常转换是由 `List<E>` 接口中的 get 方法规范强制执行的：
 
 ```
 /**
@@ -81,9 +81,9 @@ If it is impossible to prevent exceptions from lower layers, the next best thing
 
 In summary, if it isn’t feasible to prevent or to handle exceptions from lower layers, use exception translation, unless the lower-level method happens to guarantee that all of its exceptions are appropriate to the higher level. Chaining provides the best of both worlds: it allows you to throw an appropriate higherlevel exception, while capturing the underlying cause for failure analysis (Item 75).
 
-总之，如果无法防止或处理来自低层的异常，则使用异常转换，但要保证低层方法的所有异常都适用于较高层。链式异常提供了兼顾两方面的最佳服务：允许抛出适当的高层异常，同时捕获并分析失败的潜在原因（[Item-75](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-75-Include-failure-capture-information-in-detail-messages.md)）。
+总之，如果无法防止或处理来自低层的异常，则使用异常转换，但要保证低层方法的所有异常都适用于较高层。链式异常提供了兼顾两方面的最佳服务：允许抛出适当的高层异常，同时捕获并分析失败的潜在原因（[Item-75](/Chapter-10/Chapter-10-Item-75-Include-failure-capture-information-in-detail-messages.md)）。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Introduction.md)**
-- **Previous Item（上一条目）：[Item 72: Favor the use of standard exceptions（鼓励复用标准异常）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-72-Favor-the-use-of-standard-exceptions.md)**
-- **Next Item（下一条目）：[Item 74: Document all exceptions thrown by each method（为每个方法记录会抛出的所有异常）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-74-Document-all-exceptions-thrown-by-each-method.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-10/Chapter-10-Introduction.md)**
+- **Previous Item（上一条目）：[Item 72: Favor the use of standard exceptions（鼓励复用标准异常）](/Chapter-10/Chapter-10-Item-72-Favor-the-use-of-standard-exceptions.md)**
+- **Next Item（下一条目）：[Item 74: Document all exceptions thrown by each method（为每个方法记录会抛出的所有异常）](/Chapter-10/Chapter-10-Item-74-Document-all-exceptions-thrown-by-each-method.md)**

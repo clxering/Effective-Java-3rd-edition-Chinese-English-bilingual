@@ -16,11 +16,11 @@ That said, lazy initialization has its uses. If a field is accessed only on a fr
 
 In the presence of multiple threads, lazy initialization is tricky. If two or more threads share a lazily initialized field, it is critical that some form of synchronization be employed, or severe bugs can result (Item 78). All of the initialization techniques discussed in this item are thread-safe.
 
-在存在多个线程的情况下，使用延迟初始化很棘手。如果两个或多个线程共享一个延迟初始化的字段，那么必须使用某种形式的同步，否则会导致严重的错误（[Item-78](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-78-Synchronize-access-to-shared-mutable-data.md)）。本条目讨论的所有初始化技术都是线程安全的。
+在存在多个线程的情况下，使用延迟初始化很棘手。如果两个或多个线程共享一个延迟初始化的字段，那么必须使用某种形式的同步，否则会导致严重的错误（[Item-78](/Chapter-11/Chapter-11-Item-78-Synchronize-access-to-shared-mutable-data.md)）。本条目讨论的所有初始化技术都是线程安全的。
 
 **Under most circumstances, normal initialization is preferable to lazy initialization.** Here is a typical declaration for a normally initialized instance field. Note the use of the final modifier (Item 17):
 
-**在大多数情况下，常规初始化优于延迟初始化。** 下面是一个使用常规初始化的实例字段的典型声明。注意 final 修饰符的使用（[Item-17](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)）：
+**在大多数情况下，常规初始化优于延迟初始化。** 下面是一个使用常规初始化的实例字段的典型声明。注意 final 修饰符的使用（[Item-17](/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)）：
 
 ```
 // Normal initialization of an instance field
@@ -63,7 +63,7 @@ When getField is invoked for the first time, it reads FieldHolder.field for the 
 
 **If you need to use lazy initialization for performance on an instance field, use the double-check idiom.** This idiom avoids the cost of locking when accessing the field after initialization (Item 79). The idea behind the idiom is to check the value of the field twice (hence the name double-check): once without locking and then, if the field appears to be uninitialized, a second time with locking. Only if the second check indicates that the field is uninitialized does the call initialize the field. Because there is no locking once the field is initialized, it is critical that the field be declared volatile (Item 78). Here is the idiom:
 
-如果需要使用延迟初始化来提高实例字段的性能，请使用双重检查模式。这个模式避免了初始化后访问字段时的锁定成本（[Item-79](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-79-Avoid-excessive-synchronization.md)）。这个模式背后的思想是两次检查字段的值（因此得名 double check）：一次没有锁定，然后，如果字段没有初始化，第二次使用锁定。只有当第二次检查指示字段未初始化时，调用才初始化字段。由于初始化字段后没有锁定，因此将字段声明为 volatile 非常重要（[Item-78](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-78-Synchronize-access-to-shared-mutable-data.md)）。下面是这个模式的示例：
+如果需要使用延迟初始化来提高实例字段的性能，请使用双重检查模式。这个模式避免了初始化后访问字段时的锁定成本（[Item-79](/Chapter-11/Chapter-11-Item-79-Avoid-excessive-synchronization.md)）。这个模式背后的思想是两次检查字段的值（因此得名 double check）：一次没有锁定，然后，如果字段没有初始化，第二次使用锁定。只有当第二次检查指示字段未初始化时，调用才初始化字段。由于初始化字段后没有锁定，因此将字段声明为 volatile 非常重要（[Item-78](/Chapter-11/Chapter-11-Item-78-Synchronize-access-to-shared-mutable-data.md)）。下面是这个模式的示例：
 
 ```
 // Double-check idiom for lazy initialization of instance fields
@@ -116,6 +116,6 @@ In summary, you should initialize most fields normally, not lazily. If you must 
 总之，您应该正常初始化大多数字段，而不是延迟初始化。如果必须延迟初始化字段以实现性能目标或 break a harmful initialization circularity，则使用适当的延迟初始化技术。对于字段，使用双重检查模式；对于静态字段，the lazy initialization holder class idiom. 例如，可以容忍重复初始化的实例字段，您还可以考虑单检查模式。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Introduction.md)**
-- **Previous Item（上一条目）：[Item 82: Document thread safety（文档应包含线程安全属性）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-82-Document-thread-safety.md)**
-- **Next Item（下一条目）：[Item 84: Don’t depend on the thread scheduler（不要依赖线程调度器）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Item-84-Don’t-depend-on-the-thread-scheduler.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-11/Chapter-11-Introduction.md)**
+- **Previous Item（上一条目）：[Item 82: Document thread safety（文档应包含线程安全属性）](/Chapter-11/Chapter-11-Item-82-Document-thread-safety.md)**
+- **Next Item（下一条目）：[Item 84: Don’t depend on the thread scheduler（不要依赖线程调度器）](/Chapter-11/Chapter-11-Item-84-Don’t-depend-on-the-thread-scheduler.md)**

@@ -4,7 +4,7 @@
 
 Item 3 describes the Singleton pattern and gives the following example of a singleton class. This class restricts access to its constructor to ensure that only a single instance is ever created:
 
-[Item-3](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-3-Enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type.md) 描述了单例模式，并给出了下面的单例类示例。该类限制对其构造函数的访问，以确保只创建一个实例：
+[Item-3](/Chapter-2/Chapter-2-Item-3-Enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type.md) 描述了单例模式，并给出了下面的单例类示例。该类限制对其构造函数的访问，以确保只创建一个实例：
 
 ```
 public class Elvis {
@@ -16,7 +16,7 @@ public class Elvis {
 
 As noted in Item 3, this class would no longer be a singleton if the words implements Serializable were added to its declaration. It doesn’t matter whether the class uses the default serialized form or a custom serialized form (Item 87), nor does it matter whether the class provides an explicit readObject method (Item 88). Any readObject method, whether explicit or default, returns a newly created instance, which will not be the same instance that was created at class initialization time.
 
-如 [Item-3](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-3-Enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type.md) 所述，如果实现 Serializable 接口，该类将不再是单例的。类使用默认序列化形式还是自定义序列化形式并不重要（[Item-87](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-87-Consider-using-a-custom-serialized-form.md)），类是否提供显式 readObject 方法也不重要（[Item-88](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-88-Write-readObject-methods-defensively.md)）。任何 readObject 方法，不管是显式的还是默认的，都会返回一个新创建的实例，这个实例与类初始化时创建的实例不同。
+如 [Item-3](/Chapter-2/Chapter-2-Item-3-Enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type.md) 所述，如果实现 Serializable 接口，该类将不再是单例的。类使用默认序列化形式还是自定义序列化形式并不重要（[Item-87](/Chapter-12/Chapter-12-Item-87-Consider-using-a-custom-serialized-form.md)），类是否提供显式 readObject 方法也不重要（[Item-88](/Chapter-12/Chapter-12-Item-88-Write-readObject-methods-defensively.md)）。任何 readObject 方法，不管是显式的还是默认的，都会返回一个新创建的实例，这个实例与类初始化时创建的实例不同。
 
 The readResolve feature allows you to substitute another instance for the one created by readObject [Serialization, 3.7]. If the class of an object being deserialized defines a readResolve method with the proper declaration, this method is invoked on the newly created object after it is deserialized. The object reference returned by this method is then returned in place of the newly created object. In most uses of this feature, no reference to the newly created object is retained, so it immediately becomes eligible for garbage collection.
 
@@ -37,7 +37,7 @@ private Object readResolve() {
 
 This method ignores the deserialized object, returning the distinguished Elvis instance that was created when the class was initialized. Therefore, the serialized form of an Elvis instance need not contain any real data; all instance fields should be declared transient. In fact, **if you depend on readResolve for instance control, all instance fields with object reference types must be declared transient.** Otherwise, it is possible for a determined attacker to secure a reference to the deserialized object before its readResolve method is run, using a technique that is somewhat similar to the MutablePeriod attack in Item 88.
 
-此方法忽略反序列化对象，返回初始化类时创建的特殊 Elvis 实例。因此，Elvis 实例的序列化形式不需要包含任何实际数据；所有实例字段都应该声明为 transient。事实上，**如果你依赖 readResolve 进行实例控制，那么所有具有对象引用类型的实例字段都必须声明为 transient。** 否则，有的攻击者有可能在运行反序列化对象的 readResolve 方法之前保护对该对象的引用，使用的技术有点类似于 [Item-88](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-88-Write-readObject-methods-defensively.md) 中的 MutablePeriod 攻击。
+此方法忽略反序列化对象，返回初始化类时创建的特殊 Elvis 实例。因此，Elvis 实例的序列化形式不需要包含任何实际数据；所有实例字段都应该声明为 transient。事实上，**如果你依赖 readResolve 进行实例控制，那么所有具有对象引用类型的实例字段都必须声明为 transient。** 否则，有的攻击者有可能在运行反序列化对象的 readResolve 方法之前保护对该对象的引用，使用的技术有点类似于 [Item-88](/Chapter-12/Chapter-12-Item-88-Write-readObject-methods-defensively.md) 中的 MutablePeriod 攻击。
 
 The attack is a bit complicated, but the underlying idea is simple. If a singleton contains a nontransient object reference field, the contents of this field will be deserialized before the singleton’s readResolve method is run. This allows a carefully crafted stream to “steal” a reference to the originally deserialized singleton at the time the contents of the object reference field are deserialized.
 
@@ -139,7 +139,7 @@ Running this program produces the following output, conclusively proving that it
 
 You could fix the problem by declaring the favoriteSongs field transient, but you’re better off fixing it by making Elvis a single-element enum type (Item 3). As demonstrated by the ElvisStealer attack, using a readResolve method to prevent a “temporary” deserialized instance from being accessed by an attacker is fragile and demands great care.
 
-通过将 favorites 字段声明为 transient 可以解决这个问题，但是最好把 Elvis 做成是一个单元素的枚举类型（[Item-3](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-2/Chapter-2-Item-3-Enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type.md)）。ElvisStealer 所示的攻击表名，使用 readResolve 方法防止「temporary」反序列化实例被攻击者访问的方式是脆弱的，需要非常小心。
+通过将 favorites 字段声明为 transient 可以解决这个问题，但是最好把 Elvis 做成是一个单元素的枚举类型（[Item-3](/Chapter-2/Chapter-2-Item-3-Enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type.md)）。ElvisStealer 所示的攻击表名，使用 readResolve 方法防止「temporary」反序列化实例被攻击者访问的方式是脆弱的，需要非常小心。
 
 If you write your serializable instance-controlled class as an enum, Java guarantees you that there can be no instances besides the declared constants, unless an attacker abuses a privileged method such as AccessibleObject.setAccessible. Any attacker who can do that already has sufficient privileges to execute arbitrary native code, and all bets are off. Here’s how our Elvis example looks as an enum:
 
@@ -169,6 +169,6 @@ To summarize, use enum types to enforce instance control invariants wherever pos
 总之，在可能的情况下，使用枚举类型强制实例控制不变量。如果这是不可能的，并且你需要一个既可序列化又实例控制的类，那么你必须提供一个 readResolve 方法，并确保该类的所有实例字段都是基本类型，或使用 transient 修饰。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Introduction.md)**
-- **Previous Item（上一条目）：[Item 88: Write readObject methods defensively（防御性地编写 readObject 方法）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-88-Write-readObject-methods-defensively.md)**
-- **Next Item（下一条目）：[Item 90: Consider serialization proxies instead of serialized instances（考虑以序列化代理代替序列化实例）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-12/Chapter-12-Item-90-Consider-serialization-proxies-instead-of-serialized-instances.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-12/Chapter-12-Introduction.md)**
+- **Previous Item（上一条目）：[Item 88: Write readObject methods defensively（防御性地编写 readObject 方法）](/Chapter-12/Chapter-12-Item-88-Write-readObject-methods-defensively.md)**
+- **Next Item（下一条目）：[Item 90: Consider serialization proxies instead of serialized instances（考虑以序列化代理代替序列化实例）](/Chapter-12/Chapter-12-Item-90-Consider-serialization-proxies-instead-of-serialized-instances.md)**
