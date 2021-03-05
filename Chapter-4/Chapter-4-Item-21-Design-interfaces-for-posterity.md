@@ -35,7 +35,7 @@ default boolean removeif(predicate<? super e> filter) {
 
 This is the best general-purpose implementation one could possibly write for the removeIf method, but sadly, it fails on some real-world Collection implementations. For example, consider org.apache.commons.collections4.collection.SynchronizedCollection. This class, from the Apache Commons library, is similar to the one returned by the static factory Collections.synchronizedCollection in java.util. The Apache version additionally provides the ability to use a client-supplied object for locking, in place of the collection. In other words, it is a wrapper class (Item 18), all of whose methods synchronize on a locking object before delegating to the wrapped collection.
 
-这是为 removeIf 方法编写的最好的通用实现，但遗憾的是，它在实际使用的一些 Collection 实现中导致了问题。例如，考虑 `org.apache.commons.collections4.collection.SynchronizedCollection`。这个类来自 Apache Commons 库，类似于 `java.util` 提供的静态工厂`Collections.synchronizedCollection`。Apache 版本还提供了使用客户端提供的对象进行锁定的功能，以代替集合。换句话说，它是一个包装器类（[Item-18](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md)），其所有方法在委托给包装集合之前同步锁定对象。
+这是为 removeIf 方法编写的最好的通用实现，但遗憾的是，它在实际使用的一些 Collection 实现中导致了问题。例如，考虑 `org.apache.commons.collections4.collection.SynchronizedCollection`。这个类来自 Apache Commons 库，类似于 `java.util` 提供的静态工厂`Collections.synchronizedCollection`。Apache 版本还提供了使用客户端提供的对象进行锁定的功能，以代替集合。换句话说，它是一个包装器类（[Item-18](/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md)），其所有方法在委托给包装集合之前同步锁定对象。
 
 The Apache SynchronizedCollection class is still being actively maintained, but as of this writing, it does not override the removeIf method. If this class is used in conjunction with Java 8, it will therefore inherit the default implementation of removeIf, which does not, indeed cannot, maintain the class’s fundamental promise: to automatically synchronize around each method invocation. The default implementation knows nothing about synchronization and has no access to the field that contains the locking object. If a client calls the removeIf method on a SynchronizedCollection instance in the presence of concurrent modification of the collection by another thread, a ConcurrentModificationException or other unspecified behavior may result.
 
@@ -51,7 +51,7 @@ In order to prevent this from happening in similar Java platform libraries imple
 
 Using default methods to add new methods to existing interfaces should be avoided unless the need is critical, in which case you should think long and hard about whether an existing interface implementation might be broken by your default method implementation. Default methods are, however, extremely useful for providing standard method implementations when an interface is created, to ease the task of implementing the interface (Item 20).
 
-除非别无他法，否则应该避免使用默认方法向现有接口添加新方法，如果非要这么做，你应该仔细考虑现有接口实现是否可能被默认方法破坏。然而，在创建接口时，默认方法非常有助于提供标准方法实现，以减轻实现接口的任务量（[Item-20](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md)）。
+除非别无他法，否则应该避免使用默认方法向现有接口添加新方法，如果非要这么做，你应该仔细考虑现有接口实现是否可能被默认方法破坏。然而，在创建接口时，默认方法非常有助于提供标准方法实现，以减轻实现接口的任务量（[Item-20](/Chapter-4/Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md)）。
 
 It is also worth noting that default methods were not designed to support removing methods from interfaces or changing the signatures of existing methods. Neither of these interface changes is possible without breaking existing clients.
 
@@ -66,6 +66,6 @@ Therefore, it is critically important to test each new interface before you rele
 因此，在发布每个新接口之前对其进行测试非常重要。多个程序员应该以不同的方式测试每个接口。至少，你应该以三种不同的实现为目标。同样重要的是编写多个客户端程序，用这些程序使用每个新接口的实例来执行各种任务。这将大大有助于确保每个接口满足其所有预期用途。这些步骤将允许你在接口被发布之前发现它们的缺陷，而你仍然可以轻松地纠正它们。**虽然在接口被发布之后可以纠正一些接口缺陷，但是你不能指望这种方式。**
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Introduction.md)**
-- **Previous Item（上一条目）：[Item 20: Prefer interfaces to abstract classes（接口优于抽象类）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md)**
-- **Next Item（下一条目）：[Item 22: Use interfaces only to define types（接口只用于定义类型）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-22-Use-interfaces-only-to-define-types.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-4/Chapter-4-Introduction.md)**
+- **Previous Item（上一条目）：[Item 20: Prefer interfaces to abstract classes（接口优于抽象类）](/Chapter-4/Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md)**
+- **Next Item（下一条目）：[Item 22: Use interfaces only to define types（接口只用于定义类型）](/Chapter-4/Chapter-4-Item-22-Use-interfaces-only-to-define-types.md)**

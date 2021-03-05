@@ -4,7 +4,7 @@
 
 As discussed in Item 45, some tasks are best accomplished with streams, others with iteration. Here is a traditional for loop to iterate over a collection:
 
-正如在 [Item-45](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-7/Chapter-7-Item-45-Use-streams-judiciously.md) 中所讨论的，一些任务最好使用流来完成，其他任务最好使用 iteration。下面是使用一个传统的 for 循环来遍历一个集合：
+正如在 [Item-45](/Chapter-7/Chapter-7-Item-45-Use-streams-judiciously.md) 中所讨论的，一些任务最好使用流来完成，其他任务最好使用 iteration。下面是使用一个传统的 for 循环来遍历一个集合：
 
 ```
 // Not the best way to iterate over a collection!
@@ -27,7 +27,7 @@ for (int i = 0; i < a.length; i++) {
 
 These idioms are better than while loops (Item 57), but they aren’t perfect. The iterator and the index variables are both just clutter—all you need are the elements. Furthermore, they represent opportunities for error. The iterator occurs three times in each loop and the index variable four, which gives you many chances to use the wrong variable. If you do, there is no guarantee that the compiler will catch the problem. Finally, the two loops are quite different, drawing unnecessary attention to the type of the container and adding a (minor) hassle to changing that type.
 
-这些习惯用法比 while 循环更好（[Item-57](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-57-Minimize-the-scope-of-local-variables.md)），但是它们并不完美。迭代器和索引变量都很混乱（你只需要元素）。此外，它们有出错的可能。迭代器在每个循环中出现三次，索引变量出现四次，这使得有很多机会使用到错误的变量。如果这样做，就不能保证编译器会捕捉到问题。最后，这两个循环区别很大，（第一个例子）还需要额外注意容器类型，并给类型转换增加小麻烦。
+这些习惯用法比 while 循环更好（[Item-57](/Chapter-9/Chapter-9-Item-57-Minimize-the-scope-of-local-variables.md)），但是它们并不完美。迭代器和索引变量都很混乱（你只需要元素）。此外，它们有出错的可能。迭代器在每个循环中出现三次，索引变量出现四次，这使得有很多机会使用到错误的变量。如果这样做，就不能保证编译器会捕捉到问题。最后，这两个循环区别很大，（第一个例子）还需要额外注意容器类型，并给类型转换增加小麻烦。
 
 The for-each loop (officially known as the “enhanced for statement”) solves all of these problems. It gets rid of the clutter and the opportunity for error by hiding the iterator or index variable. The resulting idiom applies equally to collections and arrays, easing the process of switching the implementation type of a container from one to the other:
 
@@ -143,6 +143,6 @@ In summary, the for-each loop provides compelling advantages over the traditiona
 总之，for-each 循环在清晰度、灵活性和 bug 预防方面比传统的 for 循环更有优势，并且没有性能损失。尽可能使用 for-each 循环而不是 for 循环。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Introduction.md)**
-- **Previous Item（上一条目）：[Item 57: Minimize the scope of local variables（将局部变量的作用域最小化）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-57-Minimize-the-scope-of-local-variables.md)**
-- **Next Item（下一条目）：[Item 59: Know and use the libraries（了解并使用库）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-9/Chapter-9-Item-59-Know-and-use-the-libraries.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-9/Chapter-9-Introduction.md)**
+- **Previous Item（上一条目）：[Item 57: Minimize the scope of local variables（将局部变量的作用域最小化）](/Chapter-9/Chapter-9-Item-57-Minimize-the-scope-of-local-variables.md)**
+- **Next Item（下一条目）：[Item 59: Know and use the libraries（了解并使用库）](/Chapter-9/Chapter-9-Item-59-Know-and-use-the-libraries.md)**

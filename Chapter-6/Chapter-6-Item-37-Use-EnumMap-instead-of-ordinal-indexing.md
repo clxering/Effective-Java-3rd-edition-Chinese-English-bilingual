@@ -4,7 +4,7 @@
 
 Occasionally you may see code that uses the ordinal method (Item 35) to index into an array or list. For example, consider this simplistic class meant to represent a plant:
 
-偶尔你可能会看到使用 `ordinal()` 的返回值（[Item-35](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-35-Use-instance-fields-instead-of-ordinals.md)）作为数组或 list 索引的代码。例如，考虑这个简单的类，它表示一种植物：
+偶尔你可能会看到使用 `ordinal()` 的返回值（[Item-35](/Chapter-6/Chapter-6-Item-35-Use-instance-fields-instead-of-ordinals.md)）作为数组或 list 索引的代码。例如，考虑这个简单的类，它表示一种植物：
 
 ```
 class Plant {
@@ -64,7 +64,7 @@ BIENNIAL: [B, D]
 
 This technique works, but it is fraught with problems. Because arrays are not compatible with generics (Item 28), the program requires an unchecked cast and will not compile cleanly. Because the array does not know what its index represents, you have to label the output manually. But the most serious problem with this technique is that when you access an array that is indexed by an enum’s ordinal, it is your responsibility to use the correct int value; ints do not provide the type safety of enums. If you use the wrong value, the program will silently do the wrong thing or—if you’re lucky—throw an ArrayIndexOutOfBoundsException.
 
-这种技术是有效的，但它充满了问题。因为数组与泛型不兼容（[Item-28](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-28-Prefer-lists-to-arrays.md)），所以该程序需要 unchecked 的转换，否则不能顺利地编译。因为数组不知道它的索引表示什么，所以必须手动标记输出。但是这种技术最严重的问题是，当你访问一个由枚举序数索引的数组时，你有责任使用正确的 int 值；int 不提供枚举的类型安全性。如果你使用了错误的值，程序将静默执行错误的操作，如果幸运的话，才会抛出 ArrayIndexOutOfBoundsException。
+这种技术是有效的，但它充满了问题。因为数组与泛型不兼容（[Item-28](/Chapter-5/Chapter-5-Item-28-Prefer-lists-to-arrays.md)），所以该程序需要 unchecked 的转换，否则不能顺利地编译。因为数组不知道它的索引表示什么，所以必须手动标记输出。但是这种技术最严重的问题是，当你访问一个由枚举序数索引的数组时，你有责任使用正确的 int 值；int 不提供枚举的类型安全性。如果你使用了错误的值，程序将静默执行错误的操作，如果幸运的话，才会抛出 ArrayIndexOutOfBoundsException。
 
 There is a much better way to achieve the same effect. The array is effectively serving as a map from the enum to a value, so you might as well use a Map. More specifically, there is a very fast Map implementation designed for use with enum keys, known as java.util.EnumMap. Here is how the program looks when it is rewritten to use EnumMap:
 
@@ -85,11 +85,11 @@ System.out.println(plantsByLifeCycle);
 
 This program is shorter, clearer, safer, and comparable in speed to the original version. There is no unsafe cast; no need to label the output manually because the map keys are enums that know how to translate themselves to printable strings; and no possibility for error in computing array indices. The reason that EnumMap is comparable in speed to an ordinal-indexed array is that EnumMap uses such an array internally, but it hides this implementation detail from the programmer, combining the richness and type safety of a Map with the speed of an array. Note that the EnumMap constructor takes the Class object of the key type: this is a bounded type token, which provides runtime generic type information (Item 33).
 
-这个程序比原来的版本更短，更清晰，更安全，速度也差不多。没有不安全的转换；不需要手动标记输出，因为 Map 的键是能转换为可打印字符串的枚举；在计算数组索引时不可能出错。EnumMap 在速度上与有序索引数组相当的原因是，EnumMap 在内部使用这样的数组，但是它向程序员隐藏了实现细节，将 Map 的丰富的功能和类型安全性与数组的速度结合起来。注意，EnumMap 构造函数接受键类型的 Class 对象：这是一个有界类型标记，它提供运行时泛型类型信息（[Item-33](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-33-Consider-typesafe-heterogeneous-containers.md)）。
+这个程序比原来的版本更短，更清晰，更安全，速度也差不多。没有不安全的转换；不需要手动标记输出，因为 Map 的键是能转换为可打印字符串的枚举；在计算数组索引时不可能出错。EnumMap 在速度上与有序索引数组相当的原因是，EnumMap 在内部使用这样的数组，但是它向程序员隐藏了实现细节，将 Map 的丰富的功能和类型安全性与数组的速度结合起来。注意，EnumMap 构造函数接受键类型的 Class 对象：这是一个有界类型标记，它提供运行时泛型类型信息（[Item-33](/Chapter-5/Chapter-5-Item-33-Consider-typesafe-heterogeneous-containers.md)）。
 
 The previous program can be further shortened by using a stream (Item 45) to manage the map. Here is the simplest stream-based code that largely duplicates the behavior of the previous example:
 
-通过使用流（[Item-45](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-7/Chapter-7-Item-45-Use-streams-judiciously.md)）来管理映射，可以进一步缩短前面的程序。下面是基于流的最简单的代码，它在很大程度上复制了前一个示例的行为：
+通过使用流（[Item-45](/Chapter-7/Chapter-7-Item-45-Use-streams-judiciously.md)）来管理映射，可以进一步缩短前面的程序。下面是基于流的最简单的代码，它在很大程度上复制了前一个示例的行为：
 
 ```
 // Naive stream-based approach - unlikely to produce an EnumMap!
@@ -242,9 +242,9 @@ In the interest of brevity, the above examples use null to indicate the absence 
 
 In summary, **it is rarely appropriate to use ordinals to index into arrays: use EnumMap instead.** If the relationship you are representing is multidimensional, use `EnumMap<..., EnumMap<...>>`. This is a special case of the general principle that application programmers should rarely, if ever, use Enum.ordinal (Item 35).
 
-总之，**用普通的序数索引数组是非常不合适的：应使用 EnumMap 代替。** 如果所表示的关系是多维的，则使用 `EnumMap<..., EnumMap<...>>`。这是一种特殊的基本原则，程序员很少（即使有的话）使用 `Enum.ordinal` （[Item-35](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-35-Use-instance-fields-instead-of-ordinals.md)）。
+总之，**用普通的序数索引数组是非常不合适的：应使用 EnumMap 代替。** 如果所表示的关系是多维的，则使用 `EnumMap<..., EnumMap<...>>`。这是一种特殊的基本原则，程序员很少（即使有的话）使用 `Enum.ordinal` （[Item-35](/Chapter-6/Chapter-6-Item-35-Use-instance-fields-instead-of-ordinals.md)）。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Introduction.md)**
-- **Previous Item（上一条目）：[Item 36: Use EnumSet instead of bit fields（用 EnumSet 替代位字段）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)**
-- **Next Item（下一条目）：[Item 38: Emulate extensible enums with interfaces（使用接口模拟可扩展枚举）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-38-Emulate-extensible-enums-with-interfaces.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-6/Chapter-6-Introduction.md)**
+- **Previous Item（上一条目）：[Item 36: Use EnumSet instead of bit fields（用 EnumSet 替代位字段）](/Chapter-6/Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)**
+- **Next Item（下一条目）：[Item 38: Emulate extensible enums with interfaces（使用接口模拟可扩展枚举）](/Chapter-6/Chapter-6-Item-38-Emulate-extensible-enums-with-interfaces.md)**

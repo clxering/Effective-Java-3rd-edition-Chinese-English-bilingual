@@ -4,11 +4,11 @@
 
 Varargs methods (Item 53) and generics were both added to the platform in Java 5, so you might expect them to interact gracefully; sadly, they do not. The purpose of varargs is to allow clients to pass a variable number of arguments to a method, but it is a leaky abstraction: when you invoke a varargs method, an array is created to hold the varargs parameters; that array, which should be an implementation detail, is visible. As a consequence, you get confusing compiler warnings when varargs parameters have generic or parameterized types.
 
-可变参数方法（[Item-53](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8/Chapter-8-Item-53-Use-varargs-judiciously.md)）和泛型都是在 Java 5 中添加的，因此你可能认为它们能够优雅地交互；可悲的是，他们并不能。可变参数的目的是允许客户端向方法传递可变数量的参数，但这是一个漏洞百出的抽象概念：当你调用可变参数方法时，将创建一个数组来保存参数；该数组的实现细节应该是可见的。因此，当可变参数具有泛型或参数化类型时，会出现令人困惑的编译器警告。
+可变参数方法（[Item-53](/Chapter-8/Chapter-8-Item-53-Use-varargs-judiciously.md)）和泛型都是在 Java 5 中添加的，因此你可能认为它们能够优雅地交互；可悲的是，他们并不能。可变参数的目的是允许客户端向方法传递可变数量的参数，但这是一个漏洞百出的抽象概念：当你调用可变参数方法时，将创建一个数组来保存参数；该数组的实现细节应该是可见的。因此，当可变参数具有泛型或参数化类型时，会出现令人困惑的编译器警告。
 
 Recall from Item 28 that a non-reifiable type is one whose runtime representation has less information than its compile-time representation, and that nearly all generic and parameterized types are non-reifiable. If a method declares its varargs parameter to be of a non-reifiable type, the compiler generates a warning on the declaration. If the method is invoked on varargs parameters whose inferred type is non-reifiable, the compiler generates a warning on the invocation too. The warnings look something like this:
 
-回想一下 [Item-28](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-28-Prefer-lists-to-arrays.md)，非具体化类型是指其运行时表示的信息少于其编译时表示的信息，并且几乎所有泛型和参数化类型都是不可具体化的。如果方法声明其可变参数为不可具体化类型，编译器将在声明上生成警告。如果方法是在其推断类型不可具体化的可变参数上调用的，编译器也会在调用时生成警告。生成的警告就像这样：
+回想一下 [Item-28](/Chapter-5/Chapter-5-Item-28-Prefer-lists-to-arrays.md)，非具体化类型是指其运行时表示的信息少于其编译时表示的信息，并且几乎所有泛型和参数化类型都是不可具体化的。如果方法声明其可变参数为不可具体化类型，编译器将在声明上生成警告。如果方法是在其推断类型不可具体化的可变参数上调用的，编译器也会在调用时生成警告。生成的警告就像这样：
 
 ```
 warning: [unchecked] Possible heap pollution from parameterized vararg type List<String>
@@ -20,7 +20,7 @@ Heap pollution occurs when a variable of a parameterized type refers to an objec
 
 For example, consider this method, which is a thinly disguised（伪装的） variant of the code fragment on page 127:
 
-例如，考虑这个方法，它摘自 127 页（[Item-26](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-26-Do-not-use-raw-types.md)）的代码片段，但做了些修改：
+例如，考虑这个方法，它摘自 127 页（[Item-26](/Chapter-5/Chapter-5-Item-26-Do-not-use-raw-types.md)）的代码片段，但做了些修改：
 
 ```
 // Mixing generics and varargs can violate type safety!
@@ -43,7 +43,7 @@ This example raises an interesting question: Why is it even legal to declare a m
 
 Prior to Java 7, there was nothing the author of a method with a generic varargs parameter could do about the warnings at the call sites. This made these APIs unpleasant to use. Users had to put up with the warnings or, preferably, to eliminate them with @SuppressWarnings("unchecked") annotations at every call site (Item 27). This was tedious, harmed readability, and hid warnings that flagged real issues.
 
-在 Java 7 之前，使用泛型可变参数的方法的作者对调用点上产生的警告无能为力。使得这些 API 难以使用。用户必须忍受这些警告，或者在每个调用点（[Item-27](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-27-Eliminate-unchecked-warnings.md)）使用 @SuppressWarnings("unchecked") 注释消除这些警告。这种做法乏善可陈，既损害了可读性，也忽略了标记实际问题的警告。
+在 Java 7 之前，使用泛型可变参数的方法的作者对调用点上产生的警告无能为力。使得这些 API 难以使用。用户必须忍受这些警告，或者在每个调用点（[Item-27](/Chapter-5/Chapter-5-Item-27-Eliminate-unchecked-warnings.md)）使用 @SuppressWarnings("unchecked") 注释消除这些警告。这种做法乏善可陈，既损害了可读性，也忽略了标记实际问题的警告。
 
 In Java 7, the SafeVarargs annotation was added to the platform, to allow the author of a method with a generic varargs parameter to suppress client warnings automatically. In essence, **the SafeVarargs annotation constitutes a promise by the author of a method that it is typesafe.** In exchange for this promise, the compiler agrees not to warn the users of the method that calls may be unsafe.
 
@@ -143,7 +143,7 @@ Note that the SafeVarargs annotation is legal only on methods that can’t be ov
 
 An alternative to using the SafeVarargs annotation is to take the advice of Item 28 and replace the varargs parameter (which is an array in disguise) with a List parameter. Here’s how this approach looks when applied to our flatten method. Note that only the parameter declaration has changed:
 
-使用 SafeVarargs 注释的另一种选择是接受 [Item-28](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-28-Prefer-lists-to-arrays.md) 的建议，并用 List 参数替换可变参数（它是一个伪装的数组）。下面是将这种方法应用到我们的 flatten 方法时的效果。注意，只有参数声明发生了更改：
+使用 SafeVarargs 注释的另一种选择是接受 [Item-28](/Chapter-5/Chapter-5-Item-28-Prefer-lists-to-arrays.md) 的建议，并用 List 参数替换可变参数（它是一个伪装的数组）。下面是将这种方法应用到我们的 flatten 方法时的效果。注意，只有参数声明发生了更改：
 
 ```
 // List as a typesafe alternative to a generic varargs parameter
@@ -201,6 +201,6 @@ In summary, varargs and generics do not interact well because the varargs facili
 总之，可变参数方法和泛型不能很好地交互，因为可变参数工具是构建在数组之上的漏洞抽象，并且数组具有与泛型不同的类型规则。虽然泛型可变参数不是类型安全的，但它们是合法的。如果选择使用泛型（或参数化）可变参数编写方法，首先要确保该方法是类型安全的，然后使用 @SafeVarargs 对其进行注释，这样使用起来就不会令人不愉快。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Introduction.md)**
-- **Previous Item（上一条目）：[Item 31: Use bounded wildcards to increase API flexibility（使用有界通配符增加 API 的灵活性）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)**
-- **Next Item（下一条目）：[Item 33: Consider typesafe heterogeneous containers（考虑类型安全的异构容器）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-5/Chapter-5-Item-33-Consider-typesafe-heterogeneous-containers.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-5/Chapter-5-Introduction.md)**
+- **Previous Item（上一条目）：[Item 31: Use bounded wildcards to increase API flexibility（使用有界通配符增加 API 的灵活性）](/Chapter-5/Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)**
+- **Next Item（下一条目）：[Item 33: Consider typesafe heterogeneous containers（考虑类型安全的异构容器）](/Chapter-5/Chapter-5-Item-33-Consider-typesafe-heterogeneous-containers.md)**

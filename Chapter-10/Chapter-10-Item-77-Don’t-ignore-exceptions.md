@@ -39,6 +39,6 @@ The advice in this item applies equally to checked and unchecked exceptions. Whe
 本条目中的建议同样适用于 checked 异常和 unchecked异常。不管异常是表示可预测的异常条件还是编程错误，用空 catch 块忽略它将导致程序在错误面前保持静默。然后，程序可能会在未来的任意时间点，在与问题源没有明显关系的代码中失败。正确处理异常可以完全避免失败。仅仅让异常向外传播，可能会导致程序走向失败，保留信息有利于调试。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Introduction.md)**
-- **Previous Item（上一条目）：[Item 76: Strive for failure atomicity（尽力保证故障原子性）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-76-Strive-for-failure-atomicity.md)**
-- **Next Item（下一条目）：[Chapter 11 Introduction（章节介绍）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-11/Chapter-11-Introduction.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-10/Chapter-10-Introduction.md)**
+- **Previous Item（上一条目）：[Item 76: Strive for failure atomicity（尽力保证故障原子性）](/Chapter-10/Chapter-10-Item-76-Strive-for-failure-atomicity.md)**
+- **Next Item（下一条目）：[Chapter 11 Introduction（章节介绍）](/Chapter-11/Chapter-11-Introduction.md)**

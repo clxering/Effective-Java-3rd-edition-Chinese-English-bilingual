@@ -52,7 +52,7 @@ The snippet using the method reference is neither shorter nor clearer than the s
 
 Many method references refer to static methods, but there are four kinds that do not. Two of them are bound and unbound instance method references. In bound references, the receiving object is specified in the method reference. Bound references are similar in nature to static references: the function object takes the same arguments as the referenced method. In unbound references, the receiving object is specified when the function object is applied, via an additional parameter before the method’s declared parameters. Unbound references are often used as mapping and filter functions in stream pipelines (Item 45). Finally, there are two kinds of constructor references, for classes and arrays. Constructor references serve as factory objects. All five kinds of method references are summarized in the table below:
 
-许多方法引用引用静态方法，但是有四种方法不引用静态方法。其中两个是绑定和非绑定实例方法引用。在绑定引用中，接收对象在方法引用中指定。绑定引用在本质上与静态引用相似：函数对象接受与引用方法相同的参数。在未绑定引用中，在应用函数对象时通过方法声明参数之前的附加参数指定接收对象。在流管道中，未绑定引用通常用作映射和筛选函数（[Item-45](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-7/Chapter-7-Item-45-Use-streams-judiciously.md)）。最后，对于类和数组，有两种构造函数引用。构造函数引用用作工厂对象。五种方法参考文献汇总如下表：
+许多方法引用引用静态方法，但是有四种方法不引用静态方法。其中两个是绑定和非绑定实例方法引用。在绑定引用中，接收对象在方法引用中指定。绑定引用在本质上与静态引用相似：函数对象接受与引用方法相同的参数。在未绑定引用中，在应用函数对象时通过方法声明参数之前的附加参数指定接收对象。在流管道中，未绑定引用通常用作映射和筛选函数（[Item-45](/Chapter-7/Chapter-7-Item-45-Use-streams-judiciously.md)）。最后，对于类和数组，有两种构造函数引用。构造函数引用用作工厂对象。五种方法参考文献汇总如下表：
 
 |    Method Ref Type    |       Example       |      Lambda Equivalent     |
 |:-------:|:-------:|:-------:|
@@ -67,6 +67,6 @@ In summary, method references often provide a more succinct alternative to lambd
 总之，方法引用通常为 lambda 表达式提供了一种更简洁的选择。**如果方法引用更短、更清晰，则使用它们；如果没有，仍然使用 lambda 表达式。**
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-7/Chapter-7-Introduction.md)**
-- **Previous Item（上一条目）：[Item 42: Prefer lambdas to anonymous classes（λ 表达式优于匿名类）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-7/Chapter-7-Item-42-Prefer-lambdas-to-anonymous-classes.md)**
-- **Next Item（下一条目）：[Item 44: Favor the use of standard functional interfaces（优先使用标准函数式接口）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-7/Chapter-7-Item-44-Favor-the-use-of-standard-functional-interfaces.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-7/Chapter-7-Introduction.md)**
+- **Previous Item（上一条目）：[Item 42: Prefer lambdas to anonymous classes（λ 表达式优于匿名类）](/Chapter-7/Chapter-7-Item-42-Prefer-lambdas-to-anonymous-classes.md)**
+- **Next Item（下一条目）：[Item 44: Favor the use of standard functional interfaces（优先使用标准函数式接口）](/Chapter-7/Chapter-7-Item-44-Favor-the-use-of-standard-functional-interfaces.md)**

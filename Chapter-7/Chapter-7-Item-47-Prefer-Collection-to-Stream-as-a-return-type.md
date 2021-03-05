@@ -8,7 +8,7 @@ Many methods return sequences of elements. Prior to Java 8, the obvious return t
 
 You may hear it said that streams are now the obvious choice to return a sequence of elements, but as discussed in Item 45, streams do not make iteration obsolete: writing good code requires combining streams and iteration judiciously. If an API returns only a stream and some users want to iterate over the returned sequence with a for-each loop, those users will be justifiably upset. It is especially frustrating because the Stream interface contains the sole abstract method in the Iterable interface, and Stream’s specification for this method is compatible with Iterable’s. The only thing preventing programmers from using a for-each loop to iterate over a stream is Stream’s failure to extend Iterable.
 
-你可能听说现在流是返回元素序列的明显选择，但是正如 [Item-45](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-7/Chapter-7-Item-45-Use-streams-judiciously.md) 中所讨论的，流不会让迭代过时：编写好的代码需要明智地将流和迭代结合起来。如果一个 API 只返回一个流，而一些用户希望使用 for-each 循环遍历返回的序列，那么这些用户将会感到不适。这尤其令人沮丧，因为流接口包含 Iterable 接口中惟一的抽象方法，而且流对该方法的规范与 Iterable 的规范兼容。唯一阻止程序员使用 for-each 循环在流上迭代的是流不能扩展 Iterable。
+你可能听说现在流是返回元素序列的明显选择，但是正如 [Item-45](/Chapter-7/Chapter-7-Item-45-Use-streams-judiciously.md) 中所讨论的，流不会让迭代过时：编写好的代码需要明智地将流和迭代结合起来。如果一个 API 只返回一个流，而一些用户希望使用 for-each 循环遍历返回的序列，那么这些用户将会感到不适。这尤其令人沮丧，因为流接口包含 Iterable 接口中惟一的抽象方法，而且流对该方法的规范与 Iterable 的规范兼容。唯一阻止程序员使用 for-each 循环在流上迭代的是流不能扩展 Iterable。
 
 Sadly, there is no good workaround for this problem. At first glance, it might appear that passing a method reference to Stream’s iterator method would work. The resulting code is perhaps a bit noisy and opaque, but not unreasonable:
 
@@ -63,7 +63,7 @@ for (ProcessHandle p : iterableOf(ProcessHandle.allProcesses())) {
 
 Note that the stream versions of the Anagrams program in Item 34 use the Files.lines method to read the dictionary, while the iterative version uses a scanner. The Files.lines method is superior to a scanner, which silently swallows any exceptions encountered while reading the file. Ideally, we would have used Files.lines in the iterative version too. This is the sort of compromise that programmers will make if an API provides only stream access to a sequence and they want to iterate over the sequence with a for-each statement.
 
-注意，[Item-34](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md) 中 Anagrams 程序的流版本使用 `Files.lines` 读取字典，而迭代版本使用扫描器。`Files.lines` 方法优于扫描器，扫描器在读取文件时静默地接收任何异常。理想情况下，我们在 `Files.lines` 的迭代版本也应该如此。如果一个 API 只提供对一个序列的流访问，而程序员希望用 for-each 语句遍历该序列，那么这是程序员会做出的一种妥协。
+注意，[Item-34](/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md) 中 Anagrams 程序的流版本使用 `Files.lines` 读取字典，而迭代版本使用扫描器。`Files.lines` 方法优于扫描器，扫描器在读取文件时静默地接收任何异常。理想情况下，我们在 `Files.lines` 的迭代版本也应该如此。如果一个 API 只提供对一个序列的流访问，而程序员希望用 for-each 语句遍历该序列，那么这是程序员会做出的一种妥协。
 
 Conversely, a programmer who wants to process a sequence using a stream pipeline will be justifiably upset by an API that provides only an Iterable. Again the JDK does not provide an adapter, but it’s easy enough to write one:
 
@@ -159,7 +159,7 @@ public class SubLists {
 
 Note that the Stream.concat method is used to add the empty list into the returned stream. Also note that the flatMap method (Item 45) is used to generate a single stream consisting of all the suffixes of all the prefixes. Finally, note that we generate the prefixes and suffixes by mapping a stream of consecutive int values returned by IntStream.range and IntStream.rangeClosed. This idiom is, roughly speaking, the stream equivalent of the standard for-loop on integer indices. Thus, our sublist implementation is similar in spirit to the obvious nested for-loop:
 
-注意 `Stream.concat` 方法将空列表添加到返回的流中。还要注意，flatMap 方法（[Item-45](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-7/Chapter-7-Item-45-Use-streams-judiciously.md)）用于生成由所有前缀的所有后缀组成的单一流。最后，请注意，我们通过映射由 `IntStream.range` 和 `IntStream.rangeClosed` 返回的连续 int 值流来生成前缀和后缀。因此，我们的子列表实现在本质上类似于嵌套的 for 循环：
+注意 `Stream.concat` 方法将空列表添加到返回的流中。还要注意，flatMap 方法（[Item-45](/Chapter-7/Chapter-7-Item-45-Use-streams-judiciously.md)）用于生成由所有前缀的所有后缀组成的单一流。最后，请注意，我们通过映射由 `IntStream.range` 和 `IntStream.rangeClosed` 返回的连续 int 值流来生成前缀和后缀。因此，我们的子列表实现在本质上类似于嵌套的 for 循环：
 
 ```
 for (int start = 0; start < src.size(); start++)
@@ -169,7 +169,7 @@ for (int start = 0; start < src.size(); start++)
 
 It is possible to translate this for-loop directly into a stream. The result is more concise than our previous implementation, but perhaps a bit less readable. It is similar in spirit to the streams code for the Cartesian product in Item 45:
 
-可以将这个 for 循环直接转换为流。结果比我们以前的实现更简洁，但可读性可能稍差。它在形态上类似于 [Item-45](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-7/Chapter-7-Item-45-Use-streams-judiciously.md) 中 Cartesian 的 streams 代码：
+可以将这个 for 循环直接转换为流。结果比我们以前的实现更简洁，但可读性可能稍差。它在形态上类似于 [Item-45](/Chapter-7/Chapter-7-Item-45-Use-streams-judiciously.md) 中 Cartesian 的 streams 代码：
 
 ```
 // Returns a stream of all the sublists of its input list
@@ -195,6 +195,6 @@ In summary, when writing a method that returns a sequence of elements, remember 
 总之，在编写返回元素序列的方法时，请记住，有些用户可能希望将它们作为流处理，而有些用户可能希望对它们进行迭代。试着适应这两个群体。如果可以返回集合，那么就这样做。如果你已经在一个集合中拥有了元素，或者序列中的元素数量足够小，可以创建一个新的元素，那么返回一个标准集合，例如 ArrayList 。否则，请考虑像对 power 集那样实现自定义集合。如果返回集合不可行，则返回流或 iterable，以看起来更自然的方式返回。如果在未来的 Java 版本中，流接口声明被修改为可迭代的，那么你应该可以随意返回流，因为它们将允许流处理和迭代。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-7/Chapter-7-Introduction.md)**
-- **Previous Item（上一条目）：[Item 46: Prefer side effect free functions in streams（在流中使用无副作用的函数）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-7/Chapter-7-Item-46-Prefer-side-effect-free-functions-in-streams.md)**
-- **Next Item（下一条目）：[Item 48: Use caution when making streams parallel（谨慎使用并行流）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-7/Chapter-7-Item-48-Use-caution-when-making-streams-parallel.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-7/Chapter-7-Introduction.md)**
+- **Previous Item（上一条目）：[Item 46: Prefer side effect free functions in streams（在流中使用无副作用的函数）](/Chapter-7/Chapter-7-Item-46-Prefer-side-effect-free-functions-in-streams.md)**
+- **Next Item（下一条目）：[Item 48: Use caution when making streams parallel（谨慎使用并行流）](/Chapter-7/Chapter-7-Item-48-Use-caution-when-making-streams-parallel.md)**

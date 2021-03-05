@@ -43,7 +43,7 @@ The main program repeatedly adds twenty-six bigrams, each consisting of two iden
 
 Clearly, the author of the Bigram class intended to override the equals method (Item 10) and even remembered to override hashCode in tandem (Item 11). Unfortunately, our hapless programmer failed to override equals, overloading it instead (Item 52). To override Object.equals, you must define an equals method whose parameter is of type Object, but the parameter of Bigram’s equals method is not of type Object, so Bigram inherits the equals method from Object. This equals method tests for object identity, just like the == operator. Each of the ten copies of each bigram is distinct from the other nine, so they are deemed unequal by Object.equals, which explains why the program prints 260.
 
-显然，Bigram 类的作者打算覆盖 equals 方法（[Item-10](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)），甚至还记得要一并覆盖 hashCode（[Item-11](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)）。不幸的是，我们的程序员没有覆盖 equals，而是重载了它（[Item-52](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8/Chapter-8-Item-52-Use-overloading-judiciously.md)）。要覆盖 `Object.equals`，你必须定义一个 equals 方法，它的参数是 Object 类型的，但是 Bigram 的 equals 方法的参数不是 Object 类型的，所以 Bigram 从 Object 继承 equals 方法。这个继承来的 equals 方法只能检测对象同一性，就像 == 操作符一样。每 10 个 bigram 副本为一组，每组中的每个 bigram 副本都不同于其他 9 个，因此 `Object.equals` 认为它们不相等，这就解释了为什么程序最终打印 260。
+显然，Bigram 类的作者打算覆盖 equals 方法（[Item-10](/Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)），甚至还记得要一并覆盖 hashCode（[Item-11](/Chapter-3/Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)）。不幸的是，我们的程序员没有覆盖 equals，而是重载了它（[Item-52](/Chapter-8/Chapter-8-Item-52-Use-overloading-judiciously.md)）。要覆盖 `Object.equals`，你必须定义一个 equals 方法，它的参数是 Object 类型的，但是 Bigram 的 equals 方法的参数不是 Object 类型的，所以 Bigram 从 Object 继承 equals 方法。这个继承来的 equals 方法只能检测对象同一性，就像 == 操作符一样。每 10 个 bigram 副本为一组，每组中的每个 bigram 副本都不同于其他 9 个，因此 `Object.equals` 认为它们不相等，这就解释了为什么程序最终打印 260。
 
 Luckily, the compiler can help you find this error, but only if you help it by telling it that you intend to override Object.equals. To do this, annotate Bigram.equals with @Override, as shown here:
 
@@ -68,7 +68,7 @@ Bigram.java:10: method does not override or implement a method from a supertype
 
 You will immediately realize what you did wrong, slap yourself on the forehead, and replace the broken equals implementation with a correct one (Item 10):
 
-你会立刻意识到自己做错了什么，拍拍自己的额头，用正确的方式替换不正确的 equals 实现（[Item-10](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)）：
+你会立刻意识到自己做错了什么，拍拍自己的额头，用正确的方式替换不正确的 equals 实现（[Item-10](/Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)）：
 
 ```
 @Override
@@ -101,6 +101,6 @@ In summary, the compiler can protect you from a great many errors if you use the
 总之，如果你在每个方法声明上都使用 `@Override` 注解来覆盖超类型声明（只有一个例外），那么编译器可以帮助你减少受到有害错误的影响。在具体类中，可以不对覆盖抽象方法声明的方法使用该注解（即使这么做也并不会有害）。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Introduction.md)**
-- **Previous Item（上一条目）：[Item 39: Prefer annotations to naming patterns（注解优于命名模式）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-39-Prefer-annotations-to-naming-patterns.md)**
-- **Next Item（下一条目）：[Item 41: Use marker interfaces to define types（使用标记接口定义类型）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-41-Use-marker-interfaces-to-define-types.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-6/Chapter-6-Introduction.md)**
+- **Previous Item（上一条目）：[Item 39: Prefer annotations to naming patterns（注解优于命名模式）](/Chapter-6/Chapter-6-Item-39-Prefer-annotations-to-naming-patterns.md)**
+- **Next Item（下一条目）：[Item 41: Use marker interfaces to define types（使用标记接口定义类型）](/Chapter-6/Chapter-6-Item-41-Use-marker-interfaces-to-define-types.md)**

@@ -8,7 +8,7 @@ A marker interface is an interface that contains no method declarations but mere
 
 You may hear it said that marker annotations (Item 39) make marker interfaces obsolete. This assertion is incorrect. Marker interfaces have two advantages over marker annotations. First and foremost, **marker interfaces define a type that is implemented by instances of the marked class; marker annotations do not.** The existence of a marker interface type allows you to catch errors at compile time that you couldn’t catch until runtime if you used a marker annotation.
 
-你可能听过一个说法：标记接口已经过时，更好的方式是标记注解（[Item-39](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-39-Prefer-annotations-to-naming-patterns.md)）。这个言论是错误的。与标记注解相比，标记接口有两个优点。首先，**标记接口定义的类型由标记类的实例实现；标记注解不会。** 标记接口类型的存在允许你在编译时捕获错误，如果你使用标记注解，则在运行时才能捕获这些错误。
+你可能听过一个说法：标记接口已经过时，更好的方式是标记注解（[Item-39](/Chapter-6/Chapter-6-Item-39-Prefer-annotations-to-naming-patterns.md)）。这个言论是错误的。与标记注解相比，标记接口有两个优点。首先，**标记接口定义的类型由标记类的实例实现；标记注解不会。** 标记接口类型的存在允许你在编译时捕获错误，如果你使用标记注解，则在运行时才能捕获这些错误。
 
 Java’s serialization facility (Chapter 6) uses the Serializable marker interface to indicate that a type is serializable. The ObjectOutputStream.writeObject method, which serializes the object that is passed to it, requires that its argument be serializable. Had the argument of this method been of type Serializable, an attempt to serialize an inappropriate object would have been detected at compile time (by type checking). Compile-time error detection is the intent of marker interfaces, but unfortunately, the ObjectOutputStream.write API does not take advantage of the Serializable interface: its argument is declared to be of type Object, so attempts to serialize an unserializable object won’t fail until runtime.
 
@@ -88,9 +88,9 @@ In summary, marker interfaces and marker annotations both have their uses. If yo
 
 In a sense, this item is the inverse of Item 22, which says, “If you don’t want to define a type, don’t use an interface.” To a first approximation, this item says, “If you do want to define a type, do use an interface.”
 
-从某种意义上说，本条目与 [Item-22](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-4/Chapter-4-Item-22-Use-interfaces-only-to-define-types.md) 的说法相反，也就是说，「如果不想定义类型，就不要使用接口。」，与本条目应用场景适应的说法是，「如果你确实想定义类型，那么就要使用接口。」
+从某种意义上说，本条目与 [Item-22](/Chapter-4/Chapter-4-Item-22-Use-interfaces-only-to-define-types.md) 的说法相反，也就是说，「如果不想定义类型，就不要使用接口。」，与本条目应用场景适应的说法是，「如果你确实想定义类型，那么就要使用接口。」
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Introduction.md)**
-- **Previous Item（上一条目）：[Item 40: Consistently use the Override annotation（坚持使用 @Override 注解）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-6/Chapter-6-Item-40-Consistently-use-the-Override-annotation.md)**
-- **Next Item（下一条目）：[Chapter 7 Introduction（章节介绍）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-7/Chapter-7-Introduction.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-6/Chapter-6-Introduction.md)**
+- **Previous Item（上一条目）：[Item 40: Consistently use the Override annotation（坚持使用 @Override 注解）](/Chapter-6/Chapter-6-Item-40-Consistently-use-the-Override-annotation.md)**
+- **Next Item（下一条目）：[Chapter 7 Introduction（章节介绍）](/Chapter-7/Chapter-7-Introduction.md)**

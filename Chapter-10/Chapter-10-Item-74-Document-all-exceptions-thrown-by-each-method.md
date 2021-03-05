@@ -4,7 +4,7 @@
 
 A description of the exceptions thrown by a method is an important part of the documentation required to use the method properly. Therefore, it is critically important that you take the time to carefully document all of the exceptions thrown by each method (Item 56).
 
-描述方法抛出的异常，是该方法文档的重要部分。因此，花时间仔细记录每个方法抛出的所有异常是非常重要的（[Item-56](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8/Chapter-8-Item-56-Write-doc-comments-for-all-exposed-API-elements.md)）。
+描述方法抛出的异常，是该方法文档的重要部分。因此，花时间仔细记录每个方法抛出的所有异常是非常重要的（[Item-56](/Chapter-8/Chapter-8-Item-56-Write-doc-comments-for-all-exposed-API-elements.md)）。
 
 **Always declare checked exceptions individually, and document precisely the conditions under which each one is thrown** using the Javadoc @throws tag. Don’t take the shortcut of declaring that a method throws some superclass of multiple exception classes that it can throw. As an extreme example, don’t declare that a public method throws Exception or, worse, throws Throwable. In addition to denying any guidance to the method’s user concerning the exceptions it is capable of throwing, such a declaration greatly hinders the use of the method because it effectively obscures any other exception that may be thrown in the same context. One exception to this advice is the main method, which can safely be declared to throw Exception because it is called only by VM.
 
@@ -12,7 +12,7 @@ A description of the exceptions thrown by a method is an important part of the d
 
 While the language does not require programmers to declare the unchecked exceptions that a method is capable of throwing, it is wise to document them as carefully as the checked exceptions. Unchecked exceptions generally represent programming errors (Item 70), and familiarizing programmers with all of the errors they can make helps them avoid making these errors. A well-documented list of the unchecked exceptions that a method can throw effectively describes the preconditions for its successful execution. It is essential that every public method’s documentation describe its preconditions (Item 56), and documenting its unchecked exceptions is the best way to satisfy this requirement.
 
-虽然 Java 不要求程序员为方法声明会抛出的 unchecked 异常，但明智的做法是，应该像 checked 异常一样仔细地记录它们。unchecked 异常通常表示编程错误（[Item-70](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-70-Use-checked-exceptions-for-recoverable-conditions-and-runtime-exceptions-for-programming-errors.md)），让程序员熟悉他们可能犯的所有错误可以帮助他们避免犯这些错误。将方法可以抛出的 unchecked 异常形成良好文档，可以有效描述方法成功执行的先决条件。每个公共方法的文档都必须描述它的先决条件（[Item-56](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-8/Chapter-8-Item-56-Write-doc-comments-for-all-exposed-API-elements.md)），记录它的 unchecked 异常是满足这个需求的最佳方法。
+虽然 Java 不要求程序员为方法声明会抛出的 unchecked 异常，但明智的做法是，应该像 checked 异常一样仔细地记录它们。unchecked 异常通常表示编程错误（[Item-70](/Chapter-10/Chapter-10-Item-70-Use-checked-exceptions-for-recoverable-conditions-and-runtime-exceptions-for-programming-errors.md)），让程序员熟悉他们可能犯的所有错误可以帮助他们避免犯这些错误。将方法可以抛出的 unchecked 异常形成良好文档，可以有效描述方法成功执行的先决条件。每个公共方法的文档都必须描述它的先决条件（[Item-56](/Chapter-8/Chapter-8-Item-56-Write-doc-comments-for-all-exposed-API-elements.md)），记录它的 unchecked 异常是满足这个需求的最佳方法。
 
 It is particularly important that methods in interfaces document the unchecked exceptions they may throw. This documentation forms a part of the interface’s general contract and enables common behavior among multiple implementations of the interface.
 
@@ -35,6 +35,6 @@ In summary, document every exception that can be thrown by each method that you 
 总之，记录你所编写的每个方法可能引发的每个异常。对于 unchecked 异常、checked 异常、抽象方法、实例方法都是如此。应该在文档注释中采用 `@throw` 标记的形式。在方法的 throws 子句中分别声明每个 checked 异常，但不要声明 unchecked 异常。如果你不记录方法可能抛出的异常，其他人将很难或不可能有效地使用你的类和接口。
 
 ---
-**[Back to contents of the chapter（返回章节目录）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Introduction.md)**
-- **Previous Item（上一条目）：[Item 73: Throw exceptions appropriate to the abstraction（抛出能用抽象解释的异常）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-73-Throw-exceptions-appropriate-to-the-abstraction.md)**
-- **Next Item（下一条目）：[Item 75: Include failure capture information in detail messages（异常详细消息中应包含捕获失败的信息）](https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual/blob/master/Chapter-10/Chapter-10-Item-75-Include-failure-capture-information-in-detail-messages.md)**
+**[Back to contents of the chapter（返回章节目录）](/Chapter-10/Chapter-10-Introduction.md)**
+- **Previous Item（上一条目）：[Item 73: Throw exceptions appropriate to the abstraction（抛出能用抽象解释的异常）](/Chapter-10/Chapter-10-Item-73-Throw-exceptions-appropriate-to-the-abstraction.md)**
+- **Next Item（下一条目）：[Item 75: Include failure capture information in detail messages（异常详细消息中应包含捕获失败的信息）](/Chapter-10/Chapter-10-Item-75-Include-failure-capture-information-in-detail-messages.md)**
