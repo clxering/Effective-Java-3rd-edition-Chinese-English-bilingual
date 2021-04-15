@@ -49,7 +49,7 @@ public class NutritionFacts {
 
 When you want to create an instance, you use the constructor with the shortest parameter list containing all the parameters you want to set:
 
-当你想要创建一个实例时，可以使用包含所需的参数的最短参数列表的构造函数：
+当你想要创建一个实例时，可以使用包含所需参数的最短参数列表的构造函数：
 
 ```
 NutritionFacts cocaCola =new NutritionFacts(240, 8, 100, 0, 35, 27);
@@ -112,6 +112,8 @@ It is possible to reduce these disadvantages by manually “freezing” the obje
 Luckily, there is a third alternative that combines the safety of the telescoping constructor pattern with the readability of the JavaBeans pattern. It is a form of the Builder pattern [Gamma95]. Instead of making the desired object directly,the client calls a constructor (or static factory) with all of the required parameters and gets a builder object. Then the client calls setter-like methods on the builder object to set each optional parameter of interest. Finally, the client calls a parameterless build method to generate the object, which is typically immutable. The builder is typically a static member class (Item 24) of the class itbuilds. Here’s how it looks in practice:
 
 幸运的是，还有第三种选择，它结合了可伸缩构造函数模式的安全性和 JavaBean 模式的可读性。它是建造者模式的一种形式 [Gamma95]。客户端不直接生成所需的对象，而是使用所有必需的参数调用构造函数（或静态工厂），并获得一个 builder 对象。然后，客户端在构建器对象上调用像 setter 这样的方法来设置每个感兴趣的可选参数。最后，客户端调用一个无参数的构建方法来生成对象，这通常是不可变的。构建器通常是它构建的类的静态成员类（[Item-24](/Chapter-4/Chapter-4-Item-24-Favor-static-member-classes-over-nonstatic.md)）。下面是它在实际应用中的样子：
+
+**若将该案例「构建机制」独立出来，或能广泛适应相似结构的构建需求，详见文末随笔**
 
 ```
 // Builder Pattern
@@ -189,71 +191,6 @@ This client code is easy to write and, more importantly, easy to read. The Build
 
 Validity checks were omitted for brevity. To detect invalid parameters as soon as possible, check parameter validity in the builder’s constructor and methods.Check invariants involving multiple parameters in the constructor invoked by the build method. To ensure these invariants against attack, do the checks on object fields after copying parameters from the builder (Item 50). If a check fails, throw an IllegalArgumentException (Item 72) whose detail message indicates which parameters are invalid (Item 75).
 
-**译注：若实体类数量较多时，内嵌静态类的方式还是比较冗长。或可将「构建器」独立出来，广泛适应多个实体类。以下案例仅供参考：**
-
-```
-class EntityCreator<T> {
-
-    private Field[] fieldArray;
-    private Class<T> className;
-    private T entityObj;
-
-    public EntityCreator(Class<T> className) throws Exception {
-        this.fieldArray = className.getDeclaredFields();
-        this.className = className;
-        Constructor<T> constructor = className.getDeclaredConstructor();
-        constructor.setAccessible(true);
-        this.entityObj = constructor.newInstance();
-    }
-
-    public EntityCreator<T> setValue(String paramName, Object paramValue) throws Exception {
-        for (Field field : fieldArray) {
-            if (field.getName().equals(paramName)) {
-                PropertyDescriptor descriptor = new PropertyDescriptor(field.getName(), className);
-                Method method = descriptor.getWriteMethod();
-                method.invoke(entityObj, paramValue);
-            }
-        }
-        return this;
-    }
-
-    public T build() {
-        return entityObj;
-    }
-}
-```
-
-如此，可移除整个 Builder 类，NutritionFacts 类保留无参无方法体的私有构造；类成员必须实现 setter 和 getter：
-
-```
-import lombok.Getter;
-import lombok.Setter;
-
-@Setter
-@Getter
-public class NutritionFacts {
-    private final int servingSize;
-    private final int servings;
-    private final int calories;
-    private final int fat;
-    private final int sodium;
-    private final int carbohydrate;
-
-    private NutritionFacts() {}
-}
-```
-
-使用案例改为：
-
-```
-NutritionFacts cocaCola = new EntityCreator<>(NutritionFacts.class)
-    .setValue("servingSize",240)
-    .setValue("servings",8)
-    .setValue("calories",100)
-    .setValue("sodium",35)
-    .setValue("carbohydrate",27).build();
-```
-
 为了简洁，省略了有效性检查。为了尽快检测无效的参数，请检查构建器的构造函数和方法中的参数有效性。检查构建方法调用的构造函数中涉及多个参数的不变量。为了确保这些不变量不受攻击，在从构建器复制参数之后检查对象字段（[Item-50](/Chapter-8/Chapter-8-Item-50-Make-defensive-copies-when-needed.md)）。如果检查失败，抛出一个 IllegalArgumentException（[Item-72](/Chapter-10/Chapter-10-Item-72-Favor-the-use-of-standard-exceptions.md)），它的详细消息指示哪些参数无效（[Item-75](/Chapter-10/Chapter-10-Item-75-Include-failure-capture-information-in-detail-messages.md)）。
 
 The Builder pattern is well suited to class hierarchies. Use a parallel hierarchy of builders, each nested in the corresponding class. Abstract classes have abstract builders; concrete classes have concrete builders. For example,consider an abstract class at the root of a hierarchy representing various kinds of pizza:
@@ -291,9 +228,9 @@ public abstract class Pizza {
 }
 ```
 
-Note that Pizza.Builder is a generic type with a recursive type parameter (Item 30). This, along with the abstract self method, allows method chaining to work properly in subclasses, without the need for casts. This workaround for the fact that Java lacks a self type is known as the simulated self-type idiom. Here are two concrete subclasses of Pizza, one of which represents a standard New-York-style pizza, the other a calzone. The former has a required size parameter,while the latter lets you specify whether sauce should be inside or out:
+Note that Pizza.Builder is a generic type with a recursive type parameter (Item 30). This, along with the abstract self method, allows method chaining to work properly in subclasses, without the need for casts. This workaround for the fact that Java lacks a self type is known as the simulated self-type idiom. Here are two concrete subclasses of Pizza, one of which represents a standard New-York-style pizza, the other a calzone. The former has a required size parameter, while the latter lets you specify whether sauce should be inside or out:
 
-请注意，`Pizza.Builder` 是具有递归类型参数的泛型类型（[Item-31](/Chapter-5/Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)）。这与抽象 self 方法一起，允许方法链接在子类中正常工作，而不需要强制转换。对于 Java 缺少自类型这一事实，这种变通方法称为模拟自类型习惯用法。这里有两个具体的比萨子类，一个是标准的纽约风格的比萨，另一个是 calzone。前者有一个所需的大小参数，而后者让你指定酱料应该是内部还是外部：
+请注意，`Pizza.Builder` 是具有递归类型参数的泛型类型（[Item-31](/Chapter-5/Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)）。这与抽象 self 方法一起，允许方法链接在子类中正常工作，而不需要强制转换。对于 Java 缺少自类型这一事实，这种变通方法称为模拟自类型习惯用法。这里有两个具体的比萨子类，一个是标准的纽约风格的比萨，另一个是 calzone。前者有一个必需的尺寸大小参数，而后者让你指定酱料应该放在里面还是外面：
 
 ```
 import java.util.Objects;
@@ -369,11 +306,11 @@ Calzone calzone = new Calzone.Builder()
 
 A minor advantage of builders over constructors is that builders can have multiple varargs parameters because each parameter is specified in its own method. Alternatively, builders can aggregate the parameters passed into multiple calls to a method into a single field, as demonstrated in the addTopping method earlier.
 
-与构造函数相比，构造函数的一个小优点是构造函数可以有多个变量参数，因为每个参数都是在自己的方法中指定的。或者，构建器可以将传递给一个方法的多个调用的参数聚合到单个字段中，如前面的 addTopping 方法中所示。
+与构造函数相比，构建器的一个小优点是构建器可以有多个变量参数，因为每个参数都是在自己的方法中指定的。或者，构建器可以将传递给一个方法的多个调用的参数聚合到单个字段中，如前面的 addTopping 方法中所示。
 
 The Builder pattern is quite flexible. A single builder can be used repeatedly to build multiple objects. The parameters of the builder can be tweaked between invocations of the build method to vary the objects that are created. A builder can fill in some fields automatically upon object creation, such as a serial number that increases each time an object is created.
 
-建造者模式非常灵活。一个构建器可以多次用于构建多个对象。构建器的参数可以在构建方法的调用之间进行调整，以改变创建的对象。构建器可以在创建对象时自动填充某些字段，例如在每次创建对象时增加的序列号。
+建造者模式非常灵活。一个构建器可以反复构建多个对象。构建器的参数可以在构建方法的调用之间进行调整，以改变创建的对象。构建器可以在创建对象时自动填充某些字段，例如在每次创建对象时增加的序列号。
 
 The Builder pattern has disadvantages as well. In order to create an object,you must first create its builder. While the cost of creating this builder is unlikely to be noticeable in practice, it could be a problem in performance-critical situations. Also, the Builder pattern is more verbose than the telescoping constructor pattern, so it should be used only if there are enough parameters to make it worthwhile, say four or more. But keep in mind that you may want to add more parameters in the future. But if you start out with constructors or static factories and switch to a builder when the class evolves to the point where the number of parameters gets out of hand, the obsolete constructors or static factories will stick out like a sore thumb. Therefore, it’s often better to start with a builder in the first place.
 
@@ -382,6 +319,81 @@ The Builder pattern has disadvantages as well. In order to create an object,you 
 In summary, the Builder pattern is a good choice when designing classes whose constructors or static factories would have more than a handful of parameters, especially if many of the parameters are optional or of identical type. Client code is much easier to read and write with builders than with telescoping constructors, and builders are much safer than JavaBeans.
 
 总之，在设计构造函数或静态工厂的类时，建造者模式是一个很好的选择，特别是当许多参数是可选的或具有相同类型时。与可伸缩构造函数相比，使用构建器客户端代码更容易读写，而且构建器比 JavaBean 更安全。
+
+### **随笔**
+
+每个内部 Builder 类要对每个字段建立相应方法，代码比较冗长。若将「构建机制」独立出来，或能广泛适应相似结构的构建需求。以下是针对原文案例的简要修改，仅供参考：
+
+```
+class EntityCreator<T> {
+
+    private Class<T> classInstance;
+    private T entityObj;
+
+    public EntityCreator(Class<T> classInstance, Object... initParams) throws Exception {
+        this.classInstance = classInstance;
+        Class<?>[] paramTypes = new Class<?>[initParams.length];
+        for (int index = 0, length = initParams.length; index < length; index++) {
+            String checkStr = initParams[index].getClass().getSimpleName();
+            if (checkStr.contains("Integer")) {
+                paramTypes[index] = int.class;
+            }
+            if (checkStr.contains("Double")) {
+                paramTypes[index] = double.class;
+            }
+            if (checkStr.contains("Boolean")) {
+                paramTypes[index] = boolean.class;
+            }
+            if (checkStr.contains("String")) {
+                paramTypes[index] = initParams[index].getClass();
+            }
+        }
+        Constructor<T> constructor = classInstance.getDeclaredConstructor(paramTypes);
+        constructor.setAccessible(true);
+        this.entityObj = constructor.newInstance(initParams);
+    }
+
+    public EntityCreator<T> setValue(String paramName, Object paramValue) throws Exception {
+        Field field = classInstance.getDeclaredField(paramName);
+        field.setAccessible(true);
+        field.set(entityObj, paramValue);
+        return this;
+    }
+
+    public T build() {
+        return entityObj;
+    }
+}
+```
+
+如此，可移除整个内部 Builder 类，NutritionFacts 类私有构造的参数仅包括两个必填的 servingSize、servings 字段：
+
+```
+public class NutritionFacts {
+    // Required parameters
+    private final int servingSize;
+    private final int servings;
+    // Optional parameters - initialized to default values
+    private int calories = 0;
+    private int fat = 0;
+    private int sodium = 0;
+    private int carbohydrate = 0;
+
+    private NutritionFacts(int servingSize, int servings) {
+        this.servingSize = servingSize;
+        this.servings = servings;
+    }
+}
+```
+
+该案例的客户端代码改为：
+
+```
+NutritionFacts cocaCola = new EntityCreator<>(NutritionFacts.class, 240, 8)
+        .setValue("calories", 100)
+        .setValue("sodium", 35)
+        .setValue("carbohydrate", 27).build();
+```
 
 ---
 
