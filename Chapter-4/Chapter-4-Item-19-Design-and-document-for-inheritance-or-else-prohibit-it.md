@@ -26,7 +26,7 @@ A method that invokes overridable methods contains a description of these invoca
 
 This documentation leaves no doubt that overriding the iterator method will affect the behavior of the remove method. It also describes exactly how the behavior of the Iterator returned by the iterator method will affect the behavior of the remove method. Contrast this to the situation in Item 18, where the programmer subclassing HashSet simply could not say whether overriding the add method would affect the behavior of the addAll method.
 
-这篇文档无疑说明了重写迭代器方法将影响 remove 方法的行为。它还准确地描述了迭代器方法返回的迭代器的行为将如何影响 remove 方法的行为。与 [Item-18](/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md) 中的情况相反，在 [Item-18](/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md) 中，程序员子类化 HashSet 不能简单地说覆盖 add 方法是否会影响 addAll 方法的行为。
+这篇文档无疑说明了重写迭代器方法将影响 remove 方法的行为。它还准确地描述了迭代器方法返回的迭代器的行为将如何影响 remove 方法的行为。这与 [Item-18](/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md)中的情况形成了对比，在 [Item-18](/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md) 中，继承 HashSet 的程序员根本无法说清楚覆盖 add 方法是否会影响 addAll 方法的行为。
 
 But doesn’t this violate the dictum that good API documentation should describe what a given method does and not how it does it? Yes, it does! This is an unfortunate consequence of the fact that inheritance violates encapsulation. To document a class so that it can be safely subclassed, you must describe implementation details that should otherwise be left unspecified.
 
