@@ -10,7 +10,7 @@ By the time the second edition of this book came out, java.util.concurrent had b
 
 当这本书的第二版出版时，`java.util.concurrent` 已经添加到 Java 中。这个包有一个 Executor 框架，它是一个灵活的基于接口的任务执行工具。创建一个工作队列，它在任何方面都比在这本书的第一版更好，只需要一行代码：
 
-```
+```JavaJava
 ExecutorService exec = Executors.newSingleThreadExecutor();
 
 Here is how to submit a runnable for execution:

@@ -6,7 +6,7 @@ The Java libraries contain several annotation types. For the typical programmer,
 
 Java 库包含几种注解类型。对于大多数的程序员来说，其中最重要的是 `@Override`。此注解只能在方法声明上使用，带有该注解的方法声明将覆盖超类型中的声明。如果你坚持使用这个注解，它将帮助你减少受到有害错误的影响。考虑这个程序，其中类 Bigram 表示一个二元语法，或有序的字母对：
 
-```
+```Java
 // Can you spot the bug?
 public class Bigram {
     private final char first;
@@ -49,7 +49,7 @@ Luckily, the compiler can help you find this error, but only if you help it by t
 
 幸运的是，编译器可以帮助你找到这个错误，但前提是你告诉它你打算覆盖 `Object.equals`。为此，请使用 `@Override` 注解标记 `Bigram.equals`，如下所示：
 
-```
+```Java
 @Override
 public boolean equals(Bigram b) {
     return b.first == first && b.second == second;
@@ -60,7 +60,7 @@ If you insert this annotation and try to recompile the program, the compiler wil
 
 如果你插入此注解并尝试重新编译程序，编译器将生成如下错误消息：
 
-```
+```Java
 Bigram.java:10: method does not override or implement a method from a supertype
 @Override public boolean equals(Bigram b) {
 ^
@@ -70,7 +70,7 @@ You will immediately realize what you did wrong, slap yourself on the forehead, 
 
 你会立刻意识到自己做错了什么，拍拍自己的额头，用正确的方式替换不正确的 equals 实现（[Item-10](/Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)）：
 
-```
+```Java
 @Override
 public boolean equals(Object o) {
     if (!(o instanceof Bigram))

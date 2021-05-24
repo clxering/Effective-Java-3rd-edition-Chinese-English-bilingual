@@ -29,7 +29,7 @@ Occasionally, you may see streams code that looks like this snippet, which build
 
 偶尔，你可能会看到如下使用流的代码片段，它用于构建文本文件中单词的频率表：
 
-```
+```Java
 // Uses the streams API but not the paradigm--Don't do this!
 Map<String, Long> freq = new HashMap<>();
 try (Stream<String> words = new Scanner(file).tokens()) {
@@ -43,7 +43,7 @@ What’s wrong with this code? After all, it uses streams, lambdas, and method r
 
 这段代码有什么问题？毕竟，它使用了流、lambda 表达式和方法引用，并得到了正确的答案。简单地说，它根本不是流代码，而是伪装成流代码的迭代代码。它没有从流 API 中获得任何好处，而且它（稍微）比相应的迭代代码更长、更难于阅读和更难以维护。这个问题源于这样一个事实：这段代码在一个 Terminal  操作中（forEach）执行它的所有工作，使用一个会改变外部状态的 lambda 表达式（频率表）。forEach 操作除了显示流执行的计算结果之外，还会执行其他操作，这是一种「代码中的不良习惯」，就像 lambda 表达式会改变状态一样。那么这段代码应该是什么样的呢？
 
-```
+```Java
 // Proper use of streams to initialize a frequency table
 Map<String, Long> freq;
 try (Stream<String> words = new Scanner(file).tokens()) {
@@ -63,7 +63,7 @@ The collectors for gathering the elements of a stream into a true Collection are
 
 将流的元素收集到一个真正的 Collection 中的 collector 非常简单。这样的 collector 有三种：`toList()`、`toSet()` 和 `toCollection(collectionFactory)`。它们分别返回 List、Set 和程序员指定的集合类型。有了这些知识，我们就可以编写一个流管道来从 freq 表中提取前 10 个元素来构成一个新 List。
 
-```
+```Java
 // Pipeline to get a top-ten list of words from a frequency table
 List<String> topTen = freq.keySet().stream()
     .sorted(comparing(freq::get).reversed())
@@ -91,7 +91,7 @@ The simplest map collector is toMap(keyMapper, valueMapper), which takes two fun
 
 最简单的 Map 收集器是 `toMap(keyMapper, valueMapper)`，它接受两个函数，一个将流元素映射到键，另一个映射到值。我们在 [Item-34](/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md) 中的 fromString 实现中使用了这个收集器来创建枚举的字符串形式到枚举本身的映射：
 
-```
+```Java
 // Using a toMap collector to make a map from string to enum
 private static final Map<String, Operation> stringToEnum =Stream.of(values()).collect(toMap(Object::toString, e -> e));
 ```
@@ -108,7 +108,7 @@ The three-argument form of toMap is also useful to make a map from a key to a ch
 
 toMap 的三参数形式对于从键到与该键关联的所选元素的映射也很有用。例如，假设我们有一个由不同艺术家录制的唱片流，并且我们想要一个从唱片艺术家到畅销唱片的映射。这个 collector 将完成这项工作。
 
-```
+```Java
 // Collector to generate a map from key to chosen element for key
 Map<Artist, Album> topHits = albums.collect(
         toMap(Album::artist, a->a, maxBy(comparing(Album::sales)
@@ -124,7 +124,7 @@ Another use of the three-argument form of toMap is to produce a collector that i
 
 toMap 的三参数形式的另一个用途是生成一个 collector，当发生冲突时，它强制执行 last-write-wins 策略。对于许多流，结果将是不确定的，但如果映射函数可能与键关联的所有值都是相同的，或者它们都是可接受的，那么这个 collector 的行为可能正是你想要的：
 
-```
+```Java
 // Collector to impose last-write-wins policy
 toMap(keyMapper, valueMapper, (v1, v2) -> v2)
 ```
@@ -141,7 +141,7 @@ In addition to the toMap method, the Collectors API provides the groupingBy meth
 
 除了 toMap 方法之外，collector API 还提供 groupingBy 方法，该方法返回 collector，以生成基于分类器函数将元素分组为类别的映射。分类器函数接受一个元素并返回它所属的类别。这个类别用作元素的 Map 键。groupingBy 方法的最简单版本只接受一个分类器并返回一个 Map，其值是每个类别中所有元素的列表。这是我们在 [Item-45](/Chapter-7/Chapter-7-Item-45-Use-streams-judiciously.md) 的字谜程序中使用的收集器，用于生成从按字母顺序排列的单词到共享字母顺序的单词列表的映射：
 
-```
+```Java
 words.collect(groupingBy(word -> alphabetize(word)))
 ```
 
@@ -153,7 +153,7 @@ Alternatively, you can pass toCollection(collectionFactory), which lets you crea
 
 或者，你可以传递 `toCollection(collectionFactory)`，它允许你创建集合，将每个类别的元素放入其中。这使你可以灵活地选择所需的任何集合类型。groupingBy 的两参数形式的另一个简单用法是将 `counting()` 作为下游收集器传递。这将生成一个 Map，该 Map 将每个类别与类别中的元素数量相关联，而不是包含元素的集合。这是你在这一项开始的 freq 表例子中看到的：
 
-```
+```Java
 Map<String, Long> freq = words.collect(groupingBy(String::toLowerCase, counting()));
 ```
 

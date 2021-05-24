@@ -22,7 +22,7 @@ In the presence of multiple threads, lazy initialization is tricky. If two or mo
 
 **在大多数情况下，常规初始化优于延迟初始化。** 下面是一个使用常规初始化的实例字段的典型声明。注意 final 修饰符的使用（[Item-17](/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)）：
 
-```
+```Java
 // Normal initialization of an instance field
 private final FieldType field = computeFieldValue();
 ```
@@ -31,7 +31,7 @@ private final FieldType field = computeFieldValue();
 
 **如果您使用延迟初始化来取代初始化 circularity，请使用同步访问器**，因为它是最简单、最清晰的替代方法：
 
-```
+```Java
 // Lazy initialization of instance field - synchronized accessor
 private FieldType field;
 private synchronized FieldType getField() {
@@ -49,7 +49,7 @@ Both of these idioms (normal initialization and lazy initialization with a synch
 
 **如果需要在静态字段上使用延迟初始化来提高性能，use the lazy initialization holder class idiom.** 这个用法可保证一个类在使用之前不会被初始化 [JLS, 12.4.1]。它是这样的：
 
-```
+```Java
 // Lazy initialization holder class idiom for static fields
 private static class FieldHolder {
     static final FieldType field = computeFieldValue();
@@ -65,7 +65,7 @@ When getField is invoked for the first time, it reads FieldHolder.field for the 
 
 如果需要使用延迟初始化来提高实例字段的性能，请使用双重检查模式。这个模式避免了初始化后访问字段时的锁定成本（[Item-79](/Chapter-11/Chapter-11-Item-79-Avoid-excessive-synchronization.md)）。这个模式背后的思想是两次检查字段的值（因此得名 double check）：一次没有锁定，然后，如果字段没有初始化，第二次使用锁定。只有当第二次检查指示字段未初始化时，调用才初始化字段。由于初始化字段后没有锁定，因此将字段声明为 volatile 非常重要（[Item-78](/Chapter-11/Chapter-11-Item-78-Synchronize-access-to-shared-mutable-data.md)）。下面是这个模式的示例：
 
-```
+```Java
 // Double-check idiom for lazy initialization of instance fields
 private volatile FieldType field;
 private FieldType getField() {
@@ -92,7 +92,7 @@ Two variants of the double-check idiom bear noting. Occasionally, you may need t
 
 双重检查模式的两个变体值得注意。有时候，您可能需要延迟初始化一个实例字段，该字段可以容忍重复初始化。如果您发现自己处于这种情况，您可以使用双重检查模式的变体来避免第二个检查。毫无疑问，这就是所谓的「单检查」模式。它是这样的。注意，field 仍然声明为 volatile：
 
-```
+```Java
 // Single-check idiom - can cause repeated initialization!
 private volatile FieldType field;
 private FieldType getField() {

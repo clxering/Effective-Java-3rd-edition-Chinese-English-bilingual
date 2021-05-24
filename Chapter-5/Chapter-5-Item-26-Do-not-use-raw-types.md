@@ -18,7 +18,7 @@ Before generics were added to Java, this would have been an exemplary collection
 
 在将泛型添加到 Java 之前，这是一个典型的集合声明。就 Java 9 而言，它仍然是合法的，但不应效仿：
 
-```
+```Java
 // Raw collection type - don't do this!
 // My stamp collection. Contains only Stamp instances.
 private final Collection stamps = ... ;
@@ -28,7 +28,7 @@ If you use this declaration today and then accidentally put a coin into your sta
 
 如果你今天使用这个声明，然后意外地将 coin 放入 stamp 集合中，这一错误的插入依然能够编译并没有错误地运行（尽管编译器确实发出了模糊的警告）：
 
-```
+```Java
 // Erroneous insertion of coin into stamp collection
 stamps.add(new Coin( ... )); // Emits "unchecked call" warning
 ```
@@ -37,7 +37,7 @@ You don’t get an error until you try to retrieve the coin from the stamp colle
 
 直到从 stamp 集合中获取 coin 时才会收到错误提示：
 
-```
+```Java
 // Raw iterator type - don't do this!
 for (Iterator i = stamps.iterator(); i.hasNext(); )
     Stamp stamp = (Stamp) i.next(); // Throws ClassCastException
@@ -52,7 +52,7 @@ With generics, the type declaration contains the information, not the comment:
 
 对于泛型，类型声明应该包含类型信息，而不是注释：
 
-```
+```Java
 // Parameterized collection type - typesafe
 private final Collection<Stamp> stamps = ... ;
 ```
@@ -61,7 +61,7 @@ From this declaration, the compiler knows that stamps should contain only Stamp 
 
 从这个声明看出，编译器应该知道 stamps 应该只包含 Stamp 实例，为保证它确实如此，假设你的整个代码库编译没有发出（或抑制；详见 [Item-27](/Chapter-5/Chapter-5-Item-27-Eliminate-unchecked-warnings.md)）任何警告。当 stamps 利用一个参数化的类型进行声明时，错误的插入将生成编译时错误消息，该消息将确切地告诉你哪里出了问题：
 
-```
+```Java
 Test.java:9: error: incompatible types: Coin cannot be converted
 to Stamp
 c.add(new Coin());
@@ -84,7 +84,7 @@ To make this concrete, consider the following program:
 
 为了使这一点具体些，考虑下面的程序：
 
-```
+```Java
 // Fails at runtime - unsafeAdd method uses a raw type (List)!
 
 public static void main(String[] args) {
@@ -102,7 +102,7 @@ This program compiles, but because it uses the raw type List, you get a warning:
 
 该程序可以编译，但因为它使用原始类型 List，所以你会得到一个警告：
 
-```
+```Java
 Test.java:10: warning: [unchecked] unchecked call to add(E) as a
 member of the raw type List
 list.add(o);
@@ -117,7 +117,7 @@ If you replace the raw type List with the parameterized type `List<Object>` in t
 
 如果将 unsafeAdd 声明中的原始类型 List 替换为参数化类型 `List<Object>`，并尝试重新编译程序，你会发现它不再编译，而是发出错误消息：
 
-```
+```Java
 Test.java:5: error: incompatible types: List<String> cannot be
 converted to List<Object>
 unsafeAdd(strings, Integer.valueOf(42));
@@ -128,7 +128,7 @@ You might be tempted to use a raw type for a collection whose element type is un
 
 对于元素类型未知且无关紧要的集合，你可能会尝试使用原始类型。例如，假设你希望编写一个方法，该方法接受两个集合并返回它们共有的元素数量。如果你是使用泛型的新手，那么你可以这样编写一个方法：
 
-```
+```Java
 // Use of raw type for unknown element type - don't do this!
 static int numElementsInCommon(Set s1, Set s2) {
     int result = 0;
@@ -143,7 +143,7 @@ This method works but it uses raw types, which are dangerous. The safe alternati
 
 这种方法是可行的，但是它使用的是原始类型，这是很危险的。安全的替代方法是使用无界通配符类型。如果你想使用泛型，但不知道或不关心实际的类型参数是什么，那么可以使用问号代替。例如，泛型集 `Set<E>` 的无界通配符类型是 `Set<?>`（读作「set of some type」）。它是最通用的参数化集合类型，能够容纳任何集合：
 
-```
+```Java
 // Uses unbounded wildcard type - typesafe and flexible
 static int numElementsInCommon(Set<?> s1, Set<?> s2) { ... }
 ```
@@ -152,7 +152,7 @@ What is the difference between the unbounded wildcard type `Set<?>` and the raw 
 
 无界通配符类型 `Set<?>` 和原始类型 Set 之间的区别是什么？问号真的能起作用吗？我并不是在强调这一点，但是通配符类型是安全的，而原始类型则不是。将任何元素放入具有原始类型的集合中，很容易破坏集合的类型一致性（如上述的 unsafeAdd 方法所示）；你不能将任何元素（除了 null）放入 `Collection<?>`。尝试这样做将生成这样的编译时错误消息：
 
-```
+```Java
 WildCard.java:13: error: incompatible types: String cannot be converted to CAP#1
 c.add("verboten");
 ^ where CAP#1
@@ -172,7 +172,7 @@ A second exception to the rule concerns the instanceof operator. Because generic
 
 规则的第二个例外是 instanceof 运算符。由于泛型信息在运行时被删除，因此在不是无界通配符类型之外的参数化类型上使用 instanceof 操作符是非法的。使用无界通配符类型代替原始类型不会以任何方式影响 instanceof 运算符的行为。在这种情况下，尖括号和问号只是多余的。**下面的例子是使用通用类型 instanceof 运算符的首选方法：**
 
-```
+```Java
 // Legitimate use of raw type - instanceof operator
 if (o instanceof Set) { // Raw type
     Set<?> s = (Set<?>) o; // Wildcard type

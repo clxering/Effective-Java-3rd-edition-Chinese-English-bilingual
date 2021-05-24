@@ -14,7 +14,7 @@ If you’ve provided a good toString method for PhoneNumber,generating a useful 
 
 如果你已经为 PhoneNumber 提供了一个好的 toString 方法，那么生成一个有用的诊断消息就像这样简单：
 
-```
+```Java
 System.out.println("Failed to connect to " + phoneNumber);
 ```
 
@@ -26,7 +26,7 @@ Programmers will generate diagnostic messages in this fashion whether or not you
 
 **当实际使用时，toString 方法应该返回对象中包含的所有有趣信息，** 如电话号码示例所示。如果对象很大，或者包含不利于字符串表示的状态，那么这种方法是不切实际的。在这种情况下，toString 应该返回一个摘要，例如曼哈顿住宅电话目录（1487536 号清单）或 Thread[main,5,main]。理想情况下，字符串应该是不言自明的。（线程示例未能通过此测试。）如果没有在字符串表示中包含所有对象的有趣信息，那么一个特别恼人的惩罚就是测试失败报告，如下所示：
 
-```
+```Java
 Assertion failure: expected {abc, 123}, but was {abc, 123}.
 ```
 
@@ -42,7 +42,7 @@ The disadvantage of specifying the format of the toString return value is that o
 
 **无论你是否决定指定格式，你都应该清楚地记录你的意图。** 如果指定了格式，则应该精确地指定格式。例如，这里有一个 toString 方法用于[Item-11](/Chapter-3/Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md)中的 PhoneNumber 类：
 
-```
+```Java
 /**
 * Returns the string representation of this phone number.
 * The string consists of twelve characters whose format is
@@ -65,7 +65,7 @@ If you decide not to specify a format, the documentation comment should read som
 
 如果你决定不指定一种格式，文档注释应该如下所示：
 
-```
+```Java
 /**
 * Returns a brief description of this potion. The exact details
 * of the representation are unspecified and subject to change,

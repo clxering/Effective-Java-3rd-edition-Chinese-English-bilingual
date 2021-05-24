@@ -6,7 +6,7 @@ Occasionally you may see code that uses the ordinal method (Item 35) to index in
 
 偶尔你可能会看到使用 `ordinal()` 的返回值（[Item-35](/Chapter-6/Chapter-6-Item-35-Use-instance-fields-instead-of-ordinals.md)）作为数组或 list 索引的代码。例如，考虑这个简单的类，它表示一种植物：
 
-```
+```Java
 class Plant {
     enum LifeCycle { ANNUAL, PERENNIAL, BIENNIAL }
     final String name;
@@ -27,7 +27,7 @@ Now suppose you have an array of plants representing a garden, and you want to l
 
 现在假设你有一个代表花园全部植物的 Plant 数组，你想要列出按生命周期（一年生、多年生或两年生）排列的植物。要做到这一点，你需要构造三个集合，每个生命周期一个，然后遍历整个数组，将每个植物放入适当的集合中：
 
-```
+```Java
 // Using ordinal() to index into an array - DON'T DO THIS!
 Set<Plant>[] plantsByLifeCycle =(Set<Plant>[]) new Set[Plant.LifeCycle.values().length];
 
@@ -45,7 +45,7 @@ for (int i = 0; i < plantsByLifeCycle.length; i++) {
 ```
 
 **译注：假设 Plant 数组如下：**
-```
+```Java
 Plant[] garden = new Plant[]{
         new Plant("A", LifeCycle.ANNUAL),
         new Plant("B", LifeCycle.BIENNIAL),
@@ -56,7 +56,7 @@ Plant[] garden = new Plant[]{
 ```
 
 输出结果为：
-```
+```Java
 ANNUAL: [A]
 PERENNIAL: [E, C]
 BIENNIAL: [B, D]
@@ -70,7 +70,7 @@ There is a much better way to achieve the same effect. The array is effectively 
 
 有一种更好的方法可以达到同样的效果。该数组有效地充当从枚举到值的映射，因此你不妨使用 Map。更具体地说，有一种非常快速的 Map 实现，用于枚举键，称为 `java.util.EnumMap`。以下就是这个程序在使用 EnumMap 时的样子：
 
-```
+```Java
 // Using an EnumMap to associate data with an enum
 Map<Plant.LifeCycle, Set<Plant>> plantsByLifeCycle =new EnumMap<>(Plant.LifeCycle.class);
 
@@ -91,13 +91,13 @@ The previous program can be further shortened by using a stream (Item 45) to man
 
 通过使用流（[Item-45](/Chapter-7/Chapter-7-Item-45-Use-streams-judiciously.md)）来管理映射，可以进一步缩短前面的程序。下面是基于流的最简单的代码，它在很大程度上复制了前一个示例的行为：
 
-```
+```Java
 // Naive stream-based approach - unlikely to produce an EnumMap!
 System.out.println(Arrays.stream(garden).collect(groupingBy(p -> p.lifeCycle)));
 ```
 
 **译注：以上代码需要引入 `java.util.stream.Collectors.groupingBy`，输出结果如下：**
-```
+```Java
 {BIENNIAL=[B, D], ANNUAL=[A], PERENNIAL=[C, E]}
 ```
 
@@ -105,7 +105,7 @@ The problem with this code is that it chooses its own map implementation, and in
 
 这段代码的问题在于它选择了自己的 Map 实现，而实际上它不是 EnumMap，所以它的空间和时间性能与显式 EnumMap 不匹配。要纠正这个问题，可以使用 `Collectors.groupingBy` 的三参数形式，它允许调用者使用 mapFactory 参数指定 Map 实现：
 
-```
+```Java
 // Using a stream and an EnumMap to associate data with an enum
 System.out.println(
     Arrays.stream(garden).collect(groupingBy(p -> p.lifeCycle,() -> new EnumMap<>(LifeCycle.class), toSet()))
@@ -126,7 +126,7 @@ You may see an array of arrays indexed (twice!) by ordinals used to represent a 
 
 你可能会看到被序数索引（两次！）的数组，序数用于表示两个枚举值的映射。例如，这个程序使用这样的一个数组来映射两个状态到一个状态的转换过程（液体到固体是冻结的，液体到气体是沸腾的，等等）：
 
-```
+```Java
 // Using ordinal() to index array of arrays - DON'T DO THIS!
 public enum Phase {
     SOLID, LIQUID, GAS;
@@ -159,7 +159,7 @@ Again, you can do much better with EnumMap. Because each phase transition is ind
 
 同样，使用 EnumMap 可以做得更好。因为每个阶段转换都由一对阶段枚举索引，所以最好将这个关系用 Map 表示，从一个枚举（起始阶段）到第二个枚举（结束阶段）到结果（转换阶段）。与阶段转换相关联的两个阶段最容易捕捉到的是将它们与阶段过渡的 enum 联系起来，这样就可以用来初始化嵌套的 EnumMap：
 
-```
+```Java
 // Using a nested EnumMap to associate data with enum pairs
 public enum Phase {
     SOLID, LIQUID, GAS;
@@ -197,7 +197,7 @@ The code to initialize the phase transition map is a bit complicated. The type o
 初始化阶段变化 Map 的代码有点复杂。Map 的类型是 `Map<Phase, Map<Phase, Transition>>`，这意味着「从（源）阶段 Map 到（目标）阶段 Map 的转换过程」。这个 Map 嵌套是使用两个收集器的级联序列初始化的。第一个收集器按源阶段对转换进行分组，第二个收集器使用从目标阶段到转换的映射创建一个 EnumMap。第二个收集器 ((x, y) -> y) 中的 merge 函数未使用；之所以需要它，只是因为我们需要指定一个 Map 工厂来获得 EnumMap，而 Collector 提供了伸缩工厂。本书的上一个版本使用显式迭代来初始化阶段转换映射。代码更冗长，但也更容易理解。
 
 **译注：第二版中的实现代码如下：**
-```
+```Java
 // Initialize the phase transition map
 private static final Map<Phase, Map<Phase,Transition> m =
     new EnumMap<Phase, Map<Phase ,Transition>>(Phase.class);
@@ -218,7 +218,7 @@ Now suppose you want to add a new phase to the system: plasma, or ionized gas. T
 
 现在假设你想向系统中加入一种新阶段：等离子体，或电离气体。这个阶段只有两个变化：电离，它把气体转为等离子体；去离子作用，把等离子体变成气体。假设要更新基于数组版本的程序，必须向 Phase 添加一个新常量，向 `Phase.Transition` 添加两个新常量，并用一个新的 16 个元素版本替换原来的数组中的 9 个元素数组。如果你向数组中添加了太多或太少的元素，或者打乱了元素的顺序，那么你就麻烦了：程序将编译，但在运行时将失败。相比之下，要更新基于 EnumMap 的版本，只需将 PLASMA 添加到 Phase 列表中，将 `IONIZE(GAS, PLASMA)` 和 `DEIONIZE(PLASMA, GAS)` 添加到 `Phase.Transition` 中：
 
-```
+```Java
 // Adding a new phase using the nested EnumMap implementation
 public enum Phase {
     SOLID, LIQUID, GAS, PLASMA;

@@ -10,7 +10,7 @@ Consider the following simple stack implementation:
 
 考虑以下简单的堆栈实现：
 
-```
+```Java
 import java.util.Arrays;
 import java.util.EmptyStackException;
 
@@ -62,7 +62,7 @@ The fix for this sort of problem is simple: null out references once they become
 
 解决这类问题的方法很简单：一旦引用过时，就将置空。在我们的 Stack 类中，对某个项的引用一旦从堆栈中弹出就会过时。pop 方法的正确版本如下：
 
-```
+```Java
 public Object pop() {
     if (size == 0)
         throw new EmptyStackException();

@@ -6,7 +6,7 @@ Arrays differ from generic types in two important ways. First, arrays are covari
 
 数组与泛型有两个重要区别。首先，数组是协变的。这个听起来很吓人的单词的意思很简单，如果 Sub 是 Super 的一个子类型，那么数组类型 Sub[] 就是数组类型 Super[] 的一个子类型。相比之下，泛型是不变的：对于任何两个不同类型 Type1 和 Type2，`List<Type1>` 既不是 `List<Type2>` 的子类型，也不是 `List<Type2>` 的超类型 [JLS, 4.10; Naftalin07, 2.5]。你可能认为这意味着泛型是有缺陷的，但可以说数组才是有缺陷的。这段代码是合法的：
 
-```
+```Java
 // Fails at runtime!
 Object[] objectArray = new Long[1];
 objectArray[0] = "I don't fit in"; // Throws ArrayStoreException
@@ -16,7 +16,7 @@ but this one is not:
 
 但这一段代码就不是：
 
-```
+```Java
 // Won't compile!
 List<Object> ol = new ArrayList<Long>(); // Incompatible types
 ol.add("I don't fit in");
@@ -42,7 +42,7 @@ To make this more concrete, consider the following code fragment:
 
 为了更具体，请考虑以下代码片段：
 
-```
+```Java
 // Why generic array creation is illegal - won't compile!
 List<String>[] stringLists = new List<String>[1]; // (1)
 List<Integer> intList = List.of(42); // (2)
@@ -73,7 +73,7 @@ For example, suppose you want to write a Chooser class with a constructor that t
 
 例如，假设你希望编写一个 Chooser 类，该类的构造函数接受一个集合，而单个方法返回随机选择的集合元素。根据传递给构造函数的集合，可以将选择器用作游戏骰子、魔术 8 球或蒙特卡洛模拟的数据源。下面是一个没有泛型的简单实现：
 
-```
+```Java
 // Chooser - a class badly in need of generics!
 public class Chooser {
   private final Object[] choiceArray;
@@ -93,7 +93,7 @@ To use this class, you have to cast the choose method’s return value from Obje
 
 要使用这个类，每次使用方法调用时，必须将 choose 方法的返回值从对象转换为所需的类型，如果类型错误，转换将在运行时失败。我们认真考虑了 [Item-29](/Chapter-5/Chapter-5-Item-29-Favor-generic-types.md) 的建议，试图对 Chooser 进行修改，使其具有通用性。变化以粗体显示：
 
-```
+```Java
 // A first cut at making Chooser generic - won't compile
 public class Chooser<T> {
   private final T[] choiceArray;
@@ -110,7 +110,7 @@ If you try to compile this class, you’ll get this error message:
 
 如果你尝试编译这个类，你将得到这样的错误消息：
 
-```
+```Java
 Chooser.java:9: error: incompatible types: Object[] cannot be converted to T[]
 choiceArray = choices.toArray();
 ^ where T is a type-variable:
@@ -121,7 +121,7 @@ No big deal, you say, I’ll cast the Object array to a T array:
 
 没什么大不了的，你会说，我把对象数组转换成 T 数组：
 
-```
+```Java
 choiceArray = (T[]) choices.toArray();
 ```
 
@@ -129,7 +129,7 @@ This gets rid of the error, but instead you get a warning:
 
 这样就消除了错误，但你得到一个警告：
 
-```
+```Java
 Chooser.java:9: warning: [unchecked] unchecked cast choiceArray = (T[]) choices.toArray();
 ^ required: T[], found: Object[]
 where T is a type-variable:
@@ -144,7 +144,7 @@ To eliminate the unchecked cast warning, use a list instead of an array. Here is
 
 若要消除 unchecked 强制转换警告，请使用 list 而不是数组。下面是编译时没有错误或警告的 Chooser 类的一个版本：
 
-```
+```Java
 // List-based Chooser - typesafe
 public class Chooser<T> {
     private final List<T> choiceList;

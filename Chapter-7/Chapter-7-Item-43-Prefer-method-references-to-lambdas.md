@@ -6,7 +6,7 @@ The primary advantage of lambdas over anonymous classes is that they are more su
 
 lambda 表达式与匿名类相比，主要优势是更简洁。Java 提供了一种方法来生成比 lambda 表达式更简洁的函数对象：方法引用。下面是一个程序的代码片段，该程序维护从任意键到 Integer 类型值的映射。如果该值被解释为键实例数的计数，那么该程序就是一个多集实现。该代码段的功能是，如果数字 1 不在映射中，则将其与键关联，如果键已经存在，则将关联值递增：
 
-```
+```Java
 map.merge(key, 1, (count, incr) -> count + incr);
 ```
 
@@ -18,7 +18,7 @@ The code reads nicely, but there’s still some boilerplate. The parameters coun
 
 代码读起来不错，但是仍然有一些刻板。参数计数和 incr 不会增加太多的价值，而且它们会占用相当大的空间。实际上，lambda 表达式告诉你的是函数返回两个参数的和。在 Java 8 中，Integer（和所有其他基本类型的包装类）提供了一个静态方法 sum，它的作用完全相同。我们可以简单地传递一个引用到这个方法，并得到相同的结果，同时减少视觉混乱：
 
-```
+```Java
 map.merge(key, 1, Integer::sum);
 ```
 
@@ -34,7 +34,7 @@ If you’re programming with an IDE, it will offer to replace a lambda with a me
 
 如果你使用 IDE 编程，它将在任何可能的地方建议用方法引用替换 lambda 表达式。通常应该（但不总是）接受 IDE 的建议。有时候，lambda 表达式会比方法引用更简洁。当方法与 lambda 表达式在同一个类中时，这种情况最常见。例如，考虑这段代码片段，它假定发生在一个名为 GoshThisClassNameIsHumongous 的类中：
 
-```
+```Java
 service.execute(GoshThisClassNameIsHumongous::action);
 ```
 
@@ -42,7 +42,7 @@ The lambda equivalent looks like this:
 
 使用 lambda 表达式是这样的：
 
-```
+```Java
 service.execute(() -> action());
 ```
 
@@ -62,7 +62,7 @@ Many method references refer to static methods, but there are four kinds that do
 |   Class Constructor  |     `TreeMap<K,V>::new`    |   `() -> new TreeMap<K,V>`   |
 |   Array Constructor  |     `int[]::new`    |   `len -> new int[len]`   |
 
-In summary, method references often provide a more succinct alternative to lambdas. **Where method references are shorter and clearer, use them; where they aren’t, stick with lambdas.**  
+In summary, method references often provide a more succinct alternative to lambdas. **Where method references are shorter and clearer, use them; where they aren’t, stick with lambdas.**
 
 总之，方法引用通常为 lambda 表达式提供了一种更简洁的选择。**如果方法引用更短、更清晰，则使用它们；如果没有，仍然使用 lambda 表达式。**
 

@@ -6,7 +6,7 @@ Occasionally, you may be tempted to write degenerate classes that serve no purpo
 
 有时候，可能会编写一些退化类，这些类除了对实例字段进行分组之外，没有其他用途：
 
-```
+```Java
 // Degenerate classes like this should not be public!
 class Point {
     public double x;
@@ -18,7 +18,7 @@ Because the data fields of such classes are accessed directly, these classes do 
 
 因为这些类的数据字段是直接访问的，所以这些类没有提供封装的好处（[Item-15](/Chapter-4/Chapter-4-Item-15-Minimize-the-accessibility-of-classes-and-members.md)）。不改变 API 就不能改变表现形式，不能实现不变量，也不能在访问字段时采取辅助操作。坚持面向对象思维的程序员会认为这样的类是令人厌恶的，应该被使用私有字段和公共访问方法 getter 的类所取代，对于可变类，则是赋值方法 setter：
 
-```
+```Java
 // Encapsulation of data by accessor methods and mutators
 class Point {
     private double x;
@@ -50,7 +50,7 @@ While it’s never a good idea for a public class to expose fields directly, it 
 
 虽然公共类直接公开字段从来都不是一个好主意，但是如果字段是不可变的，那么危害就会小一些。你不能在不更改该类的 API 的情况下更改该类的表现形式，也不能在读取字段时采取辅助操作，但是你可以实施不变量。例如，这个类保证每个实例代表一个有效的时间：
 
-```
+```Java
 // Public class with exposed immutable fields - questionable
 public final class Time {
     private static final int HOURS_PER_DAY = 24;

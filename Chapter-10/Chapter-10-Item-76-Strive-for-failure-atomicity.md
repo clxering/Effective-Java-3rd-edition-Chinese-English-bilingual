@@ -14,7 +14,7 @@ For methods that operate on mutable objects, the most common way to achieve fail
 
 对于操作可变对象的方法，实现故障原子性的最常见方法是在执行操作之前检查参数的有效性（[Item-49](/Chapter-8/Chapter-8-Item-49-Check-parameters-for-validity.md)）。这使得大多数异常在对象修改开始之前被抛出。例如，考虑 `Stack.pop` 方法（[Item-7](/Chapter-2/Chapter-2-Item-7-Eliminate-obsolete-object-references.md)）：
 
-```
+```Java
 public Object pop() {
     if (size == 0)
         throw new EmptyStackException();

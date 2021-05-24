@@ -30,7 +30,7 @@ For example, here is the preferred idiom for iterating over a collection (Item 5
 
 例如，下面是遍历集合的首选习惯用法（[Item-58](/Chapter-9/Chapter-9-Item-58-Prefer-for-each-loops-to-traditional-for-loops.md)）：
 
-```
+```Java
 // Preferred idiom for iterating over a collection or array
 for (Element e : c) {
     ... // Do Something with e
@@ -41,7 +41,7 @@ If you need access to the iterator, perhaps to call its remove method, the prefe
 
 如果你需要访问 iterator，或者调用它的 remove 方法，首选的习惯用法是使用传统的 for 循环来代替 for-each 循环：
 
-```
+```Java
 // Idiom for iterating when you need the iterator
 for (Iterator<Element> i = c.iterator(); i.hasNext(); ) {
     Element e = i.next();
@@ -53,7 +53,7 @@ To see why these for loops are preferable to a while loop, consider the followin
 
 要弄清楚为什么 for 循环比 while 循环更好，请考虑下面的代码片段，其中包含两个 while 循环和一个 bug：
 
-```
+```Java
 Iterator<Element> i = c.iterator();
 while (i.hasNext()) {
     doSomething(i.next());
@@ -73,7 +73,7 @@ If a similar copy-and-paste error were made in conjunction with either of the fo
 
 如果将类似的复制粘贴错误发生在 for 循环（for-each 循环或传统循环），则生成的代码甚至无法编译。对于第二个循环，第一个循环中的（或 iterator）变量已经不在作用域中。下面是它与传统 for 循环的样子：
 
-```
+```Java
 for (Iterator<Element> i = c.iterator(); i.hasNext(); ) {
 Element e = i.next();
 ... // Do something with e and i
@@ -90,7 +90,7 @@ Moreover, if you use a for loop, it’s much less likely that you’ll make the 
 
 此外，如果你使用 for 循环，那么发生复制粘贴错误的可能性要小得多，因为这两种循环中没有使用不同变量名称的动机。循环是完全独立的，所以复用循环（或 iterator）变量名没有害处。事实上，这样做通常很流行。for 循环相比 while 循环还有一个优点：它更短，这增强了可读性。下面是另一个循环习惯用法，它也最小化了局部变量的范围：
 
-```
+```Java
 for (int i = 0, n = expensiveComputation(); i < n; i++) {
     ... // Do something with i;
 }

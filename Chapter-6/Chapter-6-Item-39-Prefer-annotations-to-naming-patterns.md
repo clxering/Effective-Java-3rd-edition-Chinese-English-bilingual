@@ -18,7 +18,7 @@ Annotations [JLS, 9.7] solve all of these problems nicely, and JUnit adopted the
 
 注解 [JLS, 9.7] 很好地解决了所有这些问题，JUnit 从版本 4 开始就采用了它们。在本条目中，我们将编写自己的示例测试框架来展示注解是如何工作的。假设你希望定义注解类型，以指定自动运行的简单测试，并在抛出异常时失败。下面是这种名为 Test 的注解类型的概貌：
 
-```
+```Java
 // Marker annotation type declaration
 import java.lang.annotation.*;
 
@@ -80,7 +80,7 @@ Here is how the Test annotation looks in practice. It is called a marker annotat
 
 下面是 Test 注解实际使用时的样子。它被称为标记注解，因为它没有参数，只是对带注解的元素进行「标记」。如果程序员拼错 Test 或将 Test 注解应用于除方法声明之外的程序元素，程序将无法编译：
 
-```
+```Java
 // Program containing marker annotations
 public class Sample {
     @Test
@@ -117,7 +117,7 @@ The Test annotations have no direct effect on the semantics of the Sample class.
 
 Test 注解对 Sample 类的语义没有直接影响。它们仅用于向相关程序提供信息。更普遍的是，注解不会改变被注解代码的语义，而是通过工具（就像如下这个简单的 RunTests 类）对其进行特殊处理：
 
-```
+```Java
 // Program to process marker annotations
 import java.lang.reflect.*;
 
@@ -153,7 +153,7 @@ If an attempt to invoke a test method by reflection throws any exception other t
 
 如果通过反射调用测试方法时抛出除 InvocationTargetException 之外的任何异常，则表明在编译时存在未捕获的 Test 注解的无效用法。这些用途包括实例方法的注解、带有一个或多个参数的方法的注解或不可访问方法的注解。测试运行程序中的第二个 catch 块捕获这些 Test 使用错误并打印对应的错误消息。如果在 Sample 上运行 RunTests，输出如下：
 
-```
+```Java
 public static void Sample.m3() failed: RuntimeException: Boom
 Invalid @Test: public void Sample.m5()
 public static void Sample.m7() failed: RuntimeException: Crash
@@ -164,7 +164,7 @@ Now let’s add support for tests that succeed only if they throw a particular e
 
 现在让我们添加一个只在抛出特定异常时才成功的测试支持。我们需要一个新的注解类型：
 
-```
+```Java
 // Annotation type with a parameter
 import java.lang.annotation.*;
 
@@ -183,7 +183,7 @@ The type of the parameter for this annotation is `Class<? extends Throwable>`. T
 
 这个注解的参数类型是 `Class<? extends Throwable>`，这个通配符类型确实很复杂。在英语中，它的意思是「某个扩展自 Throwable 的类的 Class 对象」，它允许注解的用户指定任何异常（或错误）类型。这种用法是有界类型令牌（[Item-33](/Chapter-5/Chapter-5-Item-33-Consider-typesafe-heterogeneous-containers.md)）的一个示例。下面是这个注解在实际应用时的样子。注意，类的字面量被用作注解参数的值：
 
-```
+```Java
 // Program containing annotations with a parameter
 public class Sample2 {
     @ExceptionTest(ArithmeticException.class)
@@ -207,7 +207,7 @@ Now let’s modify the test runner tool to process the new annotation. Doing so 
 
 现在让我们修改 test runner 工具来处理新的注解。向 main 方法添加以下代码：
 
-```
+```Java
 if (m.isAnnotationPresent(ExceptionTest.class)) {
     tests++;
     try {
@@ -236,7 +236,7 @@ Taking our exception testing example one step further, it is possible to envisio
 
 进一步修改我们的异常测试示例，如果它抛出几个指定异常中的任意一个，那么可以认为测试通过了。注解机制具有一种工具，可以轻松地支持这种用法。假设我们将 ExceptionTest 注解的参数类型更改为一个 Class 对象数组：
 
-```
+```Java
 // Annotation type with an array parameter
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -249,7 +249,7 @@ The syntax for array parameters in annotations is flexible. It is optimized for 
 
 注解中数组参数的语法是灵活的。它针对单元素数组进行了优化。前面的 ExceptionTest 注解对于 ExceptionTest 的新数组参数版本仍然有效，并且可以生成单元素数组。要指定一个多元素数组，用花括号包围元素，并用逗号分隔它们：
 
-```
+```Java
 // Code containing an annotation with an array parameter
 @ExceptionTest({ IndexOutOfBoundsException.class,NullPointerException.class })
 public static void doublyBad() {
@@ -264,7 +264,7 @@ It is reasonably straightforward to modify the test runner tool to process the n
 
 修改测试运行器工具来处理 ExceptionTest 的新版本是相当简单的。这段代码替换了原来的版本：
 
-```
+```Java
 if (m.isAnnotationPresent(ExceptionTest.class)) {
     tests++;
     try {
@@ -290,7 +290,7 @@ As of Java 8, there is another way to do multivalued annotations. Instead of dec
 
 在 Java 8 中，还有另一种方法可以执行多值注解。你可以在注解声明上使用 `@Repeatable` 元注解，以表明注解可以重复地应用于单个元素，而不是使用数组参数来声明注解类型。这个元注解只接受一个参数，这个参数是包含注解类型的类对象，它的唯一参数是注解类型的数组 [JLS, 9.6.3]。如果我们对 ExceptionTest 注解采用这种方法，那么注解声明是这样的。注意，包含的注解类型必须使用适当的 Retention 注解和 Target 注解，否则声明将无法编译：
 
-```
+```Java
 // Repeatable annotation type
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -310,7 +310,7 @@ Here’s how our doublyBad test looks with a repeated annotation in place of an 
 
 下面是使用重复注解代替数组值注解的 doublyBad 测试：
 
-```
+```Java
 // Code containing a repeated annotation
 @ExceptionTest(IndexOutOfBoundsException.class)
 @ExceptionTest(NullPointerException.class)
@@ -321,7 +321,7 @@ Processing repeatable annotations requires care. A repeated annotation generates
 
 处理可重复注解需要小心。「重复状态」会生成名为「容器注解类型」的合成注解。getAnnotationsByType 方法可忽略这一区别，它可以用于访问可重复注解类型的「重复状态」和「非重复状态」。但是 isAnnotationPresent 明确指出，「重复状态」的情况不属于注解类型，而是「容器注解类型」。如果一个元素是某种类型的「重复状态」注解，并且你使用 isAnnotationPresent 方法检查该元素是否具有该类型的注解，你将发现它提示不存在。因此，使用此方法检查注解类型的存在与否，将导致你的程序忽略「重复状态」。类似地，使用此方法检查「容器注解类型」将导致程序忽略「非重复状态」。要使用 isAnnotationPresent 检测「重复状态」和「非重复状态」，需要同时检查注解类型及其「容器注解类型」。下面是我们的 RunTests 程序的相关部分修改为使用 ExceptionTest 注解的可重复版本时的样子：
 
-```
+```Java
 // Processing repeatable annotations
 if (m.isAnnotationPresent(ExceptionTest.class)|| m.isAnnotationPresent(ExceptionTestContainer.class)) {
     tests++;
@@ -347,7 +347,7 @@ if (m.isAnnotationPresent(ExceptionTest.class)|| m.isAnnotationPresent(Exception
 **译注：比较原文中提及的 getAnnotationsByType 与 isAnnotationPresent 在可重复注解的「重复状态」和「非重复状态」下的使用差别：**
 
 **原 doublyBad 方法不变，属于「重复状态」（重复注解大于等于两个的，都属于「重复状态」）；新增一个 doublyBad2 方法，仅使用一个重复注解，属于「非重复状态」**
-```
+```Java
 class Simple4 {
     // Code containing a repeated annotation
     @ExceptionTest(IndexOutOfBoundsException.class)
@@ -361,7 +361,7 @@ class Simple4 {
 }
 ```
 **测试代码**
-```
+```Java
 public static void main(String[] args) throws NoSuchMethodException {
     Class<?> testClass = Simple4.class;
     for (int count = 1; count <= 2; count++) {
@@ -376,7 +376,7 @@ public static void main(String[] args) throws NoSuchMethodException {
 }
 ```
 **结果**
-```
+```Java
 doublyBad「重复状态」：false
 doublyBad「容器注解类型」：true
 doublyBad「非重复状态」：false

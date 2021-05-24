@@ -6,7 +6,7 @@ Item 3 describes the Singleton pattern and gives the following example of a sing
 
 [Item-3](/Chapter-2/Chapter-2-Item-3-Enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type.md) 描述了单例模式，并给出了下面的单例类示例。该类限制对其构造函数的访问，以确保只创建一个实例：
 
-```
+```Java
 public class Elvis {
     public static final Elvis INSTANCE = new Elvis();
     private Elvis() { ... }
@@ -26,7 +26,7 @@ If the Elvis class is made to implement Serializable, the following readResolve 
 
 如果 Elvis 类要实现 Serializable 接口，下面的 readResolve 方法就足以保证其单例属性：
 
-```
+```Java
 // readResolve for instance control - you can do better!
 private Object readResolve() {
     // Return the one true Elvis and let the garbage collector
@@ -59,7 +59,7 @@ To make this concrete, consider the following broken singleton:
 
 要使问题具体化，请考虑以下被破坏的单例：
 
-```
+```Java
 // Broken singleton - has nontransient object reference field!
 public class Elvis implements Serializable {
     public static final Elvis INSTANCE = new Elvis();
@@ -78,7 +78,7 @@ Here is a “stealer” class, constructed as per the description above:
 
 这里是一个 stealer 类，按照上面的描述构造：
 
-```
+```Java
 public class ElvisStealer implements Serializable {
     static Elvis impersonator;
     private Elvis payload;
@@ -98,7 +98,7 @@ Finally, here is an ugly program that deserializes a handcrafted stream to produ
 
 最后，这是一个有问题的程序，它反序列化了一个手工制作的流，以生成有缺陷的单例的两个不同实例。这个程序省略了反序列化方法，因为它与第 354 页的方法相同：
 
-```
+```Java
 public class ElvisImpersonator {
 // Byte stream couldn't have come from a real Elvis instance!
     private static final byte[] serializedForm = {
@@ -132,7 +132,7 @@ Running this program produces the following output, conclusively proving that it
 
 运行此程序将生成以下输出，最终证明可以创建两个不同的 Elvis 实例（具有不同的音乐品味）：
 
-```
+```Java
 [Hound Dog, Heartbreak Hotel]
 [A Fool Such as I]
 ```
@@ -145,7 +145,7 @@ If you write your serializable instance-controlled class as an enum, Java guaran
 
 如果你将可序列化的实例控制类编写为枚举类型, Java 保证除了声明的常量之外不会有任何实例，除非攻击者滥用了特权方法，如 `AccessibleObject.setAccessible`。任何能够做到这一点的攻击者都已经拥有足够的特权来执行任意的本地代码，all bets are off。以下是把 Elvis 写成枚举的例子：
 
-```
+```Java
 // Enum singleton - the preferred approach
 public enum Elvis {
     INSTANCE;

@@ -6,7 +6,7 @@ Many classes depend on one or more underlying resources. For example, a spell ch
 
 许多类依赖于一个或多个底层资源。例如，拼写检查程序依赖于字典。常见做法是，将这种类实现为静态实用工具类（[Item-4](/Chapter-2/Chapter-2-Item-4-Enforce-noninstantiability-with-a-private-constructor.md)）：
 
-```
+```Java
 // Inappropriate use of static utility - inflexible & untestable!
 public class SpellChecker {
     private static final Lexicon dictionary = ...;
@@ -20,7 +20,7 @@ Similarly, it’s not uncommon to see them implemented as singletons (Item 3):
 
 类似地，我们也经常看到它们的单例实现（[Item-3](/Chapter-2/Chapter-2-Item-3-Enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type.md)）:
 
-```
+```Java
 // Inappropriate use of singleton - inflexible & untestable!
 public class SpellChecker {
     private final Lexicon dictionary = ...;
@@ -43,7 +43,7 @@ What is required is the ability to support multiple instances of the class (in o
 
 所需要的是支持类的多个实例的能力（在我们的示例中是 SpellChecker），每个实例都使用客户端需要的资源（在我们的示例中是 dictionary）。满足此要求的一个简单模式是在**创建新实例时将资源传递给构造函数。** 这是依赖注入的一种形式：字典是拼写检查器的依赖项，在创建它时被注入到拼写检查器中。
 
-```
+```Java
 // Dependency injection provides flexibility and testability
 public class SpellChecker {
     private final Lexicon dictionary;
@@ -63,7 +63,7 @@ A useful variant of the pattern is to pass a resource factory to the constructor
 
 这种模式的一个有用变体是将资源工厂传递给构造函数。工厂是一个对象，可以反复调用它来创建类型的实例。这样的工厂体现了工厂方法模式 [Gamma95]。Java 8 中引入的 `Supplier<T>` 非常适合表示工厂。在输入中接受 `Supplier<T>` 的方法通常应该使用有界通配符类型（[Item-31](/Chapter-5/Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)）来约束工厂的类型参数，以允许客户端传入创建指定类型的任何子类型的工厂。例如，这里有一个生产瓷砖方法，每块瓷砖都使用客户提供的工厂来制作马赛克：
 
-```
+```Java
 Mosaic create(Supplier<? extends Tile> tileFactory) { ... }
 ```
 

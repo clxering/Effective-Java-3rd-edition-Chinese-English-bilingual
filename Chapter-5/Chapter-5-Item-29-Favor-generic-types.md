@@ -10,7 +10,7 @@ Consider the simple (toy) stack implementation from Item 7:
 
 考虑 [Item-7](/Chapter-2/Chapter-2-Item-7-Eliminate-obsolete-object-references.md) 中简单的堆栈实现：
 
-```
+```Java
 // Object-based collection - a prime candidate for generics
 public class Stack {
     private Object[] elements;
@@ -53,7 +53,7 @@ The next step is to replace all the uses of the type Object with the appropriate
 
 下一步是用适当的类型参数替换所有的 Object 类型，然后尝试编译修改后的程序：
 
-```
+```Java
 // Initial attempt to generify Stack - won't compile!
 public class Stack<E> {
     private E[] elements;
@@ -83,7 +83,7 @@ You’ll generally get at least one error or warning, and this class is no excep
 
 通常至少会得到一个错误或警告，这个类也不例外。幸运的是，这个类只生成一个错误：
 
-```
+```Java
 Stack.java:8: generic array creation
 elements = new E[DEFAULT_INITIAL_CAPACITY];
 ^
@@ -93,7 +93,7 @@ As explained in Item 28, you can’t create an array of a non-reifiable type, su
 
 正如 [Item-28](/Chapter-5/Chapter-5-Item-28-Prefer-lists-to-arrays.md) 中所解释的，你不能创建非具体化类型的数组，例如 E。每当你编写由数组支持的泛型时，就会出现这个问题。有两种合理的方法来解决它。第一个解决方案直接绕过了创建泛型数组的禁令：创建对象数组并将其强制转换为泛型数组类型。现在，编译器将发出一个警告来代替错误。这种用法是合法的，但（一般而言）它不是类型安全的：
 
-```
+```Java
 Stack.java:8: warning: [unchecked] unchecked cast
 found: Object[], required: E[]
 elements = (E[]) new Object[DEFAULT_INITIAL_CAPACITY];
@@ -108,7 +108,7 @@ Once you’ve proved that an unchecked cast is safe, suppress the warning in as 
 
 一旦你证明了 unchecked 的转换是安全的，就将警告限制在尽可能小的范围内（[Item-27](/Chapter-5/Chapter-5-Item-27-Eliminate-unchecked-warnings.md)）。在这种情况下，构造函数只包含 unchecked 的数组创建，因此在整个构造函数中取消警告是合适的。通过添加注解来实现这一点，Stack 可以干净地编译，而且你可以使用它而无需显式强制转换或担心 ClassCastException：
 
-```
+```Java
 // The elements array will contain only E instances from push(E).
 // This is sufficient to ensure type safety, but the runtime
 // type of the array won't be E[]; it will always be Object[]!
@@ -122,7 +122,7 @@ The second way to eliminate the generic array creation error in Stack is to chan
 
 消除 Stack 中泛型数组创建错误的第二种方法是将字段元素的类型从 E[] 更改为 Object[]。如果你这样做，你会得到一个不同的错误：
 
-```
+```Java
 Stack.java:19: incompatible types
 found: Object, required: E
 E result = elements[--size];
@@ -133,7 +133,7 @@ You can change this error into a warning by casting the element retrieved from t
 
 通过将从数组中检索到的元素转换为 E，可以将此错误转换为警告，但你将得到警告：
 
-```
+```Java
 Stack.java:19: warning: [unchecked] unchecked cast
 found: Object, required: E
 E result = (E) elements[--size];
@@ -144,7 +144,7 @@ Because E is a non-reifiable type, there’s no way the compiler can check the c
 
 因为 E 是不可具体化的类型，编译器无法在运行时检查强制转换。同样，你可以很容易地向自己证明 unchecked 的强制转换是安全的，因此可以适当地抑制警告。根据 [Item-27](/Chapter-5/Chapter-5-Item-27-Eliminate-unchecked-warnings.md) 的建议，我们仅对包含 unchecked 强制转换的赋值禁用警告，而不是对整个 pop 方法禁用警告：
 
-```
+```Java
 // Appropriate suppression of unchecked warning
 public E pop() {
     if (size == 0)
@@ -165,7 +165,7 @@ The following program demonstrates the use of our generic Stack class. The progr
 
 下面的程序演示了通用 Stack 的使用。程序以相反的顺序打印它的命令行参数并转换为大写。在从堆栈弹出的元素上调用 String 的 toUpperCase 方法不需要显式转换，自动生成的转换保证成功：
 
-```
+```Java
 // Little program to exercise our generic Stack
 public static void main(String[] args) {
     Stack<String> stack = new Stack<>();
@@ -184,7 +184,7 @@ This is a fundamental limitation of Java’s generic type system. You can work a
 
 这是 Java 泛型系统的一个基本限制。你可以通过使用装箱的基本类型（[Item-61](/Chapter-9/Chapter-9-Item-61-Prefer-primitive-types-to-boxed-primitives.md)）来绕过这一限制。有一些泛型限制了其类型参数的允许值。例如，考虑 java.util.concurrent.DelayQueue，其声明如下：
 
-```
+```Java
 class DelayQueue<E extends Delayed> implements BlockingQueue<E>
 ```
 

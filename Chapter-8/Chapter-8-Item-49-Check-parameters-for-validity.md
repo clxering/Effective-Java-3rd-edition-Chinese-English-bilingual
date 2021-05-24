@@ -14,7 +14,7 @@ For public and protected methods, use the Javadoc @throws tag to document the ex
 
 对于公共方法和受保护的方法，如果在方法说明使用 Javadoc 的 `@throws` 标签记录异常，表明如果违反了对参数值的限制，将会引发该异常（[Item-74](/Chapter-10/Chapter-10-Item-74-Document-all-exceptions-thrown-by-each-method.md)）。通常，生成的异常将是 IllegalArgumentException、IndexOutOfBoundsException 或 NullPointerException（[Item-72](/Chapter-10/Chapter-10-Item-72-Favor-the-use-of-standard-exceptions.md)）。一旦你在文档中记录了方法参数上的限制，并且记录了如果违反这些限制将引发的异常，那么实施这些限制就很简单了。这里有一个典型的例子：
 
-```
+```Java
 /**
 * Returns a BigInteger whose value is (this mod m). This method
 * differs from the remainder method in that it always returns a
@@ -39,7 +39,7 @@ Note that the doc comment does not say “mod throws NullPointerException if m i
 
 **在 Java 7 中添加的 `Objects.requireNonNull` 方法非常灵活和方便，因此不再需要手动执行空检查。** 如果愿意，可以指定自己的异常详细信息。该方法返回它的输入，所以你可以执行一个空检查，同时你使用一个值：
 
-```
+```Java
 // Inline use of Java's null-checking facility
 this.strategy = Objects.requireNonNull(strategy, "strategy");
 ```
@@ -56,7 +56,7 @@ For an unexported method, you, as the package author, control the circumstances 
 
 对于未导出的方法，作为包的作者，你应该定制方法调用的环境，因此你可以并且应该确保只传递有效的参数值。因此，非公共方法可以使用断言检查它们的参数，如下所示：
 
-```
+```Java
 // Private helper function for a recursive sort
 private static void sort(long a[], int offset, int length) {
     assert a != null;

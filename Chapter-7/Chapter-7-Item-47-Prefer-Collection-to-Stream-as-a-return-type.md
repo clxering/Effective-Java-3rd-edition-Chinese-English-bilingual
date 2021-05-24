@@ -14,7 +14,7 @@ Sadly, there is no good workaround for this problem. At first glance, it might a
 
 遗憾的是，这个问题没有好的解决办法。乍一看，似乎将方法引用传递给流的 iterator 方法是可行的。生成的代码可能有点繁琐，不易理解，但并非不合理：
 
-```
+```Java
 // Won't compile, due to limitations on Java's type inference
 for (ProcessHandle ph : ProcessHandle.allProcesses()::iterator) {
     // Process the process
@@ -25,7 +25,7 @@ Unfortunately, if you attempt to compile this code, you’ll get an error messag
 
 不幸的是，如果你试图编译这段代码，你会得到一个错误消息：
 
-```
+```Java
 Test.java:6: error: method reference not expected here
 for (ProcessHandle ph : ProcessHandle.allProcesses()::iterator) {
 ^
@@ -35,7 +35,7 @@ In order to make the code compile, you have to cast the method reference to an a
 
 为了编译代码，你必须将方法引用转换为适当参数化的 Iterable：
 
-```
+```Java
 // Hideous workaround to iterate over a stream
 for (ProcessHandle ph : (Iterable<ProcessHandle>)ProcessHandle.allProcesses()::iterator)
 ```
@@ -44,7 +44,7 @@ This client code works, but it is too noisy and opaque to use in practice. A bet
 
 这个客户端代码可以工作，但是它太过繁琐并不易理解，无法在实践中使用。更好的解决方案是使用适配器方法。JDK 没有提供这样的方法，但是使用上面代码片段中使用的内联技术编写方法很容易。注意，适配器方法中不需要强制转换，因为 Java 的类型推断在此上下文中工作正常：
 
-```
+```Java
 // Adapter from Stream<E> to Iterable<E>
 public static <E> Iterable<E> iterableOf(Stream<E> stream) {
     return stream::iterator;
@@ -55,7 +55,7 @@ With this adapter, you can iterate over any stream with a for-each statement:
 
 使用此适配器，你可以使用 for-each 语句遍历任何流：
 
-```
+```Java
 for (ProcessHandle p : iterableOf(ProcessHandle.allProcesses())) {
     // Process the process
 }
@@ -69,7 +69,7 @@ Conversely, a programmer who wants to process a sequence using a stream pipeline
 
 相反，如果程序员希望使用流管道来处理序列，那么只提供可迭代的 API 就会有理由让他心烦。JDK 同样没有提供适配器，但是编写适配器非常简单：
 
-```
+```Java
 // Adapter from Iterable<E> to Stream<E>
 public static <E> Stream<E> streamOf(Iterable<E> iterable) {
     return StreamSupport.stream(iterable.spliterator(), false);
@@ -92,7 +92,7 @@ The trick is to use the index of each element in the power set as a bit vector, 
 
 诀窍是使用索引幂集的每个元素设置一个位向量，在该指数的 n 位表示第 n 个元素的存在与否从源。在本质上，之间有一个自然的映射二进制数字从 0 到 2n−1 和一组 n 元的幂集。这是代码：
 
-```
+```Java
 // Returns the power set of an input set as custom collection
 public class PowerSet {
     public static final <E> Collection<Set<E>> of(Set<E> s) {
@@ -140,7 +140,7 @@ It is, however, straightforward to implement a stream of all the sublists of an 
 
 然而，实现一个输入列表的所有子列表的流是很简单的，尽管它确实需要一些深入的了解。让我们将包含列表的第一个元素的子列表称为列表的前缀。例如，`(a,b,c)` 的前缀 `(a)`、`(a、b)` 和 `(a,b,c)`。类似地，让我们调用包含最后一个元素后缀的子列表，因此 `(a, b, c)` 的后缀是 `(a, b, c)`、`(b, c)` 和 `(c)`。我们的理解是，列表的子列表仅仅是前缀的后缀（或后缀的前缀相同）和空列表。这个观察直接导致了一个清晰、合理、简洁的实现：
 
-```
+```Java
 // Returns a stream of all the sublists of its input list
 public class SubLists {
     public static <E> Stream<List<E>> of(List<E> list) {
@@ -161,7 +161,7 @@ Note that the Stream.concat method is used to add the empty list into the return
 
 注意 `Stream.concat` 方法将空列表添加到返回的流中。还要注意，flatMap 方法（[Item-45](/Chapter-7/Chapter-7-Item-45-Use-streams-judiciously.md)）用于生成由所有前缀的所有后缀组成的单一流。最后，请注意，我们通过映射由 `IntStream.range` 和 `IntStream.rangeClosed` 返回的连续 int 值流来生成前缀和后缀。因此，我们的子列表实现在本质上类似于嵌套的 for 循环：
 
-```
+```Java
 for (int start = 0; start < src.size(); start++)
     for (int end = start + 1; end <= src.size(); end++)
         System.out.println(src.subList(start, end));
@@ -171,7 +171,7 @@ It is possible to translate this for-loop directly into a stream. The result is 
 
 可以将这个 for 循环直接转换为流。结果比我们以前的实现更简洁，但可读性可能稍差。它在形态上类似于 [Item-45](/Chapter-7/Chapter-7-Item-45-Use-streams-judiciously.md) 中 Cartesian 的 streams 代码：
 
-```
+```Java
 // Returns a stream of all the sublists of its input list
 public static <E> Stream<List<E>> of(List<E> list) {
     return IntStream.range(0, list.size())

@@ -6,7 +6,7 @@ Historically, interfaces (or, rarely, abstract classes) with a single abstract m
 
 在历史上，带有单个抽象方法的接口（或者抽象类，但这种情况很少）被用作函数类型。它们的实例（称为函数对象）表示函数或操作。自从 JDK 1.1 在 1997 年发布以来，创建函数对象的主要方法就是匿名类（[Item-24](/Chapter-4/Chapter-4-Item-24-Favor-static-member-classes-over-nonstatic.md)）。下面是一个按长度对字符串列表进行排序的代码片段，使用一个匿名类来创建排序的比较函数（它强制执行排序顺序）：
 
-```
+```Java
 // Anonymous class instance as a function object - obsolete!
 Collections.sort(words, new Comparator<String>() {
     public int compare(String s1, String s2) {
@@ -23,7 +23,7 @@ In Java 8, the language formalized the notion that interfaces with a single abst
 
 在 Java 8 中官方化了一个概念，即具有单个抽象方法的接口是特殊的，应该得到特殊处理。这些接口现在被称为函数式接口，允许使用 lambda 表达式创建这些接口的实例。Lambda 表达式在功能上类似于匿名类，但是更加简洁。下面的代码片段，匿名类被 lambda 表达式替换。已经没有了原有刻板的样子，意图非常明显：
 
-```
+```Java
 // Lambda expression as function object (replaces anonymous class)
 Collections.sort(words,(s1, s2) -> Integer.compare(s1.length(), s2.length()));
 ```
@@ -40,7 +40,7 @@ Incidentally, the comparator in the snippet can be made even more succinct if a 
 
 顺便说一下，如果使用 comparator 构造方法代替 lambda 表达式（[Item-14](/Chapter-3/Chapter-3-Item-14-Consider-implementing-Comparable.md)），那么代码片段可以变得更加简洁：
 
-```
+```Java
 Collections.sort(words, comparingInt(String::length));
 ```
 
@@ -48,7 +48,7 @@ In fact, the snippet can be made still shorter by taking advantage of the sort m
 
 事实上，通过 Java 8 中添加到 List 接口的 sort 方法，可以使代码片段变得更短：
 
-```
+```Java
 words.sort(comparingInt(String::length));
 ```
 
@@ -56,7 +56,7 @@ The addition of lambdas to the language makes it practical to use function objec
 
 在语言中添加 lambda 表达式使得在以前没有意义的地方使用函数对象变得实际。例如，考虑 [Item-34](/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md) 中的操作枚举类型。因为每个枚举的 apply 方法需要不同的行为，所以我们使用特定于常量的类体并覆盖每个枚举常量中的 apply 方法。为了唤醒你的记忆，以下是代码：
 
-```
+```Java
 // Enum type with constant-specific class bodies & data (Item 34)
 public enum Operation {
     PLUS("+") {
@@ -87,7 +87,7 @@ Item 34 says that enum instance fields are preferable to constant-specific class
 
 [Item-34](/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md) 指出，枚举实例字段比特定于常量的类体更可取。Lambda 表达式使得使用前者取代后者来实现特定于常量的行为变得容易。只需将实现每个枚举常量的行为的 lambda 表达式传递给它的构造函数。构造函数将 lambda 表达式存储在实例字段中，apply 方法将调用转发给 lambda 表达式。生成的代码比原始版本更简单、更清晰：
 
-```
+```Java
 // Enum with function object fields & constant-specific behavior
 public enum Operation {
     PLUS ("+", (x, y) -> x + y),

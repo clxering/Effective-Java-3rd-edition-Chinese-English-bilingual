@@ -34,7 +34,7 @@ For example, here is a program that creates a `Set<String>` instance whose class
 
 例如，这是一个创建 `Set<String>` 实例的程序，类由第一个命令行参数指定。程序将剩余的命令行参数插入到集合中并打印出来。不管第一个参数是什么，程序都会打印剩余的参数，并去掉重复项。然而，打印这些参数的顺序取决于第一个参数中指定的类。如果你指定 `java.util.HashSet`，它们显然是随机排列的；如果你指定 `java.util.TreeSet`，它们是按字母顺序打印的，因为 TreeSet 中的元素是有序的：
 
-```
+```Java
 // Reflective instantiation with interface access
 public static void main(String[] args) {
 

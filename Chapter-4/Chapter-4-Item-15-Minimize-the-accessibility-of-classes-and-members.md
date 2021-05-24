@@ -74,7 +74,7 @@ Note that a nonzero-length array is always mutable, so it is wrong for a class t
 
 请注意，非零长度的数组总是可变的，因此对于类来说，拥有一个公共静态 final 数组字段或返回该字段的访问器是错误的。如果一个类具有这样的字段或访问器，客户端将能够修改数组的内容。这是一个常见的安全漏洞来源：
 
-```
+```Java
 // Potential security hole!
 public static final Thing[] VALUES = { ... };
 ```
@@ -83,7 +83,7 @@ Beware of the fact that some IDEs generate accessors that return references to p
 
 要注意的是，一些 IDE 生成了返回私有数组字段引用的访问器，这恰恰会导致这个问题。有两种方法可以解决这个问题。你可以将公共数组设置为私有，并添加一个公共不可变 List：
 
-```
+```Java
 private static final Thing[] PRIVATE_VALUES = { ... };
 public static final List<Thing> VALUES = Collections.unmodifiableList(Arrays.asList(PRIVATE_VALUES));
 ```
@@ -92,7 +92,7 @@ Alternatively, you can make the array private and add a public method that retur
 
 或者，你可以将数组设置为私有，并添加一个返回私有数组副本的公共方法：
 
-```
+```Java
 private static final Thing[] PRIVATE_VALUES = { ... };
 public static final Thing[] values() {
     return PRIVATE_VALUES.clone();

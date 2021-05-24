@@ -14,7 +14,7 @@ Luckily, there is a nice way to achieve this effect using enum types. The basic 
 
 幸运的是，有一种很好的方法可以使用枚举类型来实现这种效果。其基本思想是利用枚举类型可以实现任意接口这一事实，为 opcode 类型定义一个接口，并为接口的标准实现定义一个枚举。例如，下面是 [Item-34](/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md) Operation 类的可扩展版本：
 
-```
+```Java
 // Emulated extensible enum using an interface
 public interface Operation {
     double apply(double x, double y);
@@ -51,7 +51,7 @@ While the enum type (BasicOperation) is not extensible, the interface type (Oper
 
 枚举类型（BasicOperation）是不可扩展的，而接口类型（Operation）是可扩展的，它是用于在 API 中表示操作的接口类型。你可以定义另一个实现此接口的枚举类型，并使用此新类型的实例代替基类型。例如，假设你想定义前面显示的操作类型的扩展，包括求幂和余数操作。你所要做的就是写一个枚举类型，实现操作接口：
 
-```
+```Java
 // Emulated extension enum
 public enum ExtendedOperation implements Operation {
     EXP("^") {
@@ -83,7 +83,7 @@ You can now use your new operations anywhere you could use the basic operations,
 现在可以在任何可以使用 Operation 的地方使用新 Operation，前提是编写的 API 采用接口类型（Operation），而不是实现（BasicOperation）。注意，不必像在具有特定于实例的方法实现的非可扩展枚举中那样在枚举中声明抽象 apply 方法（第 162 页）。这是因为抽象方法（apply）是接口（Operation）的成员。
 
 **译注：示例如下**
-```
+```Java
 public static void main(String[] args) {
     Operation op = BasicOperation.DIVIDE;
     System.out.println(op.apply(15, 3));
@@ -96,7 +96,7 @@ Not only is it possible to pass a single instance of an “extension enum” any
 
 不仅可以在需要「基枚举」的任何地方传递「扩展枚举」的单个实例，还可以传入整个扩展枚举类型，并在基类型的元素之外使用或替代基类型的元素。例如，这里是 163 页测试程序的一个版本，它执行了前面定义的所有扩展操作：
 
-```
+```Java
 public static void main(String[] args) {
     double x = Double.parseDouble(args[0]);
     double y = Double.parseDouble(args[1]);
@@ -117,7 +117,7 @@ A second alternative is to pass a `Collection<? extends Operation>`, which is a 
 
 第二个选择是传递一个 `Collection<? extends Operation>`，它是一个有界通配符类型（[Item-31](/Chapter-5/Chapter-5-Item-31-Use-bounded-wildcards-to-increase-API-flexibility.md)），而不是传递一个类对象：
 
-```
+```Java
 public static void main(String[] args) {
     double x = Double.parseDouble(args[0]);
     double y = Double.parseDouble(args[1]);
@@ -138,7 +138,7 @@ Both programs shown previously will produce this output when run with command li
 
 在运行命令行参数 4 和 2 时，前面显示的两个程序都将产生这个输出：
 
-```
+```Java
 4.000000 ^ 2.000000 = 16.000000
 4.000000 % 2.000000 = 0.000000
 ```

@@ -10,7 +10,7 @@ One kind of interface that fails this test is the so-called constant interface. 
 
 不满足上述条件的一种接口是所谓的常量接口。这样的接口不包含任何方法；它仅由静态 final 字段组成，每个字段导出一个常量。使用这些常量的类实现接口，以避免用类名修饰常量名。下面是一个例子：
 
-```
+```Java
 // Constant interface antipattern - do not use!
 public interface PhysicalConstants {
     // Avogadro's number (1/mol)
@@ -36,7 +36,7 @@ If you want to export constants, there are several reasonable choices. If the co
 
 如果你想导出常量，有几个合理的选择。如果这些常量与现有的类或接口紧密绑定，则应该将它们添加到类或接口。例如，所有数值包装类，比如 Integer 和 Double，都导出 MIN_VALUE 和 MAX_VALUE 常量。如果将这些常量看作枚举类型的成员，那么应该使用 enum 类型导出它们（[Item-34](/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)）。否则，你应该使用不可实例化的工具类（[Item-4](/Chapter-2/Chapter-2-Item-4-Enforce-noninstantiability-with-a-private-constructor.md)）导出常量。下面是一个之前的 PhysicalConstants 例子的工具类另一个版本：
 
-```
+```Java
 // Constant utility class
 package com.effectivejava.science;
 
@@ -56,7 +56,7 @@ Normally a utility class requires clients to qualify constant names with a class
 
 通常，工具类要求客户端使用类名来限定常量名，例如 `PhysicalConstants.AVOGADROS_NUMBER`。如果你大量使用工具类导出的常量，你可以通过使用静态导入机制来避免使用类名限定常量：
 
-```
+```Java
 // Use of static import to avoid qualifying constants
 import static com.effectivejava.science.PhysicalConstants.*;
 

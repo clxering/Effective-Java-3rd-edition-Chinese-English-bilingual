@@ -18,7 +18,7 @@ Threads should not busy-wait, repeatedly checking a shared object waiting for it
 
 线程不应该处于 busy 到 wait 的循环，而应该反复检查一个共享对象，等待它的状态发生变化。除了使程序容易受到线程调度器变化无常的影响之外，繁忙等待还大大增加了处理器的负载，还影响其他人完成工作。作为反面的极端例子，考虑一下 CountDownLatch 的不正确的重构实现：
 
-```
+```Java
 // Awful CountDownLatch implementation - busy-waits incessantly!
 public class SlowCountDownLatch {
 

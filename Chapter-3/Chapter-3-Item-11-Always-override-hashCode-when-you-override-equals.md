@@ -22,7 +22,7 @@
 
 **当你无法覆盖 hashCode 方法时，将违反第二个关键条款：相等的对象必须具有相等的散列码。** 根据类的 equals 方法，两个不同的实例在逻辑上可能是相等的，但是对于对象的 hashCode 方法来说，它们只是两个没有共同之处的对象。因此，Object 的 hashCode 方法返回两个看似随机的数字，而不是约定要求的两个相等的数字。例如，假设你尝试使用[Item-10](/Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md)中的 PhoneNumber 类实例作为 HashMap 中的键：
 
-```
+```Java
 Map<PhoneNumber, String> m = new HashMap<>();
 m.put(new PhoneNumber(707, 867, 5309), "Jenny");
 ```
@@ -35,7 +35,7 @@ Fixing this problem is as simple as writing a proper hashCode method for PhoneNu
 
 解决这个问题就像为 PhoneNumber 编写一个正确的 hashCode 方法一样简单。那么 hashCode 方法应该是什么样的呢？写一个反面例子很容易。例如，以下方法是合法的，但是不应该被使用：
 
-```
+```Java
 // The worst possible legal hashCode implementation - never use!
 @Override
 public int hashCode() { return 42; }
@@ -77,7 +77,7 @@ b. Combine the hash code c computed in step 2.a into result as follows:
 
 将步骤 2.a 中计算的散列码 c 合并到 result 变量，如下所示：
 
-```
+```Java
 result = 31 * result + c;
 ```
 
@@ -101,7 +101,7 @@ Let’s apply the previous recipe to the PhoneNumber class:
 
 让我们将前面的方法应用到 PhoneNumber 类：
 
-```
+```Java
 // Typical hashCode method
 @Override
 public int hashCode() {
@@ -124,7 +124,7 @@ The Objects class has a static method that takes an arbitrary number of objects 
 
 Objects 类有一个静态方法，它接受任意数量的对象并返回它们的散列码。这个名为 `hash` 的方法允许你编写只有一行代码的 hashCode 方法，这些方法的质量可以与本条目中提供的编写方法媲美。不幸的是，它们运行得更慢，因为它们需要创建数组来传递可变数量的参数，如果任何参数是原始类型的，则需要进行装箱和拆箱。推荐只在性能不重要的情况下使用这种散列算法。下面是使用这种技术编写的 PhoneNumber 的散列算法：
 
-```
+```Java
 // One-line hashCode method - mediocre performance
 @Override
 public int hashCode() {
@@ -136,7 +136,7 @@ If a class is immutable and the cost of computing the hash code is significant,y
 
 如果一个类是不可变的，并且计算散列码的成本非常高，那么你可以考虑在对象中缓存散列码，而不是在每次请求时重新计算它。如果你认为这种类型的大多数对象都将用作散列键，那么你应该在创建实例时计算散列码。否则，你可以选择在第一次调用 hashCode 方法时延迟初始化散列码。在一个延迟初始化的字段（[Item-83](/Chapter-11/Chapter-11-Item-83-Use-lazy-initialization-judiciously.md)）的情况下，需要注意以确保该类仍然是线程安全的。我们的 PhoneNumber 类不值得进行这种处理，但只是为了向你展示它是如何实现的，如下所示。注意，散列字段的初始值（在本例中为 0）不应该是通常创建的实例的散列码：
 
-```
+```Java
 // hashCode method with lazily initialized cached hash code
 private int hashCode; // Automatically initialized to 0
 @Override

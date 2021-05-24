@@ -6,7 +6,7 @@ Item 50 contains an immutable date-range class with mutable private Date fields.
 
 [Item-50](/Chapter-8/Chapter-8-Item-50-Make-defensive-copies-when-needed.md) 包含一个具有可变私有 Date 字段的不可变日期范围类。该类通过在构造函数和访问器中防御性地复制 Date 对象，不遗余力地保持其不变性和不可变性。它是这样的：
 
-```
+```Java
 // Immutable class that uses defensive copying
 public final class Period {
     private final Date start;

@@ -6,7 +6,7 @@ Item 51 says that you should use interfaces rather than classes as parameter typ
 
 [Item-51](/Chapter-8/Chapter-8-Item-51-Design-method-signatures-carefully.md) 指出，应该使用接口而不是类作为参数类型。更一般地说，你应该优先使用接口而不是类来引用对象。**如果存在合适的接口类型，那么应该使用接口类型声明参数、返回值、变量和字段。** 惟一真正需要引用对象的类的时候是使用构造函数创建它的时候。为了具体说明这一点，考虑 LinkedHashSet 的情况，它是 Set 接口的一个实现。声明时应养成这样的习惯：
 
-```
+```Java
 // Good - uses interface as type
 Set<Son> sonSet = new LinkedHashSet<>();
 ```
@@ -15,7 +15,7 @@ not this:
 
 而不是这样：
 
-```
+```Java
 // Bad - uses class as type!
 LinkedHashSet<Son> sonSet = new LinkedHashSet<>();
 ```
@@ -24,7 +24,7 @@ LinkedHashSet<Son> sonSet = new LinkedHashSet<>();
 
 **如果你养成了使用接口作为类型的习惯，那么你的程序将更加灵活。** 如果你决定要切换实现，只需在构造函数中更改类名（或使用不同的静态工厂）。例如，第一个声明可以改为：
 
-```
+```Java
 Set<Son> sonSet = new HashSet<>();
 ```
 

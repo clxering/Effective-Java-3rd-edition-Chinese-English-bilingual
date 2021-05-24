@@ -6,7 +6,7 @@ Unlike the other methods discussed in this chapter, the compareTo method is not 
 
 与本章讨论的其他方法不同，compareTo 方法不是在 Object 中声明的。相反，它是 Comparable 接口中的唯一方法。它在性质上类似于 Object 的 equals 方法，除了简单的相等比较之外，它还允许顺序比较，而且它是通用的。一个类实现 Comparable，表明实例具有自然顺序。对实现 Comparable 的对象数组进行排序非常简单：
 
-```
+```Java
 Arrays.sort(a);
 ```
 
@@ -14,7 +14,7 @@ It is similarly easy to search, compute extreme values, and maintain automatical
 
 类似地，搜索、计算极值和维护 Comparable 对象的自动排序集合也很容易。例如，下面的程序依赖于 String 实现 Comparable 这一事实，将命令行参数列表按字母顺序打印出来，并消除重复：
 
-```
+```Java
 public class WordList {
     public static void main(String[] args) {
         Set<String> s = new TreeSet<>();
@@ -28,7 +28,7 @@ By implementing Comparable, you allow your class to interoperate with all of the
 
 通过让类实现 Comparable，就可与依赖于此接口的所有通用算法和集合实现进行互操作。你只需付出一点点努力就能获得强大的功能。实际上，Java 库中的所有值类以及所有枚举类型（[Item-34](/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)）都实现了 Comparable。如果编写的值类具有明显的自然顺序，如字母顺序、数字顺序或时间顺序，则应实现 Comparable 接口：
 
-```
+```Java
 public interface Comparable<T> {
     int compareTo(T t);
 }
@@ -94,7 +94,7 @@ In a compareTo method, fields are compared for order rather than equality.To com
 
 在 compareTo 方法中，字段是按顺序而不是按同等性来比较的。要比较对象引用字段，要递归调用 compareTo 方法。如果一个字段没有实现 Comparable，或者需要一个非标准的排序，那么应使用 Comparator。可以编写自定义的比较器，或使用现有的比较器，如 [Item-10](/Chapter-3/Chapter-3-Item-10-Obey-the-general-contract-when-overriding-equals.md) 中 CaseInsensitiveString 的 compareTo 方法：
 
-```
+```Java
 // Single-field Comparable with object reference field
 public final class CaseInsensitiveString implements Comparable<CaseInsensitiveString> {
     public int compareTo(CaseInsensitiveString cis) {
@@ -115,7 +115,7 @@ If a class has multiple significant fields, the order in which you compare them 
 
 如果一个类有多个重要字段，那么比较它们的顺序非常关键。从最重要的字段开始，一步步往下。如果比较的结果不是 0（用 0 表示相等），那么就完成了；直接返回结果。如果最重要的字段是相等的，就比较下一个最重要的字段，以此类推，直到找到一个不相等的字段或比较到最不重要的字段为止。下面是 [Item-11](/Chapter-3/Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md) 中 PhoneNumber 类的 compareTo 方法，演示了这种技术：
 
-```
+```Java
 // Multiple-field Comparable with primitive fields
 public int compareTo(PhoneNumber pn) {
     int result = Short.compare(areaCode, pn.areaCode);
@@ -132,7 +132,7 @@ In Java 8, the Comparator interface was outfitted with a set of comparator const
 
 在 Java 8 中，Comparator 接口配备了一组比较器构造方法，可以流畅地构造比较器。然后可以使用这些比较器来实现 Comparator 接口所要求的 compareTo 方法。许多程序员更喜欢这种方法的简明，尽管它存在一些性能成本：在我的机器上，PhoneNumber 实例的数组排序要慢 10% 左右。在使用这种方法时，请考虑使用 Java 的静态导入功能，这样你就可以通过静态比较器构造方法的简单名称来引用它们，以获得清晰和简洁。下面是 PhoneNumber 类的 compareTo 方法改进后的样子：
 
-```
+```Java
 // Comparable with comparator construction methods
 private static final Comparator<PhoneNumber> COMPARATOR = comparingInt((PhoneNumber pn) -> pn.areaCode)
     .thenComparingInt(pn -> pn.prefix)
@@ -147,7 +147,7 @@ public int compareTo(PhoneNumber pn) {
 
 **译注 2：comparingInt 及 thenComparingInt 的文档描述**
 
-```
+```Java
 static <T> Comparator<T> comparingInt(ToIntFunction<? super T> keyExtractor)
 
 Accepts a function that extracts an int sort key from a type T, and returns a Comparator<T> that compares by that sort key.
@@ -168,7 +168,7 @@ Since:
     1.8
 ```
 
-```
+```Java
 default Comparator<T> thenComparingInt(ToIntFunction<? super T> keyExtractor)
 
 Returns a lexicographic-order comparator with a function that extracts a int sort key.
@@ -209,7 +209,7 @@ Occasionally you may see compareTo or compare methods that rely on the fact that
 
 有时候，你可能会看到 compareTo 或 compare 方法，它们依赖于以下事实：如果第一个值小于第二个值，则两个值之间的差为负；如果两个值相等，则为零；如果第一个值大于零，则为正。下面是一个例子：
 
-```
+```Java
 // BROKEN difference-based comparator - violates transitivity!
 static Comparator<Object> hashCodeOrder = new Comparator<>() {
     public int compare(Object o1, Object o2) {
@@ -222,7 +222,7 @@ Do not use this technique. It is fraught with danger from integer overflow and I
 
 不要使用这种技术。它充满了来自整数溢出和 IEEE 754 浮点运算构件的危险 [JLS 15.20.1, 15.21.1]。此外，生成的方法不太可能比使用本项目中描述的技术编写的方法快得多。应使用静态比较方法：
 
-```
+```Java
 // Comparator based on static compare method
 static Comparator<Object> hashCodeOrder = new Comparator<>() {
     public int compare(Object o1, Object o2) {
@@ -235,7 +235,7 @@ or a comparator construction method:
 
 或比较器构造方法：
 
-```
+```Java
 // Comparator based on Comparator construction method
 static Comparator<Object> hashCodeOrder = Comparator
     .comparingInt(o -> o.hashCode());

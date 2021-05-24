@@ -10,7 +10,7 @@ For example, consider this method, which constructs the string representation of
 
 例如，考虑这个方法，它通过将每个账单项目重复连接到一行来构造账单语句的字符串表示：
 
-```
+```Java
 // Inappropriate use of string concatenation - Performs poorly!
 public String statement() {
     String result = "";
@@ -24,7 +24,7 @@ The method performs abysmally if the number of items is large. **To achieve acce
 
 如果项的数量很大，则该方法的性能非常糟糕。**要获得能接受的性能，请使用 StringBuilder 代替 String** 来存储正在构建的语句：
 
-```
+```Java
 public String statement() {
     StringBuilder b = new StringBuilder(numItems() * LINE_WIDTH);
     for (int i = 0; i < numItems(); i++)

@@ -10,7 +10,7 @@ There are two common ways to implement singletons. Both are based on keeping the
 
 实现单例有两种常见的方法。两者都基于保持构造函数私有和导出公共静态成员以提供对唯一实例的访问。在第一种方法中，成员是一个 final 字段：
 
-```
+```Java
 // Singleton with public final field
 public class Elvis {
     public static final Elvis INSTANCE = new Elvis();
@@ -24,7 +24,7 @@ The private constructor is called only once, to initialize the public static fin
 私有构造函数只调用一次，用于初始化 public static final 修饰的 Elvis 类型字段 INSTANCE。不使用 public 或 protected 的构造函数保证了「独一无二」的空间：一旦初始化了 Elvis 类，就只会存在一个 Elvis 实例，不多也不少。客户端所做的任何事情都不能改变这一点，但有一点需要注意：拥有特殊权限的客户端可以借助 AccessibleObject.setAccessible 方法利用反射调用私有构造函数（[Item-65](/Chapter-9/Chapter-9-Item-65-Prefer-interfaces-to-reflection.md)）如果需要防范这种攻击，请修改构造函数，使其在请求创建第二个实例时抛出异常。
 
 **译注：使用 `AccessibleObject.setAccessible` 方法调用私有构造函数示例：**
-```
+```Java
 Constructor<?>[] constructors = Elvis.class.getDeclaredConstructors();
 AccessibleObject.setAccessible(constructors, true);
 
@@ -40,7 +40,7 @@ In the second approach to implementing singletons, the public member is a static
 
 在实现单例的第二种方法中，公共成员是一种静态工厂方法：
 
-```
+```Java
 // Singleton with static factory
 public class Elvis {
     private static final Elvis INSTANCE = new Elvis();
@@ -69,7 +69,7 @@ One advantage of the static factory approach is that it gives you the flexibilit
 **译注 1：原文方法引用可能是笔误，修改为 `Elvis::getInstance`**
 
 **译注 2：方法引用作为提供者的例子：**
-```
+```Java
 Supplier<Elvis> sup = Elvis::getInstance;
 Elvis obj = sup.get();
 obj.leaveTheBuilding();
@@ -79,7 +79,7 @@ To make a singleton class that uses either of these approaches serializable (Cha
 
 要使单例类使用这两种方法中的任何一种实现可序列化（Chapter 12），仅仅在其声明中添加实现 serializable 是不够的。要维护单例保证，应声明所有实例字段为 transient，并提供 readResolve 方法（[Item-89](/Chapter-12/Chapter-12-Item-89-For-instance-control-prefer-enum-types-to-readResolve.md)）。否则，每次反序列化实例时，都会创建一个新实例，在我们的示例中，这会导致出现虚假的 Elvis。为了防止这种情况发生，将这个 readResolve 方法添加到 Elvis 类中：
 
-```
+```Java
 // readResolve method to preserve singleton property
 private Object readResolve() {
     // Return the one true Elvis and let the garbage collector
@@ -92,7 +92,7 @@ A third way to implement a singleton is to declare a single-element enum:
 
 实现单例的第三种方法是声明一个单元素枚举：
 
-```
+```Java
 // Enum singleton - the preferred approach
 public enum Elvis {
     INSTANCE;

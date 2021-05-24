@@ -34,7 +34,7 @@ Many of the example classes in previous items are immutable. One such class is P
 
 前面条目中的许多示例类都是不可变的。其中一个类是 [Item-11](/Chapter-3/Chapter-3-Item-11-Always-override-hashCode-when-you-override-equals.md) 中的 PhoneNumber，它的每个属性都有访问器，但没有对应的修改器。下面是一个稍微复杂的例子：
 
-```
+```Java
 // Immutable complex number class
 public final class Complex {
     private final double re;
@@ -93,7 +93,7 @@ The functional approach may appear unnatural if you’re not familiar with it,bu
 
 **不可变对象本质上是线程安全的；它们不需要同步。** 它们不会因为多线程并发访问而损坏。这无疑是实现线程安全的最简单方法。由于任何线程都无法观察到另一个线程对不可变对象的任何影响，因此 **可以自由共享不可变对象。** 同时，不可变类应该鼓励客户端尽可能复用现有的实例。一种简单的方法是为常用值提供公共静态 final 常量。例如，Complex 类可能提供以下常量：
 
-```
+```Java
 public static final Complex ZERO = new Complex(0, 0);
 public static final Complex ONE = new Complex(1, 0);
 public static final Complex I = new Complex(0, 1);
@@ -123,7 +123,7 @@ A consequence of the fact that immutable objects can be shared freely is that yo
 
 **不可变类的主要缺点是每个不同的值都需要一个单独的对象。** 创建这些对象的成本可能很高，尤其是对象很大的时候。例如，假设你有一个百万位的 BigInteger，你想改变它的低阶位：
 
-```
+```Java
 BigInteger moby = ...;
 moby = moby.flipBit(0);
 ```
@@ -132,7 +132,7 @@ The flipBit method creates a new BigInteger instance, also a million bits long, 
 
 flipBit 方法创建了一个新的 BigInteger 实例，也有百万位长，只在一个比特上与原始的不同。该操作需要与 BigInteger 的大小成比例的时间和空间。与 `java.util.BitSet` 形成对比。与 BigInteger 一样，BitSet 表示任意长的位序列，但与 BigInteger 不同，BitSet 是可变的。BitSet 类提供了一种方法，可以让你在固定的时间内改变百万位实例的单个位的状态：
 
-```
+```Java
 BitSet moby = ...;
 moby.flip(0);
 ```
@@ -149,7 +149,7 @@ Now that you know how to make an immutable class and you understand the pros and
 
 既然你已经知道了如何创建不可变类，并且了解了不可变性的优缺点，那么让我们来讨论一些设计方案。回想一下，为了保证不变性，类不允许自己被子类化。可以用 final 修饰以达到目的，但是还有另外一个更灵活的选择，你可以将其所有构造函数变为私有或包私有，并在公共构造函数的位置添加公共静态工厂（[Item-1](/Chapter-2/Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)）。
 
-```
+```Java
 // Immutable class with static factories instead of constructors
 public class Complex {
     private final double re;
@@ -173,7 +173,7 @@ It was not widely understood that immutable classes had to be effectively final 
 
 当编写 BigInteger 和 BigDecimal 时，不可变类必须是有效的 final 这一点没有被广泛理解，因此它们的所有方法都可能被重写。遗憾的是，在保留向后兼容性的情况下，这个问题无法得到纠正。如果你编写的类的安全性依赖于来自不受信任客户端的 BigInteger 或 BigDecimal 参数的不可变性，那么你必须检查该参数是否是「真正的」BigInteger 或 BigDecimal，而不是不受信任的子类实例。如果是后者，你必须防御性的复制它，假设它可能是可变的（[Item-50](/Chapter-8/Chapter-8-Item-50-Make-defensive-copies-when-needed.md)）:
 
-```
+```Java
 public static BigInteger safeInstance(BigInteger val) {
 return val.getClass() == BigInteger.class ?
 val : new BigInteger(val.toByteArray());

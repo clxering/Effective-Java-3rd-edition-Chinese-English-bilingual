@@ -6,7 +6,7 @@ While this advice may seem obvious, it is violated often enough that it bears re
 
 虽然这一建议似乎显而易见，但它经常被违反，因此值得强调。当 API 的设计人员声明一个抛出异常的方法时，他们试图告诉你一些事情。不要忽略它！如果在方法调用的周围加上一条 try 语句，其 catch 块为空，可以很容易忽略异常：
 
-```
+```Java
 // Empty catch block ignores exception - Highly suspect!
 try {
     ...
@@ -23,7 +23,7 @@ There are situations where it is appropriate to ignore an exception. For example
 
 在某些情况下，忽略异常是合适的。例如，在关闭 FileInputStream 时，忽略异常可能是合适的。你没有更改文件的状态，因此不需要执行任何恢复操作，并且已经从文件中读取了所需的信息，因此没有理由中止正在进行的操作。记录异常可能是明智的，这样如果这些异常经常发生，你应该研究起因。**如果你选择忽略异常，catch 块应该包含一条注释，解释为什么这样做是合适的，并且应该将变量命名为 ignore：**
 
-```
+```Java
 Future<Integer> f = exec.submit(planarMap::chromaticNumber);
 int numColors = 4; // Default; guaranteed sufficient for any map
 try {

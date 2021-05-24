@@ -18,7 +18,7 @@ Consider the following comparator, which is designed to represent ascending nume
 
 考虑下面的比较器，它的设计目的是表示 Integer 值上的升序数字排序。（回想一下，比较器的 compare 方法返回一个负数、零或正数，这取决于它的第一个参数是小于、等于还是大于第二个参数。）你不需要在实际使用中编写这个比较器，因为它实现了 Integer 的自然排序，但它提供了一个有趣的例子：
 
-```
+```Java
 // Broken comparator - can you spot the flaw?
 Comparator<Integer> naturalOrder =(i, j) -> (i < j) ? -1 : (i == j ? 0 : 1);
 ```
@@ -35,7 +35,7 @@ In practice, if you need a comparator to describe a type’s natural order, you 
 
 在实际使用中，如果你需要一个比较器来描述类型的自然顺序，你应该简单地调用 `Comparator.naturalOrder()`，如果你自己编写一个比较器，你应该使用比较器构造方法，或者对基本类型使用静态比较方法（[Item-14](/Chapter-3/Chapter-3-Item-14-Consider-implementing-Comparable.md)）。也就是说，你可以通过添加两个局部变量来存储基本类型 int 值，并对这些变量执行所有的比较，从而修复损坏的比较器中的问题。这避免了错误的标识比较：
 
-```
+```Java
 Comparator<Integer> naturalOrder = (iBoxed, jBoxed) -> {
     int i = iBoxed, j = jBoxed; // Auto-unboxing
     return i < j ? -1 : (i == j ? 0 : 1);
@@ -46,7 +46,7 @@ Next, consider this delightful little program:
 
 接下来，考虑一下这个有趣的小程序：
 
-```
+```Java
 public class Unbelievable {
 static Integer i;
 public static void main(String[] args) {
@@ -64,7 +64,7 @@ Finally, consider the program from page 24 in Item 6:
 
 最后，考虑 [Item-6](/Chapter-2/Chapter-2-Item-6-Avoid-creating-unnecessary-objects.md) 中第 24 页的程序：
 
-```
+```Java
 // Hideously slow program! Can you spot the object creation?
 public static void main(String[] args) {
     Long sum = 0L;

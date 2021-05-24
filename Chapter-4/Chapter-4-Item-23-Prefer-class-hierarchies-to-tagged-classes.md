@@ -6,7 +6,7 @@ Occasionally you may run across a class whose instances come in two or more flav
 
 有时候，你可能会遇到这样一个类，它的实例有两种或两种以上的样式，并且包含一个标签字段来表示实例的样式。例如，考虑这个类，它能够表示一个圆或一个矩形：
 
-```
+```Java
 // Tagged class - vastly inferior to a class hierarchy!
 class Figure {
     enum Shape {RECTANGLE, CIRCLE};
@@ -64,7 +64,7 @@ Next, define a concrete subclass of the root class for each flavor of the origin
 
 接下来，为原始标签类的每个类型定义根类的具体子类。在我们的例子中，有两个：圆形和矩形。在每个子类中包含特定于其样式的数据字段。在我们的例子中，半径是特定于圆的，长度和宽度是特定于矩形的。还应在每个子类中包含根类中每个抽象方法的适当实现。下面是原 Figure 类对应的类层次结构：
 
-```
+```Java
 // Class hierarchy replacement for a tagged class
 abstract class Figure {
     abstract double area();
@@ -107,7 +107,7 @@ Another advantage of class hierarchies is that they can be made to reflect natur
 
 类层次结构的另一个优点是，可以反映类型之间的自然层次关系，从而提高灵活性和更好的编译时类型检查。假设原始示例中的标签类也允许使用正方形。类层次结构可以反映这样一个事实：正方形是一种特殊的矩形（假设两者都是不可变的）：
 
-```
+```Java
 class Square extends Rectangle {
   Square(double side) {
     super(side, side);

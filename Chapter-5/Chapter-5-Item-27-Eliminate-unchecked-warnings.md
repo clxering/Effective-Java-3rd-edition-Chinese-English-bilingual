@@ -10,7 +10,7 @@ Many unchecked warnings are easy to eliminate. For example, suppose you accident
 
 许多 unchecked 警告很容易消除。例如，假设你不小心写了这个声明：
 
-```
+```Java
 Set<Lark> exaltation = new HashSet();
 ```
 
@@ -18,7 +18,7 @@ The compiler will gently remind you what you did wrong:
 
 编译器会精确地提醒你做错了什么：
 
-```
+```Java
 Venery.java:4: warning: [unchecked] unchecked conversion
 Set<Lark> exaltation = new HashSet();
 ^ required: Set<Lark>
@@ -29,7 +29,7 @@ You can then make the indicated correction, causing the warning to disappear. No
 
 你可以在指定位置进行更正，使警告消失。注意，你实际上不必指定类型参数，只需给出由 Java 7 中引入的 diamond 操作符（<>）。然后编译器将推断出正确的实际类型参数（在本例中为 Lark）：
 
-```
+```Java
 Set<Lark> exaltation = new HashSet<>();
 ```
 
@@ -49,7 +49,7 @@ If you find yourself using the SuppressWarnings annotation on a method or constr
 
 如果你发现自己在一个超过一行的方法或构造函数上使用 SuppressWarnings 注解，那么你可以将其移动到局部变量声明中。你可能需要声明一个新的局部变量，但这是值得的。例如，考虑这个 toArray 方法，它来自 ArrayList：
 
-```
+```Java
 public <T> T[] toArray(T[] a) {
     if (a.length < size)
         return (T[]) Arrays.copyOf(elements, size, a.getClass());
@@ -64,7 +64,7 @@ If you compile ArrayList, the method generates this warning:
 
 如果你编译 ArrayList，这个方法会产生这样的警告：
 
-```
+```Java
 ArrayList.java:305: warning: [unchecked] unchecked cast
 return (T[]) Arrays.copyOf(elements, size, a.getClass());
 ^ required: T[]
@@ -75,7 +75,7 @@ It is illegal to put a SuppressWarnings annotation on the return statement, beca
 
 将 SuppressWarnings 注释放在 return 语句上是非法的，因为它不是声明 [JLS, 9.7]。你可能想把注释放在整个方法上，但是不要这样做。相反，应该声明一个局部变量来保存返回值并添加注解，如下所示：
 
-```
+```Java
 // Adding local variable to reduce scope of @SuppressWarnings
 public <T> T[] toArray(T[] a) {
     if (a.length < size) {

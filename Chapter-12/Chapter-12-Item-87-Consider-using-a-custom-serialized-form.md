@@ -18,7 +18,7 @@ The default serialized form of an object is a reasonably efficient encoding of t
 
 **如果对象的物理表示与其逻辑内容相同，则默认的序列化形式可能是合适的。** 例如，默认的序列化形式对于下面的类来说是合理的，它简单地表示一个人的名字：
 
-```
+```Java
 // Good candidate for default serialized form
 public class Name implements Serializable {
     /**

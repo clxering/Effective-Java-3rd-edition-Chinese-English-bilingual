@@ -6,7 +6,7 @@ If the elements of an enumerated type are used primarily in sets, it is traditio
 
 如果枚举类型的元素主要在 Set 中使用，传统上使用 int 枚举模式（[Item-34](/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)），通过不同的 2 平方数为每个常量赋值：
 
-```
+```Java
 // Bit field enumeration constants - OBSOLETE!
 public class Text {
     public static final int STYLE_BOLD = 1 << 0; // 1
@@ -22,7 +22,7 @@ This representation lets you use the bitwise OR operation to combine several con
 
 这种表示方式称为位字段，允许你使用位运算的 OR 操作将几个常量组合成一个 Set：
 
-```
+```Java
 text.applyStyles(STYLE_BOLD | STYLE_ITALIC);
 ```
 
@@ -38,7 +38,7 @@ Here is how the previous example looks when modified to use enums and enum sets 
 
 当之前的示例修改为使用枚举和 EnumSet 而不是位字段时。它更短，更清晰，更安全：
 
-```
+```Java
 // EnumSet - a modern replacement for bit fields
 public class Text {
     public enum Style { BOLD, ITALIC, UNDERLINE, STRIKETHROUGH }
@@ -51,7 +51,7 @@ Here is client code that passes an EnumSet instance to the applyStyles method. T
 
 下面是将 EnumSet 实例传递给 applyStyles 方法的客户端代码。EnumSet 类提供了一组丰富的静态工厂，可以方便地创建 Set，下面的代码演示了其中的一个：
 
-```
+```Java
 text.applyStyles(EnumSet.of(Style.BOLD, Style.ITALIC));
 ```
 

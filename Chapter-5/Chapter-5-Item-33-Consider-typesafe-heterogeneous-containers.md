@@ -18,7 +18,7 @@ The API for the Favorites class is simple. It looks just like a simple map, exce
 
 Favorites 类的 API 很简单。它看起来就像一个简单的 Map，只不过`键`是参数化的，而不是整个 Map。客户端在设置和获取 Favorites 实例时显示一个 Class 对象。以下是 API:
 
-```
+```Java
 // Typesafe heterogeneous container pattern - API
 public class Favorites {
     public <T> void putFavorite(Class<T> type, T instance);
@@ -30,7 +30,7 @@ Here is a sample program that exercises the Favorites class, storing, retrieving
 
 下面是一个示例程序，它演示了 Favorites 类、存储、检索和打印 Favorites 字符串、整数和 Class 实例：
 
-```
+```Java
 // Typesafe heterogeneous container pattern - client
 public static void main(String[] args) {
     Favorites f = new Favorites();
@@ -58,7 +58,7 @@ The implementation of Favorites is surprisingly tiny. Here it is, in its entiret
 
 Favorites 的实现非常简短。下面是全部内容：
 
-```
+```Java
 // Typesafe heterogeneous container pattern - implementation
 public class Favorites {
   private Map<Class<?>, Object> favorites = new HashMap<>();
@@ -97,7 +97,7 @@ So what does the cast method do for us, given that it simply returns its argumen
 
 如果 cast 方法只是返回它的参数，那么它会为我们做什么呢？cast 方法的签名充分利用了 Class 类是泛型的这一事实。其返回类型为 Class 对象的类型参数：
 
-```
+```Java
 public class Class<T> {
     T cast(Object obj);
 }
@@ -111,7 +111,7 @@ There are two limitations to the Favorites class that are worth noting. First, a
 
 Favorites 类有两个`值`得注意的限制。首先，恶意客户端很容易通过使用原始形式的类对象破坏 Favorites 实例的类型安全。但是生成的客户端代码在编译时将生成一个 unchecked 警告。这与普通的集合实现（如 HashSet 和 HashMap）没有什么不同。通过使用原始类型 HashSet（[Item-26](/Chapter-5/Chapter-5-Item-26-Do-not-use-raw-types.md)），可以轻松地将 String 类型放入 `HashSet<Integer>` 中。也就是说，如果你愿意付出代价的话，你可以拥有运行时类型安全。确保 Favorites 不会违反其类型不变量的方法是让 putFavorite 方法检查实例是否是 type 表示的类型的实例，我们已经知道如何做到这一点。只需使用动态转换：
 
-```
+```Java
 // Achieving runtime type safety with a dynamic cast
 public <T> void putFavorite(Class<T> type, T instance) {
     favorites.put(type, type.cast(instance));
@@ -134,7 +134,7 @@ The annotations API (Item 39) makes extensive use of bounded type tokens. For ex
 
 annotation API（[Item-39](/Chapter-6/Chapter-6-Item-39-Prefer-annotations-to-naming-patterns.md)）广泛使用了有界类型标记。例如，下面是在运行时读取注释的方法。这个方法来自 AnnotatedElement 接口，它是由表示类、方法、字段和其他程序元素的反射类型实现的：
 
-```
+```Java
 public <T extends Annotation>
     T getAnnotation(Class<T> annotationType);
 ```
@@ -151,7 +151,7 @@ Here’s how you use the asSubclass method to read an annotation whose type is u
 
 下面是如何使用 asSubclass 方法读取在编译时类型未知的注释。这个方法编译没有错误或警告：
 
-```
+```Java
 // Use of asSubclass to safely cast to a bounded type token
 static Annotation getAnnotation(AnnotatedElement element,String annotationTypeName) {
     Class<?> annotationType = null; // Unbounded type token

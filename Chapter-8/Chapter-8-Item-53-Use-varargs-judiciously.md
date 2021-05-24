@@ -10,7 +10,7 @@ For example, here is a varargs method that takes a sequence of int arguments and
 
 例如，这里有一个可变参数方法，它接受一系列 int 参数并返回它们的和。如你所料，`sum(1, 2, 3)` 的值为 6，`sum()` 的值为 0：
 
-```
+```Java
 // Simple use of varargs
 static int sum(int... args) {
     int sum = 0;
@@ -24,7 +24,7 @@ Sometimes it’s appropriate to write a method that requires one or more argumen
 
 有时，编写一个方法需要一个或多个某种类型的参数，而不是零个或多个参数，这是合适的。例如，假设你想编写一个函数来计算其参数的最小值。如果客户端不传递参数，则此函数定义得不好。你可以在运行时检查数组长度：
 
-```
+```Java
 // The WRONG way to use varargs to pass one or more arguments!
 static int min(int... args) {
     if (args.length == 0)
@@ -45,7 +45,7 @@ Luckily there’s a much better way to achieve the desired effect. Declare the m
 
 幸运的是，有一种更好的方法可以达到预期的效果。声明方法获取两个参数，一个指定类型的常规参数和一个该类型的可变参数。这个解决方案弥补了前一个解决方案的所有不足：
 
-```
+```Java
 // The right way to use varargs to pass one or more arguments
 static int min(int firstArg, int... remainingArgs) {
     int min = firstArg;
@@ -64,7 +64,7 @@ Exercise care when using varargs in performance-critical situations. Every invoc
 
 在性能关键的情况下使用可变参数时要小心。每次调用可变参数方法都会导致数组分配和初始化。如果你已经从经验上确定你负担不起这个成本，但是你仍需要可变参数的灵活性，那么有一种模式可以让你鱼与熊掌兼得。假设你已经确定对方法 95% 的调用只需要三个或更少的参数。可以声明该方法的 5 个重载，每个重载 0 到 3 个普通参数，当参数数量超过 3 个时引入可变参数：
 
-```
+```Java
 public void foo() { }
 public void foo(int a1) { }
 public void foo(int a1, int a2) { }

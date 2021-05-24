@@ -90,7 +90,7 @@ There are a few more restrictions that a class must obey to allow inheritance.**
 
 为了允许继承，类必须遵守更多的限制。**构造函数不能直接或间接调用可重写的方法。** 如果你违反了这个规则，程序就会失败。超类构造函数在子类构造函数之前运行，因此在子类构造函数运行之前将调用子类中的覆盖方法。如果重写方法依赖于子类构造函数执行的任何初始化，则该方法的行为将不像预期的那样。为了使其具体化，下面是一个违反此规则的类：
 
-```
+```Java
 public class Super {
     // Broken - constructor invokes an overridable method
     public Super() {
@@ -105,7 +105,7 @@ Here’s a subclass that overrides the overrideMe method, which is erroneously i
 
 下面是覆盖 overrideMe 方法的子类，Super 的唯一构造函数错误地调用了 overrideMe 方法：
 
-```
+```Java
 public final class Sub extends Super {
     // Blank final, set by constructor
     private final Instant instant;

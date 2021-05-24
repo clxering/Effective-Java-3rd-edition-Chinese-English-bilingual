@@ -15,7 +15,7 @@ Java’s serialization facility (Chapter 6) uses the Serializable marker interfa
 Java 的序列化工具（Chapter 6）使用 Serializable 标记接口来表明一个类是可序列化的。`ObjectOutputStream.writeObject` 方法序列化传递给它的对象，它要求其参数是可序列化的。假设该方法的参数类型是 Serializable，那么在编译时（通过类型检查）就会检测到对不合适的对象进行序列化的错误。编译时错误检测是使用标记接口的目的，但不幸的是，`ObjectOutputStream.writeObject` 没有利用 Serializable 接口：它的参数被声明为 Object 类型，因此，如果尝试序列化一个不可序列化对象，直到运行时才会提示失败。
 
 **译注 1：原文 `ObjectOutputStream.write` 有误，该方法的每种重载仅支持 int 类型和 byte[]，应修改为 `ObjectOutputStream.writeObject`，其源码如下：**
-```
+```Java
 public final void writeObject(Object obj) throws IOException {
     if (enableOverride) {
         writeObjectOverride(obj);
@@ -33,7 +33,7 @@ public final void writeObject(Object obj) throws IOException {
 ```
 
 **译注 2：使用 ObjectOutputStream.writeObject 的例子**
-```
+```Java
 public class BaseClass implements Serializable {
     private final int id;
     private final String name;

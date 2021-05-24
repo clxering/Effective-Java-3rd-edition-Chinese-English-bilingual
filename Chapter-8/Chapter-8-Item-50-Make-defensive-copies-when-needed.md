@@ -14,7 +14,7 @@ While it is impossible for another class to modify an object’s internal state 
 
 虽然如果没有对象的帮助，另一个类是不可能修改对象的内部状态的，但是要提供这样的帮助却出奇地容易。例如，考虑下面的类，它表示一个不可变的时间段：
 
-```
+```Java
 // Broken "immutable" time period class
 public final class Period {
     private final Date start;
@@ -48,7 +48,7 @@ At first glance, this class may appear to be immutable and to enforce the invari
 
 乍一看，这个类似乎是不可变的，并且要求一个时间段的开始时间不能在结束时间之后。然而，利用 Date 是可变的这一事实很容易绕过这个约束：
 
-```
+```Java
 // Attack the internals of a Period instance
 Date start = new Date();
 Date end = new Date();
@@ -64,7 +64,7 @@ To protect the internals of a Period instance from this sort of attack, **it is 
 
 为了保护 Period 实例的内部不受此类攻击，**必须将每个可变参数的防御性副本复制给构造函数**，并将副本用作 Period 实例的组件，而不是原始组件：
 
-```
+```Java
 // Repaired constructor - makes defensive copies of parameters
 public Period(Date start, Date end) {
     this.start = new Date(start.getTime());
@@ -86,7 +86,7 @@ While the replacement constructor successfully defends against the previous atta
 
 虽然替换构造函数成功地防御了之前的攻击，但是仍然可以修改 Period 实例，因为它的访问器提供了对其可变内部结构的访问：
 
-```
+```Java
 // Second attack on the internals of a Period instance
 Date start = new Date();
 Date end = new Date();
@@ -98,7 +98,7 @@ To defend against the second attack, merely modify the accessors to return defen
 
 要防御第二次攻击，只需修改访问器，返回可变内部字段的防御副本：
 
-```
+```Java
 // Repaired accessors - make defensive copies of internal fields
 public Date start() {
     return new Date(start.getTime());

@@ -67,7 +67,7 @@ Methods that return a non-boolean function or attribute of the object on which t
 
 返回被调用对象的非布尔函数或属性的方法通常使用以 get 开头的名词、名词短语或动词短语来命名，例如 size、hashCode 或 getTime。有一种说法是，只有第三种形式（以 get 开头）才是可接受的，但这种说法几乎没有根据。前两种形式的代码通常可读性更强，例如：
 
-```
+```Java
 if (car.speed() > 2 * SPEED_LIMIT)
     generateAudibleAlert("Watch out for cops!");
 ```

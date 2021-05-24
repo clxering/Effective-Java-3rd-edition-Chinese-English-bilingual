@@ -10,7 +10,7 @@ Consider this program from Item 45:
 
 考虑 [Item-45](/Chapter-7/Chapter-7-Item-45-Use-streams-judiciously.md) 的程序：
 
-```
+```Java
 // Stream-based program to generate the first 20 Mersenne primes
 public static void main(String[] args) {
     primes().map(p -> TWO.pow(p.intValueExact()).subtract(ONE))
@@ -68,7 +68,7 @@ As a simple example of a stream pipeline where parallelism is effective, conside
 
 作为一个简单的例子，一个流管道并行性是有效的，考虑这个函数计算 `π(n)`，质数数目小于或等于 n：
 
-```
+```Java
 // Prime-counting stream pipeline - benefits from parallelization
 static long pi(long n) {
     return LongStream.rangeClosed(2, n)
@@ -82,7 +82,7 @@ On my machine, it takes 31 seconds to compute π(108) using this function. Simpl
 
 在我的机器上，需要 31 秒计算 `π(108)` 使用这个函数。简单地添加 `parallel()` 调用将时间缩短到 9.2 秒：
 
-```
+```Java
 // Prime-counting stream pipeline - parallel version
 static long pi(long n) {
     return LongStream.rangeClosed(2, n)

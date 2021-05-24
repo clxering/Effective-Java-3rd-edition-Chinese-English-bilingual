@@ -22,7 +22,7 @@ The detail message of an exception should not be confused with a user-level erro
 
 异常的详细信息不应该与用户层的错误消息混淆，因为用户层错误消息最终必须被用户理解。与用户层错误消息不同，详细消息主要是为程序员或管理员在分析故障时提供的。因此，信息内容远比可读性重要。用户层错误消息通常是本地化的，而异常详细信息消息很少本地化。确保异常在其详细信息中包含足够的故障捕获信息的一种方法是，在其构造函数中配置，而不是以传入字符串方式引入这些信息。之后可以自动生成详细信息来包含细节。例如，IndexOutOfBoundsException 构造函数不包含 String 参数，而是像这样：
 
-```
+```Java
 /**
 * Constructs an IndexOutOfBoundsException.
 **
@@ -46,7 +46,7 @@ As of Java 9, IndexOutOfBoundsException finally acquired a constructor that take
 
 **译注：IndexOutOfBoundsException 有关 int 参数的构造函数源码**
 
-```
+```Java
 /**
      * Constructs a new {@code IndexOutOfBoundsException} class with an
      * argument indicating the illegal index.

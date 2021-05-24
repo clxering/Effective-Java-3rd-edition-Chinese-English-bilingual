@@ -42,7 +42,7 @@ If you implement a class with instance fields that is both serializable and exte
 
 如果你实现了一个带有实例字段的类，它同时是可序列化和可扩展的，那么需要注意几个风险。如果实例字段值上有任何不变量，关键是要防止子类覆盖 finalize 方法，可以通过覆盖 finalize 并声明它为 final 来做到。最后，如果类的实例字段初始化为默认值（整数类型为 0，布尔值为 false，对象引用类型为 null），那么必须添加 readObjectNoData 方法：
 
-```
+```Java
 // readObjectNoData for stateful extendable serializable classes
 private void readObjectNoData() throws InvalidObjectException {
     throw new InvalidObjectException("Stream data required");

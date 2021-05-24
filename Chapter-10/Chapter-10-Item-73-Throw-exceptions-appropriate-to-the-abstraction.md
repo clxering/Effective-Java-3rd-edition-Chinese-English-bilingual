@@ -10,7 +10,7 @@ To avoid this problem, **higher layers should catch lower-level exceptions and, 
 
 为了避免这个问题，**高层应该捕获低层异常，并确保抛出的异常可以用高层抽象解释。** 这个习惯用法称为异常转换：
 
-```
+```Java
 // Exception Translation
 try {
     ... // Use lower-level abstraction to do our bidding
@@ -23,7 +23,7 @@ Here is an example of exception translation taken from the AbstractSequentialLis
 
 下面是来自 AbstractSequentialList 类的异常转换示例，该类是 List 接口的一个框架实现（[Item-20](/Chapter-4/Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md)）。在本例中，异常转换是由 `List<E>` 接口中的 get 方法规范强制执行的：
 
-```
+```Java
 /**
 * Returns the element at the specified position in this list.
 * @throws IndexOutOfBoundsException if the index is out of range
@@ -44,7 +44,7 @@ A special form of exception translation called exception chaining is called for 
 
 如果低层异常可能有助于调试高层异常的问题，则需要一种称为链式异常的特殊异常转换形式。低层异常（作为原因）传递给高层异常，高层异常提供一个访问器方法（Throwable 的 getCause 方法）来检索低层异常：
 
-```
+```Java
 // Exception Chaining
 try {
     ... // Use lower-level abstraction to do our bidding
@@ -58,7 +58,7 @@ The higher-level exception’s constructor passes the cause to a chaining-aware 
 
 高层异常的构造函数将原因传递给能够接收链式异常的超类构造函数，因此它最终被传递给 Throwable 的一个接收链式异常的构造函数，比如 `Throwable(Throwable)`：
 
-```
+```Java
 // Exception with chaining-aware constructor
 class HigherLevelException extends Exception {
     HigherLevelException(Throwable cause) {

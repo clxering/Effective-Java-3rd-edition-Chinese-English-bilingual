@@ -14,7 +14,7 @@ To make this concrete, let’s suppose we have a program that uses a HashSet. To
 
 为了使问题更具体一些，让我们假设有一个使用 HashSet 的程序。为了优化程序的性能，我们需要查询 HashSet，以确定自创建以来添加了多少元素（不要与当前的大小混淆，当元素被删除时，当前的大小会递减）。为了提供这个功能，我们编写了一个变量，它记录试图插入 HashSet 的元素数量，并为这个计数变量导出一个访问器。HashSet 类包含两个能够添加元素的方法，add 和 addAll，因此我们覆盖这两个方法：
 
-```
+```Java
 // Broken - Inappropriate use of inheritance!
 public class InstrumentedHashSet<E> extends HashSet<E> {
 
@@ -50,7 +50,7 @@ This class looks reasonable, but it doesn’t work. Suppose we create an instanc
 
 这个类看起来是合理的，但是它不起作用。假设我们创建了一个实例，并使用 addAll 方法添加了三个元素。顺便说一下，我们使用 Java 9 中添加的静态工厂方法 `List.of` 创建了一个列表；如果你使用的是早期版本，那么使用 `Arrays.asList`:
 
-```
+```Java
 InstrumentedHashSet<String> s = new InstrumentedHashSet<>();
 s.addAll(List.of("Snap", "Crackle", "Pop"));
 ```
@@ -79,7 +79,7 @@ Luckily, there is a way to avoid all of the problems described above. Instead of
 
 幸运的是，有一种方法可以避免上述所有问题。与其扩展现有类，不如为新类提供一个引用现有类实例的私有字段。这种设计称为复合，因为现有的类是新类的一个组件。新类中的每个实例方法调用现有类实例的对应方法，并返回结果。这称为转发，新类中的方法称为转发方法。生成的类将非常坚固，不依赖于现有类的实现细节。即使向现有类添加新方法，也不会对新类产生影响。为了说明问题，这里有一个使用复合和转发方法的案例，用以替代 InstrumentedHashSet。注意，实现被分成两部分，类本身和一个可复用的转发类，其中包含所有的转发方法，没有其他内容：
 
-```
+```Java
 // Wrapper class - uses composition in place of inheritance
 public class InstrumentedSet<E> extends ForwardingSet<E> {
 
@@ -145,7 +145,7 @@ InstrumentedSet 类的设计是通过 Set 接口来实现的，这个接口可�
 
 **译注：instrumentation 译为「插装」，类比硬盘（Set）插装到主板（ForwardingSet），无论硬盘如何更新换代，但是用于存储的功能不会变。外设（客户端）通过主板的 USB2.0 口（InstrumentedSet2.0）或 USB3.0 口（InstrumentedSet3.0），与硬盘交互，使用其存储功能。**
 
-```
+```Java
 Set<Instant> times = new InstrumentedSet<>(new TreeSet<>(cmp));
 Set<E> s = new InstrumentedSet<>(new HashSet<>(INIT_CAPACITY));
 ```
@@ -154,7 +154,7 @@ The InstrumentedSet class can even be used to temporarily instrument a set insta
 
 InstrumentedSet 类甚至还可以用来临时配置一个没有「插装」功能的 Set 实例：
 
-```
+```Java
 static void walk(Set<Dog> dogs) {
 InstrumentedSet<Dog> iDogs = new InstrumentedSet<>(dogs);
 ... // Within this method use iDogs instead of dogs

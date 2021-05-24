@@ -10,7 +10,7 @@ Historically, a try-finally statement was the best way to guarantee that a resou
 
 从历史上看，try-finally 语句是确保正确关闭资源的最佳方法，即使在出现异常或返回时也是如此：
 
-```
+```Java
 // try-finally - No longer the best way to close resources!
 static String firstLineOfFile(String path) throws IOException {
     BufferedReader br = new BufferedReader(new FileReader(path));
@@ -26,7 +26,7 @@ This may not look bad, but it gets worse when you add a second resource:
 
 这可能看起来不坏，但添加第二个资源时，情况会变得更糟：
 
-```
+```Java
 // try-finally is ugly when used with more than one resource!
 static void copy(String src, String dst) throws IOException {
     InputStream in = new FileInputStream(src);
@@ -65,7 +65,7 @@ Here’s how our first example looks using try-with-resources:
 
 下面是使用 try-with-resources 的第一个示例：
 
-```
+```Java
 // try-with-resources - the the best way to close resources!
 static String firstLineOfFile(String path) throws IOException {
     try (BufferedReader br = new BufferedReader(new FileReader(path))) {
@@ -78,7 +78,7 @@ And here’s how our second example looks using try-with-resources:
 
 下面是使用 try-with-resources 的第二个示例：
 
-```
+```Java
 // try-with-resources on multiple resources - short and sweet
 static void copy(String src, String dst) throws IOException {
     try (InputStream in = new FileInputStream(src);OutputStream out = new FileOutputStream(dst)) {
@@ -98,7 +98,7 @@ You can put catch clauses on try-with-resources statements, just as you can on r
 
 可以在带有资源的 try-with-resources 语句中放置 catch 子句，就像在常规的 try-finally 语句上一样。这允许处理异常时不必用另一层嵌套来影响代码。作为一个特指的示例，下面是我们的 firstLineOfFile 方法的一个版本，它不抛出异常，但如果无法打开文件或从中读取文件，则返回一个默认值：
 
-```
+```Java
 // try-with-resources with a catch clause
 static String firstLineOfFile(String path, String defaultVal) {
     try (BufferedReader br = new BufferedReader(new FileReader(path))) {

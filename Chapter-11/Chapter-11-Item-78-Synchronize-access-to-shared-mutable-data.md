@@ -22,7 +22,7 @@ The consequences of failing to synchronize access to shared mutable data can be 
 
 即使数据是原子可读和可写的，无法同步访问共享可变数据的后果也可能是可怕的。考虑从一个线程中使另一个线程停止的任务。库提供了 `Thread.stop` 方法，但是这个方法很久以前就被弃用了，因为它本质上是不安全的，它的使用可能导致数据损坏。**不要使用 `Thread.stop`。** 一个建议的方法是让第一个线程轮询一个 boolean 字段，该字段最初为 false，但第二个线程可以将其设置为 true，以指示第一个线程要停止它自己。由于读写布尔字段是原子性的，一些程序员在访问该字段时不需要同步：
 
-```
+```Java
 // Broken! - How long would you expect this program to run?
 public class StopThread {
     private static boolean stopRequested;
@@ -49,7 +49,7 @@ The problem is that in the absence of synchronization, there is no guarantee as 
 
 问题在于在缺乏同步的情况下，无法保证后台线程何时（如果有的话）看到主线程所做的 stopRequested 值的更改。在缺乏同步的情况下，虚拟机可以很好地转换这段代码：
 
-```
+```Java
 while (!stopRequested)
     i++;
 into this code:
@@ -62,7 +62,7 @@ This optimization is known as hoisting, and it is precisely what the OpenJDK Ser
 
 这种优化称为提升，这正是 OpenJDK 服务器 VM 所做的。结果是活性失败：程序无法取得进展。解决此问题的一种方法是同步对 stopRequested 字段的访问。程序在大约一秒内结束，正如预期：
 
-```
+```Java
 // Properly synchronized cooperative thread termination
 public class StopThread {
     private static boolean stopRequested;
@@ -97,7 +97,7 @@ The actions of the synchronized methods in StopThread would be atomic even witho
 
 即使没有同步，StopThread 中同步方法的操作也是原子性的。换句话说，这些方法的同步仅用于其通信效果，而不是互斥。虽然在循环的每个迭代上同步的成本很小，但是有一种正确的替代方法，它不那么冗长，而且性能可能更好。如果 stopRequested 声明为 volatile，则可以省略 StopThread 的第二个版本中的锁。虽然 volatile 修饰符不执行互斥，但它保证任何读取字段的线程都会看到最近写入的值：
 
-```
+```Java
 // Cooperative thread termination with a volatile field
 public class StopThread {
     private static volatile boolean stopRequested;
@@ -120,7 +120,7 @@ You do have to be careful when using volatile. Consider the following method, wh
 
 在使用 volatile 时一定要小心。考虑下面的方法，它应该生成序列号：
 
-```
+```Java
 // Broken - requires synchronization!
 private static volatile int nextSerialNumber = 0;
 
@@ -145,7 +145,7 @@ Better still, follow the advice in Item 59 and use the class AtomicLong, which i
 
 更好的方法是，遵循 [Item-59](/Chapter-9/Chapter-9-Item-59-Know-and-use-the-libraries.md) 中的建议并使用 AtomicLong 类，它是 `java.util.concurrent.atomic` 的一部分。这个包为单变量的无锁、线程安全编程提供了基本类型。虽然 volatile 只提供同步的通信效果，但是这个包提供原子性。这正是我们想要的 generateSerialNumber，它很可能优于同步版本：
 
-```
+```Java
 // Lock-free synchronization with java.util.concurrent.atomic
 private static final AtomicLong nextSerialNum = new AtomicLong();
 

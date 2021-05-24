@@ -10,7 +10,7 @@ Writing generic methods is similar to writing generic types. Consider this defic
 
 编写泛型方法类似于编写泛型类型。考虑这个有缺陷的方法，它返回两个集合的并集：
 
-```
+```Java
 // Uses raw types - unacceptable! (Item 26)
 public static Set union(Set s1, Set s2) {
     Set result = new HashSet(s1);
@@ -23,7 +23,7 @@ This method compiles but with two warnings:
 
 该方法可进行编译，但有两个警告：
 
-```
+```Java
 Union.java:5: warning: [unchecked] unchecked call to
 HashSet(Collection<? extends E>) as a member of raw type HashSet
         Set result = new HashSet(s1);
@@ -40,7 +40,7 @@ To fix these warnings and make the method typesafe, modify its declaration to de
 
 要修复这些警告并使方法类型安全，请修改其声明，以声明表示三个集合（两个参数和返回值）的元素类型的类型参数，并在整个方法中使用该类型参数。类型参数列表声明类型参数，它位于方法的修饰符与其返回类型之间。在本例中，类型参数列表为 `<E>`，返回类型为 `Set<E>`。类型参数的命名约定与泛型方法和泛型类型的命名约定相同（[Item-29](/Chapter-5/Chapter-5-Item-29-Favor-generic-types.md)、[Item-68](/Chapter-9/Chapter-9-Item-68-Adhere-to-generally-accepted-naming-conventions.md)）:
 
-```
+```Java
 // Generic method
 public static <E> Set<E> union(Set<E> s1, Set<E> s2) {
     Set<E> result = new HashSet<>(s1);
@@ -53,7 +53,7 @@ At least for simple generic methods, that’s all there is to it. This method co
 
 至少对于简单的泛型方法，这就是（要注意细节的）全部。该方法编译时不生成任何警告，并且提供了类型安全性和易用性。这里有一个简单的程序来演示。这个程序不包含转换，编译时没有错误或警告：
 
-```
+```Java
 // Simple program to exercise generic method
 public static void main(String[] args) {
     Set<String> guys = Set.of("Tom", "Dick", "Harry");
@@ -79,7 +79,7 @@ Suppose that you want to write an identity function dispenser. The libraries pro
 
 假设你想要编写一个恒等函数分发器。这些库提供 Function.identity，所以没有理由编写自己的库（[Item-59](/Chapter-9/Chapter-9-Item-59-Know-and-use-the-libraries.md)），但是它很有指导意义。在请求标识函数对象时创建一个新的标识函数对象是浪费时间的，因为它是无状态的。如果 Java 的泛型被具体化了，那么每个类型都需要一个标识函数，但是由于它们已经被擦除，一个泛型单例就足够了。它是这样的：
 
-```
+```Java
 // Generic singleton factory pattern
 private static UnaryOperator<Object> IDENTITY_FN = (t) -> t;
 
@@ -97,7 +97,7 @@ Here is a sample program that uses our generic singleton as a `UnaryOperator<Str
 
 下面是一个示例程序，它使用我们的泛型单例作为 `UnaryOperator<String>` 和 `UnaryOperator<Number>`。像往常一样，它不包含类型转换和编译，没有错误或警告：
 
-```
+```Java
 // Sample program to exercise generic singleton
 public static void main(String[] args) {
     String[] strings = { "jute", "hemp", "nylon" };
@@ -118,7 +118,7 @@ It is permissible, though relatively rare, for a type parameter to be bounded by
 
 允许类型参数被包含该类型参数本身的表达式限制，尽管这种情况比较少见。这就是所谓的递归类型限定。递归类型边界的一个常见用法是与 Comparable 接口相关联，后者定义了类型的自然顺序（[Item-14](/Chapter-3/Chapter-3-Item-14-Consider-implementing-Comparable.md)）。该界面如下图所示：
 
-```
+```Java
 public interface Comparable<T> {
     int compareTo(T o);
 }
@@ -132,7 +132,7 @@ Many methods take a collection of elements implementing Comparable to sort it, s
 
 许多方法采用实现 Comparable 的元素集合，在其中进行搜索，计算其最小值或最大值，等等。要做到这些，需要集合中的每个元素与集合中的每个其他元素相比较，换句话说，就是列表中的元素相互比较。下面是如何表达这种约束（的示例）：
 
-```
+```Java
 // Using a recursive type bound to express mutual comparability
 public static <E extends Comparable<E>> E max(Collection<E> c);
 ```
@@ -145,7 +145,7 @@ Here is a method to go with the previous declaration. It calculates the maximum 
 
 下面是一个与前面声明相同的方法。它根据元素的自然顺序计算集合中的最大值，编译时没有错误或警告：
 
-```
+```Java
 // Returns max value in a collection - uses recursive type bound
 public static <E extends Comparable<E>> E max(Collection<E> c) {
     if (c.isEmpty())

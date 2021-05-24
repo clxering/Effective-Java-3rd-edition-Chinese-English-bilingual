@@ -10,7 +10,7 @@ As an extreme example of what not to do, consider this statement:
 
 作为一个不该做的极端例子，请考虑下面的语句：
 
-```
+```Java
 String s = new String("bikini"); // DON'T DO THIS!
 ```
 
@@ -22,7 +22,7 @@ The improved version is simply the following:
 
 改进后的版本如下：
 
-```
+```Java
 String s = "bikini";
 ```
 
@@ -38,7 +38,7 @@ Some object creations are much more expensive than others. If you’re going to 
 
 有些对象的创建的代价相比而言要昂贵得多。如果你需要重复地使用这样一个「昂贵的对象」，那么最好将其缓存以供复用。不幸的是，当你创建这样一个对象时，这一点并不总是很明显。假设你要编写一个方法来确定字符串是否为有效的罗马数字。下面是使用正则表达式最简单的方法：
 
-```
+```Java
 // Performance can be greatly improved!
 static boolean isRomanNumeral(String s) {
     return s.matches("^(?=.)M*(C[MD]|D?C{0,3})" + "(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$");
@@ -53,7 +53,7 @@ To improve the performance, explicitly compile the regular expression into a Pat
 
 为了提高性能，将正则表达式显式编译为 Pattern 实例（它是不可变的），作为类初始化的一部分，缓存它，并在每次调用 isRomanNumeral 方法时复用同一个实例：
 
-```
+```Java
 // Reusing expensive object for improved performance
 public class RomanNumerals {
     private static final Pattern ROMAN = Pattern.compile("^(?=.)M*(C[MD]|D?C{0,3})" + "(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$");
@@ -85,7 +85,7 @@ Another way to create unnecessary objects is autoboxing, which allows the progra
 
 另一种创建不必要对象的方法是自动装箱，它允许程序员混合基本类型和包装类型，根据需要自动装箱和拆箱。**自动装箱模糊了基本类型和包装类型之间的区别，** 两者有细微的语义差别和不明显的性能差别（[Item-61](/Chapter-9/Chapter-9-Item-61-Prefer-primitive-types-to-boxed-primitives.md)）。考虑下面的方法，它计算所有正整数的和。为了做到这一点，程序必须使用 long，因为 int 值不够大，不足以容纳所有正整数值的和：
 
-```
+```Java
 // Hideously slow! Can you spot the object creation?
 private static long sum() {
     Long sum = 0L;

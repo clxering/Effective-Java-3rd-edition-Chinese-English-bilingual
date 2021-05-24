@@ -18,7 +18,7 @@ In Item 30, we showed this method to calculate the maximum value in a collection
 
 在 [Item-30](/Chapter-5/Chapter-5-Item-30-Favor-generic-methods.md) 中，我们展示了根据集合元素的自然顺序计算集合最大值的方法。
 
-```
+```Java
 // Returns maximum value in collection - throws exception if empty
 public static <E extends Comparable<E>> E max(Collection<E> c) {
     if (c.isEmpty())
@@ -35,7 +35,7 @@ This method throws an IllegalArgumentException if the given collection is empty.
 
 如果给定集合为空，此方法将抛出 IllegalArgumentException。我们在 [Item-30](/Chapter-5/Chapter-5-Item-30-Favor-generic-methods.md) 中提到，更好的替代方法是返回 `Optional<E>`。
 
-```
+```Java
 // Returns maximum value in collection as an Optional<E>
 public static <E extends Comparable<E>> Optional<E> max(Collection<E> c) {
     if (c.isEmpty())
@@ -56,7 +56,7 @@ Many terminal operations on streams return optionals. If we rewrite the max meth
 
 许多流上的 Terminal 操作返回 Optional。如果我们使用一个流来重写 max 方法，那么流版本的 max 操作会为我们生成一个 Optional（尽管我们必须传递一个显式的 comparator）：
 
-```
+```Java
 // Returns max val in collection as Optional<E> - uses stream
 public static <E extends Comparable<E>> Optional<E> max(Collection<E> c) {
     return c.stream().max(Comparator.naturalOrder());
@@ -71,7 +71,7 @@ If a method returns an optional, the client gets to choose what action to take i
 
 如果一个方法返回一个 Optional，客户端可以选择如果该方法不能返回值该采取什么操作。你可以指定一个默认值：
 
-```
+```Java
 // Using an optional to provide a chosen default value
 String lastWordInLexicon = max(words).orElse("No words...");
 ```
@@ -80,7 +80,7 @@ or you can throw any exception that is appropriate. Note that we pass in an exce
 
 或者你可以抛出任何适当的异常。注意，我们传递的是异常工厂，而不是实际的异常。这避免了创建异常的开销，除非它实际被抛出：
 
-```
+```Java
 // Using an optional to throw a chosen exception
 Toy myToy = max(toys).orElseThrow(TemperTantrumException::new);
 ```
@@ -89,7 +89,7 @@ If you can prove that an optional is nonempty, you can get the value from the op
 
 如果你能证明一个 Optional 非空，你可以从 Optional 获取值，而不需要指定一个操作来执行，如果 Optional 是空的，但是如果你错了，你的代码会抛出一个 NoSuchElementException：
 
-```
+```Java
 // Using optional when you know there’s a return value
 Element lastNobleGas = max(Elements.NOBLE_GASES).get();
 ```
@@ -106,7 +106,7 @@ For example, consider this code snippet, which prints the process ID of the pare
 
 例如，考虑这段代码，它打印一个进程的父进程的 ID，如果进程没有父进程，则打印 N/A。该代码段使用了在 Java 9 中引入的 ProcessHandle 类：
 
-```
+```Java
 Optional<ProcessHandle> parentProcess = ph.parent();
 System.out.println("Parent PID: " + (parentProcess.isPresent() ?
 String.valueOf(parentProcess.get().pid()) : "N/A"));
@@ -116,7 +116,7 @@ The code snippet above can be replaced by this one, which uses Optional’s map 
 
 上面的代码片段可以替换为如下形式，它使用了 Optional 的 map 函数：
 
-```
+```Java
 System.out.println("Parent PID: " + ph.parent().map(h -> String.valueOf(h.pid())).orElse("N/A"));
 ```
 
@@ -124,7 +124,7 @@ When programming with streams, it is not uncommon to find yourself with a `Strea
 
 当使用流进行编程时，通常会发现你经常使用 `Stream<Optional<T>>`，并且需要一个 `Stream<T>`，其中包含非空 Optional 中的所有元素，以便继续。如果你正在使用 Java 8，下面的语句演示了如何弥补这个不足：
 
-```
+```Java
 streamOfOptionals.filter(Optional::isPresent).map(Optional::get)
 ```
 
@@ -132,7 +132,7 @@ In Java 9, Optional was outfitted with a stream() method. This method is an adap
 
 在 Java 9 中，Optional 配备了一个 `stream()` 方法。这个方法是一个适配器，它将一个 Optional 元素转换成一个包含元素的流（如果一个元素出现在 Optional 元素中），如果一个元素是空的，则一个元素都没有。与 Stream 的 flatMap 方法（[Item-45](/Chapter-7/Chapter-7-Item-45-Use-streams-judiciously.md)）相结合，这个方法为上面的代码段提供了一个简洁的替换版本：
 
-```
+```Java
 streamOfOptionals..flatMap(Optional::stream)
 ```
 

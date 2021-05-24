@@ -10,7 +10,7 @@ For example, suppose you have $1.03 in your pocket, and you spend 42¢. How much
 
 例如，假设你口袋里有 1.03 美元，你消费了 42 美分。你还剩下多少钱？下面是一个简单的程序片段，试图回答这个问题：
 
-```
+```Java
 System.out.println(1.03 - 0.42);
 ```
 
@@ -18,7 +18,7 @@ Unfortunately, it prints out 0.6100000000000001. This is not an isolated case. S
 
 不幸的是，它输出了 0.6100000000000001。这不是一个特例。假设你口袋里有一美元，你买了 9 台洗衣机，每台 10 美分。你能得到多少零钱？
 
-```
+```Java
 System.out.println(1.00 - 9 * 0.10);
 ```
 
@@ -30,7 +30,7 @@ You might think that the problem could be solved merely by rounding results prio
 
 你可能认为，只需在打印之前将结果四舍五入就可以解决这个问题，但不幸的是，这种方法并不总是有效。例如，假设你口袋里有一美元，你看到一个架子上有一排好吃的糖果，它们的价格仅仅是 10 美分，20 美分，30 美分，以此类推，直到 1 美元。你每买一颗糖，从 10 美分的那颗开始，直到你买不起货架上的下一颗糖。你买了多少糖果，换了多少零钱？这里有一个简单的程序来解决这个问题：
 
-```
+```Java
 // Broken - uses floating point for monetary calculation!
 public static void main(String[] args) {
     double funds = 1.00;
@@ -52,7 +52,7 @@ Here’s a straightforward transformation of the previous program to use the Big
 
 这里是前一个程序的一个简单改版，使用 BigDecimal 类型代替 double。注意，使用 BigDecimal 的 String 构造函数而不是它的 double 构造函数。这是为了避免在计算中引入不准确的值 [Bloch05, Puzzle 2]：
 
-```
+```Java
 public static void main(String[] args) {
     final BigDecimal TEN_CENTS = new BigDecimal(".10");
     int itemsBought = 0;
@@ -78,7 +78,7 @@ An alternative to using BigDecimal is to use int or long, depending on the amoun
 
 除了使用 BigDecimal，另一种方法是使用 int 或 long，这取决于涉及的数值大小，还要自己处理十进制小数点。在这个例子中，最明显的方法是用美分而不是美元来计算。下面是一个采用这种方法的简单改版：
 
-```
+```Java
 public static void main(String[] args) {
     int itemsBought = 0;
     int funds = 100;

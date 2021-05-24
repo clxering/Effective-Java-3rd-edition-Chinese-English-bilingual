@@ -10,7 +10,7 @@ Consider LinkedHashMap. You can use this class as a cache by overriding its prot
 
 考虑 LinkedHashMap。你可以通过覆盖受保护的 removeEldestEntry 方法将该类用作缓存，每当向映射添加新键时，put 都会调用该方法。当该方法返回 true 时，映射将删除传递给该方法的最老条目。下面的覆盖允许映射增长到 100 个条目，然后在每次添加新键时删除最老的条目，维护 100 个最近的条目：
 
-```
+```Java
 protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
     return size() > 100;
 }
@@ -20,7 +20,7 @@ This technique works fine, but you can do much better with lambdas. If LinkedHas
 
 这种技术工作得很好，但是使用 lambda 表达式可以做得更好。如果 LinkedHashMap 是现在编写的，它将有一个静态工厂或构造函数，它接受一个函数对象。看着 removeEldestEntry 的定义,你可能会认为这个函数对象应该 `Map.Entry<K,V>` 和返回一个布尔值，但不会完全做到：removeEldestEntry 方法调用 `size()` 地图中的条目的数量，这工作，因为 removeEldestEntry 在 Map 上是一个实例方法。传递给构造函数的函数对象不是 Map 上的实例方法，无法捕获它，因为在调用 Map 的工厂或构造函数时，Map 还不存在。因此，Map 必须将自身传递给函数对象，函数对象因此必须在输入端及其最老的条目上接受 Map。如果要声明这样一个函数式接口，它看起来是这样的：
 
-```
+```Java
 // Unnecessary functional interface; use a standard one instead.
 @FunctionalInterface interface EldestEntryRemovalFunction<K,V>{
     boolean remove(Map<K,V> map, Map.Entry<K,V> eldest);

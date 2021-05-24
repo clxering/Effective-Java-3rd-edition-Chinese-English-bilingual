@@ -10,7 +10,7 @@ This burden may be justified if the exceptional condition cannot be prevented by
 
 如果（1）正确使用 API 也不能防止异常情况，（2）并且使用 API 的程序员在遇到异常时可以采取一些有用的操作，那么这种负担是合理的。除非满足这两个条件，否则可以使用 unchecked 异常。作为程序能否成功的试金石，程序员应该问问自己将如何处理异常。这是最好的办法吗？
 
-```
+```Java
 } catch (TheCheckedException e) {
     throw new AssertionError(); // Can't happen!
 }
@@ -20,7 +20,7 @@ Or this?
 
 或者这样？
 
-```
+```Java
 } catch (TheCheckedException e) {
     e.printStackTrace(); // Oh well, we lose.
     System.exit(1);
@@ -43,7 +43,7 @@ You can also turn a checked exception into an unchecked exception by breaking th
 
 你还可以通过将抛出异常的方法拆分为两个方法，从而将 checked 异常转换为 unchecked 异常，第一个方法返回一个布尔值，指示是否将抛出异常。这个 API 重构将调用序列转换为：
 
-```
+```Java
 // Invocation with checked exception
 try {
     obj.action(args);
@@ -57,7 +57,7 @@ into this:
 
 转换为这种形式：
 
-```
+```Java
 // Invocation with state-testing method and unchecked exception
 if (obj.actionPermitted(args)) {
     obj.action(args);
@@ -71,7 +71,7 @@ This refactoring is not always appropriate, but where it is, it can make an API 
 
 这种重构并不总是适当的，但是只要在适当的地方，它就可以使 API 更易于使用。虽然后一种调用序列并不比前一种调用序列漂亮，但是经过重构的 API 更加灵活。如果程序员知道调用会成功，或者不介意由于调用失败而导致的线程终止，那么该重构还可以接受更简单的调用序列：
 
-```
+```Java
 obj.action(args);
 ```
 

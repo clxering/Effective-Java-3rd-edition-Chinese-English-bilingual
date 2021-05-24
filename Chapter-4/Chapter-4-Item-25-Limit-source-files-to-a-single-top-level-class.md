@@ -6,7 +6,7 @@ While the Java compiler lets you define multiple top-level classes in a single s
 
 虽然 Java 编译器允许你在单个源文件中定义多个顶层类，但这样做没有任何好处，而且存在重大风险。这种风险源于这样一个事实：在源文件中定义多个顶层类使得为一个类提供多个定义成为可能。所使用的定义受源文件传给编译器的顺序的影响。说得更具体些，请考虑这个源文件，它只包含一个主类，该主类引用另外两个顶层类的成员（Utensil 和 Dessert）：
 
-```
+```Java
 public class Main {
     public static void main(String[] args) {
         System.out.println(Utensil.NAME + Dessert.NAME);
@@ -18,7 +18,7 @@ Now suppose you define both Utensil and Dessert in a single source file named Ut
 
 现在假设你在一个名为 `Utensil.java` 的源文件中定义了 Utensil 类和 Dessert 类：
 
-```
+```Java
 // Two classes defined in one file. Don't ever do this!
 class Utensil {
     static final String NAME = "pan";
@@ -33,7 +33,7 @@ Of course the main program prints pancake. Now suppose you accidentally make ano
 
 当然，main 方法应该输出 pancake。现在假设你意外地制作了另一个名为 Dessert 的源文件。java 定义了相同的两个类：
 
-```
+```Java
 // Two classes defined in one file. Don't ever do this!
 class Utensil {
     static final String NAME = "pot";
@@ -56,7 +56,7 @@ Fixing the problem is as simple as splitting the top-level classes (Utensil and 
 
 修复这个问题非常简单，只需将顶层类（在我们的示例中是 Utensil 和 Dessert）分割为单独的源文件即可。如果你想将多个顶层类放到一个源文件中，请考虑使用静态成员类（[Item-24](/Chapter-4/Chapter-4-Item-24-Favor-static-member-classes-over-nonstatic.md)）作为将类分割为单独的源文件的替代方法。如果（多个顶层类）隶属于另一个类，那么将它们转换成静态成员类通常是更好的选择，因为它增强了可读性，并通过声明它们为私有（[Item-15](/Chapter-4/Chapter-4-Item-15-Minimize-the-accessibility-of-classes-and-members.md)），降低了类的可访问性。下面是我们的静态成员类示例的样子：
 
-```
+```Java
 // Static member classes instead of multiple top-level classes
 public class Test {
 

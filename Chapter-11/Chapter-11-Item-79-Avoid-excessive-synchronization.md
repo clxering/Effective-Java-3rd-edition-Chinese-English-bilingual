@@ -14,7 +14,7 @@ To make this concrete, consider the following class, which implements an observa
 
 要使这个问题具体化，请考虑下面的类，它实现了一个可视 Set 包装器。当元素被添加到集合中时，它允许客户端订阅通知。这是观察者模式 [Gamma95]。为了简单起见，当元素从集合中删除时，该类不提供通知，即使要提供通知也很简单。这个类是在 [Item-18](/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md)（第 90 页）的可复用 ForwardingSet 上实现的：
 
-```
+```Java
 // Broken - invokes alien method from synchronized block!
 public class ObservableSet<E> extends ForwardingSet<E> {
     public ObservableSet(Set<E> set) { super(set); }
@@ -62,7 +62,7 @@ Observers subscribe to notifications by invoking the addObserver method and unsu
 
 观察者通过调用 addObserver 方法订阅通知，通过调用 removeObserver 方法取消订阅。在这两种情况下，都会将此回调接口的实例传递给方法。
 
-```
+```Java
 @FunctionalInterface
 public interface SetObserver<E> {
     // Invoked when an element is added to the observable set
@@ -78,7 +78,7 @@ On cursory inspection, ObservableSet appears to work fine. For example, the foll
 
 粗略地检查一下，ObservableSet 似乎工作得很好。例如，下面的程序打印从 0 到 99 的数字：
 
-```
+```Java
 public static void main(String[] args) {
     ObservableSet<Integer> set =new ObservableSet<>(new HashSet<>());
     set.addObserver((s, e) -> System.out.println(e));
@@ -91,7 +91,7 @@ Now let’s try something a bit fancier. Suppose we replace the addObserver call
 
 现在让我们尝试一些更奇特的东西。假设我们将 addObserver 调用替换为一个传递观察者的调用，该观察者打印添加到集合中的整数值，如果该值为 23，则该调用将删除自身：
 
-```
+```Java
 set.addObserver(new SetObserver<>() {
     public void added(ObservableSet<Integer> s, Integer e) {
         System.out.println(e);
@@ -113,7 +113,7 @@ Now let’s try something odd: let’s write an observer that tries to unsubscri
 
 现在让我们尝试一些奇怪的事情：让我们编写一个观察者来尝试取消订阅，但是它没有直接调用 removeObserver，而是使用另一个线程的服务来执行这个操作。该观察者使用 executor 服务（[Item-80](/Chapter-11/Chapter-11-Item-80-Prefer-executors,-tasks,-and-streams-to-threads.md)）：
 
-```
+```Java
 // Observer that uses a background thread needlessly
 set.addObserver(new SetObserver<>() {
     public void added(ObservableSet<Integer> s, Integer e) {
@@ -152,7 +152,7 @@ Luckily, it is usually not too hard to fix this sort of problem by moving alien 
 
 幸运的是，通过将外来方法调用移出同步块来解决这类问题通常并不难。对于 notifyElementAdded 方法，这涉及到获取观察者列表的「快照」，然后可以在没有锁的情况下安全地遍历该列表。有了这个改变，前面的两个例子都可以再也不会出现异常或者死锁了：
 
-```
+```Java
 // Alien method moved outside of synchronized block - open calls
 private void notifyElementAdded(E element) {
     List<SetObserver<E>> snapshot = null;
@@ -172,7 +172,7 @@ The add and addAll methods of ObservableSet need not be changed if the list is m
 
 如果将 list 修改为使用 CopyOnWriteArrayList，则不需要更改 ObservableSet 的 add 和 addAll 方法。下面是类的其余部分。请注意，没有任何显式同步：
 
-```
+```Java
 // Thread-safe observable set with CopyOnWriteArrayList
 private final List<SetObserver<E>> observers =new CopyOnWriteArrayList<>();
 

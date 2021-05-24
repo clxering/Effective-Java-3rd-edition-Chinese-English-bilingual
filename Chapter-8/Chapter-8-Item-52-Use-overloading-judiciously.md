@@ -6,7 +6,7 @@ The following program is a well-intentioned attempt to classify collections acco
 
 下面的程序是一个善意的尝试，根据一个 Collection 是 Set、List 还是其他的集合类型来进行分类：
 
-```
+```Java
 // Broken! - What does this program print?
 public class CollectionClassifier {
     public static String classify(Set<?> s) {
@@ -39,7 +39,7 @@ The behavior of this program is counterintuitive because **selection among overl
 
 这个程序的行为违反常规，因为 **重载方法的选择是静态的，而覆盖法的选择是动态的。** 在运行时根据调用方法的对象的运行时类型选择覆盖方法的正确版本。提醒一下，当子类包含与祖先中的方法声明具有相同签名的方法声明时，方法将被覆盖。如果在子类中覆盖实例方法，并且在子类的实例上调用此方法，则执行子类的覆盖方法，而不管子类实例的编译时类型如何。为了更具体的说明，考虑以下程序:
 
-```
+```Java
 class Wine {
     String name() { return "wine"; }
 }
@@ -71,7 +71,7 @@ In the CollectionClassifier example, the intent of the program was to discern th
 
 在 CollectionClassifier 示例中，程序的目的是通过根据参数的运行时类型自动分派到适当的方法重载来识别参数的类型，就像 Wine 示例中的 name 方法所做的那样。方法重载不提供此功能。假设需要一个静态方法，修复 CollectionClassifier 程序的最佳方法是用一个执行显式 instanceof 测试的方法替换 classification 的所有三个重载：
 
-```
+```Java
 public static String classify(Collection<?> c) {
     return c instanceof Set ? "Set" :c instanceof List ? "List" : "Unknown Collection";
 }
@@ -101,7 +101,7 @@ Prior to Java 5, all primitive types were radically different from all reference
 
 在 Java 5 之前，所有原始类型都与所有引用类型完全不同，但在自动装箱时并非如此，这造成了真正的麻烦。考虑以下方案：
 
-```
+```Java
 public class SetList {
 public static void main(String[] args) {
     Set<Integer> set = new TreeSet<>();
@@ -127,7 +127,7 @@ Here’s what’s happening: The call to set.remove(i) selects the overloading r
 
 实际情况如下：调用 `set.remove(i)` 选择重载 `remove(E)`，其中 E 是 set （Integer）的元素类型，而将从 int 自动装箱到 Integer 中。这是你期望的行为，因此程序最终会从 Set 中删除正值。另一方面，对 `list.remove(i)` 的调用选择重载 `remove(int i)`，它将删除 List 中指定位置的元素。如果从 List `[-3，-2，-1,0,1,2]` 开始，移除第 0 个元素，然后是第 1 个，然后是第 2 个，就只剩下 `[-2,0,2]`，谜底就解开了。若要修复此问题，要将 `list.remove` 的参数转换成 Integer，强制选择正确的重载。或者，你可以调用 `Integer.valuef()`，然后将结果传递给 `list.remove`。无论哪种方式，程序都会按预期打印 `[-3, -2, -1] [-3, -2, -1]`:
 
-```
+```Java
 for (int i = 0; i < 3; i++) {
     set.remove(i);
     list.remove((Integer) i); // or remove(Integer.valueOf(i))
@@ -138,7 +138,7 @@ The confusing behavior demonstrated by the previous example came about because t
 
 前一个示例所演示的令人困惑的行为是由于 List<E> 接口对 remove 方法有两个重载：`remove(E)` 和 `remove(int)`。在 Java 5 之前，当 List 接口被「泛化」时，它有一个 `remove(Object)` 方法代替 `remove(E)`，而相应的参数类型 Object 和 int 则完全不同。但是，在泛型和自动装箱的存在下，这两种参数类型不再完全不同。换句话说，在语言中添加泛型和自动装箱破坏了 List 接口。幸运的是，Java 库中的其他 API 几乎没有受到类似的破坏，但是这个故事清楚地表明，自动装箱和泛型出现后，在重载时就应更加谨慎。Java 8 中添加的 lambda 表达式和方法引用进一步增加了重载中混淆的可能性。例如，考虑以下两个片段：
 
-```
+```Java
 new Thread(System.out::println).start();
 ExecutorService exec = Executors.newCachedThreadPool();
 exec.submit(System.out::println);
@@ -168,7 +168,7 @@ While the resulting overloading clearly violates the guidelines in this item, it
 
 虽然这样的重载明显违反了此项中的指导原则，但它不会造成任何危害，因为当在同一个对象引用上调用这两个重载方法时，它们做的是完全相同的事情。程序员可能不知道将调用哪个重载，但只要它们的行为相同，就没有什么不良后果。确保这种行为的标准方法是将更具体的重载转发给更一般的重载：
 
-```
+```Java
 // Ensuring that 2 methods have identical behavior by forwarding
 public boolean contentEquals(StringBuffer sb) {
     return contentEquals((CharSequence) sb);

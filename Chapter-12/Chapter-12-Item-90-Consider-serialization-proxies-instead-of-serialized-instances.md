@@ -14,7 +14,7 @@ For example, consider the immutable Period class written in Item 50 and made ser
 
 例如，考虑 [Item-50](/Chapter-8/Chapter-8-Item-50-Make-defensive-copies-when-needed.md) 中编写的不可变 Period 类，并在 [Item-88](/Chapter-12/Chapter-12-Item-88-Write-readObject-methods-defensively.md) 中使其可序列化。这是该类的序列化代理。Period 非常简单，它的序列化代理具有与类完全相同的字段：
 
-```
+```Java
 // Serialization proxy for Period class
 private static class SerializationProxy implements Serializable {
     private final Date start;
@@ -31,7 +31,7 @@ Next, add the following writeReplace method to the enclosing class. This method 
 
 接下来，将以下 writeReplace 方法添加到外围类中。通过序列化代理，这个方法可以被逐字地复制到任何类中：
 
-```
+```Java
 // writeReplace method for the serialization proxy pattern
 private Object writeReplace() {
     return new SerializationProxy(this);
@@ -46,7 +46,7 @@ With this writeReplace method in place, the serialization system will never gene
 
 有了这个 writeReplace 方法，序列化系统将永远不会生成外围类的序列化实例，但是攻击者可能会创建一个实例，试图违反类的不变性。为了保证这样的攻击会失败，只需将这个 readObject 方法添加到外围类中：
 
-```
+```Java
 // readObject method for the serialization proxy pattern
 private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Proxy required");
@@ -65,7 +65,7 @@ Here is the readResolve method for Period.SerializationProxy above:
 
 以下是上述 `Period.SerializationProxy` 的 readResolve 方法：
 
-```
+```Java
 // readResolve method for Period.SerializationProxy
 private Object readResolve() {
     return new Period(start, end); // Uses public constructor
@@ -88,7 +88,7 @@ Now consider what happens if you serialize an enum set whose enum type has sixty
 
 现在考虑，如果序列化一个枚举集合，它的枚举类型有 60 个元素，然后给这个枚举类型再增加 5 个元素，之后反序列化这个枚举集合。当它被序列化的时候，返回 RegularEnumSet 实例，但最好是 JumboEnumSet 实例。事实上正是这样，因为 EnumSet 使用序列化代理模式。如果你好奇，这里是 EnumSet 的序列化代理。其实很简单：
 
-```
+```Java
 // EnumSet's serialization proxy
 private static class SerializationProxy <E extends Enum<E>> implements Serializable {
     // The element type of this enum set.

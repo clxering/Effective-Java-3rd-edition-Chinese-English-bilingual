@@ -58,7 +58,7 @@ Cleaners are a bit tricky to use. Below is a simple Room class demonstrating the
 
 清除器的使用有些棘手。下面是一个简单的 Room 类，展示了这个设施。让我们假设房间在回收之前必须被清理。Room 类实现了 AutoCloseable；它的自动清洗安全网使用了清除器，这只是一个实现细节。与终结器不同，清除器不会污染类的公共 API：
 
-```
+```Java
 import sun.misc.Cleaner;
 
 // An autocloseable class using a cleaner as a safety net
@@ -110,7 +110,7 @@ As we said earlier, Room’s cleaner is used only as a safety net. If clients su
 
 就像我们之前说的，Room 类的清除器只是用作安全网。如果客户端将所有 Room 实例包围在带有资源的 try 块中，则永远不需要自动清理。这位表现良好的客户端展示了这种做法：
 
-```
+```Java
 public class Adult {
     public static void main(String[] args) {
         try (Room myRoom = new Room(7)) {
@@ -124,7 +124,7 @@ As you’d expect, running the Adult program prints Goodbye, followed by Cleanin
 
 如你所料，运行 Adult 程序打印「Goodbye」，然后是打扫房间。但这个从不打扫房间的不守规矩的程序怎么办？
 
-```
+```Java
 public class Teenager {
     public static void main(String[] args) {
         new Room(99);

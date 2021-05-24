@@ -30,7 +30,7 @@ Without using any gadgets, you can easily mount a denial-of-service attack by ca
 
 不使用任何 gadget，你都可以通过对需要很长时间才能反序列化的短流进行反序列化，轻松地发起拒绝服务攻击。这种流被称为反序列化炸弹 [Svoboda16]。下面是 Wouter Coekaerts 的一个例子，它只使用哈希集和字符串 [Coekaerts15]：
 
-```
+```Java
 // Deserialization bomb - deserializing this stream takes forever
 static byte[] bomb() {
     Set<Object> root = new HashSet<>();

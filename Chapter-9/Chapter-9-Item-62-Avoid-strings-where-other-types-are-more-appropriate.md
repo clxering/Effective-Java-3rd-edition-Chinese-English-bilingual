@@ -18,7 +18,7 @@ Strings are designed to represent text, and they do a fine job of it. Because st
 
 **字符串是聚合类型的糟糕替代品。** 如果一个实体有多个组件，将其表示为单个字符串通常是一个坏主意。例如，下面这行代码来自一个真实的系统标识符，它的名称已经被更改，以免引发罪责：
 
-```
+```Java
 // Inappropriate use of string as aggregate type
 String compoundKey = className + "#" + i.next();
 ```
@@ -31,7 +31,7 @@ This approach has many disadvantages. If the character used to separate fields o
 
 **字符串不能很好地替代 capabilities。** 有时，字符串用于授予对某些功能的访问权。例如，考虑线程本地变量机制的设计。这样的机制提供了每个线程都有自己的变量值。自 1.2 版以来，Java 库就有了一个线程本地变量机制，但在此之前，程序员必须自己设计。许多年前，当面临设计这样一个机制的任务时，有人提出了相同的设计，其中客户端提供的字符串键，用于标识每个线程本地变量：
 
-```
+```Java
 // Broken - inappropriate use of string as capability!
 public class ThreadLocal {
     private ThreadLocal() { } // Noninstantiable
@@ -52,7 +52,7 @@ This API can be fixed by replacing the string with an unforgeable key (sometimes
 
 这个 API 可以通过用一个不可伪造的键（有时称为 capability）替换字符串来修复：
 
-```
+```Java
 public class ThreadLocal {
     private ThreadLocal() { } // Noninstantiable
 
@@ -75,7 +75,7 @@ While this solves both of the problems with the string-based API, you can do muc
 
 虽然这解决了 API 中基于字符串的两个问题，但是你可以做得更好。你不再真正需要静态方法。它们可以变成键上的实例方法，此时键不再是线程局部变量：而是线程局部变量。此时，顶层类不再为你做任何事情，所以你可以删除它，并将嵌套类重命名为 ThreadLocal：
 
-```
+```Java
 public final class ThreadLocal {
     public ThreadLocal();
     public void set(Object value);
@@ -87,7 +87,7 @@ This API isn’t typesafe, because you have to cast the value from Object to its
 
 这个 API 不是类型安全的，因为在从线程本地变量检索值时，必须将值从 Object 转换为它的实际类型。原始的基于 String 类型 API 的类型安全是不可能实现的，基于键的 API 的类型安全也是很难实现的，但是通过将 ThreadLocal 作为一个参数化的类来实现这个 API 的类型安全很简单（[Item-29](/Chapter-5/Chapter-5-Item-29-Favor-generic-types.md)）：
 
-```
+```Java
 public final class ThreadLocal<T> {
     public ThreadLocal();
     public void set(T value);

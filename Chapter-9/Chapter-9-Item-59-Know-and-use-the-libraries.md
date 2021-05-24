@@ -6,7 +6,7 @@ Suppose you want to generate random integers between zero and some upper bound. 
 
 假设你想要生成 0 到某个上界之间的随机整数。面对这个常见任务，许多程序员会编写一个类似这样的小方法：
 
-```
+```Java
 // Common but deeply flawed!
 static Random rnd = new Random();
 static int random(int n) {
@@ -18,7 +18,7 @@ This method may look good, but it has three flaws. The first is that if n is a s
 
 这个方法看起来不错，但它有三个缺点。首先，如果 n 是小的平方数，随机数序列会在相当短的时间内重复。第二个缺陷是，如果 n 不是 2 的幂，那么平均而言，一些数字将比其他数字更频繁地返回。如果 n 很大，这种效果会很明显。下面的程序有力地证明了这一点，它在一个精心选择的范围内生成 100 万个随机数，然后打印出有多少个数字落在范围的下半部分：
 
-```
+```Java
 public static void main(String[] args) {
     int n = 2 * (Integer.MAX_VALUE / 3);
     int low = 0;
@@ -61,7 +61,7 @@ Given all these advantages, it seems only logical to use library facilities in p
 
 考虑到所有这些优点，使用库工具而不选择专门的实现似乎是合乎逻辑的，但许多程序员并不这样做。为什么不呢？也许他们不知道库的存在。**在每个主要版本中，都会向库中添加许多特性，了解这些新增特性是值得的。** 每次发布 Java 平台的主要版本时，都会发布一个描述其新特性的 web 页面。这些页面非常值得一读 [Java8-feat, Java9-feat]。为了强调这一点，假设你想编写一个程序来打印命令行中指定的 URL 的内容（这大致是 Linux curl 命令所做的）。在 Java 9 之前，这段代码有点乏味，但是在 Java 9 中，transferTo 方法被添加到 InputStream 中。这是一个使用这个新方法执行这项任务的完整程序：
 
-```
+```Java
 // Printing the contents of a URL with transferTo, added in Java 9
 public static void main(String[] args) throws IOException {
     try (InputStream in = new URL(args[0]).openStream()) {

@@ -46,7 +46,7 @@ It is imperative that the user manually synchronize on the returned map when ite
 
 当用户遍历其集合视图时，必须手动同步返回的 Map：
 
-```
+```Java
 Map<K, V> m = Collections.synchronizedMap(new HashMap<>());
 Set<K> s = m.keySet(); // Needn't be in synchronized block
 ...
@@ -72,7 +72,7 @@ To prevent this denial-of-service attack, you can use a private lock object inst
 
 为了防止这种拒绝服务攻击，你可以使用一个私有锁对象，而不是使用同步方法（隐含一个公共可访问的锁）：
 
-```
+```Java
 // Private lock object idiom - thwarts denial-of-service attack
 private final Object lock = new Object();
 public void foo() {

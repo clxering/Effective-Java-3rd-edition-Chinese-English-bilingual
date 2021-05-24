@@ -6,7 +6,7 @@ As discussed in Item 45, some tasks are best accomplished with streams, others w
 
 正如在 [Item-45](/Chapter-7/Chapter-7-Item-45-Use-streams-judiciously.md) 中所讨论的，一些任务最好使用流来完成，其他任务最好使用 iteration。下面是使用一个传统的 for 循环来遍历一个集合：
 
-```
+```Java
 // Not the best way to iterate over a collection!
 for (Iterator<Element> i = c.iterator(); i.hasNext(); ) {
     Element e = i.next();
@@ -18,7 +18,7 @@ and here is a traditional for loop to iterate over an array:
 
 这是使用传统的 for 循环来遍历数组：
 
-```
+```Java
 // Not the best way to iterate over an array!
 for (int i = 0; i < a.length; i++) {
     ... // Do something with a[i]
@@ -33,7 +33,7 @@ The for-each loop (officially known as the “enhanced for statement”) solves 
 
 for-each 循环（官方称为「enhanced for 语句」）解决了所有这些问题。它通过隐藏迭代器或索引变量来消除混乱和出错的机会。由此产生的习惯用法同样适用于集合和数组，从而简化了将容器的实现类型从一种转换为另一种的过程：
 
-```
+```Java
 // The preferred idiom for iterating over collections and arrays
 for (Element e : elements) {
     ... // Do something with e
@@ -48,7 +48,7 @@ The advantages of the for-each loop over the traditional for loop are even great
 
 当涉及到嵌套迭代时，for-each 循环相对于传统 for 循环的优势甚至更大。下面是人们在进行嵌套迭代时经常犯的一个错误：
 
-```
+```Java
 // Can you spot the bug?
 enum Suit { CLUB, DIAMOND, HEART, SPADE }
 enum Rank { ACE, DEUCE, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT,NINE, TEN, JACK, QUEEN, KING }
@@ -69,7 +69,7 @@ If you’re really unlucky and the size of the outer collection is a multiple of
 
 如果真的很不幸，外部集合的大小是内部集合大小的几倍（可能因为它们是相同的集合），循环将正常终止，但是它不会执行你想要的操作。例如，考虑一个打印一对骰子所有可能的组合值的错误尝试：
 
-```
+```Java
 // Same bug, different symptom!
 enum Face { ONE, TWO, THREE, FOUR, FIVE, SIX }
 ...
@@ -87,7 +87,7 @@ To fix the bugs in these examples, you must add a variable in the scope of the o
 
 要修复这些例子中的错误，必须在外部循环的作用域内添加一个变量来保存外部元素：
 
-```
+```Java
 // Fixed, but ugly - you can do better!
 for (Iterator<Suit> i = suits.iterator(); i.hasNext(); ) {
     Suit suit = i.next();
@@ -100,7 +100,7 @@ If instead you use a nested for-each loop, the problem simply disappears. The re
 
 相反，如果使用嵌套 for-each 循环，问题就会消失。生成的代码更简洁：
 
-```
+```Java
 // Preferred idiom for nested iteration on collections and arrays
 for (Suit suit : suits)
 for (Rank rank : ranks)
@@ -127,7 +127,7 @@ Not only does the for-each loop let you iterate over collections and arrays, it 
 
 for-each 循环不仅允许遍历集合和数组，还允许遍历实现 Iterable 接口的任何对象，该接口由一个方法组成。如下所示：
 
-```
+```Java
 public interface Iterable<E> {
     // Returns an iterator over the elements in this iterable
     Iterator<E> iterator();

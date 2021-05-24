@@ -26,7 +26,7 @@ One common use of a nonstatic member class is to define an Adapter [Gamma95] tha
 
 非静态成员类的一个常见用法是定义一个 Adapter [Gamma95]，它允许外部类的实例被视为某个不相关类的实例。例如，Map 接口的实现通常使用非静态成员类来实现它们的集合视图，这些视图由 Map 的 keySet、entrySet 和 values 方法返回。类似地，集合接口的实现，例如 Set 和 List，通常使用非静态成员类来实现它们的迭代器：
 
-```
+```Java
 // Typical use of a nonstatic member class
 public class MySet<E> extends AbstractSet<E> {
     ... // Bulk of the class omitted

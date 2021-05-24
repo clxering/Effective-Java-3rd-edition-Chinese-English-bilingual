@@ -24,7 +24,7 @@ Java 有两种机制来定义允许多种实现的类型：接口和抽象类。
 
 **接口允许构造非层次化类型框架。** 类型层次结构对于组织一些事情很好，但是其他事情不能整齐地归入严格的层次结构。例如，假设我们有一个代表歌手的接口和另一个代表词曲作者的接口：
 
-```
+```Java
 public interface Singer {
     AudioClip sing(Song s);
 }
@@ -38,7 +38,7 @@ In real life, some singers are also songwriters. Because we used interfaces rath
 
 在现实生活中，一些歌手也是词曲作者。因为我们使用接口而不是抽象类来定义这些类型，所以完全允许单个类同时实现歌手和词曲作者。事实上，我们可以定义第三个接口，扩展歌手和词曲作者，并添加适合这种组合的新方法：
 
-```
+```Java
 public interface SingerSongwriter extends Singer, Songwriter {
     AudioClip strum();
     void actSensitive();
@@ -69,7 +69,7 @@ By convention, skeletal implementation classes are called AbstractInterface, whe
 
 按照惯例，骨架实现类称为 AbstractInterface，其中 Interface 是它们实现的接口的名称。例如，Collections Framework 提供了一个骨架实现来配合每个主要的集合接口：AbstractCollection、AbstractSet、AbstractList 和 AbstractMap。可以说，将它们称为 SkeletalCollection、SkeletalSet、SkeletalList 和 SkeletalMap 是有意义的，但 Abstract 的用法现在已经根深蒂固。如果设计得当，骨架实现（无论是单独的抽象类，还是仅仅由接口上的默认方法组成）可以使程序员非常容易地提供他们自己的接口实现。例如，这里有一个静态工厂方法，它在 AbstractList 上包含一个完整的、功能完整的 List 实现：
 
-```
+```Java
 // Concrete implementation built atop skeletal implementation
 static List<Integer> intArrayAsList(int[] a) {
         Objects.requireNonNull(a);
@@ -112,7 +112,7 @@ As a simple example, consider the Map.Entry interface. The obvious primitives ar
 
 作为一个简单的例子，考虑一下 `Map.Entry` 接口。最明显的基本方法是 getKey、getValue 和（可选的）setValue。该接口指定了 equals 和 hashCode 的行为，并且在基本方法方面有 toString 的明显实现。由于不允许为对象方法提供默认实现，所有实现都放在骨架实现类中：
 
-```
+```Java
 // Skeletal implementation class
 public abstract class AbstractMapEntry<K,V> implements Map.Entry<K,V> {
 

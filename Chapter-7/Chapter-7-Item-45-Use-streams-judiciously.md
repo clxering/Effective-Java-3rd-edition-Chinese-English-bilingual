@@ -30,7 +30,7 @@ Consider the following program, which reads the words from a dictionary file and
 
 考虑下面的程序，它从字典文件中读取单词并打印所有大小满足用户指定最小值的变位组。回想一下，如果两个单词以不同的顺序由相同的字母组成，那么它们就是字谜。该程序从用户指定的字典文件中读取每个单词，并将这些单词放入一个 Map 中。Map 的键是按字母顺序排列的单词，因此「staple」的键是「aelpst」，而「petals」的键也是「aelpst」：这两个单词是字谜，所有的字谜都有相同的字母排列形式（有时称为字母图）。Map 的值是一个列表，其中包含共享按字母顺序排列的表单的所有单词。在字典被处理之后，每个列表都是一个完整的字谜组。然后，该程序遍历 Map 的 values() 视图，并打印大小满足阈值的每个列表：
 
-```
+```Java
 // Prints all large anagram groups in a dictionary iteratively
 public class Anagrams {
     public static void main(String[] args) throws IOException {
@@ -64,7 +64,7 @@ Now consider the following program, which solves the same problem, but makes hea
 
 现在考虑下面的程序，它解决了相同的问题，但是大量使用了流。注意，除了打开字典文件的代码之外，整个程序都包含在一个表达式中。在单独的表达式中打开字典的唯一原因是允许使用 `try with-resources` 语句，该语句确保字典文件是关闭的：
 
-```
+```Java
 // Overuse of streams - don't do this!
 public class Anagrams {
     public static void main(String[] args) throws IOException {
@@ -88,7 +88,7 @@ If you find this code hard to read, don’t worry; you’re not alone. It is sho
 
 如果你发现这段代码难以阅读，不要担心；不单是你有这样的感觉。它虽然更短，但可读性也更差，特别是对于不擅长流使用的程序员来说。过度使用流会使得程序难以读取和维护。幸运的是，有一个折衷的办法。下面的程序解决了相同的问题，在不过度使用流的情况下使用流。结果，这个程序比原来的程序更短，也更清晰：
 
-```
+```Java
 // Tasteful use of streams enhances clarity and conciseness
 public class Anagrams {
     public static void main(String[] args) throws IOException {
@@ -121,7 +121,7 @@ The alphabetize method could have been reimplemented to use streams, but a strea
 
 本来可以重新实现字母顺序方法来使用流，但是基于流的字母顺序方法就不那么清晰了，更难于正确地编写，而且可能会更慢。这些缺陷是由于 Java 不支持基本字符流（这并不意味着 Java 应该支持字符流；这样做是不可行的）。要演示使用流处理 char 值的危害，请考虑以下代码：
 
-```
+```Java
 "Hello world!".chars().forEach(System.out::print);
 ```
 
@@ -129,7 +129,7 @@ You might expect it to print Hello world!, but if you run it, you’ll find that
 
 你可能希望它打印 Hello world!，但如果运行它，你会发现它打印 721011081081113211911111410810033。这是因为 `"Hello world!".chars()` 返回的流元素不是 char 值，而是 int 值，因此调用了 print 的 int 重载。无可否认，一个名为 chars 的方法返回一个 int 值流是令人困惑的。你可以通过强制调用正确的重载来修复程序：
 
-```
+```Java
 "Hello world!".chars().forEach(x -> System.out.print((char) x));
 ```
 
@@ -185,7 +185,7 @@ For example, let’s write a program to print the first twenty Mersenne primes. 
 
 例如，让我们编写一个程序来打印前 20 个 Mersenne 素数。刷新你的记忆,一个 Mersenne 素数的数量是一个数字形式 2p − 1。如果 p 是素数，对应的 Mersenne 数可以是素数；如果是的话，这就是 Mersenne 素数。作为管道中的初始流，我们需要所有质数。这里有一个返回（无限）流的方法。我们假设已经使用静态导入来方便地访问 BigInteger 的静态成员：
 
-```
+```Java
 static Stream<BigInteger> primes() {
     return Stream.iterate(TWO, BigInteger::nextProbablePrime);
 }
@@ -195,7 +195,7 @@ The name of the method (primes) is a plural noun describing the elements of the 
 
 方法的名称（素数）是描述流元素的复数名词。强烈推荐所有返回流的方法使用这种命名约定，因为它增强了流管道的可读性。该方法使用静态工厂 `Stream.iterate`，它接受两个参数：流中的第一个元素和一个函数，用于从前一个元素生成流中的下一个元素。下面是打印前 20 个 Mersenne 素数的程序：
 
-```
+```Java
 public static void main(String[] args) {
     primes().map(p -> TWO.pow(p.intValueExact()).subtract(ONE))
     .filter(mersenne -> mersenne.isProbablePrime(50))
@@ -212,7 +212,7 @@ Now suppose that we want to precede each Mersenne prime with its exponent (p). T
 
 现在假设我们想要在每个 Mersenne 素数之前加上它的指数 (p)，这个值只在初始流中存在，因此在输出结果的终端操作中是不可访问的。幸运的是，通过对第一个中间操作中发生的映射求逆，可以很容易地计算出 Mersenne 数的指数。指数仅仅是二进制表示的比特数，因此这个终端操作产生了想要的结果：
 
-```
+```Java
 .forEach(mp -> System.out.println(mp.bitLength() + ": " + mp));
 ```
 
@@ -220,7 +220,7 @@ There are plenty of tasks where it is not obvious whether to use streams or iter
 
 在许多任务中，使用流还是迭代并不明显。例如，考虑初始化一副新纸牌的任务。假设 Card 是一个不可变的值类，它封装了 Rank 和 Suit，它们都是 enum 类型。此任务代表需要计算可从两个集合中选择的所有元素对的任何任务。数学家称之为这两个集合的笛卡尔积。下面是一个嵌套 for-each 循环的迭代实现，你应该非常熟悉它：
 
-```
+```Java
 // Iterative Cartesian product computation
 private static List<Card> newDeck() {
     List<Card> result = new ArrayList<>();
@@ -235,7 +235,7 @@ And here is a stream-based implementation that makes use of the intermediate ope
 
 这是一个基于流的实现，它使用了中间操作 flatMap。此操作将流中的每个元素映射到流，然后将所有这些新流连接到单个流中（或将其扁平化）。注意，这个实现包含一个嵌套 lambda 表达式，用粗体显示:
 
-```
+```Java
 // Stream-based Cartesian product computation
 private static List<Card> newDeck() {
     return Stream.of(Suit.values())
