@@ -26,7 +26,7 @@ A class can provide its clients with static factory methods instead of, or in ad
 
 A class can have only a single constructor with a given signature.Programmers have been known to get around this restriction by providing two constructors whose parameter lists differ only in the order of their parameter types. This is a really bad idea. The user of such an API will never be able to remember which constructor is which and will end up calling the wrong one by mistake. People reading code that uses these constructors will not know what the code does without referring to the class documentation.
 
-一个类只能有一个具有给定签名的构造函数。众所周知，程序员可以通过提供两个构造函数来绕过这个限制，这两个构造函数的参数列表仅在参数类型的顺序上有所不同。这真是个坏主意。面对这样一个 API，用户将永远无法记住该用哪个构造函数，并且最终会错误地调用不适合的构造函数。如果不参考类文档，阅读使用这些构造函数代码的人就不会知道代码的作用。
+一个类只能有一个具有给定签名的构造函数。众所周知，程序员可以通过提供两个仅在参数列表的参数类型顺序上有所不同的构造函数来绕过这个限制。这真是个坏主意。面对这样一个 API，用户将永远无法记住该用哪个构造函数，并且最终会错误地调用不适合的构造函数。如果不参考类文档，阅读使用这些构造函数代码的人就不会知道代码的作用。
 
 Because they have names, static factory methods don’t share the restriction discussed in the previous paragraph. In cases where a class seems to require multiple constructors with the same signature, replace the constructors with static factory methods and carefully chosen names to highlight their differences.
 
