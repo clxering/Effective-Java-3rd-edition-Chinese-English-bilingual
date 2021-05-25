@@ -56,7 +56,7 @@ catch (LowerLevelException cause) {
 
 The higher-level exception’s constructor passes the cause to a chaining-aware superclass constructor, so it is ultimately passed to one of Throwable’s chaining-aware constructors, such as Throwable(Throwable):
 
-高层异常的构造函数将原因传递给能够接收链式异常的超类构造函数，因此它最终被传递给 Throwable 的一个接收链式异常的构造函数，比如 `Throwable(Throwable)`：
+高层异常的构造方法将原因传递给能够接收链式异常的超类构造方法，因此它最终被传递给 Throwable 的一个接收链式异常的构造方法，比如 `Throwable(Throwable)`：
 
 ```Java
 // Exception with chaining-aware constructor
@@ -69,7 +69,7 @@ class HigherLevelException extends Exception {
 
 Most standard exceptions have chaining-aware constructors. For exceptions that don’t, you can set the cause using Throwable’s initCause method. Not only does exception chaining let you access the cause programmatically (with getCause), but it integrates the cause’s stack trace into that of the higher-level exception.
 
-大多数标准异常都有接收链式异常的构造函数。对于不支持链式异常的异常，可以使用 Throwable 的 initCause 方法设置原因。异常链接不仅允许你以编程方式访问原因（使用 getCause），而且还将原因的堆栈跟踪集成到更高层异常的堆栈跟踪中。
+大多数标准异常都有接收链式异常的构造方法。对于不支持链式异常的异常，可以使用 Throwable 的 initCause 方法设置原因。异常链接不仅允许你以编程方式访问原因（使用 getCause），而且还将原因的堆栈跟踪集成到更高层异常的堆栈跟踪中。
 
 **While exception translation is superior to mindless propagation of exceptions from lower layers, it should not be overused.** Where possible, the best way to deal with exceptions from lower layers is to avoid them, by ensuring that lower-level methods succeed. Sometimes you can do this by checking the validity of the higher-level method’s parameters before passing them on to lower layers.
 

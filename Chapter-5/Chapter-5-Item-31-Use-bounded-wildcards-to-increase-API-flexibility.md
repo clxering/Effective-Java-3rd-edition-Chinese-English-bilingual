@@ -118,7 +118,7 @@ In other words, if a parameterized type represents a T producer, use `<? extends
 
 With this mnemonic in mind, let’s take a look at some method and constructor declarations from previous items in this chapter. The Chooser constructor in Item 28 has this declaration:
 
-记住这个助记符后，再让我们看一看本章前面提及的一些方法和构造函数声明。[Item-28](/Chapter-5/Chapter-5-Item-28-Prefer-lists-to-arrays.md) 中的 Chooser 构造函数有如下声明：
+记住这个助记符后，再让我们看一看本章前面提及的一些方法和构造方法声明。[Item-28](/Chapter-5/Chapter-5-Item-28-Prefer-lists-to-arrays.md) 中的 Chooser 构造方法有如下声明：
 
 ```Java
 public Chooser(Collection<T> choices)
@@ -126,7 +126,7 @@ public Chooser(Collection<T> choices)
 
 This constructor uses the collection choices only to produce values of type T (and stores them for later use), so its declaration should use a wildcard type that **extends T.** Here’s the resulting constructor declaration:
 
-这个构造函数只使用集合选项来生成类型 T 的值（并存储它们以供以后使用），因此它的声明应该使用扩展 T 的通配符类型 **extends T**。下面是生成的构造函数声明：
+这个构造方法只使用集合选项来生成类型 T 的值（并存储它们以供以后使用），因此它的声明应该使用扩展 T 的通配符类型 **extends T**。下面是生成的构造方法声明：
 
 ```Java
 // Wildcard type for parameter that serves as an T producer
@@ -135,7 +135,7 @@ public Chooser(Collection<? extends T> choices)
 
 And would this change make any difference in practice? Yes, it would. Suppose you have a `List<Integer>`, and you want to pass it in to the constructor for a Chooser<Number>. This would not compile with the original declaration, but it does once you add the bounded wildcard type to the declaration.
 
-这种改变在实践中会有什么不同吗？是的，它会。假设你有一个 `List<Integer>`，并且希望将其传递给 `Chooser<Number>` 的构造函数。这不会与原始声明一起编译，但是一旦你将有界通配符类型添加到声明中，它就会编译。
+这种改变在实践中会有什么不同吗？是的，它会。假设你有一个 `List<Integer>`，并且希望将其传递给 `Chooser<Number>` 的构造方法。这不会与原始声明一起编译，但是一旦你将有界通配符类型添加到声明中，它就会编译。
 
 Now let’s look at the union method from Item 30. Here is the declaration:
 

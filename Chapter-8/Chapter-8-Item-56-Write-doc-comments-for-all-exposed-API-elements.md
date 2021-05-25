@@ -12,7 +12,7 @@ While the doc comment conventions are not officially part of the language, they 
 
 **To document your API properly, you must precede every exported class, interface, constructor, method, and field declaration with a doc comment.** If a class is serializable, you should also document its serialized form (Item 87). In the absence of a doc comment, the best that Javadoc can do is to reproduce the declaration as the sole documentation for the affected API element. It is frustrating and error-prone to use an API with missing documentation comments. Public classes should not use default constructors because there is no way to provide doc comments for them. To write maintainable code, you should also write doc comments for most unexported classes, interfaces, constructors, methods, and fields, though these comments needn’t be as thorough as those for exported API elements.
 
-**要正确地编写 API 文档，必须在每个公开的类、接口、构造函数、方法和字段声明之前加上文档注释。** 如果一个类是可序列化的，还应该记录它的序列化形式（[Item-87](/Chapter-12/Chapter-12-Item-87-Consider-using-a-custom-serialized-form.md)）。在缺少文档注释的情况下，Javadoc 所能做的最好的事情就是重新生成该声明，作为受影响的 API 元素的唯一文档。使用缺少文档注释的 API 是令人沮丧和容易出错的。公共类不应该使用默认构造函数，因为无法为它们提供文档注释。要编写可维护的代码，还应该为大多数未公开的类、接口、构造函数、方法和字段编写文档注释，尽管这些注释不需要像公开 API 元素那样完整。
+**要正确地编写 API 文档，必须在每个公开的类、接口、构造方法、方法和字段声明之前加上文档注释。** 如果一个类是可序列化的，还应该记录它的序列化形式（[Item-87](/Chapter-12/Chapter-12-Item-87-Consider-using-a-custom-serialized-form.md)）。在缺少文档注释的情况下，Javadoc 所能做的最好的事情就是重新生成该声明，作为受影响的 API 元素的唯一文档。使用缺少文档注释的 API 是令人沮丧和容易出错的。公共类不应该使用默认构造方法，因为无法为它们提供文档注释。要编写可维护的代码，还应该为大多数未公开的类、接口、构造方法、方法和字段编写文档注释，尽管这些注释不需要像公开 API 元素那样完整。
 
 **The doc comment for a method should describe succinctly the contract between the method and its client.** With the exception of methods in classes designed for inheritance (Item 19), the contract should say what the method does rather than how it does its job. The doc comment should enumerate all of the method’s preconditions, which are the things that have to be true in order for a client to invoke it, and its postconditions, which are the things that will be true after the invocation has completed successfully. Typically, preconditions are described implicitly by the @throws tags for unchecked exceptions; each unchecked exception corresponds to a precondition violation. Also, preconditions can be specified along with the affected parameters in their @param tags.
 
@@ -93,7 +93,7 @@ generates the documentation: “A geometric series converges if |r| < 1.” The 
 
 The first “sentence” of each doc comment (as defined below) becomes the summary description of the element to which the comment pertains. For example, the summary description in the doc comment on page 255 is “Returns the element at the specified position in this list.” The summary description must stand on its own to describe the functionality of the element it summarizes. To avoid confusion, **no two members or constructors in a class or interface should have the same summary description.** Pay particular attention to overloadings, for which it is often natural to use the same first sentence (but unacceptable in doc comments).
 
-每个文档注释的第一个「句子」（定义如下）成为注释所属元素的摘要描述。例如，255 页文档注释中的摘要描述是「返回列表中指定位置的元素」。摘要描述必须独立地描述它总结的元素的功能。为了避免混淆，**类或接口中的任何两个成员或构造函数都不应该具有相同的摘要描述。** 特别注意重载，对于重载，使用相同的摘要描述是很正常的（但在文档注释中是不可接受的）。
+每个文档注释的第一个「句子」（定义如下）成为注释所属元素的摘要描述。例如，255 页文档注释中的摘要描述是「返回列表中指定位置的元素」。摘要描述必须独立地描述它总结的元素的功能。为了避免混淆，**类或接口中的任何两个成员或构造方法都不应该具有相同的摘要描述。** 特别注意重载，对于重载，使用相同的摘要描述是很正常的（但在文档注释中是不可接受的）。
 
 Be careful if the intended summary description contains a period, because the period can prematurely terminate the description. For example, a doc comment that begins with the phrase “A college degree, such as B.S., M.S. or Ph.D.” will result in the summary description “A college degree, such as B.S., M.S.” The problem is that the summary description ends at the first period that is followed by a space, tab, or line terminator (or at the first block tag) [Javadoc-ref]. Here, the second period in the abbreviation “M.S.” is followed by a space. The best solution is to surround the offending period and any associated text with an {@literal} tag, so the period is no longer followed by a space in the source code:
 
@@ -108,7 +108,7 @@ public class Degree { ... }
 
 It is a bit misleading to say that the summary description is the first sentence in a doc comment. Convention dictates that it should seldom be a complete sentence. For methods and constructors, the summary description should be a verb phrase (including any object) describing the action performed by the method. For example:
 
-将摘要描述说成是是文档注释中的第一句话有点误导人。按照惯例，它通常不是一个完整的句子。对于方法和构造函数，摘要描述应该是一个动词短语（包括任何对象），描述方法执行的动作。例如：
+将摘要描述说成是是文档注释中的第一句话有点误导人。按照惯例，它通常不是一个完整的句子。对于方法和构造方法，摘要描述应该是一个动词短语（包括任何对象），描述方法执行的动作。例如：
 
 - ArrayList(int initialCapacity)—Constructs an empty list with the specified initial capacity.
 

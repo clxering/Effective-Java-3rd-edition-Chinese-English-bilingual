@@ -88,7 +88,7 @@ Also, note that the special documentation required for inheritance clutters up n
 
 There are a few more restrictions that a class must obey to allow inheritance.**Constructors must not invoke overridable methods,** directly or indirectly. If you violate this rule, program failure will result. The superclass constructor runs before the subclass constructor, so the overriding method in the subclass will get invoked before the subclass constructor has run. If the overriding method depends on any initialization performed by the subclass constructor, the method will not behave as expected. To make this concrete, here’s a class that violates this rule:
 
-为了允许继承，类必须遵守更多的限制。**构造函数不能直接或间接调用可重写的方法。** 如果你违反了这个规则，程序就会失败。超类构造函数在子类构造函数之前运行，因此在子类构造函数运行之前将调用子类中的覆盖方法。如果重写方法依赖于子类构造函数执行的任何初始化，则该方法的行为将不像预期的那样。为了使其具体化，下面是一个违反此规则的类：
+为了允许继承，类必须遵守更多的限制。**构造方法不能直接或间接调用可重写的方法。** 如果你违反了这个规则，程序就会失败。超类构造方法在子类构造方法之前运行，因此在子类构造方法运行之前将调用子类中的覆盖方法。如果重写方法依赖于子类构造方法执行的任何初始化，则该方法的行为将不像预期的那样。为了使其具体化，下面是一个违反此规则的类：
 
 ```Java
 public class Super {
@@ -103,7 +103,7 @@ public class Super {
 
 Here’s a subclass that overrides the overrideMe method, which is erroneously invoked by Super’s sole constructor:
 
-下面是覆盖 overrideMe 方法的子类，Super 的唯一构造函数错误地调用了 overrideMe 方法：
+下面是覆盖 overrideMe 方法的子类，Super 的唯一构造方法错误地调用了 overrideMe 方法：
 
 ```Java
 public final class Sub extends Super {
@@ -126,11 +126,11 @@ public final class Sub extends Super {
 
 You might expect this program to print out the instant twice, but it prints out null the first time because overrideMe is invoked by the Super constructor before the Sub constructor has a chance to initialize the instant field. Note that this program observes a final field in two different states! Note also that if overrideMe had invoked any method on instant, it would have thrown a NullPointerException when the Super constructor invoked overrideMe. The only reason this program doesn’t throw a NullPointerException as it stands is that the println method tolerates null parameters.
 
-你可能希望这个程序打印两次 instant，但是它第一次打印 null，因为在子构造函数有机会初始化 instant 字段之前，超级构造函数调用了 overrideMe。注意，这个程序观察了两个不同状态的最后一个字段！还要注意，如果 overrideMe 立即调用了任何方法，那么当超级构造函数调用 overrideMe 时，它会抛出一个 NullPointerException。这个程序不抛出 NullPointerException 的唯一原因是 println 方法允许空参数。
+你可能希望这个程序打印两次 instant，但是它第一次打印 null，因为在子构造方法有机会初始化 instant 字段之前，超级构造方法调用了 overrideMe。注意，这个程序观察了两个不同状态的最后一个字段！还要注意，如果 overrideMe 立即调用了任何方法，那么当超级构造方法调用 overrideMe 时，它会抛出一个 NullPointerException。这个程序不抛出 NullPointerException 的唯一原因是 println 方法允许空参数。
 
 Note that it is safe to invoke private methods, final methods, and static methods, none of which are overridable, from a constructor.
 
-注意，从构造函数调用私有方法、最终方法和静态方法是安全的，它们都是不可覆盖的。
+注意，从构造方法调用私有方法、最终方法和静态方法是安全的，它们都是不可覆盖的。
 
 The Cloneable and Serializable interfaces present special difficulties when designing for inheritance. It is generally not a good idea for a class designed for inheritance to implement either of these interfaces because they place a substantial burden on programmers who extend the class. There are,however, special actions that you can take to allow subclasses to implement these interfaces without mandating that they do so. These actions are described in Item 13 and Item 86.
 
@@ -138,7 +138,7 @@ The Cloneable and Serializable interfaces present special difficulties when desi
 
 If you do decide to implement either Cloneable or Serializable in a class that is designed for inheritance, you should be aware that because the clone and readObject methods behave a lot like constructors, a similar restriction applies: neither clone nor readObject may invoke an overridable method, directly or indirectly. In the case of readObject, the overriding method will run before the subclass’s state has been deserialized. In the case of clone, the overriding method will run before the subclass’s clone method has a chance to fix the clone’s state. In either case, a program failure is likely to follow. In the case of clone, the failure can damage the original object as well as the clone. This can happen, for example, if the overriding method assumes it is modifying the clone’s copy of the object’s deep structure, but the copy hasn’t been made yet.
 
-如果你确实决定在为继承而设计的类中实现 Cloneable 或 Serializable，那么你应该知道，由于 clone 和 readObject 方法的行为与构造函数非常相似，因此存在类似的限制：clone 和 readObject 都不能直接或间接调用可覆盖的方法。对于 readObject，覆盖方法将在子类的状态反序列化之前运行。在 clone 的情况下，覆盖方法将在子类的 clone 方法有机会修复 clone 的状态之前运行。在任何一种情况下，程序失败都可能随之而来。在 clone 的情况下，失败可以破坏原始对象和 clone。例如，如果覆盖方法假设它正在修改对象的深层结构的 clone 副本，但是复制还没有完成，那么就会发生这种情况。
+如果你确实决定在为继承而设计的类中实现 Cloneable 或 Serializable，那么你应该知道，由于 clone 和 readObject 方法的行为与构造方法非常相似，因此存在类似的限制：clone 和 readObject 都不能直接或间接调用可覆盖的方法。对于 readObject，覆盖方法将在子类的状态反序列化之前运行。在 clone 的情况下，覆盖方法将在子类的 clone 方法有机会修复 clone 的状态之前运行。在任何一种情况下，程序失败都可能随之而来。在 clone 的情况下，失败可以破坏原始对象和 clone。例如，如果覆盖方法假设它正在修改对象的深层结构的 clone 副本，但是复制还没有完成，那么就会发生这种情况。
 
 Finally, if you decide to implement Serializable in a class designed for inheritance and the class has a readResolve or writeReplace method,you must make the readResolve or writeReplace method protected rather than private. If these methods are private, they will be silently ignored by subclasses. This is one more case where an implementation detail becomes part of a class’s API to permit inheritance.
 
@@ -154,7 +154,7 @@ But what about ordinary concrete classes? Traditionally, they are neither final 
 
 The best solution to this problem is to prohibit subclassing in classes that are not designed and documented to be safely subclassed. There are two ways to prohibit subclassing. The easier of the two is to declare the class final. The alternative is to make all the constructors private or package-private and to add public static factories in place of the constructors. This alternative, which provides the flexibility to use subclasses internally, is discussed in Item 17. Either approach is acceptable.
 
-这个问题的最佳解决方案是禁止在没有设计和文档记录的类中进行子类化。有两种方法可以禁止子类化。两者中比较容易的是声明类 final。另一种方法是将所有构造函数变为私有或包私有，并在构造函数的位置添加公共静态工厂。这个替代方案提供了内部使用子类的灵活性，在 [Item-17](/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md) 中进行了讨论。两种方法都可以接受。
+这个问题的最佳解决方案是禁止在没有设计和文档记录的类中进行子类化。有两种方法可以禁止子类化。两者中比较容易的是声明类 final。另一种方法是将所有构造方法变为私有或包私有，并在构造方法的位置添加公共静态工厂。这个替代方案提供了内部使用子类的灵活性，在 [Item-17](/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md) 中进行了讨论。两种方法都可以接受。
 
 This advice may be somewhat controversial because many programmers have grown accustomed to subclassing ordinary concrete classes to add facilities such as instrumentation, notification, and synchronization or to limit functionality. If a class implements some interface that captures its essence, such as Set, List, or Map, then you should feel no compunction about prohibiting subclassing. The wrapper class pattern, described in Item 18, provides a superior alternative to inheritance for augmenting the functionality.
 
@@ -171,7 +171,7 @@ You can eliminate a class’s self-use of overridable methods mechanically, with
 
 In summary, designing a class for inheritance is hard work. You must document all of its self-use patterns, and once you’ve documented them, you must commit to them for the life of the class. If you fail to do this, subclasses may become dependent on implementation details of the superclass and may break if the implementation of the superclass changes. To allow others to write efficient subclasses, you may also have to export one or more protected methods.Unless you know there is a real need for subclasses, you are probably better off prohibiting inheritance by declaring your class final or ensuring that there are no accessible constructors.
 
-总之，为继承设计一个类是一项艰苦的工作。你必须记录所有的自用模式，并且一旦你记录了它们，你就必须在整个类的生命周期中都遵守它们。如果没有这样做，子类可能会依赖于超类的实现细节，如果超类的实现发生变化，子类可能会崩溃。为了允许其他人编写高效的子类，你可能还需要导出一个或多个受保护的方法。除非你知道确实需要子类，否则最好通过声明类为 final 或确保没有可访问的构造函数的方式来禁止继承。
+总之，为继承设计一个类是一项艰苦的工作。你必须记录所有的自用模式，并且一旦你记录了它们，你就必须在整个类的生命周期中都遵守它们。如果没有这样做，子类可能会依赖于超类的实现细节，如果超类的实现发生变化，子类可能会崩溃。为了允许其他人编写高效的子类，你可能还需要导出一个或多个受保护的方法。除非你知道确实需要子类，否则最好通过声明类为 final 或确保没有可访问的构造方法的方式来禁止继承。
 
 ---
 **[Back to contents of the chapter（返回章节目录）](/Chapter-4/Chapter-4-Introduction.md)**

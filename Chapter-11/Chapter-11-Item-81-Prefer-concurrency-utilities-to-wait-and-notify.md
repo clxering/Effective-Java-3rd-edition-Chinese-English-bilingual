@@ -62,7 +62,7 @@ Synchronizers are objects that enable threads to wait for one another, allowing 
 
 Countdown latches are single-use barriers that allow one or more threads to wait for one or more other threads to do something. The sole constructor for CountDownLatch takes an int that is the number of times the countDown method must be invoked on the latch before all waiting threads are allowed to proceed.
 
-Countdown latches are single-use barriers，允许一个或多个线程等待一个或多个其他线程执行某些操作。CountDownLatch 的惟一构造函数接受一个 int，这个 int 是在允许所有等待的线程继续之前，必须在锁存器上调用倒计时方法的次数。
+Countdown latches are single-use barriers，允许一个或多个线程等待一个或多个其他线程执行某些操作。CountDownLatch 的惟一构造方法接受一个 int，这个 int 是在允许所有等待的线程继续之前，必须在锁存器上调用倒计时方法的次数。
 
 It is surprisingly easy to build useful things atop this simple primitive. For example, suppose you want to build a simple framework for timing the concurrent execution of an action. This framework consists of a single method that takes an executor to execute the action, a concurrency level representing the number of actions to be executed concurrently, and a runnable representing the action. All of the worker threads ready themselves to run the action before the timer thread starts the clock. When the last worker thread is ready to run the action, the timer thread “fires the starting gun,” allowing the worker threads to perform the action. As soon as the last worker thread finishes performing the action, the timer thread stops the clock. Implementing this logic directly on top of wait and notify would be messy to say the least, but it is surprisingly straightforward on top of CountDownLatch:
 

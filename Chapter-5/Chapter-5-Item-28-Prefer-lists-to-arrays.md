@@ -71,7 +71,7 @@ When you get a generic array creation error or an unchecked cast warning on a ca
 
 For example, suppose you want to write a Chooser class with a constructor that takes a collection, and a single method that returns an element of the collection chosen at random. Depending on what collection you pass to the constructor, you could use a chooser as a game die, a magic 8-ball, or a data source for a Monte Carlo simulation. Here’s a simplistic implementation without generics:
 
-例如，假设你希望编写一个 Chooser 类，该类的构造函数接受一个集合，而单个方法返回随机选择的集合元素。根据传递给构造函数的集合，可以将选择器用作游戏骰子、魔术 8 球或蒙特卡洛模拟的数据源。下面是一个没有泛型的简单实现：
+例如，假设你希望编写一个 Chooser 类，该类的构造方法接受一个集合，而单个方法返回随机选择的集合元素。根据传递给构造方法的集合，可以将选择器用作游戏骰子、魔术 8 球或蒙特卡洛模拟的数据源。下面是一个没有泛型的简单实现：
 
 ```Java
 // Chooser - a class badly in need of generics!

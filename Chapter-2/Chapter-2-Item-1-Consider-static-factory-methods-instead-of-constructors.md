@@ -1,10 +1,10 @@
 ## Chapter 2. Creating and Destroying Objects（创建和销毁对象）
 
-### Item 1: Consider static factory methods instead of constructors（考虑以静态工厂方法代替构造函数）
+### Item 1: Consider static factory methods instead of constructors（考虑以静态工厂方法代替构造方法）
 
 The traditional way for a class to allow a client to obtain an instance is to provide a public constructor. There is another technique that should be a part of every programmer’s toolkit. A class can provide a public static factory method,which is simply a static method that returns an instance of the class. Here’s a simple example from Boolean (the boxed primitive class for boolean). This method translates a boolean primitive value into a Boolean object reference:
 
-客户端获得实例的传统方式是由类提供一个公共构造函数。还有一种技术应该成为每个程序员技能树的一部分。一个类可以提供公共静态工厂方法，它只是一个返回类实例的静态方法。下面是一个来自 Boolean （boolean 的包装类）的简单示例。该方法将 boolean 基本类型转换为 Boolean 对象的引用：
+一个类允许客户端获取其实例的传统方式，是提供一个公共构造方法。还有一种技术应该成为每个程序员技能树的一部分。 一个类可以提供一个简单的、只返回该类实例的公共静态工厂方法。下面是一个来自 `Boolean` （`boolean` 的包装类）的简单示例。该方法将 `boolean` 基本类型转换为 `Boolean` 对象的引用：
 
 ```Java
 public static Boolean valueOf(boolean b) {
@@ -14,55 +14,55 @@ public static Boolean valueOf(boolean b) {
 
 Note that a static factory method is not the same as the Factory Method pattern from Design Patterns [Gamma95]. The static factory method described in this item has no direct equivalent in Design Patterns.
 
-要注意的是静态工厂方法与来自设计模式的工厂方法模式不同 [Gamma95]。本条目中描述的静态工厂方法在设计模式中没有直接等价的方法。
+注意，静态工厂方法与来自设计模式的工厂方法模式不同 [Gamma95]。本条目中描述的静态工厂方法在设计模式中没有直接等价的方法。
 
 A class can provide its clients with static factory methods instead of, or in addition to, public constructors. Providing a static factory method instead of a public constructor has both advantages and disadvantages.
 
-除了公共构造函数，一个类还可以通过静态工厂方法提供它的客户端。使用静态工厂方法而不是公共构造函数的方式既有优点也有缺点。
+除了公共构造方法，一个类还可以为其客户端提供静态工厂方法。使用静态工厂方法而不是公共构造方法，这种方式既有优点也有缺点。
 
 **One advantage of static factory methods is that, unlike constructors, they have names.** If the parameters to a constructor do not, in and of themselves, describe the object being returned, a static factory with a well-chosen name is easier to use and the resulting client code easier to read. For example, the constructor BigInteger(int, int, Random), which returns a BigInteger that is probably prime, would have been better expressed as a static factory method named BigInteger.probablePrime. (This method was added in Java 4.)
 
-**静态工厂方法与构造函数相比的第一个优点在于，静态工厂方法有确切名称。** 如果构造函数的参数本身并不能描述返回的对象，那么具有确切名称的静态工厂则更容易使用，生成的客户端代码也更容易阅读。例如，返回可能为素数的 BigInteger 类的构造函数 `BigInteger(int, int, Random)` 最好表示为名为 `BigInteger.probablePrime` 的静态工厂方法。（这个方法是在 Java 4 中添加的）
+**静态工厂方法与构造方法相比的第一个优点在于，静态工厂方法有确切名称。** 如果构造方法的参数本身并不能描述返回的对象，那么具有确切名称的静态工厂则更容易使用，生成的客户端代码也更容易阅读。例如，返回可能为素数的 BigInteger 类的构造方法 `BigInteger(int, int, Random)` 最好表示为名为 `BigInteger.probablePrime` 的静态工厂方法。（这个方法是在 Java 4 中添加的）
 
 A class can have only a single constructor with a given signature.Programmers have been known to get around this restriction by providing two constructors whose parameter lists differ only in the order of their parameter types. This is a really bad idea. The user of such an API will never be able to remember which constructor is which and will end up calling the wrong one by mistake. People reading code that uses these constructors will not know what the code does without referring to the class documentation.
 
-一个类只能有一个具有给定签名的构造函数。众所周知，程序员可以通过提供两个仅在参数列表的参数类型顺序上有所不同的构造函数来绕过这个限制。这真是个坏主意。面对这样一个 API，用户将永远无法记住该用哪个构造函数，并且最终会错误地调用不适合的构造函数。如果不参考类文档，用户在阅读到使用了这些构造函数的代码时就无法知道代码的作用。
+一个类只能有一个具有给定签名的构造方法。众所周知，程序员可以通过提供两个仅在参数列表的参数类型顺序上有所不同的构造方法来绕过这个限制。这真是个坏主意。面对这样一个 API，用户将永远无法记住该用哪个构造方法，并且最终会错误地调用不适合的构造方法。如果不参考类文档，用户在阅读到使用了这些构造方法的代码时就无法知道代码的作用。
 
 Because they have names, static factory methods don’t share the restriction discussed in the previous paragraph. In cases where a class seems to require multiple constructors with the same signature, replace the constructors with static factory methods and carefully chosen names to highlight their differences.
 
-因为静态工厂方法有确切名称，所以它们没有前一段讨论的局限。如果一个类需要多个具有相同签名的构造函数时，就用静态工厂方法替换构造函数，并仔细选择名称以突出它们的区别。
+因为静态工厂方法有确切名称，所以它们不会受到上述限制。如果一个类需要多个具有相同签名的构造方法时，就用静态工厂方法替换构造方法，并仔细选择名称以突出它们的区别。
 
 **A second advantage of static factory methods is that, unlike constructors,they are not required to create a new object each time they’re invoked.** This allows immutable classes (Item 17) to use preconstructed instances, or to cache instances as they’re constructed, and dispense them repeatedly to avoid creating unnecessary duplicate objects. The Boolean.valueOf(boolean) method illustrates this technique: it never creates an object. This technique is similar to the Flyweight pattern [Gamma95]. It can greatly improve performance if equivalent objects are requested often, especially if they are expensive to create.
 
-**静态工厂方法与构造函数相比的第二个优点在于，静态工厂方法不需要在每次调用时创建一个新对象。** 这允许不可变类（[Item-17](/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)）使用预先构造的实例，或在构造实例完成时缓存实例，并重复利用它们以避免创建不必要的重复对象。`Boolean.valueOf(boolean)` 方法说明了这种技术：它从不创建对象。这种技术类似于享元模式 [Gamma95]。如果经常请求相同的对象，特别是在创建对象的代价很高时，它可以极大地提高性能。
+**静态工厂方法与构造方法相比的第二个优点在于，静态工厂方法不需要在每次调用时创建一个新对象。** 这允许不可变类（[Item-17](/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)）使用预先构造的实例，或在构造实例完成时缓存实例，并重复利用它们以避免创建不必要的重复对象。`Boolean.valueOf(boolean)` 方法说明了这种技术：它从不创建对象。这种技术类似于享元模式 [Gamma95]。如果经常请求相同的对象，特别是在创建对象的代价很高时，它可以极大地提高性能。
 
 The ability of static factory methods to return the same object from repeated invocations allows classes to maintain strict control over what instances exist at any time. Classes that do this are said to be instance-controlled. There are several reasons to write instance-controlled classes. Instance control allows a class to guarantee that it is a singleton (Item 3) or noninstantiable (Item 4). Also,it allows an immutable value class (Item 17) to make the guarantee that no two equal instances exist: a.equals(b) if and only if a == b. This is the basis of the Flyweight pattern [Gamma95]. Enum types (Item 34) provide this guarantee.
 
-静态工厂方法能够为重复的调用返回相同对象，这样的能力允许类在任何时候都能严格控制存在的实例。这样做的类被称为实例受控的类(instance-controlled)。编写实例受控的类有几个原因。实例控制允许一个类来保证它是一个单例（[Item-3](/Chapter-2/Chapter-2-Item-3-Enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type.md)）或不可实例化的（[Item-4](/Chapter-2/Chapter-2-Item-4-Enforce-noninstantiability-with-a-private-constructor.md)）。同时，它允许一个不可变的值类（[Item-17](/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)）保证不存在两个相同的实例：当且仅当 `a==b`时,`a.equals(b)`为true 。这是享元模式的基础 [Gamma95]。枚举类型（[Item-34](/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)）提供了这种保证。
+静态工厂方法能够为重复的调用返回相同对象，这样的能力允许类在任何时候都能严格控制存在的实例。这样做的类被称为实例受控的类(instance-controlled)。编写实例受控的类有几个原因。实例控制可以保证一个类是单例的（[Item-3](/Chapter-2/Chapter-2-Item-3-Enforce-the-singleton-property-with-a-private-constructor-or-an-enum-type.md)）或不可实例化的（[Item-4](/Chapter-2/Chapter-2-Item-4-Enforce-noninstantiability-with-a-private-constructor.md)）。同时，它允许一个不可变的值类（[Item-17](/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)）保证不存在两个相等但不相同的实例：即当且仅当 `a==b`时,`a.equals(b)`为true 。这是享元模式的基础 [Gamma95]。枚举类型（[Item-34](/Chapter-6/Chapter-6-Item-34-Use-enums-instead-of-int-constants.md)）提供了这种保证。
 
 **译注：原文 noninstantiable 应修改为 non-instantiable ，译为「不可实例化的」**
 
 **A third advantage of static factory methods is that, unlike constructors,they can return an object of any subtype of their return type.** This gives you great flexibility in choosing the class of the returned object.
 
-**静态工厂方法与构造函数相比的第三个优点在于，可以通过静态工厂方法获取返回类型的任何子类的对象。** 这为选择返回对象的类提供了很大的灵活性。
+**静态工厂方法与构造方法相比的第三个优点在于，可以通过静态工厂方法获取返回类型的任何子类型的对象。** 这为你在选择返回对象的类型时，提供了很大的灵活性。
 
 One application of this flexibility is that an API can return objects without making their classes public. Hiding implementation classes in this fashion leads to a very compact API. This technique lends itself to interface-based frameworks (Item 20), where interfaces provide natural return types for static factory methods.
 
-这种灵活性的一个应用是 API 可以在不公开其类的情况下返回对象。以这种方式隐藏实现类会形成一个非常紧凑的 API。这种技术适用于基于接口的框架（[Item-20](/Chapter-4/Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md)），其中接口为静态工厂方法提供了自然的返回类型。
+这种灵活性的一个应用是， API 可以在不公开其类的情况下返回对象。以这种方式隐藏实现类，会使 API 非常紧凑。这种技术适用于基于接口的框架（[Item-20](/Chapter-4/Chapter-4-Item-20-Prefer-interfaces-to-abstract-classes.md)），其中接口为静态工厂方法提供了自然的返回类型。
 
 Prior to Java 8, interfaces couldn’t have static methods. By convention, static factory methods for an interface named Type were put in a noninstantiable companion class (Item 4) named Types. For example, the Java Collections Framework has forty-five utility implementations of its interfaces, providing unmodifiable collections, synchronized collections, and the like. Nearly all of these implementations are exported via static factory methods in one noninstantiable class (java.util.Collections). The classes of the returned objects are all nonpublic.
 
-在 Java 8 之前，接口不能有静态方法。按照惯例，一个名为 Type 的接口的静态工厂方法被放在一个名为 Types 的不可实例化的伴随类（[Item-4](/Chapter-2/Chapter-2-Item-4-Enforce-noninstantiability-with-a-private-constructor.md)）中。例如，Java 的 Collections 框架有 45 个接口实用工具实现，提供了不可修改的集合、同步集合等。几乎所有这些实现都是通过一个非实例化类（`java.util.Collections`）中的静态工厂方法导出的。返回对象的类都是非公共的。
+在 Java 8 之前，接口不能有静态方法。按照惯例，一个名为 `Type` 的接口的静态工厂方法被放在一个名为 `Types` 的不可实例化的伴随类（[Item-4](/Chapter-2/Chapter-2-Item-4-Enforce-noninstantiability-with-a-private-constructor.md)）中。例如，Java 的`Collections`框架有 45 个接口实用工具实现，提供了不可修改的集合、同步集合等。几乎所有这些实现都是通过一个非实例化类（`java.util.Collections`）中的静态工厂方法导出的。返回对象的类都是非公共的。
 
 **译注：原文 noninstantiable 应修改为 non-instantiable ，译为「不可实例化的」**
 
 The Collections Framework API is much smaller than it would have been had it exported forty-five separate public classes, one for each convenience implementation. It is not just the bulk of the API that is reduced but the conceptual weight: the number and difficulty of the concepts that programmers must master in order to use the API. The programmer knows that the returned object has precisely the API specified by its interface, so there is no need to read additional class documentation for the implementation class. Furthermore, using such a static factory method requires the client to refer to the returned object by interface rather than implementation class, which is generally good practice (Item 64).
 
-Collections 框架 API 比它导出 45 个独立的公共类要小得多，每个公共类对应一个方便的实现。减少的不仅仅是 API 的数量，还有概念上的减少：程序员为了使用 API 必须掌握的概念的数量和难度。程序员知道返回的对象是由相关的接口精确地指定的，因此不需要为实现类阅读额外的类文档。此外，使用这种静态工厂方法需要客户端通过接口而不是实现类引用返回的对象，这通常是很好的做法（[Item-64](/Chapter-9/Chapter-9-Item-64-Refer-to-objects-by-their-interfaces.md)）。
+`Collections` 框架 API 比它导出的 45 个独立的公共类要小得多，每个公共类对应一个方便的实现。减少的不仅仅是 API 的数量，还有概念上的减少：程序员为了使用 API 必须掌握的概念的数量和难度。程序员知道返回的对象是由相关的接口精确地指定的，因此不需要为实现类阅读额外的类文档。此外，使用这种静态工厂方法需要客户端通过接口而不是实现类引用返回的对象，这通常是很好的做法（[Item-64](/Chapter-9/Chapter-9-Item-64-Refer-to-objects-by-their-interfaces.md)）。
 
 As of（自..起） Java 8, the restriction that interfaces cannot contain static methods was eliminated, so there is typically little reason to provide a noninstantiable companion class for an interface. Many public static members that would have been at home in such a class should instead be put in the interface itself. Note,however, that it may still be necessary to put the bulk of the implementation code behind these static methods in a separate package-private class. This is because Java 8 requires all static members of an interface to be public. Java 9 allows private static methods, but static fields and static member classes are still required to be public.
 
-自 Java 8 起，消除了接口不能包含静态方法的限制，因此通常没有理由为接口提供不可实例化的伴随类。许多公共静态成员应该放在接口本身中，而不是放在类中。但是，请注意，仍然有必要将这些静态方法背后的大部分实现代码放到单独的包私有类中。这是因为 Java 8 要求接口的所有静态成员都是公共的。Java 9 允许私有静态方法，但是静态字段和静态成员类仍然需要是公共的。
+自 Java 8 起，接口不能包含静态方法的限制被取消了，因此通常没有理由为接口提供不可实例化的伴随类。许多公共静态成员应该放在接口本身中，而不是放在类中。但是，请注意，仍然有必要将这些静态方法背后的大部分实现代码放到单独的包私有类中。这是因为 Java 8 要求接口的所有静态成员都是公共的。Java 9 允许私有静态方法，但是静态字段和静态成员类仍然需要是公共的。
 
 **A fourth advantage of static factories is that the class of the returned object can vary from call to call as a function of the input parameters.** Any subtype of the declared return type is permissible. The class of the returned object can also vary from release to release.
 
@@ -70,7 +70,7 @@ As of（自..起） Java 8, the restriction that interfaces cannot contain stati
 
 The EnumSet class (Item 36) has no public constructors, only static factories.In the OpenJDK implementation, they return an instance of one of two subclasses, depending on the size of the underlying enum type: if it has sixty-four or fewer elements, as most enum types do, the static factories return a RegularEnumSet instance, which is backed by a single long; if the enum type has sixty-five or more elements, the factories return a JumboEnumSet instance, backed by a long array.
 
-EnumSet 类（[Item-36](/Chapter-6/Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)）没有公共构造函数，只有静态工厂。在 OpenJDK 实现中，它们返回两个子类中的一个实例，这取决于底层 enum 类型的大小：如果它有 64 个或更少的元素，就像大多数 enum 类型一样，静态工厂返回一个 long 类型的 RegularEnumSet 实例；如果 enum 类型有 65 个或更多的元素，工厂将返回一个由 `long[]` 类型的 JumboEnumSet 实例。
+EnumSet 类（[Item-36](/Chapter-6/Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)）没有公共构造方法，只有静态工厂。在 OpenJDK 实现中，它们返回两个子类中的一个实例，这取决于底层 enum 类型的大小：如果它有 64 个或更少的元素，就像大多数 enum 类型一样，静态工厂返回一个 long 类型的 RegularEnumSet 实例；如果 enum 类型有 65 个或更多的元素，工厂将返回一个由 `long[]` 类型的 JumboEnumSet 实例。
 
 The existence of these two implementation classes is invisible to clients. If RegularEnumSet ceased to offer performance advantages for small enum types, it could be eliminated from a future release with no ill effects. Similarly, a future release could add a third or fourth implementation of EnumSet if it proved beneficial for performance. Clients neither know nor care about the class of the object they get back from the factory; they care only that it is some subclass of EnumSet.
 
@@ -94,11 +94,11 @@ There are many variants of the service provider framework pattern. For example, 
 
 **The main limitation of providing only static factory methods is that classes without public or protected constructors cannot be subclassed.** For example, it is impossible to subclass any of the convenience implementation classes in the Collections Framework. Arguably this can be a blessing in disguise because it encourages programmers to use composition instead of inheritance (Item 18), and is required for immutable types (Item 17).
 
-**仅提供静态工厂方法的主要局限是，没有公共或受保护构造函数的类不能被子类化。** 例如，不可能在集合框架中子类化任何方便的实现类。这可能是一种因祸得福的做法，因为它鼓励程序员使用组合而不是继承（[Item-18](/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md)），并且对于不可变的类型（[Item-17](/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)）是必需的。
+**仅提供静态工厂方法的主要局限是，没有公共或受保护构造方法的类不能被子类化。** 例如，不可能在集合框架中子类化任何方便的实现类。这可能是一种因祸得福的做法，因为它鼓励程序员使用组合而不是继承（[Item-18](/Chapter-4/Chapter-4-Item-18-Favor-composition-over-inheritance.md)），并且对于不可变的类型（[Item-17](/Chapter-4/Chapter-4-Item-17-Minimize-mutability.md)）是必需的。
 
 **A second shortcoming of static factory methods is that they are hard for programmers to find.** They do not stand out in API documentation in the way that constructors do, so it can be difficult to figure out how to instantiate a class that provides static factory methods instead of constructors. The Javadoc tool may someday draw attention to static factory methods. In the meantime, you can reduce this problem by drawing attention to static factories in class or interface documentation and by adhering to common naming conventions. Here are some common names for static factory methods. This list is far from exhaustive:
 
-**静态工厂方法的第二个缺点是程序员很难找到它们。** 它们在 API 文档中不像构造函数那样引人注目，因此很难弄清楚如何实例化一个只提供静态工厂方法而没有构造函数的类。Javadoc 工具总有一天会关注到静态工厂方法。与此同时，你可以通过在类或接口文档中对静态工厂方法多加留意，以及遵守通用命名约定的方式来减少这个困扰。下面是一些静态工厂方法的常用名称。这个列表还远不够详尽：
+**静态工厂方法的第二个缺点是程序员很难找到它们。** 它们在 API 文档中不像构造方法那样引人注目，因此很难弄清楚如何实例化一个只提供静态工厂方法而没有构造方法的类。Javadoc 工具总有一天会关注到静态工厂方法。与此同时，你可以通过在类或接口文档中对静态工厂方法多加留意，以及遵守通用命名约定的方式来减少这个困扰。下面是一些静态工厂方法的常用名称。这个列表还远不够详尽：
 
 - from—A type-conversion method that takes a single parameter and returns a corresponding instance of this type, for example:
 
@@ -166,8 +166,8 @@ List<Complaint> litany = Collections.list(legacyLitany);
 
 In summary, static factory methods and public constructors both have their uses, and it pays to understand their relative merits. Often static factories are preferable, so avoid the reflex to provide public constructors without first considering static factories.
 
-总之，静态工厂方法和公共构造器都有各自的用途，理解它们相比而言的优点是值得的。通常静态工厂的方式更可取，因此应避免在没有考虑静态工厂的情况下就提供公共构造函数。
+总之，静态工厂方法和公共构造器都有各自的用途，理解它们相比而言的优点是值得的。通常静态工厂的方式更可取，因此应避免在没有考虑静态工厂的情况下就提供公共构造方法。
 
 ---
 **[Back to contents of the chapter（返回章节目录）](/Chapter-2/Chapter-2-Introduction.md)**
-- **Next Item（下一条目）：[Item 2: Consider a builder when faced with many constructor parameters（在面对多个构造函数参数时，请考虑构建器）](/Chapter-2/Chapter-2-Item-2-Consider-a-builder-when-faced-with-many-constructor-parameters.md)**
+- **Next Item（下一条目）：[Item 2: Consider a builder when faced with many constructor parameters（在面对多个构造方法参数时，请考虑构建器）](/Chapter-2/Chapter-2-Item-2-Consider-a-builder-when-faced-with-many-constructor-parameters.md)**

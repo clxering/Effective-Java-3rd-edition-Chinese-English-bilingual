@@ -1,6 +1,6 @@
 ## Chapter 2. Creating and Destroying Objects（创建和销毁对象）
 
-### Item 3: Enforce the singleton property with a private constructor or an enum type（使用私有构造函数或枚举类型实施单例属性）
+### Item 3: Enforce the singleton property with a private constructor or an enum type（使用私有构造方法或枚举类型实施单例属性）
 
 A singleton is simply a class that is instantiated exactly once [Gamma95].Singletons typically represent either a stateless object such as a function (Item24) or a system component that is intrinsically unique. **Making a class a singleton can make it difficult to test its clients** because it’s impossible to substitute a mock implementation for a singleton unless it implements an interface that serves as its type.
 
@@ -8,7 +8,7 @@ A singleton is simply a class that is instantiated exactly once [Gamma95].Single
 
 There are two common ways to implement singletons. Both are based on keeping the constructor private and exporting a public static member to provide access to the sole instance. In one approach, the member is a final field:
 
-实现单例有两种常见的方法。两者都基于保持构造函数私有和导出公共静态成员以提供对唯一实例的访问。在第一种方法中，成员是一个 final 字段：
+实现单例有两种常见的方法。两者都基于保持构造方法私有和导出公共静态成员以提供对唯一实例的访问。在第一种方法中，成员是一个 final 字段：
 
 ```Java
 // Singleton with public final field
@@ -21,9 +21,9 @@ public class Elvis {
 
 The private constructor is called only once, to initialize the public static final field Elvis.INSTANCE. The lack of a public or protected constructor guarantees a “monoelvistic” universe: exactly one Elvis instance will exist once the Elvis class is initialized—no more, no less. Nothing that a client does can change this, with one caveat: a privileged client can invoke the private constructor reflectively (Item 65) with the aid of the AccessibleObject.setAccessible method. If you need to defend against this attack, modify the constructor to make it throw an exception if it’s asked to create a second instance.
 
-私有构造函数只调用一次，用于初始化 public static final 修饰的 Elvis 类型字段 INSTANCE。不使用 public 或 protected 的构造函数保证了「独一无二」的空间：一旦初始化了 Elvis 类，就只会存在一个 Elvis 实例，不多也不少。客户端所做的任何事情都不能改变这一点，但有一点需要注意：拥有特殊权限的客户端可以借助 AccessibleObject.setAccessible 方法利用反射调用私有构造函数（[Item-65](/Chapter-9/Chapter-9-Item-65-Prefer-interfaces-to-reflection.md)）如果需要防范这种攻击，请修改构造函数，使其在请求创建第二个实例时抛出异常。
+私有构造方法只调用一次，用于初始化 public static final 修饰的 Elvis 类型字段 INSTANCE。不使用 public 或 protected 的构造方法保证了「独一无二」的空间：一旦初始化了 Elvis 类，就只会存在一个 Elvis 实例，不多也不少。客户端所做的任何事情都不能改变这一点，但有一点需要注意：拥有特殊权限的客户端可以借助 AccessibleObject.setAccessible 方法利用反射调用私有构造方法（[Item-65](/Chapter-9/Chapter-9-Item-65-Prefer-interfaces-to-reflection.md)）如果需要防范这种攻击，请修改构造方法，使其在请求创建第二个实例时抛出异常。
 
-**译注：使用 `AccessibleObject.setAccessible` 方法调用私有构造函数示例：**
+**译注：使用 `AccessibleObject.setAccessible` 方法调用私有构造方法示例：**
 ```Java
 Constructor<?>[] constructors = Elvis.class.getDeclaredConstructors();
 AccessibleObject.setAccessible(constructors, true);
@@ -54,7 +54,7 @@ All calls to Elvis.getInstance return the same object reference, and no other El
 
 所有对 `getInstance()` 方法的调用都返回相同的对象引用，并且不会创建其他 Elvis 实例（与前面提到的警告相同）。
 
-**译注：这里的警告指拥有特殊权限的客户端可以借助 `AccessibleObject.setAccessible` 方法利用反射调用私有构造函数**
+**译注：这里的警告指拥有特殊权限的客户端可以借助 `AccessibleObject.setAccessible` 方法利用反射调用私有构造方法**
 
 The main advantage of the public field approach is that the API makes it clear that the class is a singleton: the public static field is final, so it will always contain the same object reference. The second advantage is that it’s simpler.
 
@@ -106,5 +106,5 @@ This approach is similar to the public field approach, but it is more concise, p
 
 ---
 **[Back to contents of the chapter（返回章节目录）](/Chapter-2/Chapter-2-Introduction.md)**
-- **Previous Item（上一条目）：[Item 2: Consider a builder when faced with many constructor parameters（在面对多个构造函数参数时，请考虑构建器）](/Chapter-2/Chapter-2-Item-2-Consider-a-builder-when-faced-with-many-constructor-parameters.md)**
-- **Next Item（下一条目）：[Item 4: Enforce noninstantiability with a private constructor（用私有构造函数实施不可实例化）](/Chapter-2/Chapter-2-Item-4-Enforce-noninstantiability-with-a-private-constructor.md)**
+- **Previous Item（上一条目）：[Item 2: Consider a builder when faced with many constructor parameters（在面对多个构造方法参数时，请考虑构建器）](/Chapter-2/Chapter-2-Item-2-Consider-a-builder-when-faced-with-many-constructor-parameters.md)**
+- **Next Item（下一条目）：[Item 4: Enforce noninstantiability with a private constructor（用私有构造方法实施不可实例化）](/Chapter-2/Chapter-2-Item-4-Enforce-noninstantiability-with-a-private-constructor.md)**

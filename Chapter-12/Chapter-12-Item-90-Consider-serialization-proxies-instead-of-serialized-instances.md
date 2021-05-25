@@ -4,11 +4,11 @@
 
 As mentioned in Items 85 and 86 and discussed throughout this chapter, the decision to implement Serializable increases the likelihood of bugs and security problems as it allows instances to be created using an extralinguistic mechanism in place of ordinary constructors. There is, however, a technique that greatly reduces these risks. This technique is known as the serialization proxy pattern.
 
-正如在 [Item-85](/Chapter-12/Chapter-12-Item-85-Prefer-alternatives-to-Java-serialization.md) 和 [Item-86](/Chapter-12/Chapter-12-Item-86-Implement-Serializable-with-great-caution.md) 中提到的贯穿本章的问题：实现 Serializable 接口的决定增加了出现 bug 和安全问题的可能性，因为它允许使用一种超语言机制来创建实例，而不是使用普通的构造函数。然而，有一种技术可以大大降低这些风险。这种技术称为序列化代理模式。
+正如在 [Item-85](/Chapter-12/Chapter-12-Item-85-Prefer-alternatives-to-Java-serialization.md) 和 [Item-86](/Chapter-12/Chapter-12-Item-86-Implement-Serializable-with-great-caution.md) 中提到的贯穿本章的问题：实现 Serializable 接口的决定增加了出现 bug 和安全问题的可能性，因为它允许使用一种超语言机制来创建实例，而不是使用普通的构造方法。然而，有一种技术可以大大降低这些风险。这种技术称为序列化代理模式。
 
 The serialization proxy pattern is reasonably straightforward. First, design a private static nested class that concisely represents the logical state of an instance of the enclosing class. This nested class is known as the serialization proxy of the enclosing class. It should have a single constructor, whose parameter type is the enclosing class. This constructor merely copies the data from its argument: it need not do any consistency checking or defensive copying. By design, the default serialized form of the serialization proxy is the perfect serialized form of the enclosing class. Both the enclosing class and its serialization proxy must be declared to implement Serializable.
 
-序列化代理模式相当简单。首先，设计一个私有静态嵌套类，它简洁地表示外围类实例的逻辑状态。这个嵌套类称为外围类的序列化代理。它应该有一个构造函数，其参数类型是外围类。这个构造函数只是从它的参数复制数据：它不需要做任何一致性检查或防御性复制。按照设计，序列化代理的默认序列化形式是外围类的完美序列化形式。外围类及其序列代理都必须声明实现 Serializable 接口。
+序列化代理模式相当简单。首先，设计一个私有静态嵌套类，它简洁地表示外围类实例的逻辑状态。这个嵌套类称为外围类的序列化代理。它应该有一个构造方法，其参数类型是外围类。这个构造方法只是从它的参数复制数据：它不需要做任何一致性检查或防御性复制。按照设计，序列化代理的默认序列化形式是外围类的完美序列化形式。外围类及其序列代理都必须声明实现 Serializable 接口。
 
 For example, consider the immutable Period class written in Item 50 and made serializable in Item 88. Here is a serialization proxy for this class. Period is so simple that its serialization proxy has exactly the same fields as the class:
 
@@ -59,7 +59,7 @@ Finally, provide a readResolve method on the SerializationProxy class that retur
 
 This readResolve method creates an instance of the enclosing class using only its public API and therein lies the beauty of the pattern. It largely eliminates the extralinguistic character of serialization, because the deserialized instance is created using the same constructors, static factories, and methods as any other instance. This frees you from having to separately ensure that deserialized instances obey the class’s invariants. If the class’s static factories or constructors establish these invariants and its instance methods maintain them, you’ve ensured that the invariants will be maintained by serialization as well.
 
-这个 readResolve 方法仅使用其公共 API 创建了一个外围类的实例，这就是该模式的美妙之处。它在很大程度上消除了序列化的语言外特性，因为反序列化实例是使用与任何其他实例相同的构造函数、静态工厂和方法创建的。这使你不必单独确保反序列化的实例遵从类的不变性。如果类的静态工厂或构造函数建立了这些不变性，而它的实例方法维护它们，那么你就确保了这些不变性也将通过序列化来维护。
+这个 readResolve 方法仅使用其公共 API 创建了一个外围类的实例，这就是该模式的美妙之处。它在很大程度上消除了序列化的语言外特性，因为反序列化实例是使用与任何其他实例相同的构造方法、静态工厂和方法创建的。这使你不必单独确保反序列化的实例遵从类的不变性。如果类的静态工厂或构造方法建立了这些不变性，而它的实例方法维护它们，那么你就确保了这些不变性也将通过序列化来维护。
 
 Here is the readResolve method for Period.SerializationProxy above:
 
@@ -82,7 +82,7 @@ There is another way in which the serialization proxy pattern is more powerful t
 
 Consider the case of EnumSet (Item 36). This class has no public constructors, only static factories. From the client’s perspective, they return EnumSet instances, but in the current OpenJDK implementation, they return one of two subclasses, depending on the size of the underlying enum type. If the underlying enum type has sixty-four or fewer elements, the static factories return a RegularEnumSet; otherwise, they return a JumboEnumSet.
 
-考虑 EnumSet 的情况（[Item-36](/Chapter-6/Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)）。该类没有公共构造函数，只有静态工厂。从客户端的角度来看，它们返回 EnumSet 实例，但是在当前 OpenJDK 实现中，它们返回两个子类中的一个，具体取决于底层枚举类型的大小。如果底层枚举类型有 64 个或更少的元素，则静态工厂返回一个 RegularEnumSet；否则，它们返回一个 JumboEnumSet。
+考虑 EnumSet 的情况（[Item-36](/Chapter-6/Chapter-6-Item-36-Use-EnumSet-instead-of-bit-fields.md)）。该类没有公共构造方法，只有静态工厂。从客户端的角度来看，它们返回 EnumSet 实例，但是在当前 OpenJDK 实现中，它们返回两个子类中的一个，具体取决于底层枚举类型的大小。如果底层枚举类型有 64 个或更少的元素，则静态工厂返回一个 RegularEnumSet；否则，它们返回一个 JumboEnumSet。
 
 Now consider what happens if you serialize an enum set whose enum type has sixty elements, then add five more elements to the enum type, and then deserialize the enum set. It was a RegularEnumSet instance when it was serialized, but it had better be a JumboEnumSet instance once it is deserialized. In fact that’s exactly what happens, because EnumSet uses the serialization proxy pattern. In case you’re curious, here is EnumSet’s serialization proxy. It really is this simple:
 

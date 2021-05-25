@@ -141,7 +141,7 @@ public class ForwardingSet<E> implements Set<E> {
 
 The design of the InstrumentedSet class is enabled by the existence of the Set interface, which captures the functionality of the HashSet class. Besides being robust, this design is extremely flexible. The InstrumentedSet class implements the Set interface and has a single constructor whose argument is also of type Set. In essence, the class transforms one Set into another, adding the instrumentation functionality. Unlike the inheritance-based approach, which works only for a single concrete class and requires a separate constructor for each supported constructor in the superclass, the wrapper class can be used to instrument any Set implementation and will work in conjunction with any preexisting constructor:
 
-InstrumentedSet 类的设计是通过 Set 接口来实现的，这个接口可以捕获 HashSet 类的功能。除了健壮外，这个设计非常灵活。InstrumentedSet 类实现了 Set 接口，并且有一个参数也是 Set 类型的构造函数。实际上，该类具有「插装」功能，可间接将一种 Set 的转化为另一种 Set。基于继承的方法只适用于单个具体类，并且需要为超类中每个受支持的构造函数提供单独的构造函数，与此不同的是，包装器类可用于插装任何 Set 实现，并将与任何现有构造函数一起工作：
+InstrumentedSet 类的设计是通过 Set 接口来实现的，这个接口可以捕获 HashSet 类的功能。除了健壮外，这个设计非常灵活。InstrumentedSet 类实现了 Set 接口，并且有一个参数也是 Set 类型的构造方法。实际上，该类具有「插装」功能，可间接将一种 Set 的转化为另一种 Set。基于继承的方法只适用于单个具体类，并且需要为超类中每个受支持的构造方法提供单独的构造方法，与此不同的是，包装器类可用于插装任何 Set 实现，并将与任何现有构造方法一起工作：
 
 **译注：instrumentation 译为「插装」，类比硬盘（Set）插装到主板（ForwardingSet），无论硬盘如何更新换代，但是用于存储的功能不会变。外设（客户端）通过主板的 USB2.0 口（InstrumentedSet2.0）或 USB3.0 口（InstrumentedSet3.0），与硬盘交互，使用其存储功能。**
 

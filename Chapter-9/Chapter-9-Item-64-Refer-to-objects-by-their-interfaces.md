@@ -4,7 +4,7 @@
 
 Item 51 says that you should use interfaces rather than classes as parameter types. More generally, you should favor the use of interfaces over classes to refer to objects. **If appropriate interface types exist, then parameters, return values, variables, and fields should all be declared using interface types.** The only time you really need to refer to an object’s class is when you’re creating it with a constructor. To make this concrete, consider the case of LinkedHashSet, which is an implementation of the Set interface. Get in the habit of typing this:
 
-[Item-51](/Chapter-8/Chapter-8-Item-51-Design-method-signatures-carefully.md) 指出，应该使用接口而不是类作为参数类型。更一般地说，你应该优先使用接口而不是类来引用对象。**如果存在合适的接口类型，那么应该使用接口类型声明参数、返回值、变量和字段。** 惟一真正需要引用对象的类的时候是使用构造函数创建它的时候。为了具体说明这一点，考虑 LinkedHashSet 的情况，它是 Set 接口的一个实现。声明时应养成这样的习惯：
+[Item-51](/Chapter-8/Chapter-8-Item-51-Design-method-signatures-carefully.md) 指出，应该使用接口而不是类作为参数类型。更一般地说，你应该优先使用接口而不是类来引用对象。**如果存在合适的接口类型，那么应该使用接口类型声明参数、返回值、变量和字段。** 惟一真正需要引用对象的类的时候是使用构造方法创建它的时候。为了具体说明这一点，考虑 LinkedHashSet 的情况，它是 Set 接口的一个实现。声明时应养成这样的习惯：
 
 ```Java
 // Good - uses interface as type
@@ -22,7 +22,7 @@ LinkedHashSet<Son> sonSet = new LinkedHashSet<>();
 
 **If you get into the habit of using interfaces as types, your program will be much more flexible.** If you decide that you want to switch implementations, all you have to do is change the class name in the constructor (or use a different static factory). For example, the first declaration could be changed to read:
 
-**如果你养成了使用接口作为类型的习惯，那么你的程序将更加灵活。** 如果你决定要切换实现，只需在构造函数中更改类名（或使用不同的静态工厂）。例如，第一个声明可以改为：
+**如果你养成了使用接口作为类型的习惯，那么你的程序将更加灵活。** 如果你决定要切换实现，只需在构造方法中更改类名（或使用不同的静态工厂）。例如，第一个声明可以改为：
 
 ```Java
 Set<Son> sonSet = new HashSet<>();

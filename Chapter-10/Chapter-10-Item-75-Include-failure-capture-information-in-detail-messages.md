@@ -20,7 +20,7 @@ While it is critical to include all of the pertinent data in the detail message 
 
 The detail message of an exception should not be confused with a user-level error message, which must be intelligible to end users. Unlike a user-level error message, the detail message is primarily for the benefit of programmers or site reliability engineers, when analyzing a failure. Therefore, information content is far more important than readability. User-level error messages are often localized, whereas exception detail messages rarely are. One way to ensure that exceptions contain adequate failure-capture information in their detail messages is to require this information in their constructors instead of a string detail message. The detail message can then be generated automatically to include the information. For example, instead of a String constructor, IndexOutOfBoundsException could have had a constructor that looks like this:
 
-异常的详细信息不应该与用户层的错误消息混淆，因为用户层错误消息最终必须被用户理解。与用户层错误消息不同，详细消息主要是为程序员或管理员在分析故障时提供的。因此，信息内容远比可读性重要。用户层错误消息通常是本地化的，而异常详细信息消息很少本地化。确保异常在其详细信息中包含足够的故障捕获信息的一种方法是，在其构造函数中配置，而不是以传入字符串方式引入这些信息。之后可以自动生成详细信息来包含细节。例如，IndexOutOfBoundsException 构造函数不包含 String 参数，而是像这样：
+异常的详细信息不应该与用户层的错误消息混淆，因为用户层错误消息最终必须被用户理解。与用户层错误消息不同，详细消息主要是为程序员或管理员在分析故障时提供的。因此，信息内容远比可读性重要。用户层错误消息通常是本地化的，而异常详细信息消息很少本地化。确保异常在其详细信息中包含足够的故障捕获信息的一种方法是，在其构造方法中配置，而不是以传入字符串方式引入这些信息。之后可以自动生成详细信息来包含细节。例如，IndexOutOfBoundsException 构造方法不包含 String 参数，而是像这样：
 
 ```Java
 /**
@@ -42,9 +42,9 @@ public IndexOutOfBoundsException(int lowerBound, int upperBound, int index) {
 
 As of Java 9, IndexOutOfBoundsException finally acquired a constructor that takes an int valued index parameter, but sadly it omits the lowerBound and upperBound parameters. More generally, the Java libraries don’t make heavy use of this idiom, but it is highly recommended. It makes it easy for the programmer throwing an exception to capture the failure. In fact, it makes it hard for the programmer not to capture the failure! In effect, the idiom centralizes the code to generate a high-quality detail message in the exception class, rather than requiring each user of the class to generate the detail message redundantly.
 
-从 Java 9 开始，IndexOutOfBoundsException 最终获得了一个接受 int 值索引参数的构造函数，但遗憾的是它忽略了下界和上界参数。更一般地说，Java 库不会大量使用这个习惯用法，但是强烈推荐使用它。它使程序员很容易通过抛出异常来捕获失败。事实上，它使程序员不想捕获失败都难！实际上，这个习惯用法将集中在异常类中生成高质量的详细信息，而不是要求该类的每个用户都生成冗余的详细信息。
+从 Java 9 开始，IndexOutOfBoundsException 最终获得了一个接受 int 值索引参数的构造方法，但遗憾的是它忽略了下界和上界参数。更一般地说，Java 库不会大量使用这个习惯用法，但是强烈推荐使用它。它使程序员很容易通过抛出异常来捕获失败。事实上，它使程序员不想捕获失败都难！实际上，这个习惯用法将集中在异常类中生成高质量的详细信息，而不是要求该类的每个用户都生成冗余的详细信息。
 
-**译注：IndexOutOfBoundsException 有关 int 参数的构造函数源码**
+**译注：IndexOutOfBoundsException 有关 int 参数的构造方法源码**
 
 ```Java
 /**

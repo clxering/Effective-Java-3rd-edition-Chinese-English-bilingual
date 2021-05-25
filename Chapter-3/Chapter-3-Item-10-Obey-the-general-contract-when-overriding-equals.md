@@ -353,7 +353,7 @@ private static final Set<Point> unitCircle = Set.of(
 
 While this may not be the fastest way to implement the functionality, it works fine. Suppose you extend Point in some trivial way that doesn’t add a value component, say, by having its constructor keep track of how many instances have been created:
 
-虽然这可能不是实现功能的最快方法，但它工作得很好。假设你以一种不添加值组件的简单方式继承 Point，例如，让它的构造函数跟踪创建了多少实例：
+虽然这可能不是实现功能的最快方法，但它工作得很好。假设你以一种不添加值组件的简单方式继承 Point，例如，让它的构造方法跟踪创建了多少实例：
 
 ```Java
 public class CounterPoint extends Point {

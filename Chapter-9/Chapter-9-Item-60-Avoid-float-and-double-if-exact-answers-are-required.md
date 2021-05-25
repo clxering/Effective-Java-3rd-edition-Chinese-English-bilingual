@@ -50,7 +50,7 @@ If you run the program, you’ll find that you can afford three pieces of candy,
 
 Here’s a straightforward transformation of the previous program to use the BigDecimal type in place of double. Note that BigDecimal’s String constructor is used rather than its double constructor. This is required in order to avoid introducing inaccurate values into the computation [Bloch05, Puzzle 2]:
 
-这里是前一个程序的一个简单改版，使用 BigDecimal 类型代替 double。注意，使用 BigDecimal 的 String 构造函数而不是它的 double 构造函数。这是为了避免在计算中引入不准确的值 [Bloch05, Puzzle 2]：
+这里是前一个程序的一个简单改版，使用 BigDecimal 类型代替 double。注意，使用 BigDecimal 的 String 构造方法而不是它的 double 构造方法。这是为了避免在计算中引入不准确的值 [Bloch05, Puzzle 2]：
 
 ```Java
 public static void main(String[] args) {

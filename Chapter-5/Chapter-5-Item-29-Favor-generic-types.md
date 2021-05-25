@@ -106,7 +106,7 @@ The compiler may not be able to prove that your program is typesafe, but you can
 
 Once you’ve proved that an unchecked cast is safe, suppress the warning in as narrow a scope as possible (Item 27). In this case, the constructor contains only the unchecked array creation, so it’s appropriate to suppress the warning in the entire constructor. With the addition of an annotation to do this, Stack compiles cleanly, and you can use it without explicit casts or fear of a ClassCastException:
 
-一旦你证明了 unchecked 的转换是安全的，就将警告限制在尽可能小的范围内（[Item-27](/Chapter-5/Chapter-5-Item-27-Eliminate-unchecked-warnings.md)）。在这种情况下，构造函数只包含 unchecked 的数组创建，因此在整个构造函数中取消警告是合适的。通过添加注解来实现这一点，Stack 可以干净地编译，而且你可以使用它而无需显式强制转换或担心 ClassCastException：
+一旦你证明了 unchecked 的转换是安全的，就将警告限制在尽可能小的范围内（[Item-27](/Chapter-5/Chapter-5-Item-27-Eliminate-unchecked-warnings.md)）。在这种情况下，构造方法只包含 unchecked 的数组创建，因此在整个构造方法中取消警告是合适的。通过添加注解来实现这一点，Stack 可以干净地编译，而且你可以使用它而无需显式强制转换或担心 ClassCastException：
 
 ```Java
 // The elements array will contain only E instances from push(E).
