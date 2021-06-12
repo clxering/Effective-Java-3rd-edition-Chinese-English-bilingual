@@ -114,7 +114,7 @@ public enum Operation {
 
 Note that we’re using the DoubleBinaryOperator interface for the lambdas that represent the enum constant’s behavior. This is one of the many predefined functional interfaces in java.util.function (Item 44). It represents a function that takes two double arguments and returns a double result.
 
-注意，我们对表示枚举常量行为的 lambda 表达式使用了 DoubleBinaryOperator 接口。这是 `java.util.function` （[Item-44](/Chapter-7/Chapter-7-Item-44-Favor-the-use-of-standard-functional-interfaces.md)）中许多预定义的函数式接口之一。它表示接受两个双参数并返回双结果的函数。
+注意，我们对表示枚举常量行为的 lambda 表达式使用了 DoubleBinaryOperator 接口。这是 `java.util.function` （[Item-44](/Chapter-7/Chapter-7-Item-44-Favor-the-use-of-standard-functional-interfaces.md)）中许多预定义的函数式接口之一。它表示一个接收两double类型参数且返回值也为double类型的函数。
 
 Looking at the lambda-based Operation enum, you might think constantspecific method bodies have outlived their usefulness, but this is not the case. Unlike methods and classes, **lambdas lack names and documentation; if a computation isn’t self-explanatory, or exceeds a few lines, don’t put it in a lambda.** One line is ideal for a lambda, and three lines is a reasonable maximum. If you violate this rule, it can cause serious harm to the readability of your programs. If a lambda is long or difficult to read, either find a way to simplify it or refactor your program to eliminate it. Also, the arguments passed to enum constructors are evaluated in a static context. Thus, lambdas in enum constructors can’t access instance members of the enum. Constant-specific class bodies are still the way to go if an enum type has constant-specific behavior that is difficult to understand, that can’t be implemented in a few lines, or that requires access to instance fields or methods.
 
