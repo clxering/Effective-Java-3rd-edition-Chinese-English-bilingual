@@ -147,7 +147,7 @@ The package-private mutable companion class approach works fine if you can accur
 
 Now that you know how to make an immutable class and you understand the pros and cons of immutability, let’s discuss a few design alternatives. Recall that to guarantee immutability, a class must not permit itself to be subclassed. This can be done by making the class final, but there is another, more flexible alternative. Instead of making an immutable class final, you can make all of its constructors private or package-private and add public static factories in place of the public constructors (Item 1). To make this concrete, here’s how Complex would look if you took this approach:
 
-既然你已经知道了如何创建不可变类，并且了解了不可变性的优缺点，那么让我们来讨论一些设计方案。回想一下，为了保证不变性，类不允许自己被子类化。可以用 final 修饰以达到目的，但是还有另外一个更灵活的选择，你可以将其所有构造函数变为私有或包私有，并在公共构造函数的位置添加公共静态工厂（[Item-1](/Chapter-2/Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)）。
+既然你已经知道了如何创建不可变类，并且了解了不可变性的优缺点，那么让我们来讨论一些设计方案。回想一下，为了保证不变性，类不允许自己被子类化。可以用 final 修饰以达到目的，但是还有另外一个更灵活的选择，你可以将其所有构造函数变为私有或包私有，并使用公共静态工厂方法来代替公共的构造方法（[Item-1](/Chapter-2/Chapter-2-Item-1-Consider-static-factory-methods-instead-of-constructors.md)）。下面是Complex中采用这种方式来实现的例子。
 
 ```
 // Immutable class with static factories instead of constructors
