@@ -16,7 +16,7 @@ The main technique for keeping the number of runnable threads low is to have eac
 
 Threads should not busy-wait, repeatedly checking a shared object waiting for its state to change. Besides making the program vulnerable to the vagaries of the thread scheduler, busy-waiting greatly increases the load on the processor, reducing the amount of useful work that others can accomplish. As an extreme example of what not to do, consider this perverse reimplementation of CountDownLatch:
 
-线程不应该处于 busy 到 wait 的循环，而应该反复检查一个共享对象，等待它的状态发生变化。除了使程序容易受到线程调度器变化无常的影响之外，繁忙等待还大大增加了处理器的负载，还影响其他人完成工作。作为反面的极端例子，考虑一下 CountDownLatch 的不正确的重构实现：
+线程不应该处于循环检查共享对象状态变化。除了使程序容易受到线程调度器变化无常的影响之外，循环检查状态变化还大大增加了处理器的负载，还影响其他线程获取处理器进行工作。作为反面的极端例子，考虑一下 CountDownLatch 的不正确的重构实现：
 
 ```
 // Awful CountDownLatch implementation - busy-waits incessantly!
@@ -52,7 +52,7 @@ On my machine, SlowCountDownLatch is about ten times slower than Java’s CountD
 
 When faced with a program that barely works because some threads aren’t getting enough CPU time relative to others, **resist the temptation to “fix” the program by putting in calls to Thread.yield.** You may succeed in getting the program to work after a fashion, but it will not be portable. The same yield invocations that improve performance on one JVM implementation might make it worse on a second and have no effect on a third. **Thread.yield has no testable semantics.** A better course of action is to restructure the application to reduce the number of concurrently runnable threads.
 
-当面对一个几乎不能工作的程序时，而原因是由于某些线程相对于其他线程没有获得足够的 CPU 时间，那么 **通过调用 `Thread.yield` 来「修复」程序** 你也许能勉强让程序运行起来，但它是不可移植的。在一个 JVM 实现上提高性能的相同的 yield 调用，在第二个 JVM 实现上可能会使性能变差，而在第三个 JVM 实现上可能没有任何影响。**`Thread.yield` 没有可测试的语义。** 更好的做法是重构应用程序，以减少并发运行线程的数量。
+当面对一个几乎不能工作的程序时，而原因是由于某些线程相对于其他线程没有获得足够的 CPU 时间，那么 **通过调用 `Thread.yield` 来「修复」程序** 你也许能勉强让程序运行起来，但它是不可移植的。在一个 JVM 实现上提高性能的相同的 yield 调用，在一些JVM 实现上可能会使性能变差，而在其他 JVM 实现上可能没有任何影响。**`Thread.yield` 没有可测试的语义。** 更好的做法是重构应用程序，以减少并发运行线程的数量。
 
 A related technique, to which similar caveats apply, is adjusting thread priorities. **Thread priorities are among the least portable features of Java.** It is not unreasonable to tune the responsiveness of an application by tweaking a few thread priorities, but it is rarely necessary and is not portable. It is unreasonable to attempt to solve a serious liveness problem by adjusting thread priorities. The problem is likely to return until you find and fix the underlying cause.
 
