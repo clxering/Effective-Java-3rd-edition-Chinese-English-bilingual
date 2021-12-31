@@ -4,7 +4,7 @@
 
 Varargs methods (Item 53) and generics were both added to the platform in Java 5, so you might expect them to interact gracefully; sadly, they do not. The purpose of varargs is to allow clients to pass a variable number of arguments to a method, but it is a leaky abstraction: when you invoke a varargs method, an array is created to hold the varargs parameters; that array, which should be an implementation detail, is visible. As a consequence, you get confusing compiler warnings when varargs parameters have generic or parameterized types.
 
-可变参数方法（[Item-53](/Chapter-8/Chapter-8-Item-53-Use-varargs-judiciously.md)）和泛型都是在 Java 5 中添加的，因此你可能认为它们能够优雅地交互；可悲的是，他们并不能。可变参数的目的是允许客户端向方法传递可变数量的参数，但这是一个漏洞百出的抽象概念：当你调用可变参数方法时，将创建一个数组来保存参数；该数组的实现细节应该是可见的。因此，当可变参数具有泛型或参数化类型时，会出现令人困惑的编译器警告。
+可变参数方法（[Item-53](/Chapter-8/Chapter-8-Item-53-Use-varargs-judiciously.md)）和泛型都是在 Java 5 中添加的，因此你可能认为它们能够优雅地交互；可悲的是，他们并不能。可变参数的目的是允许客户端向方法传递可变数量的参数，但这是一个漏洞百出的抽象概念：当你调用可变参数方法时，将创建一个数组来保存参数；该数组本应是实现细节，却是可见的。因此，当可变参数具有泛型或参数化类型时，会出现令人困惑的编译器警告。
 
 Recall from Item 28 that a non-reifiable type is one whose runtime representation has less information than its compile-time representation, and that nearly all generic and parameterized types are non-reifiable. If a method declares its varargs parameter to be of a non-reifiable type, the compiler generates a warning on the declaration. If the method is invoked on varargs parameters whose inferred type is non-reifiable, the compiler generates a warning on the invocation too. The warnings look something like this:
 
