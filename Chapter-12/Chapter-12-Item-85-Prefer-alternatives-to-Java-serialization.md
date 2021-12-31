@@ -1,6 +1,6 @@
 ## Chapter 12. Serialization（序列化）
 
-### Item 85: Prefer alternatives to Java serialization（Java 序列化的替代方案）
+### Item 85: Prefer alternatives to Java serialization（优先选择 Java 序列化的替代方案）
 
 When serialization was added to Java in 1997, it was known to be somewhat risky. The approach had been tried in a research language (Modula-3) but never in a production language. While the promise of distributed objects with little effort on the part of the programmer was appealing, the price was invisible constructors and blurred lines between API and implementation, with the potential for problems with correctness, performance, security, and maintenance. Proponents believed the benefits outweighed the risks, but history has shown otherwise.
 
