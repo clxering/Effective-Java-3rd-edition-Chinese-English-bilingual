@@ -108,7 +108,7 @@ Effective Java（第 3 版）各章节的中英文学习参考，希望对 Java 
     - [Item 84: Don’t depend on the thread scheduler（不要依赖线程调度器）](Chapter-11/Chapter-11-Item-84-Don’t-depend-on-the-thread-scheduler.md)
 - **Chapter 12. Serialization（序列化）**
     - [Chapter 12 Introduction（章节介绍）](Chapter-12/Chapter-12-Introduction.md)
-    - [Item 85: Prefer alternatives to Java serialization（Java 序列化的替代方案）](Chapter-12/Chapter-12-Item-85-Prefer-alternatives-to-Java-serialization.md)
+    - [Item 85: Prefer alternatives to Java serialization（优先选择 Java 序列化的替代方案）](Chapter-12/Chapter-12-Item-85-Prefer-alternatives-to-Java-serialization.md)
     - [Item 86: Implement Serializable with great caution（非常谨慎地实现 Serializable）](Chapter-12/Chapter-12-Item-86-Implement-Serializable-with-great-caution.md)
     - [Item 87: Consider using a custom serialized form（考虑使用自定义序列化形式）](Chapter-12/Chapter-12-Item-87-Consider-using-a-custom-serialized-form.md)
     - [Item 88: Write readObject methods defensively（防御性地编写 readObject 方法）](Chapter-12/Chapter-12-Item-88-Write-readObject-methods-defensively.md)

@@ -67,5 +67,5 @@ To summarize, the ease of implementing Serializable is specious. Unless a class 
 
 ---
 **[Back to contents of the chapter（返回章节目录）](/Chapter-12/Chapter-12-Introduction.md)**
-- **Previous Item（上一条目）：[Item 85: Prefer alternatives to Java serialization（Java 序列化的替代方案）](/Chapter-12/Chapter-12-Item-85-Prefer-alternatives-to-Java-serialization.md)**
+- **Previous Item（上一条目）：[Item 85: Prefer alternatives to Java serialization（优先选择 Java 序列化的替代方案）](/Chapter-12/Chapter-12-Item-85-Prefer-alternatives-to-Java-serialization.md)**
 - **Next Item（下一条目）：[Item 87: Consider using a custom serialized form（考虑使用自定义序列化形式）](/Chapter-12/Chapter-12-Item-87-Consider-using-a-custom-serialized-form.md)**
