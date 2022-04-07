@@ -1,6 +1,6 @@
 ## Chapter 9. General Programming（通用程序设计）
 
-### Item 66: Use native methods judiciously（明智地使用本地方法）
+### Item 66: Use native methods judiciously（谨慎地使用本地方法）
 
 The Java Native Interface (JNI) allows Java programs to call native methods, which are methods written in native programming languages such as C or C++. Historically, native methods have had three main uses. They provide access to platform-specific facilities such as registries. They provide access to existing libraries of native code, including legacy libraries that provide access to legacy data. Finally, native methods are used to write performance-critical parts of applications in native languages for improved performance.
 
@@ -16,7 +16,7 @@ It is legitimate to use native methods to access platform-specific facilities, b
 
 A sad coda to this story is that BigInteger has changed little since then, with the exception of faster multiplication for large numbers in Java 8. In that time, work continued apace on native libraries, notably GNU Multiple Precision arithmetic library (GMP). Java programmers in need of truly high-performance multiprecision arithmetic are now justified in using GMP via native methods [Blum14].
 
-这个故事的一个可悲的结尾是，除了在 Java 8 中对大数进行更快的乘法运算之外，BigInteger 此后几乎没有发生什么变化。在此期间，对本地库的工作继续快速进行，尤其是 GNU 多精度算术库（GMP）。需要真正高性能多精度算法的 Java 程序员现在可以通过本地方法使用 GMP [Blum14]。
+这个故事的一个可悲的结尾是，除了在 Java 8 中对大整数进行更快的乘法运算之外，BigInteger 此后几乎没有发生什么变化。在此期间，本地库的工作还在持续地快速发展，尤其是 GNU 多精度算术库（GMP）。对于需要真正高性能多精度算法的 Java 程序员，现在通过本地方法使用 GMP 是无可厚非的 [Blum14]。
 
 The use of native methods has serious disadvantages. Because native languages are not safe (Item 50), applications using native methods are no longer immune to memory corruption errors. Because native languages are more platform-dependent than Java, programs using native methods are less portable. They are also harder to debug. If you aren’t careful, native methods can decrease performance because the garbage collector can’t automate, or even track, native memory usage (Item 8), and there is a cost associated with going into and out of native code. Finally, native methods require “glue code” that is difficult to read and tedious to write.
 

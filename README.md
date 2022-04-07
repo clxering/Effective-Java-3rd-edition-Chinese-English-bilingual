@@ -83,7 +83,7 @@ Effective Java（第 3 版）各章节的中英文学习参考，希望对 Java 
     - [Item 63: Beware the performance of string concatenation（当心字符串连接引起的性能问题）](Chapter-9/Chapter-9-Item-63-Beware-the-performance-of-string-concatenation.md)
     - [Item 64: Refer to objects by their interfaces（通过接口引用对象）](Chapter-9/Chapter-9-Item-64-Refer-to-objects-by-their-interfaces.md)
     - [Item 65: Prefer interfaces to reflection（接口优于反射）](Chapter-9/Chapter-9-Item-65-Prefer-interfaces-to-reflection.md)
-    - [Item 66: Use native methods judiciously（明智地使用本地方法）](Chapter-9/Chapter-9-Item-66-Use-native-methods-judiciously.md)
+    - [Item 66: Use native methods judiciously（谨慎地使用本地方法）](Chapter-9/Chapter-9-Item-66-Use-native-methods-judiciously.md)
     - [Item 67: Optimize judiciously（明智地进行优化）](Chapter-9/Chapter-9-Item-67-Optimize-judiciously.md)
     - [Item 68: Adhere to generally accepted naming conventions（遵守被广泛认可的命名约定）](Chapter-9/Chapter-9-Item-68-Adhere-to-generally-accepted-naming-conventions.md)
 - **Chapter 10. Exceptions（异常）**

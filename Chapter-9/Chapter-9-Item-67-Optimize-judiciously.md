@@ -92,5 +92,5 @@ To summarize, do not strive to write fast programs—strive to write good ones; 
 
 ---
 **[Back to contents of the chapter（返回章节目录）](/Chapter-9/Chapter-9-Introduction.md)**
-- **Previous Item（上一条目）：[Item 66: Use native methods judiciously（明智地使用本地方法）](/Chapter-9/Chapter-9-Item-66-Use-native-methods-judiciously.md)**
+- **Previous Item（上一条目）：[Item 66: Use native methods judiciously（谨慎地使用本地方法）](/Chapter-9/Chapter-9-Item-66-Use-native-methods-judiciously.md)**
 - **Next Item（下一条目）：[Item 68: Adhere to generally accepted naming conventions（遵守被广泛认可的命名约定）](/Chapter-9/Chapter-9-Item-68-Adhere-to-generally-accepted-naming-conventions.md)**
